@@ -13,6 +13,8 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        buildConfigField "String", "CLARIFAI_KEY", "\"d724362606ac43c39a3a3cee03b85657\""
     }
     buildTypes {
         release {
@@ -30,6 +32,8 @@ dependencies {
     implementation "com.android.support:design:$rootProject.supportLibraryVersion"
     implementation "com.android.support:recyclerview-v7:$rootProject.supportLibraryVersion"
     implementation "com.android.support:support-v4:$rootProject.supportLibraryVersion"
+
+    implementation "com.clarifai.clarifai-api2:core:$rootProject.clarifaiVersion"
 
     testImplementation "junit:junit:$rootProject.jUnitVersion"
     androidTestImplementation 'com.android.support.test:runner:1.0.1'

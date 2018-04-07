@@ -37,4 +37,5 @@ ext {
     // App dependencies
     supportLibraryVersion = '26.0.0-beta1'
     jUnitVersion = '4.12'
+    clarifaiVersion = '2.4.0'
 }
