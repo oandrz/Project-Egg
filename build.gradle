@@ -35,7 +35,7 @@ ext {
     buildToolsVersion = '26.0.2'
 
     // App dependencies
-    supportLibraryVersion = '26.0.0-beta1'
+    supportLibraryVersion = '26.1.0'
     jUnitVersion = '4.12'
     clarifaiVersion = '2.4.0'
 }

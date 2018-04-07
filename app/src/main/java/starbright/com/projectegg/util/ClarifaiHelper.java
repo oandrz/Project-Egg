@@ -1,7 +1,10 @@
-package starbright.com.projectegg;
+package starbright.com.projectegg.util;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.AsyncTask;
 
+import java.io.ByteArrayOutputStream;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -14,6 +17,7 @@ import clarifai2.dto.model.ConceptModel;
 import clarifai2.dto.model.output.ClarifaiOutput;
 import clarifai2.dto.prediction.Concept;
 import okhttp3.OkHttpClient;
+import starbright.com.projectegg.BuildConfig;
 
 /**
  * Created by Andreas on 4/7/2018.
@@ -33,8 +37,23 @@ public class ClarifaiHelper {
                 ).buildSync();
     }
 
-    public void predict(byte[] imageBytes) {
-        new ImageRecognizerTask(imageBytes, mClarifaiClient).execute();
+    public void predict(Intent data) {
+        final byte[] bytesImage = retrieveImage(data);
+        if (bytesImage != null) {
+            new ImageRecognizerTask(bytesImage, mClarifaiClient).execute();
+        }
+    }
+
+    private byte[] retrieveImage(Intent data) {
+        Bitmap bitmap = (Bitmap) data.getExtras().get("data");
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        if (bitmap != null) {
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+            byte[] byteArray = stream.toByteArray();
+            bitmap.recycle();
+            return byteArray;
+        }
+        return null;
     }
 
     static class ImageRecognizerTask extends AsyncTask<
@@ -59,7 +78,11 @@ public class ClarifaiHelper {
         protected void onPostExecute(
                 ClarifaiResponse<List<ClarifaiOutput<Concept>>> response) {
             super.onPostExecute(response);
-            final List<ClarifaiOutput<Concept>> predicions = response.get();
+            final List<ClarifaiOutput<Concept>> predictions = response.get();
+            List<Concept> data = predictions.get(0).data();
+            for (Concept prediction : data) {
+                System.out.println(String.format("%s %.2f", prediction.name(), prediction.value()));
+            }
         }
     }
 }
