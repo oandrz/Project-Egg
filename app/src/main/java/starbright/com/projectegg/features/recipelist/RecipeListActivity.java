@@ -5,7 +5,7 @@ import android.os.Bundle;
 import starbright.com.projectegg.features.base.BaseActivity;
 import starbright.com.projectegg.R;
 
-public class PhotoActivity extends BaseActivity  {
+public class RecipeListActivity extends BaseActivity  {
 
     private static final String RECIPE_LIST_FRAGMENT_TAG = "RECIPE_LIST_FRAGMENT_TAG";
 
