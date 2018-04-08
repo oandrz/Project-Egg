@@ -23,7 +23,8 @@ import static android.app.Activity.RESULT_OK;
  */
 
 @RuntimePermissions
-public class RecipeListFragment extends Fragment implements ClarifaiHelper.Callback {
+public class RecipeListFragment extends Fragment
+        implements ClarifaiHelper.Callback, RecipeListContract.View {
 
     private static final int CAMERA_REQUEST_CODE = 100;
 
@@ -34,6 +35,11 @@ public class RecipeListFragment extends Fragment implements ClarifaiHelper.Callb
         RecipeListFragment fragment = new RecipeListFragment();
         fragment.setArguments(args);
         return fragment;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
     }
 
     @Nullable

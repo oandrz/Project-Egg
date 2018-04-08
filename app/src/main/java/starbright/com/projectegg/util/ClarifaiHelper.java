@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.text.TextUtils;
 
 import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -25,10 +26,10 @@ import starbright.com.projectegg.BuildConfig;
  */
 
 public class ClarifaiHelper {
-
     private static final int CLARIFAI_REQUEST_TIMEOUT = 30;
+    private static final float MINIMUM_PREDICTION_PERCENTAGE = 0.9f;
 
-    private ClarifaiClient mClarifaiClient;
+    private final ClarifaiClient mClarifaiClient;
 
     public ClarifaiHelper() {
         mClarifaiClient = new ClarifaiBuilder(BuildConfig.CLARIFAI_KEY)
@@ -91,9 +92,14 @@ public class ClarifaiHelper {
         protected void onPostExecute(
                 ClarifaiResponse<List<ClarifaiOutput<Concept>>> response) {
             super.onPostExecute(response);
-            final List<ClarifaiOutput<Concept>> predictions = response.get();
-            List<Concept> data = predictions.get(0).data();
-            mCallback.onPredictionCompleted(TextUtils.join(",", data));
+            final List<Concept> data = response.get().get(0).data();
+            final List<String> predictions = new ArrayList<>();
+            for (Concept concept : data) {
+                if (concept.value() > MINIMUM_PREDICTION_PERCENTAGE) {
+                    predictions.add(concept.name());
+                }
+            }
+            mCallback.onPredictionCompleted(TextUtils.join(Constants.COMMA, predictions));
         }
     }
 }
