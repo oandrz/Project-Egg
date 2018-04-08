@@ -3,6 +3,7 @@ package starbright.com.projectegg.util;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
+import android.text.TextUtils;
 
 import java.io.ByteArrayOutputStream;
 import java.util.List;
@@ -37,10 +38,10 @@ public class ClarifaiHelper {
                 ).buildSync();
     }
 
-    public void predict(Intent data) {
+    public void predict(Intent data, Callback callback) {
         final byte[] bytesImage = retrieveImage(data);
         if (bytesImage != null) {
-            new ImageRecognizerTask(bytesImage, mClarifaiClient).execute();
+            new ImageRecognizerTask(bytesImage, mClarifaiClient, callback).execute();
         }
     }
 
@@ -56,14 +57,26 @@ public class ClarifaiHelper {
         return null;
     }
 
-    static class ImageRecognizerTask extends AsyncTask<
+    public interface Callback {
+        void onPredictionCompleted(String ingredients);
+    }
+
+    private static class ImageRecognizerTask extends AsyncTask<
             Void, Void, ClarifaiResponse<List<ClarifaiOutput<Concept>>>> {
         private byte[] mImageBytes;
-        private ClarifaiClient mClarifaiClient;
 
-        ImageRecognizerTask(byte[] imageBytes, ClarifaiClient clarifaiClient) {
+        private ClarifaiClient mClarifaiClient;
+        private Callback mCallback;
+
+        ImageRecognizerTask(byte[] imageBytes, ClarifaiClient clarifaiClient, Callback callback) {
             mImageBytes = imageBytes;
             mClarifaiClient = clarifaiClient;
+            mCallback = callback;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
         }
 
         @Override
@@ -80,9 +93,7 @@ public class ClarifaiHelper {
             super.onPostExecute(response);
             final List<ClarifaiOutput<Concept>> predictions = response.get();
             List<Concept> data = predictions.get(0).data();
-            for (Concept prediction : data) {
-                System.out.println(String.format("%s %.2f", prediction.name(), prediction.value()));
-            }
+            mCallback.onPredictionCompleted(TextUtils.join(",", data));
         }
     }
 }
