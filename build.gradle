@@ -9,7 +9,9 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:3.0.1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-
+        classpath 'com.jakewharton.hugo:hugo-plugin:1.2.1'
+        //ButterKnife
+        classpath 'com.jakewharton:butterknife-gradle-plugin:8.5.1'
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
@@ -38,4 +40,10 @@ ext {
     supportLibraryVersion = '26.1.0'
     jUnitVersion = '4.12'
     clarifaiVersion = '2.4.0'
+    daggerVersion = '2.0.2'
+    retrofitVersion = '2.2.0'
+    okhttpVersion = '3.3.0'
+    butterKnifeVersion = '8.5.1'
+    rxjavaVersion = '2.0.7'
+    rxAndroidVersion = '2.0.1'
 }

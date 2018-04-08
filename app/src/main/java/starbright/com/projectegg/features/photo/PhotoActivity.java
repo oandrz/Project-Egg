@@ -1,4 +1,4 @@
-package starbright.com.projectegg.photo;
+package starbright.com.projectegg.features.photo;
 
 import android.content.Intent;
 import android.provider.MediaStore;
