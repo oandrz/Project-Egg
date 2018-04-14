@@ -2,6 +2,7 @@ package starbright.com.projectegg.features.recipelist;
 
 import android.os.Bundle;
 
+import starbright.com.projectegg.MyApp;
 import starbright.com.projectegg.features.base.BaseActivity;
 import starbright.com.projectegg.R;
 

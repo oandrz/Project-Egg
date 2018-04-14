@@ -1,6 +1,7 @@
 package starbright.com.projectegg.features.recipelist;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -11,10 +12,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import javax.inject.Inject;
+
 import permissions.dispatcher.NeedsPermission;
 import permissions.dispatcher.RuntimePermissions;
+import starbright.com.projectegg.MyApp;
 import starbright.com.projectegg.R;
+import starbright.com.projectegg.data.AppRepository;
 import starbright.com.projectegg.util.ClarifaiHelper;
+import starbright.com.projectegg.util.scheduler.BaseSchedulerProvider;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -28,7 +34,14 @@ public class RecipeListFragment extends Fragment
 
     private static final int CAMERA_REQUEST_CODE = 100;
 
+    @Inject
+    AppRepository repo;
+
+    @Inject
+    BaseSchedulerProvider schedulerProvider;
+
     private ClarifaiHelper mClarifaiHelper;
+    private RecipeListContract.Presenter mPresenter;
 
     public static RecipeListFragment newInstance() {
         Bundle args = new Bundle();
@@ -38,8 +51,15 @@ public class RecipeListFragment extends Fragment
     }
 
     @Override
+    public void onAttach(Context context) {
+        MyApp.getAppComponent().inject(this);
+        super.onAttach(context);
+    }
+
+    @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        new RecipeListPresenter(repo, this, schedulerProvider);
     }
 
     @Nullable
@@ -82,6 +102,11 @@ public class RecipeListFragment extends Fragment
 
     @Override
     public void onPredictionCompleted(String ingredients) {
+        mPresenter.getRecipesBasedIngredients(ingredients);
+    }
 
+    @Override
+    public void setPresenter(RecipeListContract.Presenter presenter) {
+        mPresenter = presenter;
     }
 }

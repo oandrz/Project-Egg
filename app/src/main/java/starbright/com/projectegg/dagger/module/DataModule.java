@@ -19,6 +19,8 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import starbright.com.projectegg.data.local.AppLocalDataStore;
 import starbright.com.projectegg.data.remote.AppRemoteDataStore;
+import starbright.com.projectegg.util.scheduler.BaseSchedulerProvider;
+import starbright.com.projectegg.util.scheduler.SchedulerProvider;
 
 /**
  * Created by Andreas on 4/8/2018.
@@ -83,7 +85,13 @@ public class DataModule {
 
     @Provides
     @Singleton
-    AppRemoteDataStore providesRepository() {
+    AppRemoteDataStore providesAppRemoteDataStore() {
         return new AppRemoteDataStore();
+    }
+
+    @Provides
+    @Singleton
+    BaseSchedulerProvider providesSchedulerComposer() {
+        return SchedulerProvider.getInstance();
     }
 }
