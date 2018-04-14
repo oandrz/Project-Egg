@@ -22,4 +22,6 @@ public class AppRemoteDataStore implements AppDataStore {
         MyApp.getAppComponent().inject(this);
     }
 
+    private interface Service {
+    }
 }
