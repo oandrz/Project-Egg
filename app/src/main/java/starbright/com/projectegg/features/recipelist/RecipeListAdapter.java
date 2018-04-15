@@ -35,6 +35,12 @@ class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.ViewHolde
         View view = LayoutInflater.from(mContext)
                 .inflate(R.layout.item_recipe, parent, false);
         ViewHolder holder = new ViewHolder(view);
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
         return holder;
     }
 
@@ -62,7 +68,8 @@ class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.ViewHolde
         }
 
         private void bindView(Recipe recipe) {
-
+            recipeName.setText(recipe.getmTitle());
+//            GlideApp.
         }
     }
 }

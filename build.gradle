@@ -34,10 +34,10 @@ ext {
     minSdkVersion = 19
     targetSdkVersion = 26
     compileSdkVersion = 26
-    buildToolsVersion = '26.0.2'
+    buildToolsVersion = '27.0.3'
 
     // App dependencies
-    supportLibraryVersion = '26.1.0'
+    supportLibraryVersion = '27.1.1'
     jUnitVersion = '4.12'
     clarifaiVersion = '2.4.0'
     daggerVersion = '2.0.2'
@@ -47,4 +47,5 @@ ext {
     rxjavaVersion = '2.0.7'
     rxAndroidVersion = '2.0.1'
     hotchemiVersion = '3.1.0'
+    glideVersion = '4.7.1'
 }
