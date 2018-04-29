@@ -31,7 +31,7 @@ class RecipeListPresenter implements RecipeListContract.Presenter {
 
     @Override
     public void start() {
-
+        mView.setupRecyclerView();
     }
 
     @Override
@@ -43,7 +43,8 @@ class RecipeListPresenter implements RecipeListContract.Presenter {
                 .subscribe(new Consumer<List<Recipe>>() {
                     @Override
                     public void accept(List<Recipe> recipes) throws Exception {
-
+                        mView.bindRecipesToList(recipes);
+                        mView.hideLoadingBar();
                     }
                 }, new Consumer<Throwable>() {
                     @Override
