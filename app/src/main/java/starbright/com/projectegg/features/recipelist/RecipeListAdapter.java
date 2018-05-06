@@ -77,9 +77,9 @@ class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.ViewHolde
         }
 
         private void bindView(Recipe recipe) {
-            tvRecipeName.setText(recipe.getmTitle());
+            tvRecipeName.setText(recipe.getTitle());
             GlideApp.with(mContext)
-                    .load(recipe.getmThumbnail())
+                    .load(recipe.getImage())
                     .centerCrop()
                     .into(imgThumbnail);
         }

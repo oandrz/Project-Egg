@@ -7,54 +7,65 @@ import starbright.com.projectegg.data.local.model.response.RecipeResponse;
  */
 
 public class Recipe {
-    private String mIngredients;
-    private String mThumbnail;
+    private int mId;
     private String mTitle;
-    private String mHref;
+    private String mImage;
+    private String mImageType;
+    private int mUsedIngredientCount;
+    private int mMissedIngredientCount;
+    private int mLikes;
 
-    public Recipe(String ingredients, String thumbnail, String title, String href) {
-        mIngredients = ingredients;
-        mThumbnail = thumbnail;
+    public Recipe(int id,
+                  String title,
+                  String image,
+                  String imageType,
+                  int usedIngredientCount,
+                  int missedIngredientCount,
+                  int likes) {
+        mId = id;
         mTitle = title;
-        mHref = href;
+        mImage = image;
+        mImageType = imageType;
+        mUsedIngredientCount = usedIngredientCount;
+        mMissedIngredientCount = missedIngredientCount;
+        mLikes = likes;
     }
 
-    public Recipe(RecipeResponse recipeResponse) {
-        mIngredients = recipeResponse.getmIngredients();
-        mThumbnail = recipeResponse.getThumbnail();
-        mTitle = recipeResponse.getmTitle();
-        mHref = recipeResponse.getmHref();
+    public Recipe(RecipeResponse response) {
+        mId = response.getId();
+        mTitle = response.getTitle();
+        mImage = response.getImage();
+        mImageType = response.getImageType();
+        mUsedIngredientCount = response.getUsedIngredientCount();
+        mMissedIngredientCount = response.getMissedingredientCount();
+        mLikes = response.getLikes();
     }
 
-    public String getmIngredients() {
-        return mIngredients;
+    public int getId() {
+        return mId;
     }
 
-    public void setmIngredients(String mIngredients) {
-        this.mIngredients = mIngredients;
-    }
-
-    public String getmThumbnail() {
-        return mThumbnail;
-    }
-
-    public void setmThumbnail(String mThumbnail) {
-        this.mThumbnail = mThumbnail;
-    }
-
-    public String getmTitle() {
+    public String getTitle() {
         return mTitle;
     }
 
-    public void setmTitle(String mTitle) {
-        this.mTitle = mTitle;
+    public String getImage() {
+        return mImage;
     }
 
-    public String getmHref() {
-        return mHref;
+    public String getImageType() {
+        return mImageType;
     }
 
-    public void setmHref(String mHref) {
-        this.mHref = mHref;
+    public int getUsedIngredientCount() {
+        return mUsedIngredientCount;
+    }
+
+    public int getMissedIngredientCount() {
+        return mMissedIngredientCount;
+    }
+
+    public int getLikes() {
+        return mLikes;
     }
 }

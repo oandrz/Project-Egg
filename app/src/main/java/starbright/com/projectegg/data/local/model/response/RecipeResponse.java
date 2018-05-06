@@ -8,31 +8,52 @@ import com.google.gson.annotations.SerializedName;
 
 public class RecipeResponse {
 
+    @SerializedName("id")
+    private int mId;
+
     @SerializedName("title")
     private String mTitle;
 
-    @SerializedName("href")
-    private String mHref;
+    @SerializedName("image")
+    private String mImage;
 
-    @SerializedName("ingredients")
-    private String mIngredients;
+    @SerializedName("imageType")
+    private String mImageType;
 
-    @SerializedName("thumbnail")
-    private String mThumbnail;
+    @SerializedName("usedIngredientCount")
+    private int mUsedIngredientCount;
 
-    public String getmTitle() {
+    @SerializedName("missedIngredientCount")
+    private int mMissedingredientCount;
+
+    @SerializedName("likes")
+    private int mLikes;
+
+    public int getId() {
+        return mId;
+    }
+
+    public String getTitle() {
         return mTitle;
     }
 
-    public String getmHref() {
-        return mHref;
+    public String getImage() {
+        return mImage;
     }
 
-    public String getmIngredients() {
-        return mIngredients;
+    public String getImageType() {
+        return mImageType;
     }
 
-    public String getThumbnail() {
-        return mThumbnail;
+    public int getUsedIngredientCount() {
+        return mUsedIngredientCount;
+    }
+
+    public int getMissedingredientCount() {
+        return mMissedingredientCount;
+    }
+
+    public int getLikes() {
+        return mLikes;
     }
 }

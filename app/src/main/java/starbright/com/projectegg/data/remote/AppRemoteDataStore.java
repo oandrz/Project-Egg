@@ -1,7 +1,9 @@
 package starbright.com.projectegg.data.remote;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -10,6 +12,7 @@ import io.reactivex.functions.Function;
 import retrofit2.Retrofit;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
+import retrofit2.http.QueryMap;
 import starbright.com.projectegg.MyApp;
 import starbright.com.projectegg.data.AppDataStore;
 import starbright.com.projectegg.data.local.AppLocalDataStore;
@@ -34,13 +37,12 @@ public class AppRemoteDataStore implements AppDataStore {
 
     @Override
     public Observable<List<Recipe>> getRecipes(String ingredients) {
-        return retrofit.create(Service.class).getRecipes(ingredients)
-                .map(new Function<BaseResponse, List<Recipe>>() {
+        return retrofit.create(Service.class).getRecipes(ingredients, new HashMap<String, String>())
+                .map(new Function<List<RecipeResponse>, List<Recipe>>() {
                     @Override
-                    public List<Recipe> apply(BaseResponse baseResponse) throws Exception {
-                        final List<RecipeResponse> recipesResponse = baseResponse.getmResults();
-                        List<Recipe> recipes = new ArrayList<>(recipesResponse.size());
-                        for (RecipeResponse response : recipesResponse) {
+                    public List<Recipe> apply(List<RecipeResponse> responses) throws Exception {
+                        List<Recipe> recipes = new ArrayList<>(responses.size());
+                        for (RecipeResponse response : responses) {
                             recipes.add(new Recipe(response));
                         }
                         return recipes;
@@ -49,7 +51,10 @@ public class AppRemoteDataStore implements AppDataStore {
     }
 
     private interface Service {
-        @GET("api/")
-        Observable<BaseResponse> getRecipes(@Query("i") String ingredients);
+        @GET("recipes/findByIngredients")
+        Observable<List<RecipeResponse>> getRecipes(
+                @Query("ingredients") String ingredients,
+                @QueryMap Map<String, String> options
+        );
     }
 }
