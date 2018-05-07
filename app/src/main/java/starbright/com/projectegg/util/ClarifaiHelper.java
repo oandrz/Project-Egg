@@ -1,15 +1,11 @@
 package starbright.com.projectegg.util;
 
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.text.TextUtils;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -32,8 +28,10 @@ import starbright.com.projectegg.BuildConfig;
  */
 
 public class ClarifaiHelper {
+
     private static final int CLARIFAI_REQUEST_TIMEOUT = 30;
-    private static final float MINIMUM_PREDICTION_PERCENTAGE = 0.9f;
+    private static final int BYTE_BUFFER_SIZE = 1024;
+    private static final float MINIMUM_PREDICTION_PERCENTAGE = 0.99f;
 
     private final ClarifaiClient mClarifaiClient;
     private Context mContext;
@@ -61,8 +59,7 @@ public class ClarifaiHelper {
 
     private byte[] retrieveImage(InputStream inputStream) throws IOException {
         ByteArrayOutputStream byteBuffer = new ByteArrayOutputStream();
-        final int bufferSize = 1024;
-        final byte[] buffer = new byte[bufferSize];
+        final byte[] buffer = new byte[BYTE_BUFFER_SIZE];
         int len;
         while ((len = inputStream.read(buffer)) != -1) {
             byteBuffer.write(buffer, 0, len);
