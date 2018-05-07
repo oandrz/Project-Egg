@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -80,6 +82,7 @@ class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.ViewHolde
             tvRecipeName.setText(recipe.getTitle());
             GlideApp.with(mContext)
                     .load(recipe.getImage())
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .centerCrop()
                     .into(imgThumbnail);
         }

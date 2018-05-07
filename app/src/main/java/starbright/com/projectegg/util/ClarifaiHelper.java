@@ -1,11 +1,17 @@
 package starbright.com.projectegg.util;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.text.TextUtils;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -30,32 +36,38 @@ public class ClarifaiHelper {
     private static final float MINIMUM_PREDICTION_PERCENTAGE = 0.9f;
 
     private final ClarifaiClient mClarifaiClient;
+    private Context mContext;
 
-    public ClarifaiHelper() {
+    public ClarifaiHelper(Context context) {
         mClarifaiClient = new ClarifaiBuilder(BuildConfig.CLARIFAI_KEY)
                 .client(new OkHttpClient.Builder()
                         .readTimeout(CLARIFAI_REQUEST_TIMEOUT, TimeUnit.SECONDS)
                         .build()
                 ).buildSync();
+        mContext = context;
     }
 
-    public void predict(Intent data, Callback callback) {
-        final byte[] bytesImage = retrieveImage(data);
-        if (bytesImage != null) {
-            new ImageRecognizerTask(bytesImage, mClarifaiClient, callback).execute();
+    public void predict(Uri uri, Callback callback) {
+        try {
+            final InputStream iStream = mContext.getContentResolver().openInputStream(uri);
+            final byte[] bytesImage = retrieveImage(iStream);
+            if (bytesImage != null) {
+                new ImageRecognizerTask(bytesImage, mClarifaiClient, callback).execute();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
-    private byte[] retrieveImage(Intent data) {
-        Bitmap bitmap = (Bitmap) data.getExtras().get("data");
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        if (bitmap != null) {
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-            byte[] byteArray = stream.toByteArray();
-            bitmap.recycle();
-            return byteArray;
+    private byte[] retrieveImage(InputStream inputStream) throws IOException {
+        ByteArrayOutputStream byteBuffer = new ByteArrayOutputStream();
+        final int bufferSize = 1024;
+        final byte[] buffer = new byte[bufferSize];
+        int len;
+        while ((len = inputStream.read(buffer)) != -1) {
+            byteBuffer.write(buffer, 0, len);
         }
-        return null;
+        return byteBuffer.toByteArray();
     }
 
     public interface Callback {

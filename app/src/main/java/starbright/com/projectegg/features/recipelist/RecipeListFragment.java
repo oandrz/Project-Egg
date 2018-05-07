@@ -3,11 +3,14 @@ package starbright.com.projectegg.features.recipelist;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.FileProvider;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -15,7 +18,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import javax.inject.Inject;
 
@@ -28,6 +36,7 @@ import starbright.com.projectegg.R;
 import starbright.com.projectegg.data.AppRepository;
 import starbright.com.projectegg.data.local.model.Recipe;
 import starbright.com.projectegg.util.ClarifaiHelper;
+import starbright.com.projectegg.util.Constants;
 import starbright.com.projectegg.util.scheduler.BaseSchedulerProvider;
 
 import static android.app.Activity.RESULT_OK;
@@ -57,6 +66,8 @@ public class RecipeListFragment extends Fragment
     private ClarifaiHelper mClarifaiHelper;
     private RecipeListContract.Presenter mPresenter;
     private RecipeListAdapter mAdapter;
+
+    String mCurrentPhotoPath;
 
     public static RecipeListFragment newInstance() {
         Bundle args = new Bundle();
@@ -90,7 +101,7 @@ public class RecipeListFragment extends Fragment
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mClarifaiHelper = new ClarifaiHelper();
+        mClarifaiHelper = new ClarifaiHelper(getActivity());
         RecipeListFragmentPermissionsDispatcher.openCameraWithPermissionCheck(this);
         mPresenter.start();
     }
@@ -109,17 +120,31 @@ public class RecipeListFragment extends Fragment
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK && requestCode == CAMERA_REQUEST_CODE) {
             showLoadingBar();
-            mClarifaiHelper.predict(data, this);
+            mClarifaiHelper.predict(Uri.fromFile(new File(mCurrentPhotoPath)), this);
         }
     }
 
     @NeedsPermission(Manifest.permission.CAMERA)
     public void openCamera() {
-        startActivityForResult(new Intent(MediaStore.ACTION_IMAGE_CAPTURE), CAMERA_REQUEST_CODE);
+        File photoFile = null;
+        try {
+            photoFile = createImageFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if (photoFile != null) {
+            Uri photoURI = FileProvider.getUriForFile(getActivity(),
+                    "starbright.com.projectegg.fileprovider",
+                    photoFile);
+            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+            startActivityForResult(intent, CAMERA_REQUEST_CODE);
+        }
     }
 
     @Override
     public void onPredictionCompleted(String ingredients) {
+        System.out.println(ingredients);
         mPresenter.getRecipesBasedIngredients(ingredients);
     }
 
@@ -153,5 +178,16 @@ public class RecipeListFragment extends Fragment
     @Override
     public void hideLoadingBar() {
         loadingView.setVisibility(View.GONE);
+    }
+
+    private File createImageFile() throws IOException {
+        final String timeStamp = new SimpleDateFormat(Constants.YYYY_MM_DD_FORMAT, Locale.US)
+                .format(new Date());
+
+        final File storageDir = getContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        final File image = File.createTempFile(timeStamp, ".jpg", storageDir);
+
+        mCurrentPhotoPath = image.getAbsolutePath();
+        return image;
     }
 }
