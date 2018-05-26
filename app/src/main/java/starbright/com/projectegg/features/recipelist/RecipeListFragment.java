@@ -67,7 +67,6 @@ public class RecipeListFragment extends Fragment
     private RecipeListContract.Presenter mPresenter;
     private RecipeListAdapter mAdapter;
 
-
     String mCurrentPhotoPath;
 
     public static RecipeListFragment newInstance() {
