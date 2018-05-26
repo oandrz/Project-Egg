@@ -66,7 +66,6 @@ public class RecipeListFragment extends Fragment
     private ClarifaiHelper mClarifaiHelper;
     private RecipeListContract.Presenter mPresenter;
     private RecipeListAdapter mAdapter;
-
     String mCurrentPhotoPath;
 
     public static RecipeListFragment newInstance() {
