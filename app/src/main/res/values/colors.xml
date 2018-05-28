@@ -6,4 +6,9 @@
 
     <!--Basic Color-->
     <color name="black">#212121</color>
+    <color name="white">#FFFFFF</color>
+    <color name="red">#F44336</color>
+
+    <!--Red-->
+    <color name="darkRed">#D32F2F</color>
 </resources>

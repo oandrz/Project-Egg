@@ -23,4 +23,11 @@
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/black</item>
     </style>
+
+    <style name="FillButton" parent="Theme.AppCompat">
+        <item name="textSize">@dimen/normal_font</item>
+        <item name="textColor">@color/white</item>
+        <item name="colorButtonNormal">@color/colorPrimary</item>
+        <item name="colorControlHighlight">@color/colorPrimaryDark</item>
+    </style>
 </resources>
