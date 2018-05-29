@@ -2,9 +2,10 @@ package starbright.com.projectegg.features.login;
 
 import android.os.Bundle;
 
-import starbright.com.projectegg.features.base.BaseActivity;
+import starbright.com.projectegg.features.base.BaseActivityWithToolbar;
+import starbright.com.projectegg.features.base.BaseActivityWithoutToolbar;
 
-public class LoginActivity extends BaseActivity {
+public class LoginActivity extends BaseActivityWithoutToolbar {
 
     private static final String LOGIN_FRAGMENT_TAG = "LOGIN_FRAGMENT_TAG";
 

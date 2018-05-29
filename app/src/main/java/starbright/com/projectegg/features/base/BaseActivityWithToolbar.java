@@ -17,8 +17,7 @@ import starbright.com.projectegg.R;
  * Created by Andreas on 4/8/2018.
  */
 
-public class BaseActivity extends AppCompatActivity {
-
+public class BaseActivityWithToolbar extends AppCompatActivity {
 
     private boolean mFirstAttach = true;
 

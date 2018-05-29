@@ -3,7 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/ProjectEgg.iml" filepath="$PROJECT_DIR$/ProjectEgg.iml" />
-      <module fileurl="file://D:\Projects\android\Udacity\ProjectEgg\.idea\ProjectEgg.iml" filepath="D:\Projects\android\Udacity\ProjectEgg\.idea\ProjectEgg.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/ProjectEgg.iml" filepath="$PROJECT_DIR$/.idea/ProjectEgg.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
