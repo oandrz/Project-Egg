@@ -7,4 +7,10 @@
     <string name="email_hint">Type your registered email here</string>
     <string name="password_hint">Don\'t forget to type the password</string>
     <string name="register_navigation">Click here if you don\'t have an account</string>
+
+    <!--Register Page-->
+    <string name="register_title">Create Account</string>
+    <string name="register_button_text">Create Account</string>
+    <string name="register_email_hint">Type your email here</string>
+    <string name="login_navigation">Click here if you don\'t have an account</string>
 </resources>

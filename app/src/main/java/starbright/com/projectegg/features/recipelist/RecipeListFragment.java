@@ -69,10 +69,7 @@ public class RecipeListFragment extends Fragment
     String mCurrentPhotoPath;
 
     public static RecipeListFragment newInstance() {
-        Bundle args = new Bundle();
-        RecipeListFragment fragment = new RecipeListFragment();
-        fragment.setArguments(args);
-        return fragment;
+        return new RecipeListFragment();
     }
 
     @Override

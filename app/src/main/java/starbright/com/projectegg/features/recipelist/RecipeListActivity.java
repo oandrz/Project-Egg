@@ -2,8 +2,8 @@ package starbright.com.projectegg.features.recipelist;
 
 import android.os.Bundle;
 
-import starbright.com.projectegg.features.base.BaseActivityWithToolbar;
 import starbright.com.projectegg.R;
+import starbright.com.projectegg.features.base.BaseActivityWithToolbar;
 
 public class RecipeListActivity extends BaseActivityWithToolbar {
 
@@ -15,9 +15,5 @@ public class RecipeListActivity extends BaseActivityWithToolbar {
         setToolbarTitle(getString(R.string.app_name));
         RecipeListFragment fragment = (RecipeListFragment) getSupportFragmentManager()
                 .findFragmentByTag(RECIPE_LIST_FRAGMENT_TAG);
-        if (fragment == null) {
-            fragment = RecipeListFragment.newInstance();
-        }
-        setFragment(RECIPE_LIST_FRAGMENT_TAG, fragment);
     }
 }
