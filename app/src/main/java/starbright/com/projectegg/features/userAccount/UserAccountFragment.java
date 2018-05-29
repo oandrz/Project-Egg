@@ -1,4 +1,4 @@
-package starbright.com.projectegg.features.login;
+package starbright.com.projectegg.features.userAccount;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -18,7 +18,7 @@ import butterknife.OnClick;
 import starbright.com.projectegg.MyApp;
 import starbright.com.projectegg.R;
 
-public class LoginFragment extends Fragment implements LoginContract.View {
+public class UserAccountFragment extends Fragment implements UserAccountContract.View {
 
     private static final String LOGIN_BUNDLE = "LOGIN_BUNDLE";
 
@@ -34,10 +34,10 @@ public class LoginFragment extends Fragment implements LoginContract.View {
     @BindView(R.id.tv_navigation)
     TextView tvNavigation;
 
-    private LoginContract.Presenter mPresenter;
+    private UserAccountContract.Presenter mPresenter;
 
-    public static LoginFragment newInstance() {
-        return new LoginFragment();
+    public static UserAccountFragment newInstance() {
+        return new UserAccountFragment();
     }
 
     @Override
@@ -49,7 +49,7 @@ public class LoginFragment extends Fragment implements LoginContract.View {
     @Override
     public void onCreate(@Nullable Bundle state) {
         super.onCreate(state);
-        new LoginPresenter(this, state == null || state.getBoolean(LOGIN_BUNDLE));
+        new UserAccountPresenter(this, state == null || state.getBoolean(LOGIN_BUNDLE));
     }
 
     @Nullable
@@ -57,7 +57,7 @@ public class LoginFragment extends Fragment implements LoginContract.View {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_login, container, false);
+        View view = inflater.inflate(R.layout.fragment_user_account, container, false);
         ButterKnife.bind(this, view);
         return view;
     }
@@ -89,7 +89,7 @@ public class LoginFragment extends Fragment implements LoginContract.View {
         }
     }
 
-    public void setPresenter(LoginContract.Presenter presenter) {
+    public void setPresenter(UserAccountContract.Presenter presenter) {
         mPresenter = presenter;
     }
 

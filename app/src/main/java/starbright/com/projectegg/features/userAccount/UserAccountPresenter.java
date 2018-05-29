@@ -1,11 +1,11 @@
-package starbright.com.projectegg.features.login;
+package starbright.com.projectegg.features.userAccount;
 
-class LoginPresenter implements LoginContract.Presenter{
+class UserAccountPresenter implements UserAccountContract.Presenter{
 
-    private final LoginContract.View mView;
+    private final UserAccountContract.View mView;
     private boolean mIsLogin;
 
-    LoginPresenter(LoginContract.View view, boolean isLogin) {
+    UserAccountPresenter(UserAccountContract.View view, boolean isLogin) {
         mView = view;
         mView.setPresenter(this);
         mIsLogin = isLogin;

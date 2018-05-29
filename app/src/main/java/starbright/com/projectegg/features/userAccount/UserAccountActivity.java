@@ -1,15 +1,15 @@
-package starbright.com.projectegg.features.login;
+package starbright.com.projectegg.features.userAccount;
 
 import android.os.Bundle;
 
 import starbright.com.projectegg.R;
 import starbright.com.projectegg.features.base.BaseActivityWithoutToolbar;
 
-public class LoginActivity extends BaseActivityWithoutToolbar {
+public class UserAccountActivity extends BaseActivityWithoutToolbar {
 
     private static final String LOGIN_FRAGMENT_TAG = "LOGIN_FRAGMENT_TAG";
 
-    private LoginFragment mFragment;
+    private UserAccountFragment mFragment;
 
     @Override
     protected void onStart() {
@@ -34,10 +34,10 @@ public class LoginActivity extends BaseActivityWithoutToolbar {
     }
 
     private void initFragment() {
-        mFragment = (LoginFragment) getSupportFragmentManager()
+        mFragment = (UserAccountFragment) getSupportFragmentManager()
                 .findFragmentByTag(LOGIN_FRAGMENT_TAG);
         if (mFragment == null) {
-            mFragment = LoginFragment.newInstance();
+            mFragment = UserAccountFragment.newInstance();
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.contentFrame, mFragment, LOGIN_FRAGMENT_TAG)
                     .commit();

@@ -6,8 +6,8 @@ import dagger.Component;
 import starbright.com.projectegg.dagger.module.AppModule;
 import starbright.com.projectegg.dagger.module.DataModule;
 import starbright.com.projectegg.data.remote.AppRemoteDataStore;
-import starbright.com.projectegg.features.login.LoginFragment;
 import starbright.com.projectegg.features.recipelist.RecipeListFragment;
+import starbright.com.projectegg.features.userAccount.UserAccountFragment;
 
 /**
  * Created by Andreas on 4/8/2018.
@@ -19,5 +19,5 @@ public interface AppComponent {
     void inject(AppRemoteDataStore appRemoteDataStore);
 
     void inject(RecipeListFragment fragment);
-    void inject(LoginFragment fragment);
+    void inject(UserAccountFragment fragment);
 }
