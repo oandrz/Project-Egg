@@ -10,8 +10,6 @@ import starbright.com.projectegg.R;
 
 public class BaseActivityWithoutToolbar extends AppCompatActivity {
 
-    private boolean mFirstAttach = true;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
