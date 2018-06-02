@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
@@ -15,8 +16,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.Objects;
 
@@ -47,6 +48,9 @@ public class UserAccountFragment extends Fragment implements UserAccountContract
 
     @BindView(R.id.progress_bar)
     ProgressBar progressBar;
+
+    @BindView(R.id.root_layout)
+    ScrollView rootLayout;
 
     private UserAccountContract.Presenter mPresenter;
 
@@ -99,7 +103,7 @@ public class UserAccountFragment extends Fragment implements UserAccountContract
                 mPresenter.onNavigationTextButtonClicked();
                 break;
             case R.id.btn_confirm:
-                mPresenter.onConfirmButtonClicked(
+                mPresenter.onAuthenticationButtonClicked(
                         etEmail.getText().toString(),
                         etPassword.getText().toString()
                 );
@@ -116,12 +120,10 @@ public class UserAccountFragment extends Fragment implements UserAccountContract
     public void updateView(boolean isLogin) {
         if (isLogin) {
             tvLoginTitle.setText(R.string.login_title);
-            etEmail.setHint(R.string.email_hint);
             btnConfirm.setText(R.string.login_button_text);
             tvNavigation.setText(R.string.login_navigation);
         } else {
             tvLoginTitle.setText(R.string.register_title);
-            etEmail.setHint(R.string.register_email_hint);
             btnConfirm.setText(R.string.register_button_text);
             tvNavigation.setText(R.string.register_navigation);
         }
@@ -129,7 +131,7 @@ public class UserAccountFragment extends Fragment implements UserAccountContract
 
     @Override
     public void navigatePage() {
-        Toast.makeText(getActivity(), "success", Toast.LENGTH_SHORT).show();
+        Snackbar.make(rootLayout, "Success", Snackbar.LENGTH_SHORT).show();
     }
 
     @Override
@@ -144,7 +146,16 @@ public class UserAccountFragment extends Fragment implements UserAccountContract
 
     @Override
     public void showLoginErrorDialog(String errorMessage) {
-        Toast.makeText(getActivity(), String.format("Failed : %s", errorMessage), Toast.LENGTH_SHORT).show();
+        Snackbar.make(rootLayout, errorMessage, Snackbar.LENGTH_SHORT)
+                .setAction(R.string.general_retry_label, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mPresenter.onAuthenticationButtonClicked(etEmail.getText().toString(),
+                                etPassword.getText().toString());
+                    }
+                })
+                .setActionTextColor(getResources().getColor(R.color.lightRed))
+                .show();
     }
 
     @Override

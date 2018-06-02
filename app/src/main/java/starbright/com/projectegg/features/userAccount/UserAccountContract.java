@@ -20,7 +20,7 @@ class UserAccountContract {
 
     interface Presenter extends BasePresenter {
         void onNavigationTextButtonClicked();
-        void onConfirmButtonClicked(String email, String password);
+        void onAuthenticationButtonClicked(String email, String password);
         boolean isLoginAuthentication();
     }
 }

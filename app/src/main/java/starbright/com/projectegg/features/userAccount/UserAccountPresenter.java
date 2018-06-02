@@ -30,7 +30,7 @@ class UserAccountPresenter implements UserAccountContract.Presenter{
     }
 
     @Override
-    public void onConfirmButtonClicked(String email, String password) {
+    public void onAuthenticationButtonClicked(String email, String password) {
         mView.showProgressBar();
         mView.disableConfirmButton();
         final Task<AuthResult> auth = isLoginAuthentication() ? login(email, password)
