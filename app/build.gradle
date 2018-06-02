@@ -101,6 +101,8 @@ dependencies {
     implementation "com.github.bumptech.glide:glide:$rootProject.ext.glideVersion"
     annotationProcessor "com.github.bumptech.glide:compiler:$rootProject.ext.glideVersion"
 
+    implementation "com.google.firebase:firebase-core:$rootProject.ext.firebaseVersion"
+
     // Unit Test
     testImplementation "junit:junit:$rootProject.ext.jUnitVersion"
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
@@ -109,3 +111,4 @@ dependencies {
     provided 'javax.annotation:jsr250-api:1.0'
     provided 'org.glassfish:javax.annotation:10.0-b28'
 }
+apply plugin: 'com.google.gms.google-services'

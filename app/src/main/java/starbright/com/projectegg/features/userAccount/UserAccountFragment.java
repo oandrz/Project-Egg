@@ -20,7 +20,7 @@ import starbright.com.projectegg.R;
 
 public class UserAccountFragment extends Fragment implements UserAccountContract.View {
 
-    private static final String LOGIN_BUNDLE = "LOGIN_BUNDLE";
+    private static final String USER_ACCOUNT_BUNDLE = "USER_ACCOUNT_BUNDLE";
 
     @BindView(R.id.tv_login_title)
     TextView tvLoginTitle;
@@ -49,7 +49,7 @@ public class UserAccountFragment extends Fragment implements UserAccountContract
     @Override
     public void onCreate(@Nullable Bundle state) {
         super.onCreate(state);
-        new UserAccountPresenter(this, state == null || state.getBoolean(LOGIN_BUNDLE));
+        new UserAccountPresenter(this, state == null || state.getBoolean(USER_ACCOUNT_BUNDLE));
     }
 
     @Nullable
@@ -72,7 +72,7 @@ public class UserAccountFragment extends Fragment implements UserAccountContract
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putBoolean(LOGIN_BUNDLE, mPresenter.isLogin());
+        outState.putBoolean(USER_ACCOUNT_BUNDLE, mPresenter.isLogin());
     }
 
     @OnClick({
@@ -89,6 +89,7 @@ public class UserAccountFragment extends Fragment implements UserAccountContract
         }
     }
 
+    @Override
     public void setPresenter(UserAccountContract.Presenter presenter) {
         mPresenter = presenter;
     }
