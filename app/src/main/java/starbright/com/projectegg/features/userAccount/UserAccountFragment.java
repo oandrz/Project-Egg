@@ -1,15 +1,20 @@
 package starbright.com.projectegg.features.userAccount;
 
 import android.content.Context;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,6 +31,9 @@ public class UserAccountFragment extends Fragment implements UserAccountContract
     @BindView(R.id.tv_login_title)
     TextView tvLoginTitle;
 
+    @BindView(R.id.tv_navigation)
+    TextView tvNavigation;
+
     @BindView(R.id.et_email)
     EditText etEmail;
 
@@ -35,8 +43,8 @@ public class UserAccountFragment extends Fragment implements UserAccountContract
     @BindView(R.id.btn_confirm)
     Button btnConfirm;
 
-    @BindView(R.id.tv_navigation)
-    TextView tvNavigation;
+    @BindView(R.id.progress_bar)
+    ProgressBar progressBar;
 
     private UserAccountContract.Presenter mPresenter;
 
@@ -118,11 +126,6 @@ public class UserAccountFragment extends Fragment implements UserAccountContract
     }
 
     @Override
-    public void showProgressDialog() {
-
-    }
-
-    @Override
     public void navigatePage() {
         Toast.makeText(getActivity(), "success", Toast.LENGTH_SHORT).show();
     }
@@ -140,5 +143,32 @@ public class UserAccountFragment extends Fragment implements UserAccountContract
     @Override
     public void showLoginErrorDialog(String errorMessage) {
         Toast.makeText(getActivity(), String.format("Failed : %s", errorMessage), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showProgressBar() {
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideProgressBar() {
+        progressBar.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void setupProgressBar() {
+        if (MyApp.isPreLolipop()) {
+            final Drawable drawableProgress = DrawableCompat.wrap(
+                    progressBar.getIndeterminateDrawable());
+            DrawableCompat.setTint(
+                    drawableProgress,
+                    ContextCompat.getColor(getActivity(), R.color.red)
+            );
+            progressBar.setIndeterminateDrawable(DrawableCompat.unwrap(drawableProgress));
+        } else {
+            progressBar.getIndeterminateDrawable().setColorFilter(
+                    ContextCompat.getColor(getActivity(), R.color.red),
+                    PorterDuff.Mode.SRC_IN);
+        }
     }
 }

@@ -11,8 +11,9 @@ import com.google.firebase.auth.FirebaseAuth;
 
 class UserAccountPresenter implements UserAccountContract.Presenter{
 
-    private final FirebaseAuth mAuth;
     private final UserAccountContract.View mView;
+    private final FirebaseAuth mAuth;
+
     private boolean mIsLogin;
 
     UserAccountPresenter(UserAccountContract.View view, boolean isLogin) {
@@ -30,13 +31,14 @@ class UserAccountPresenter implements UserAccountContract.Presenter{
 
     @Override
     public void onConfirmButtonClicked(String email, String password) {
-        mView.showProgressDialog();
+        mView.showProgressBar();
         mView.disableConfirmButton();
         final Task<AuthResult> auth = isLoginAuthentication() ? login(email, password)
                 : signup(email, password);
         auth.addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                 @Override
                 public void onSuccess(AuthResult authResult) {
+                    mView.hideProgressBar();
                     mView.enableConfirmButton();
                     mView.navigatePage();
                 }
@@ -50,6 +52,7 @@ class UserAccountPresenter implements UserAccountContract.Presenter{
             .addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
+                    mView.hideProgressBar();
                     mView.enableConfirmButton();
                     mView.showLoginErrorDialog(e.getMessage());
                 }
@@ -58,6 +61,7 @@ class UserAccountPresenter implements UserAccountContract.Presenter{
 
     @Override
     public void start() {
+       mView.setupProgressBar();
        mView.updateView(mIsLogin);
     }
 

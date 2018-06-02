@@ -7,11 +7,15 @@ class UserAccountContract {
 
     interface View extends BaseView<Presenter> {
         void updateView(boolean isLogin);
-        void showProgressDialog();
         void navigatePage();
         void disableConfirmButton();
         void enableConfirmButton();
         void showLoginErrorDialog(String errorMessage);
+
+        void showProgressBar();
+        void hideProgressBar();
+        void setupProgressBar();
+
     }
 
     interface Presenter extends BasePresenter {

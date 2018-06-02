@@ -1,6 +1,7 @@
 package starbright.com.projectegg;
 
 import android.app.Application;
+import android.os.Build;
 
 import starbright.com.projectegg.dagger.component.AppComponent;
 import starbright.com.projectegg.dagger.component.DaggerAppComponent;
@@ -26,5 +27,9 @@ public class MyApp extends Application {
 
     public static AppComponent getAppComponent() {
         return mAppComponent;
+    }
+
+    public static boolean isPreLolipop() {
+        return Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP;
     }
 }
