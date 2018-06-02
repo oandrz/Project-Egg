@@ -21,7 +21,7 @@ android {
         buildConfigField "String", "BASE_URL", "\"https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/\""
     }
     buildTypes {
-        release {
+        debug {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
@@ -35,17 +35,17 @@ android {
     flavorDimensions "mode"
 
     productFlavors {
-        development {
+        free {
             dimension "mode"
-            applicationIdSuffix ".development"
-            versionNameSuffix "-development"
+            applicationIdSuffix ".free"
+            versionNameSuffix "-free"
             buildConfigField 'String', 'SPOON_KEY', '\"jZGKN2hgXcmsh1b8iqQnW4NLHS3fp1wh3IEjsnVj2p24ygMF1X\"'
         }
 
-        live {
+        paid {
             dimension "mode"
-            applicationIdSuffix ".live"
-            versionNameSuffix "-live"
+            applicationIdSuffix ".paid"
+            versionNameSuffix "-paid"
             buildConfigField 'String', 'SPOON_KEY', '\"jZGKN2hgXcmsh1b8iqQnW4NLHS3fp1wh3IEjsnVj2p24ygMF1X\"'
         }
     }
