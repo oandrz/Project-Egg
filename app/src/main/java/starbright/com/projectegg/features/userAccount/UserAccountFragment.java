@@ -13,10 +13,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.firebase.auth.FirebaseAuth;
-
-import javax.inject.Inject;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -80,7 +76,7 @@ public class UserAccountFragment extends Fragment implements UserAccountContract
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putBoolean(USER_ACCOUNT_BUNDLE, mPresenter.isLogin());
+        outState.putBoolean(USER_ACCOUNT_BUNDLE, mPresenter.isLoginAuthentication());
     }
 
     @OnClick({
@@ -134,6 +130,11 @@ public class UserAccountFragment extends Fragment implements UserAccountContract
     @Override
     public void disableConfirmButton() {
         btnConfirm.setEnabled(false);
+    }
+
+    @Override
+    public void enableConfirmButton() {
+        btnConfirm.setEnabled(true);
     }
 
     @Override

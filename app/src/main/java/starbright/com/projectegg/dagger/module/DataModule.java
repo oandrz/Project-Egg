@@ -92,6 +92,10 @@ public class DataModule {
                 .build();
     }
 
+    /*
+    *   Still temporary only since this app hasn't used local storage to save
+    *   data
+    * */
     @Provides
     @Singleton
     AppLocalDataStore porvidesAppLocalDataStore(Application context) {

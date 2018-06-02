@@ -32,12 +32,12 @@ class UserAccountPresenter implements UserAccountContract.Presenter{
     public void onConfirmButtonClicked(String email, String password) {
         mView.showProgressDialog();
         mView.disableConfirmButton();
-        mAuth
-            .signInWithEmailAndPassword(email, password)
-            .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+        final Task<AuthResult> auth = isLoginAuthentication() ? login(email, password)
+                : signup(email, password);
+        auth.addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                 @Override
                 public void onSuccess(AuthResult authResult) {
-                    mView.showProgressDialog();
+                    mView.enableConfirmButton();
                     mView.navigatePage();
                 }
             })
@@ -50,7 +50,7 @@ class UserAccountPresenter implements UserAccountContract.Presenter{
             .addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
-                    mView.showProgressDialog();
+                    mView.enableConfirmButton();
                     mView.showLoginErrorDialog(e.getMessage());
                 }
             });
@@ -62,7 +62,15 @@ class UserAccountPresenter implements UserAccountContract.Presenter{
     }
 
     @Override
-    public boolean isLogin() {
+    public boolean isLoginAuthentication() {
         return mIsLogin;
+    }
+
+    private Task<AuthResult> login(String email, String password) {
+        return mAuth.signInWithEmailAndPassword(email, password);
+    }
+
+    private Task<AuthResult> signup(String email, String password) {
+        return mAuth.createUserWithEmailAndPassword(email, password);
     }
 }

@@ -10,12 +10,13 @@ class UserAccountContract {
         void showProgressDialog();
         void navigatePage();
         void disableConfirmButton();
+        void enableConfirmButton();
         void showLoginErrorDialog(String errorMessage);
     }
 
     interface Presenter extends BasePresenter {
         void onNavigationTextButtonClicked();
         void onConfirmButtonClicked(String email, String password);
-        boolean isLogin();
+        boolean isLoginAuthentication();
     }
 }
