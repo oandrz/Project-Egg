@@ -11,6 +11,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.firebase.auth.FirebaseAuth;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -27,6 +32,9 @@ public class UserAccountFragment extends Fragment implements UserAccountContract
 
     @BindView(R.id.et_email)
     EditText etEmail;
+
+    @BindView(R.id.et_password)
+    EditText etPassword;
 
     @BindView(R.id.btn_confirm)
     Button btnConfirm;
@@ -85,6 +93,10 @@ public class UserAccountFragment extends Fragment implements UserAccountContract
                 mPresenter.onNavigationTextButtonClicked();
                 break;
             case R.id.btn_confirm:
+                mPresenter.onConfirmButtonClicked(
+                        etEmail.getText().toString(),
+                        etPassword.getText().toString()
+                );
                 break;
         }
     }
@@ -107,5 +119,25 @@ public class UserAccountFragment extends Fragment implements UserAccountContract
             btnConfirm.setText(R.string.register_button_text);
             tvNavigation.setText(R.string.register_navigation);
         }
+    }
+
+    @Override
+    public void showProgressDialog() {
+
+    }
+
+    @Override
+    public void navigatePage() {
+        Toast.makeText(getActivity(), "success", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void disableConfirmButton() {
+        btnConfirm.setEnabled(false);
+    }
+
+    @Override
+    public void showLoginErrorDialog(String errorMessage) {
+        Toast.makeText(getActivity(), String.format("Failed : %s", errorMessage), Toast.LENGTH_SHORT).show();
     }
 }

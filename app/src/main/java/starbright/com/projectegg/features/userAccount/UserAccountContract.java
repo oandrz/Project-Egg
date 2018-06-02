@@ -7,10 +7,15 @@ class UserAccountContract {
 
     interface View extends BaseView<Presenter> {
         void updateView(boolean isLogin);
+        void showProgressDialog();
+        void navigatePage();
+        void disableConfirmButton();
+        void showLoginErrorDialog(String errorMessage);
     }
 
     interface Presenter extends BasePresenter {
         void onNavigationTextButtonClicked();
+        void onConfirmButtonClicked(String email, String password);
         boolean isLogin();
     }
 }
