@@ -18,6 +18,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Objects;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -162,13 +164,13 @@ public class UserAccountFragment extends Fragment implements UserAccountContract
                     progressBar.getIndeterminateDrawable());
             DrawableCompat.setTint(
                     drawableProgress,
-                    ContextCompat.getColor(getActivity(), R.color.red)
+                    ContextCompat.getColor(Objects.requireNonNull(getActivity()), R.color.red)
             );
             progressBar.setIndeterminateDrawable(DrawableCompat.unwrap(drawableProgress));
         } else {
-            progressBar.getIndeterminateDrawable().setColorFilter(
-                    ContextCompat.getColor(getActivity(), R.color.red),
-                    PorterDuff.Mode.SRC_IN);
+            progressBar.getIndeterminateDrawable()
+                    .setColorFilter(ContextCompat.getColor(Objects.requireNonNull(getActivity()),
+                            R.color.red), PorterDuff.Mode.SRC_IN);
         }
     }
 }
