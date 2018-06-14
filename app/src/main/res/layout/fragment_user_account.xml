@@ -45,7 +45,7 @@
                     android:id="@+id/tv_login_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/login_title"
+                    android:text="@string/login.title"
                     android:textColor="@color/red"
                     android:textSize="@dimen/header_font" />
 
@@ -58,7 +58,7 @@
                         android:id="@+id/et_email"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/email_hint"
+                        android:hint="@string/email.hint"
                         android:inputType="textEmailAddress"
                         android:maxLines="1" />
                 </android.support.design.widget.TextInputLayout>
@@ -73,7 +73,7 @@
                         android:id="@+id/et_password"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/password_hint"
+                        android:hint="@string/password.hint"
                         android:inputType="textPassword"
                         android:maxLines="1" />
                 </android.support.design.widget.TextInputLayout>
@@ -84,7 +84,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/space_large"
-                    android:text="@string/login_title" />
+                    android:text="@string/login.title" />
 
                 <TextView
                     android:id="@+id/tv_navigation"
@@ -92,7 +92,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/space_normal"
                     android:gravity="center"
-                    android:text="@string/register_navigation"
+                    android:text="@string/register.navigation"
                     android:textColor="@color/red" />
             </LinearLayout>
         </android.support.v7.widget.CardView>

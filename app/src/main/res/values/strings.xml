@@ -1,17 +1,20 @@
 <resources>
-    <string name="app_name">Project Egg</string>
+    <string name="app.name">Project Egg</string>
     <string name="general_retry_label">Retry</string>
+    <string name="general.error.email.empty">Please Fill your Email</string>
+    <string name="general.error.email.format">Your email\'s format should be mailname@mailprovider.com</string>
+    <string name="general.error.password.empty">Please Fill your Password</string>
 
     <!--Login Page-->
-    <string name="login_title">Login</string>
-    <string name="login_button_text">Login</string>
-    <string name="email_hint">Email</string>
-    <string name="password_hint">Password</string>
-    <string name="register_navigation">Click here if you don\'t have an account</string>
+    <string name="login.title">Login</string>
+    <string name="login.button.text">Login</string>
+    <string name="email.hint">Email</string>
+    <string name="password.hint">Password</string>
+    <string name="register.navigation">Click here if you don\'t have an account</string>
 
     <!--Register Page-->
-    <string name="register_title">Create Account</string>
-    <string name="register_button_text">Create Account</string>
-    <string name="register_email_hint">Type your email here</string>
-    <string name="login_navigation">Click here if you don\'t have an account</string>
+    <string name="register.title">Create Account</string>
+    <string name="register.button.text">Create Account</string>
+    <string name="register.email.hint">Type your email here</string>
+    <string name="login.navigation">Click here if you don\'t have an account</string>
 </resources>
