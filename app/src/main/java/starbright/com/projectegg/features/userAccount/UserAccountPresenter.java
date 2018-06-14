@@ -9,6 +9,10 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.util.regex.Pattern;
+
+import starbright.com.projectegg.util.Constants;
+
 class UserAccountPresenter implements UserAccountContract.Presenter{
 
     private final UserAccountContract.View mView;
@@ -31,6 +35,18 @@ class UserAccountPresenter implements UserAccountContract.Presenter{
 
     @Override
     public void onAuthenticationButtonClicked(String email, String password) {
+        if (email == null || email.isEmpty()) {
+            if (validateEmailFormat(email)) {
+                mView.showEmailFormatWrongErrorToast();
+            } else {
+                mView.showEmailEmptyErrorToast();
+            }
+            return;
+        } else if (password == null || password.isEmpty()){
+            mView.showPasswordErrorToast();
+            return;
+        }
+
         mView.showProgressBar();
         mView.disableConfirmButton();
         final Task<AuthResult> auth = isLoginAuthentication() ? login(email, password)
@@ -76,5 +92,9 @@ class UserAccountPresenter implements UserAccountContract.Presenter{
 
     private Task<AuthResult> signup(String email, String password) {
         return mAuth.createUserWithEmailAndPassword(email, password);
+    }
+
+    private boolean validateEmailFormat(String email) {
+        return Pattern.compile(Constants.EMAIL_FORMAT).matcher(email).matches();
     }
 }

@@ -16,6 +16,9 @@ class UserAccountContract {
         void hideProgressBar();
         void setupProgressBar();
 
+        void showEmailEmptyErrorToast();
+        void showEmailFormatWrongErrorToast();
+        void showPasswordErrorToast();
     }
 
     interface Presenter extends BasePresenter {
