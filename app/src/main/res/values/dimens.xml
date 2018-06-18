@@ -16,5 +16,6 @@
 
     <!--Icon-->
     <dimen name="login_icon_size">120dp</dimen>
+    <dimen name="drawable_view_icon_size">24dp</dimen>
 
 </resources>

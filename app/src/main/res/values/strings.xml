@@ -17,4 +17,8 @@
     <string name="register.button.text">Create Account</string>
     <string name="register.email.hint">Type your email here</string>
     <string name="login.navigation">Click here if you don\'t have an account</string>
+
+    <!--Ingredients Page-->
+    <string name="ingredients.title">Add Ingredients</string>
+    <string name="ingredients.search.hint">Search ingredients here</string>
 </resources>

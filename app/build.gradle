@@ -106,6 +106,8 @@ dependencies {
     implementation "com.google.firebase:firebase-core:$rootProject.ext.firebaseCoreVersion"
     implementation "com.google.firebase:firebase-auth:$rootProject.ext.firebaseAuthVersion"
 
+    implementation 'com.otaliastudios:autocomplete:1.1.0'
+
     // Unit Test
     testImplementation "junit:junit:$rootProject.ext.jUnitVersion"
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
