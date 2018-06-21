@@ -17,15 +17,25 @@ import android.widget.ImageView;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import starbright.com.projectegg.MyApp;
 import starbright.com.projectegg.R;
+import starbright.com.projectegg.data.AppRepository;
+import starbright.com.projectegg.util.scheduler.BaseSchedulerProvider;
 
 public class IngredientsFragment extends Fragment implements IngredientsContract.View {
 
     private static final int AUTOCOMPLETE_DELAY = 600;
+
+    @Inject
+    AppRepository repository;
+
+    @Inject
+    BaseSchedulerProvider schedulerProvider;
 
     @BindView(R.id.et_search_ingredients)
     AutoCompleteTextView etSearchIngredients;
@@ -85,7 +95,7 @@ public class IngredientsFragment extends Fragment implements IngredientsContract
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        new IngredientsPresenter(this);
+        new IngredientsPresenter(repository, this, schedulerProvider);
     }
 
     @Nullable

@@ -13,5 +13,6 @@ class IngredientsContract {
 
     interface Presenter extends BasePresenter {
         void onActionButtonClicked(String query);
+        void searchIngredient(String query);
     }
 }
