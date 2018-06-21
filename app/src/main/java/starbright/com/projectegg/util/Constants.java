@@ -13,5 +13,11 @@ public final class Constants {
             "(?:[a-zA-Z0-9-]+\\.)+[a-z" +
             "A-Z]{2,7}$";
 
+
+//  Networking
+    public static final String IMAGE_INGREDIENT_URL = "https://spoonacular.com/cdn/ingredients_100x100/";
+    public static final String QUERY_PARAM_META_INFORMATION_KEY = "metaInformation";
+    public static final String QUERY_PARAM_NUMBER_KEY = "number";
+
     private Constants() {}
 }
