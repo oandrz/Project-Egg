@@ -73,6 +73,13 @@
                         android:layout_height="@dimen/drawable_view_icon_size"
                         android:layout_gravity="center|end"
                         android:src="@drawable/ic_camera" />
+
+                    <ProgressBar
+                        android:id="@+id/suggestion_progress_bar"
+                        android:layout_width="@dimen/drawable_view_icon_size"
+                        android:layout_height="@dimen/drawable_view_icon_size"
+                        android:layout_gravity="center|end"
+                        android:visibility="gone"/>
                 </FrameLayout>
 
                 <android.support.v7.widget.RecyclerView

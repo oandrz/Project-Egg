@@ -14,6 +14,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
 
 import java.util.List;
@@ -50,6 +52,9 @@ public class IngredientsFragment extends Fragment implements IngredientsContract
     @BindView(R.id.rv_ingredients)
     RecyclerView rvIngredients;
 
+    @BindView(R.id.suggestion_progress_bar)
+    ProgressBar suggestionProgressBar;
+
     private Timer mTimer;
 
     private IngredientsAdapter mAdapter;
@@ -66,12 +71,7 @@ public class IngredientsFragment extends Fragment implements IngredientsContract
             if (mTimer != null) {
                 mTimer.cancel();
             }
-            if (s.toString().isEmpty()) {
-                imgActionButton.setImageResource(R.drawable.ic_camera);
-            } else {
-                imgActionButton.setImageResource(R.drawable.ic_clear);
-                hideSearchSuggestion();
-            }
+           mPresenter.handleOnSuggestionTextChanged(s.toString());
         }
 
         @Override
@@ -127,7 +127,7 @@ public class IngredientsFragment extends Fragment implements IngredientsContract
     void onClickedEvent(View view) {
         switch (view.getId()) {
             case R.id.img_action_button:
-                mPresenter.onActionButtonClicked(etSearchIngredients.getText().toString());
+                mPresenter.handleActionButtonClicked(etSearchIngredients.getText().toString());
                 break;
         }
     }
@@ -166,6 +166,39 @@ public class IngredientsFragment extends Fragment implements IngredientsContract
     public void showSearchSuggestion(List<Ingredient> ingredients) {
         rvIngredients.setVisibility(View.VISIBLE);
         mAdapter.setIngredients(ingredients);
+    }
+
+    @Override
+    public void showActionCamera() {
+        imgActionButton.setVisibility(View.VISIBLE);
+        imgActionButton.setImageResource(R.drawable.ic_camera);
+    }
+
+    @Override
+    public void showActionClear() {
+        imgActionButton.setVisibility(View.VISIBLE);
+        imgActionButton.setImageResource(R.drawable.ic_clear);
+    }
+
+    @Override
+    public void hideActionButton() {
+        imgActionButton.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void showSuggestionProgressBar() {
+        suggestionProgressBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideSuggestionProgressBar() {
+        suggestionProgressBar.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void showItemEmptyToast() {
+        Toast.makeText(getActivity(), getString(R.string.ingredients_search_empty),
+                Toast.LENGTH_SHORT).show();
     }
 
     @Override

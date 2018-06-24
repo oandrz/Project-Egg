@@ -11,14 +11,26 @@ class IngredientsContract {
     interface View extends BaseView<IngredientsPresenter> {
         void setupEtSearchIngredients();
         void setupRvIngredientSuggestion();
+
         void clearEtSearchQuery();
         void openCamera();
+
         void showSearchSuggestion(List<Ingredient> ingredients);
         void hideSearchSuggestion();
+
+        void showActionCamera();
+        void showActionClear();
+        void hideActionButton();
+
+        void showSuggestionProgressBar();
+        void hideSuggestionProgressBar();
+
+        void showItemEmptyToast();
     }
 
     interface Presenter extends BasePresenter {
-        void onActionButtonClicked(String query);
+        void handleActionButtonClicked(String query);
+        void handleOnSuggestionTextChanged(String query);
         void searchIngredient(String query);
     }
 }

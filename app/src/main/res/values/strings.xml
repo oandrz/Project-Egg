@@ -21,4 +21,5 @@
     <!--Ingredients Page-->
     <string name="ingredients.title">Add Ingredients</string>
     <string name="ingredients.search.hint">Search ingredients here</string>
+    <string name="ingredients.search.empty">The Item you\'re looking for is not available</string>
 </resources>

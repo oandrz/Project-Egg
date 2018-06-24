@@ -33,12 +33,23 @@ class IngredientsPresenter implements IngredientsContract.Presenter {
     }
 
     @Override
-    public void onActionButtonClicked(String query) {
+    public void handleActionButtonClicked(String query) {
         if (query.isEmpty()) {
             mView.openCamera();
         } else {
             mView.clearEtSearchQuery();
-            mView.hideSearchSuggestion();
+        }
+    }
+
+    @Override
+    public void handleOnSuggestionTextChanged(String query) {
+        mView.hideSearchSuggestion();
+        if (query.isEmpty()) {
+            mView.hideSuggestionProgressBar();
+            mView.showActionCamera();
+        } else {
+            mView.hideActionButton();
+            mView.showSuggestionProgressBar();
         }
     }
 
@@ -55,12 +66,18 @@ class IngredientsPresenter implements IngredientsContract.Presenter {
                 .subscribe(new Consumer<List<Ingredient>>() {
                     @Override
                     public void accept(List<Ingredient> ingredients) {
+                        mView.hideSuggestionProgressBar();
+                        if (ingredients.isEmpty()) {
+                            mView.showItemEmptyToast();
+                        }
+                        mView.showActionClear();
                         mView.showSearchSuggestion(ingredients);
                     }
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) {
-
+                        mView.hideSuggestionProgressBar();
+                        mView.showActionClear();
                     }
                 })
         );
