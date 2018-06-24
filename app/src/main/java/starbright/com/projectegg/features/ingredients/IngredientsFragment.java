@@ -5,15 +5,18 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AutoCompleteTextView;
+import android.widget.EditText;
 import android.widget.ImageView;
 
 
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -25,6 +28,7 @@ import butterknife.OnClick;
 import starbright.com.projectegg.MyApp;
 import starbright.com.projectegg.R;
 import starbright.com.projectegg.data.AppRepository;
+import starbright.com.projectegg.data.local.model.Ingredient;
 import starbright.com.projectegg.util.scheduler.BaseSchedulerProvider;
 
 public class IngredientsFragment extends Fragment implements IngredientsContract.View {
@@ -38,13 +42,17 @@ public class IngredientsFragment extends Fragment implements IngredientsContract
     BaseSchedulerProvider schedulerProvider;
 
     @BindView(R.id.et_search_ingredients)
-    AutoCompleteTextView etSearchIngredients;
+    EditText etSearchIngredients;
 
     @BindView(R.id.img_action_button)
     ImageView imgActionButton;
 
+    @BindView(R.id.rv_ingredients)
+    RecyclerView rvIngredients;
+
     private Timer mTimer;
 
+    private IngredientsAdapter mAdapter;
     private IngredientsContract.Presenter mPresenter;
 
     private TextWatcher mIngredientsTextWatcher = new TextWatcher() {
@@ -62,6 +70,7 @@ public class IngredientsFragment extends Fragment implements IngredientsContract
                 imgActionButton.setImageResource(R.drawable.ic_camera);
             } else {
                 imgActionButton.setImageResource(R.drawable.ic_clear);
+                hideSearchSuggestion();
             }
         }
 
@@ -74,7 +83,7 @@ public class IngredientsFragment extends Fragment implements IngredientsContract
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-
+                            mPresenter.searchIngredient(s.toString());
                         }
                     });
                 }
@@ -134,6 +143,16 @@ public class IngredientsFragment extends Fragment implements IngredientsContract
     }
 
     @Override
+    public void setupRvIngredientSuggestion() {
+        final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(),
+                LinearLayoutManager.VERTICAL, false);
+        rvIngredients.setLayoutManager(layoutManager);
+
+        mAdapter = new IngredientsAdapter(getActivity());
+        rvIngredients.setAdapter(mAdapter);
+    }
+
+    @Override
     public void clearEtSearchQuery() {
         etSearchIngredients.setText("");
     }
@@ -141,5 +160,16 @@ public class IngredientsFragment extends Fragment implements IngredientsContract
     @Override
     public void openCamera() {
         // TODO: 18/06/18 Start Camera Intent
+    }
+
+    @Override
+    public void showSearchSuggestion(List<Ingredient> ingredients) {
+        rvIngredients.setVisibility(View.VISIBLE);
+        mAdapter.setIngredients(ingredients);
+    }
+
+    @Override
+    public void hideSearchSuggestion() {
+        rvIngredients.setVisibility(View.GONE);
     }
 }

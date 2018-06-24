@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 public class IngredientResponse {
 
-    @SerializedName("name")
+    @SerializedName("id")
     private String mId;
 
     @SerializedName("name")
@@ -17,7 +17,7 @@ public class IngredientResponse {
         return mId;
     }
 
-    public void setmId(String id) {
+    public void setId(String id) {
         mId = id;
     }
 

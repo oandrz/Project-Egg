@@ -29,6 +29,7 @@ class IngredientsPresenter implements IngredientsContract.Presenter {
     @Override
     public void start() {
         mView.setupEtSearchIngredients();
+        mView.setupRvIngredientSuggestion();
     }
 
     @Override
@@ -37,23 +38,28 @@ class IngredientsPresenter implements IngredientsContract.Presenter {
             mView.openCamera();
         } else {
             mView.clearEtSearchQuery();
+            mView.hideSearchSuggestion();
         }
     }
 
     @Override
     public void searchIngredient(String query) {
+        if (query.isEmpty()) {
+            return;
+        }
+
         mCompositeDisposable.add(
                 mRepository.searchIngredient(query)
                 .subscribeOn(mSchedulerProvider.computation())
                 .observeOn(mSchedulerProvider.ui())
                 .subscribe(new Consumer<List<Ingredient>>() {
                     @Override
-                    public void accept(List<Ingredient> ingredients) throws Exception {
-
+                    public void accept(List<Ingredient> ingredients) {
+                        mView.showSearchSuggestion(ingredients);
                     }
                 }, new Consumer<Throwable>() {
                     @Override
-                    public void accept(Throwable throwable) throws Exception {
+                    public void accept(Throwable throwable) {
 
                     }
                 })
