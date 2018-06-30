@@ -1,15 +1,20 @@
 package starbright.com.projectegg.features.ingredients;
 
+import android.net.Uri;
+
+import java.io.File;
 import java.util.List;
 
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
 import starbright.com.projectegg.data.AppRepository;
 import starbright.com.projectegg.data.local.model.Ingredient;
+import starbright.com.projectegg.util.ClarifaiHelper;
 import starbright.com.projectegg.util.scheduler.BaseSchedulerProvider;
 
-class IngredientsPresenter implements IngredientsContract.Presenter {
+class IngredientsPresenter implements IngredientsContract.Presenter, ClarifaiHelper.Callback {
 
+    private final ClarifaiHelper mClarifaiHelper;
     private final AppRepository mRepository;
     private final IngredientsContract.View mView;
     private final BaseSchedulerProvider mSchedulerProvider;
@@ -18,12 +23,14 @@ class IngredientsPresenter implements IngredientsContract.Presenter {
     IngredientsPresenter(
             AppRepository repo,
             IngredientsContract.View view,
-            BaseSchedulerProvider schedulerProvider) {
+            BaseSchedulerProvider schedulerProvider,
+            ClarifaiHelper clarifaiHelper) {
         mRepository = repo;
         mView = view;
         mView.setPresenter(this);
         mSchedulerProvider = schedulerProvider;
         mCompositeDisposable = new CompositeDisposable();
+        mClarifaiHelper = clarifaiHelper;
     }
 
     @Override
@@ -81,5 +88,15 @@ class IngredientsPresenter implements IngredientsContract.Presenter {
                     }
                 })
         );
+    }
+
+    @Override
+    public void detectImage(String filePath) {
+        mClarifaiHelper.predict(Uri.fromFile(new File(filePath)), this);
+    }
+
+    @Override
+    public void onPredictionCompleted(String ingredients) {
+
     }
 }

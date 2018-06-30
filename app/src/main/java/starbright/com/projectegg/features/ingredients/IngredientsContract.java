@@ -32,5 +32,6 @@ class IngredientsContract {
         void handleActionButtonClicked(String query);
         void handleOnSuggestionTextChanged(String query);
         void searchIngredient(String query);
+        void detectImage(String filePath);
     }
 }

@@ -1,10 +1,16 @@
 package starbright.com.projectegg.features.ingredients;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.FileProvider;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -18,7 +24,12 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -27,15 +38,23 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import permissions.dispatcher.NeedsPermission;
+import permissions.dispatcher.RuntimePermissions;
 import starbright.com.projectegg.MyApp;
 import starbright.com.projectegg.R;
 import starbright.com.projectegg.data.AppRepository;
 import starbright.com.projectegg.data.local.model.Ingredient;
+import starbright.com.projectegg.util.ClarifaiHelper;
+import starbright.com.projectegg.util.Constants;
 import starbright.com.projectegg.util.scheduler.BaseSchedulerProvider;
 
+import static android.app.Activity.RESULT_OK;
+
+@RuntimePermissions
 public class IngredientsFragment extends Fragment implements IngredientsContract.View {
 
     private static final int AUTOCOMPLETE_DELAY = 600;
+    private static final int CAMERA_REQUEST_CODE = 101;
 
     @Inject
     AppRepository repository;
@@ -59,6 +78,7 @@ public class IngredientsFragment extends Fragment implements IngredientsContract
 
     private IngredientsAdapter mAdapter;
     private IngredientsContract.Presenter mPresenter;
+    private String mCurrentPhotoPath;
 
     private TextWatcher mIngredientsTextWatcher = new TextWatcher() {
         @Override
@@ -104,7 +124,12 @@ public class IngredientsFragment extends Fragment implements IngredientsContract
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        new IngredientsPresenter(repository, this, schedulerProvider);
+        new IngredientsPresenter(
+                repository,
+                this,
+                schedulerProvider,
+                new ClarifaiHelper(getActivity())
+        );
     }
 
     @Nullable
@@ -123,12 +148,11 @@ public class IngredientsFragment extends Fragment implements IngredientsContract
         mPresenter.start();
     }
 
-    @OnClick({R.id.img_action_button})
-    void onClickedEvent(View view) {
-        switch (view.getId()) {
-            case R.id.img_action_button:
-                mPresenter.handleActionButtonClicked(etSearchIngredients.getText().toString());
-                break;
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK && requestCode == CAMERA_REQUEST_CODE) {
+            mPresenter.detectImage(mCurrentPhotoPath);
         }
     }
 
@@ -159,7 +183,14 @@ public class IngredientsFragment extends Fragment implements IngredientsContract
 
     @Override
     public void openCamera() {
-        // TODO: 18/06/18 Start Camera Intent
+        IngredientsFragmentPermissionsDispatcher.startCameraIntentWithPermissionCheck(this);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        IngredientsFragmentPermissionsDispatcher.onRequestPermissionsResult(this,
+                requestCode, grantResults);
     }
 
     @Override
@@ -204,5 +235,44 @@ public class IngredientsFragment extends Fragment implements IngredientsContract
     @Override
     public void hideSearchSuggestion() {
         rvIngredients.setVisibility(View.GONE);
+    }
+
+    @NeedsPermission(Manifest.permission.CAMERA)
+    public void startCameraIntent() {
+        File photoFile = null;
+        try {
+            photoFile = createImageFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if (photoFile != null) {
+            Uri photoURI = FileProvider.getUriForFile(
+                    getActivity(),
+                    Constants.PROVIDER_PACKAGE_NAME,
+                    photoFile);
+            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+            startActivityForResult(intent, CAMERA_REQUEST_CODE);
+        }
+    }
+
+    @OnClick({R.id.img_action_button})
+    void onClickedEvent(View view) {
+        switch (view.getId()) {
+            case R.id.img_action_button:
+                mPresenter.handleActionButtonClicked(etSearchIngredients.getText().toString());
+                break;
+        }
+    }
+
+    private File createImageFile() throws IOException {
+        final String timeStamp = new SimpleDateFormat(Constants.YYYY_MM_DD_FORMAT, Locale.US)
+                .format(new Date());
+
+        final File storageDir = getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        final File image = File.createTempFile(timeStamp, Constants.JPG, storageDir);
+
+        mCurrentPhotoPath = image.getAbsolutePath();
+        return image;
     }
 }

@@ -12,6 +12,9 @@ public final class Constants {
             "[a-zA-Z0-9_+&*-]+)*@" +
             "(?:[a-zA-Z0-9-]+\\.)+[a-z" +
             "A-Z]{2,7}$";
+    public static final String JPG = ".jpg";
+
+    public static final String PROVIDER_PACKAGE_NAME = "starbright.com.projectegg.fileprovider";
 
 
 //  Networking
