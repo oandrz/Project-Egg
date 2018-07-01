@@ -66,8 +66,8 @@ class IngredientsPresenter implements IngredientsContract.Presenter, ClarifaiHel
             return;
         }
 
-        mCompositeDisposable.add(
-                mRepository.searchIngredient(query)
+        mCompositeDisposable
+                .add(mRepository.searchIngredient(query)
                 .subscribeOn(mSchedulerProvider.computation())
                 .observeOn(mSchedulerProvider.ui())
                 .subscribe(new Consumer<List<Ingredient>>() {
@@ -91,12 +91,14 @@ class IngredientsPresenter implements IngredientsContract.Presenter, ClarifaiHel
     }
 
     @Override
-    public void detectImage(String filePath) {
+    public void handleCameraResult(String filePath) {
+        mView.setupMaterialProgressDialog();
+        mView.showMaterialProgressDialog();
         mClarifaiHelper.predict(Uri.fromFile(new File(filePath)), this);
     }
 
     @Override
     public void onPredictionCompleted(String ingredients) {
-
+        mView.hideMaterialProgressDialog();
     }
 }

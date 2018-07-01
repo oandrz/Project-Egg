@@ -11,6 +11,7 @@ class IngredientsContract {
     interface View extends BaseView<IngredientsPresenter> {
         void setupEtSearchIngredients();
         void setupRvIngredientSuggestion();
+        void setupMaterialProgressDialog();
 
         void clearEtSearchQuery();
         void openCamera();
@@ -26,12 +27,15 @@ class IngredientsContract {
         void hideSuggestionProgressBar();
 
         void showItemEmptyToast();
+
+        void showMaterialProgressDialog();
+        void hideMaterialProgressDialog();
     }
 
     interface Presenter extends BasePresenter {
         void handleActionButtonClicked(String query);
         void handleOnSuggestionTextChanged(String query);
         void searchIngredient(String query);
-        void detectImage(String filePath);
+        void handleCameraResult(String filePath);
     }
 }

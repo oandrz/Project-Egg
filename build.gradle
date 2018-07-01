@@ -49,4 +49,5 @@ ext {
     glideVersion = '4.7.1'
     firebaseCoreVersion = '16.0.0'
     firebaseAuthVersion = '16.0.1'
+    materialDialogVersion = '0.9.6.0'
 }

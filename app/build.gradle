@@ -106,7 +106,8 @@ dependencies {
     implementation "com.google.firebase:firebase-core:$rootProject.ext.firebaseCoreVersion"
     implementation "com.google.firebase:firebase-auth:$rootProject.ext.firebaseAuthVersion"
 
-    implementation 'com.otaliastudios:autocomplete:1.1.0'
+    //Material Dialog
+    implementation "com.afollestad.material-dialogs:core:$rootProject.ext.materialDialogVersion"
 
     // Unit Test
     testImplementation "junit:junit:$rootProject.ext.jUnitVersion"

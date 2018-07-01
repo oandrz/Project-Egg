@@ -24,6 +24,8 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 
+import com.afollestad.materialdialogs.MaterialDialog;
+
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -78,6 +80,7 @@ public class IngredientsFragment extends Fragment implements IngredientsContract
 
     private IngredientsAdapter mAdapter;
     private IngredientsContract.Presenter mPresenter;
+    private MaterialDialog mDialog;
     private String mCurrentPhotoPath;
 
     private TextWatcher mIngredientsTextWatcher = new TextWatcher() {
@@ -152,7 +155,7 @@ public class IngredientsFragment extends Fragment implements IngredientsContract
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK && requestCode == CAMERA_REQUEST_CODE) {
-            mPresenter.detectImage(mCurrentPhotoPath);
+            mPresenter.handleCameraResult(mCurrentPhotoPath);
         }
     }
 
@@ -174,6 +177,16 @@ public class IngredientsFragment extends Fragment implements IngredientsContract
 
         mAdapter = new IngredientsAdapter(getActivity());
         rvIngredients.setAdapter(mAdapter);
+    }
+
+    @Override
+    public void setupMaterialProgressDialog() {
+        mDialog = new MaterialDialog.Builder(getActivity())
+                .title(R.string.ingredients_dialog_progress_title)
+                .content(R.string.ingredients_dialog_progress_content)
+                .progress(true, 0)
+                .canceledOnTouchOutside(false)
+                .build();
     }
 
     @Override
@@ -230,6 +243,16 @@ public class IngredientsFragment extends Fragment implements IngredientsContract
     public void showItemEmptyToast() {
         Toast.makeText(getActivity(), getString(R.string.ingredients_search_empty),
                 Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showMaterialProgressDialog() {
+        mDialog.show();
+    }
+
+    @Override
+    public void hideMaterialProgressDialog() {
+        mDialog.dismiss();
     }
 
     @Override
