@@ -24,4 +24,6 @@
     <string name="ingredients.search.empty">The Item you\'re looking for is not available</string>
     <string name="ingredients.dialog.progress.title">Working on it now</string>
     <string name="ingredients.dialog.progress.content">Please give me a bit time to recognize the image</string>
+    <string name="ingredients.cart.total.label">Total</string>
+    <string name="ingredients.btn.submit.label">Submit</string>
 </resources>
