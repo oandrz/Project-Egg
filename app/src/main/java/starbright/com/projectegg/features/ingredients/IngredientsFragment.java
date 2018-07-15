@@ -77,7 +77,7 @@ public class IngredientsFragment extends Fragment implements IngredientsContract
 
     private Timer mTimer;
 
-    private IngredientsAdapter mAdapter;
+    private IngredientsAdapter mSearchSuggestionAdapter;
     private IngredientsContract.Presenter mPresenter;
     private MaterialDialog mDialog;
     private CartBottomSheetDialogFragment cartBottomSheetDialogFragment;
@@ -175,8 +175,8 @@ public class IngredientsFragment extends Fragment implements IngredientsContract
                 LinearLayoutManager.VERTICAL, false);
         rvIngredients.setLayoutManager(layoutManager);
 
-        mAdapter = new IngredientsAdapter(getActivity());
-        rvIngredients.setAdapter(mAdapter);
+        mSearchSuggestionAdapter = new IngredientsAdapter(getActivity());
+        rvIngredients.setAdapter(mSearchSuggestionAdapter);
     }
 
     @Override
@@ -214,7 +214,7 @@ public class IngredientsFragment extends Fragment implements IngredientsContract
     @Override
     public void showSearchSuggestion(List<Ingredient> ingredients) {
         rvIngredients.setVisibility(View.VISIBLE);
-        mAdapter.setIngredients(ingredients);
+        mSearchSuggestionAdapter.setIngredients(ingredients);
     }
 
     @Override
