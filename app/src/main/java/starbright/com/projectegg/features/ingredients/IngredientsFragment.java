@@ -21,6 +21,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -58,6 +59,8 @@ public class IngredientsFragment extends Fragment implements IngredientsContract
     private static final int AUTOCOMPLETE_DELAY = 600;
     private static final int CAMERA_REQUEST_CODE = 101;
 
+    private static final String BUNDLE_CART = "BUNDLE_CART";
+
     @Inject
     AppRepository repository;
 
@@ -75,6 +78,9 @@ public class IngredientsFragment extends Fragment implements IngredientsContract
 
     @BindView(R.id.suggestion_progress_bar)
     ProgressBar suggestionProgressBar;
+
+    @BindView(R.id.tv_cart_count)
+    TextView tvCartCount;
 
     private Timer mTimer;
 
@@ -150,6 +156,9 @@ public class IngredientsFragment extends Fragment implements IngredientsContract
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mPresenter.start();
+        if (savedInstanceState != null) {
+            mPresenter.setCart(savedInstanceState.<Ingredient>getParcelableArrayList(BUNDLE_CART));
+        }
     }
 
     @Override
@@ -158,6 +167,12 @@ public class IngredientsFragment extends Fragment implements IngredientsContract
         if (resultCode == RESULT_OK && requestCode == CAMERA_REQUEST_CODE) {
             mPresenter.handleCameraResult(mCurrentPhotoPath);
         }
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelableArrayList(BUNDLE_CART, mPresenter.getCart());
     }
 
     @Override
@@ -263,8 +278,9 @@ public class IngredientsFragment extends Fragment implements IngredientsContract
     }
 
     @Override
-    public void addIngredientIntoCart(Ingredient ingredient) {
-        // TODO: 15/07/18 Add Selected ingredient into adapter here
+    public void updateIngredientCount(int count) {
+        tvCartCount.setVisibility(count > 0 ? View.VISIBLE : View.GONE);
+        tvCartCount.setText(String.valueOf(count));
     }
 
     @Override

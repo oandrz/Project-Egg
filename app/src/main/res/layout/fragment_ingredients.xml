@@ -17,7 +17,7 @@
             android:padding="@dimen/space_normal">
 
             <TextView
-                android:id="@+id/tv_ingredient_count"
+                android:id="@+id/tv_cart_count"
                 style="@style/NormalFont"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

@@ -1,5 +1,6 @@
 package starbright.com.projectegg.features.ingredients;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import starbright.com.projectegg.BasePresenter;
@@ -12,7 +13,6 @@ class IngredientsContract {
         void setupEtSearchIngredients();
         void setupRvIngredientSuggestion();
         void setupMaterialProgressDialog();
-
         void setupBottomSheetDialogFragment();
 
         void clearEtSearchQuery();
@@ -33,15 +33,19 @@ class IngredientsContract {
         void showMaterialProgressDialog();
         void hideMaterialProgressDialog();
 
-        void addIngredientIntoCart(Ingredient ingredient);
+        void updateIngredientCount(int count);
     }
 
     interface Presenter extends BasePresenter {
         void handleActionButtonClicked(String query);
         void handleOnSuggestionTextChanged(String query);
-
         void handleSuggestionItemClicked(Ingredient ingredient);
-        void searchIngredient(String query);
         void handleCameraResult(String filePath);
+
+        void searchIngredient(String query);
+
+        void setCart(List<Ingredient> cart);
+
+        ArrayList<Ingredient> getCart();
     }
 }

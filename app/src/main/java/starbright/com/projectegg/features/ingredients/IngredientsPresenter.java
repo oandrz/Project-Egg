@@ -3,6 +3,7 @@ package starbright.com.projectegg.features.ingredients;
 import android.net.Uri;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.disposables.CompositeDisposable;
@@ -19,6 +20,8 @@ class IngredientsPresenter implements IngredientsContract.Presenter, ClarifaiHel
     private final IngredientsContract.View mView;
     private final BaseSchedulerProvider mSchedulerProvider;
     private CompositeDisposable mCompositeDisposable;
+
+    private List<Ingredient> mCart;
 
     IngredientsPresenter(
             AppRepository repo,
@@ -63,7 +66,12 @@ class IngredientsPresenter implements IngredientsContract.Presenter, ClarifaiHel
 
     @Override
     public void handleSuggestionItemClicked(Ingredient ingredient) {
-        mView.addIngredientIntoCart(ingredient);
+        if (mCart == null) {
+            mCart = new ArrayList<>();
+        }
+
+        mCart.add(ingredient);
+        mView.updateIngredientCount(mCart.size());
     }
 
     @Override
@@ -94,6 +102,17 @@ class IngredientsPresenter implements IngredientsContract.Presenter, ClarifaiHel
                     }
                 })
         );
+    }
+
+    @Override
+    public void setCart(List<Ingredient> cart) {
+        mCart = cart;
+        mView.updateIngredientCount(cart.size());
+    }
+
+    @Override
+    public ArrayList<Ingredient> getCart() {
+        return new ArrayList<>(mCart);
     }
 
     @Override
