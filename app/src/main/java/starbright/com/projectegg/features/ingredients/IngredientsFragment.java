@@ -23,7 +23,6 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-
 import com.afollestad.materialdialogs.MaterialDialog;
 
 import java.io.File;
@@ -81,6 +80,7 @@ public class IngredientsFragment extends Fragment implements IngredientsContract
     private IngredientsAdapter mAdapter;
     private IngredientsContract.Presenter mPresenter;
     private MaterialDialog mDialog;
+    private CartBottomSheetDialogFragment cartBottomSheetDialogFragment;
     private String mCurrentPhotoPath;
 
     private TextWatcher mIngredientsTextWatcher = new TextWatcher() {
@@ -187,6 +187,11 @@ public class IngredientsFragment extends Fragment implements IngredientsContract
                 .progress(true, 0)
                 .canceledOnTouchOutside(false)
                 .build();
+    }
+
+    @Override
+    public void setupBottomSheetDialogFragment() {
+        cartBottomSheetDialogFragment = new CartBottomSheetDialogFragment();
     }
 
     @Override

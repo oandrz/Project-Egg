@@ -13,6 +13,8 @@ class IngredientsContract {
         void setupRvIngredientSuggestion();
         void setupMaterialProgressDialog();
 
+        void setupBottomSheetDialogFragment();
+
         void clearEtSearchQuery();
         void openCamera();
 

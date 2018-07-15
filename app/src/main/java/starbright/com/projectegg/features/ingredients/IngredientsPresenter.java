@@ -37,6 +37,7 @@ class IngredientsPresenter implements IngredientsContract.Presenter, ClarifaiHel
     public void start() {
         mView.setupEtSearchIngredients();
         mView.setupRvIngredientSuggestion();
+        mView.setupBottomSheetDialogFragment();
     }
 
     @Override
