@@ -23,6 +23,7 @@ class IngredientsAdapter extends RecyclerView.Adapter<IngredientsAdapter.Ingredi
 
     private Context mContext;
     private List<Ingredient> mIngredients;
+    private Listener mListener;
 
     IngredientsAdapter(Context context) {
         mContext = context;
@@ -39,6 +40,13 @@ class IngredientsAdapter extends RecyclerView.Adapter<IngredientsAdapter.Ingredi
         final View view = LayoutInflater.from(mContext)
                 .inflate(R.layout.item_autocomplete_ingredient, parent, false);
         final IngredientViewHolder viewHolder = new IngredientViewHolder(view);
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mListener.onSuggestionItemClicked(
+                        mIngredients.get(viewHolder.getAdapterPosition()));
+            }
+        });
         return viewHolder;
     }
 
@@ -50,6 +58,10 @@ class IngredientsAdapter extends RecyclerView.Adapter<IngredientsAdapter.Ingredi
     @Override
     public int getItemCount() {
         return mIngredients.size();
+    }
+
+    void setListener(Listener listener) {
+        mListener = listener;
     }
 
     class IngredientViewHolder extends RecyclerView.ViewHolder {
@@ -72,5 +84,9 @@ class IngredientsAdapter extends RecyclerView.Adapter<IngredientsAdapter.Ingredi
                     .centerCrop()
                     .into(ivIngredient);
         }
+    }
+
+    interface Listener {
+        void onSuggestionItemClicked(Ingredient selectedItem);
     }
 }

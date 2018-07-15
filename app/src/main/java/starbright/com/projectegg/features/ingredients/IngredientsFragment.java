@@ -52,7 +52,8 @@ import starbright.com.projectegg.util.scheduler.BaseSchedulerProvider;
 import static android.app.Activity.RESULT_OK;
 
 @RuntimePermissions
-public class IngredientsFragment extends Fragment implements IngredientsContract.View {
+public class IngredientsFragment extends Fragment implements IngredientsContract.View,
+        IngredientsAdapter.Listener {
 
     private static final int AUTOCOMPLETE_DELAY = 600;
     private static final int CAMERA_REQUEST_CODE = 101;
@@ -176,6 +177,7 @@ public class IngredientsFragment extends Fragment implements IngredientsContract
         rvIngredients.setLayoutManager(layoutManager);
 
         mSearchSuggestionAdapter = new IngredientsAdapter(getActivity());
+        mSearchSuggestionAdapter.setListener(this);
         rvIngredients.setAdapter(mSearchSuggestionAdapter);
     }
 
@@ -261,8 +263,18 @@ public class IngredientsFragment extends Fragment implements IngredientsContract
     }
 
     @Override
+    public void addIngredientIntoCart(Ingredient ingredient) {
+        // TODO: 15/07/18 Add Selected ingredient into adapter here
+    }
+
+    @Override
     public void hideSearchSuggestion() {
         rvIngredients.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onSuggestionItemClicked(Ingredient selectedItem) {
+        mPresenter.handleSuggestionItemClicked(selectedItem);
     }
 
     @NeedsPermission(Manifest.permission.CAMERA)

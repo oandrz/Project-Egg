@@ -32,11 +32,15 @@ class IngredientsContract {
 
         void showMaterialProgressDialog();
         void hideMaterialProgressDialog();
+
+        void addIngredientIntoCart(Ingredient ingredient);
     }
 
     interface Presenter extends BasePresenter {
         void handleActionButtonClicked(String query);
         void handleOnSuggestionTextChanged(String query);
+
+        void handleSuggestionItemClicked(Ingredient ingredient);
         void searchIngredient(String query);
         void handleCameraResult(String filePath);
     }

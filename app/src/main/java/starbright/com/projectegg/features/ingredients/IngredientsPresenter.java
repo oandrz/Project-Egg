@@ -62,6 +62,11 @@ class IngredientsPresenter implements IngredientsContract.Presenter, ClarifaiHel
     }
 
     @Override
+    public void handleSuggestionItemClicked(Ingredient ingredient) {
+        mView.addIngredientIntoCart(ingredient);
+    }
+
+    @Override
     public void searchIngredient(String query) {
         if (query.isEmpty()) {
             return;
