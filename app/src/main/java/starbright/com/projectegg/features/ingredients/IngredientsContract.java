@@ -30,6 +30,8 @@ class IngredientsContract {
 
         void showItemEmptyToast();
 
+        void showDuplicateItemToast();
+
         void showMaterialProgressDialog();
         void hideMaterialProgressDialog();
 

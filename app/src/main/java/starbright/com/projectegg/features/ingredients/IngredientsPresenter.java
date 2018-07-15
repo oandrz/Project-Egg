@@ -70,8 +70,12 @@ class IngredientsPresenter implements IngredientsContract.Presenter, ClarifaiHel
             mCart = new ArrayList<>();
         }
 
-        mCart.add(ingredient);
-        mView.updateIngredientCount(mCart.size());
+        if (mCart.contains(ingredient)) {
+            mView.showDuplicateItemToast();
+        } else {
+            mCart.add(ingredient);
+            mView.updateIngredientCount(mCart.size());
+        }
     }
 
     @Override

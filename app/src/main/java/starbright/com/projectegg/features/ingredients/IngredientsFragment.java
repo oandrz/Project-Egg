@@ -268,6 +268,12 @@ public class IngredientsFragment extends Fragment implements IngredientsContract
     }
 
     @Override
+    public void showDuplicateItemToast() {
+        Toast.makeText(getActivity(), getString(R.string.ingredients_cart_error_duplicate),
+                Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
     public void showMaterialProgressDialog() {
         mDialog.show();
     }
