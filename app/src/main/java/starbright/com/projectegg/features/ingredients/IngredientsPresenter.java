@@ -98,6 +98,7 @@ class IngredientsPresenter implements IngredientsContract.Presenter, ClarifaiHel
                     @Override
                     public void accept(List<Ingredient> ingredients) {
                         mView.hideSuggestionProgressBar();
+                        mView.hideSoftkeyboard();
                         if (ingredients.isEmpty()) {
                             mView.showItemEmptyToast();
                         }

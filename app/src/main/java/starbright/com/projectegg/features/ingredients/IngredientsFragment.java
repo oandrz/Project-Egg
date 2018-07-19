@@ -1,6 +1,7 @@
 package starbright.com.projectegg.features.ingredients;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -18,6 +19,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -287,6 +289,15 @@ public class IngredientsFragment extends Fragment implements IngredientsContract
     public void updateIngredientCount(int count) {
         tvCartCount.setVisibility(count > 0 ? View.VISIBLE : View.GONE);
         tvCartCount.setText(String.valueOf(count));
+    }
+
+    @Override
+    public void hideSoftkeyboard() {
+        InputMethodManager imm = (InputMethodManager) getActivity()
+                .getSystemService(Activity.INPUT_METHOD_SERVICE);
+        if (imm != null) {
+            imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+        }
     }
 
     @Override

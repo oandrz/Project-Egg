@@ -35,11 +35,13 @@ class IngredientsContract {
         void showMaterialProgressDialog();
         void hideMaterialProgressDialog();
 
-        void updateIngredientCount(int count);
-
         void showBottomSheetDialog();
 
         void setCartItem(List<Ingredient> cart);
+
+        void updateIngredientCount(int count);
+
+        void hideSoftkeyboard();
     }
 
     interface Presenter extends BasePresenter {
