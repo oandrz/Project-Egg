@@ -36,10 +36,16 @@ class IngredientsContract {
         void hideMaterialProgressDialog();
 
         void updateIngredientCount(int count);
+
+        void showBottomSheetDialog();
+
+        void setCartItem(List<Ingredient> cart);
     }
 
     interface Presenter extends BasePresenter {
         void handleActionButtonClicked(String query);
+
+        void handleCartTvClicked();
         void handleOnSuggestionTextChanged(String query);
         void handleSuggestionItemClicked(Ingredient ingredient);
         void handleCameraResult(String filePath);
@@ -47,7 +53,6 @@ class IngredientsContract {
         void searchIngredient(String query);
 
         void setCart(List<Ingredient> cart);
-
         ArrayList<Ingredient> getCart();
     }
 }

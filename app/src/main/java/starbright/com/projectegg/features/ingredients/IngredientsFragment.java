@@ -87,7 +87,7 @@ public class IngredientsFragment extends Fragment implements IngredientsContract
     private IngredientsAdapter mSearchSuggestionAdapter;
     private IngredientsContract.Presenter mPresenter;
     private MaterialDialog mDialog;
-    private CartBottomSheetDialogFragment cartBottomSheetDialogFragment;
+    private CartBottomSheetDialogFragment mCartBottomSheetDialogFragment;
     private String mCurrentPhotoPath;
 
     private TextWatcher mIngredientsTextWatcher = new TextWatcher() {
@@ -208,7 +208,7 @@ public class IngredientsFragment extends Fragment implements IngredientsContract
 
     @Override
     public void setupBottomSheetDialogFragment() {
-        cartBottomSheetDialogFragment = new CartBottomSheetDialogFragment();
+        mCartBottomSheetDialogFragment = new CartBottomSheetDialogFragment();
     }
 
     @Override
@@ -290,6 +290,17 @@ public class IngredientsFragment extends Fragment implements IngredientsContract
     }
 
     @Override
+    public void showBottomSheetDialog() {
+        mCartBottomSheetDialogFragment.show(getChildFragmentManager(),
+                mCartBottomSheetDialogFragment.getTag());
+    }
+
+    @Override
+    public void setCartItem(List<Ingredient> cart) {
+        mCartBottomSheetDialogFragment.setCartIngredient(cart);
+    }
+
+    @Override
     public void hideSearchSuggestion() {
         rvIngredients.setVisibility(View.GONE);
     }
@@ -318,11 +329,17 @@ public class IngredientsFragment extends Fragment implements IngredientsContract
         }
     }
 
-    @OnClick({R.id.img_action_button})
+    @OnClick({
+            R.id.img_action_button,
+            R.id.tv_cart_count
+    })
     void onClickedEvent(View view) {
         switch (view.getId()) {
             case R.id.img_action_button:
                 mPresenter.handleActionButtonClicked(etSearchIngredients.getText().toString());
+                break;
+            case R.id.tv_cart_count:
+                mPresenter.handleCartTvClicked();
                 break;
         }
     }

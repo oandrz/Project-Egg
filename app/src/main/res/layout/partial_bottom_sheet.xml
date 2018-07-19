@@ -24,7 +24,7 @@
                 android:text="@string/ingredients.cart.total.label" />
 
             <TextView
-                android:id="@+id/tv_cart_count"
+                android:id="@+id/tv_total_ingredient"
                 style="@style/NormalFont"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

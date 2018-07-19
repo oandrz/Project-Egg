@@ -53,6 +53,12 @@ class IngredientsPresenter implements IngredientsContract.Presenter, ClarifaiHel
     }
 
     @Override
+    public void handleCartTvClicked() {
+        mView.setCartItem(mCart);
+        mView.showBottomSheetDialog();
+    }
+
+    @Override
     public void handleOnSuggestionTextChanged(String query) {
         mView.hideSearchSuggestion();
         if (query.isEmpty()) {
