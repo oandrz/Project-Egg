@@ -293,7 +293,7 @@ public class IngredientsFragment extends Fragment implements IngredientsContract
 
     @Override
     public void hideSoftkeyboard() {
-        InputMethodManager imm = (InputMethodManager) getActivity()
+        final InputMethodManager imm = (InputMethodManager) getActivity()
                 .getSystemService(Activity.INPUT_METHOD_SERVICE);
         if (imm != null) {
             imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);

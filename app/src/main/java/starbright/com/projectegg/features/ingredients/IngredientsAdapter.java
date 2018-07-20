@@ -38,7 +38,7 @@ class IngredientsAdapter extends RecyclerView.Adapter<IngredientsAdapter.Ingredi
     @Override
     public IngredientViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         final View view = LayoutInflater.from(mContext)
-                .inflate(R.layout.item_autocomplete_ingredient, parent, false);
+                .inflate(R.layout.item_ingredient, parent, false);
         final IngredientViewHolder viewHolder = new IngredientViewHolder(view);
         view.setOnClickListener(new View.OnClickListener() {
             @Override
