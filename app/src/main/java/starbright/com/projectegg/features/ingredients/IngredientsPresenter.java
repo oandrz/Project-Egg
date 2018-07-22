@@ -15,6 +15,8 @@ import starbright.com.projectegg.util.scheduler.BaseSchedulerProvider;
 
 class IngredientsPresenter implements IngredientsContract.Presenter, ClarifaiHelper.Callback {
 
+    private static final int MAX_INGREDIENTS_IN_CART = 8;
+
     private final ClarifaiHelper mClarifaiHelper;
     private final AppRepository mRepository;
     private final IngredientsContract.View mView;
@@ -76,7 +78,9 @@ class IngredientsPresenter implements IngredientsContract.Presenter, ClarifaiHel
             mCart = new ArrayList<>();
         }
 
-        if (mCart.contains(ingredient)) {
+        if (mCart.size() == MAX_INGREDIENTS_IN_CART) {
+            mView.showItemMaxToast();
+        } else if (mCart.contains(ingredient)) {
             mView.showDuplicateItemToast();
         } else {
             mCart.add(ingredient);
