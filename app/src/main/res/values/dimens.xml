@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="image_size">240dp</dimen>
+    <dimen name="iv_ingredient_size">40dp</dimen>
+    <dimen name="iv_ingredient_cart_size">60dp</dimen>
+    <dimen name="iv_clear_size">12dp</dimen>
+    <dimen name="container_ingredient_width">100dp</dimen>
 
     <!--Spacing-->
+    <dimen name="space_4dp">4dp</dimen>
     <dimen name="space_small">8dp</dimen>
     <dimen name="space_normal">16dp</dimen>
     <dimen name="space_large">32dp</dimen>
@@ -19,6 +24,4 @@
     <!--Icon-->
     <dimen name="login_icon_size">120dp</dimen>
     <dimen name="drawable_view_icon_size">24dp</dimen>
-
-    <dimen name="iv_ingredient_size">40dp</dimen>
 </resources>

@@ -19,10 +19,4 @@
         android:layout_weight="0.8"
         android:layout_marginStart="@dimen/space_normal"
         android:layout_marginEnd="@dimen/space_normal" />
-
-    <ImageView
-        android:id="@+id/iv_remove"
-        android:layout_width="@dimen/drawable_view_icon_size"
-        android:layout_height="@dimen/drawable_view_icon_size"
-        android:visibility="gone" />
 </LinearLayout>
