@@ -29,10 +29,10 @@ class IngredientsContract {
         void hideSuggestionProgressBar();
 
         void showItemEmptyToast();
-
         void showItemMaxToast();
-
         void showDuplicateItemToast();
+
+        void showPredictionEmptyToast();
 
         void showMaterialProgressDialog();
         void hideMaterialProgressDialog();

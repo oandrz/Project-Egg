@@ -50,4 +50,5 @@ ext {
     firebaseCoreVersion = '16.0.0'
     firebaseAuthVersion = '16.0.1'
     materialDialogVersion = '0.9.6.0'
+    circleIVVersion = '2.2.0'
 }

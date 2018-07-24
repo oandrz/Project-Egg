@@ -11,6 +11,7 @@ import io.reactivex.functions.Consumer;
 import starbright.com.projectegg.data.AppRepository;
 import starbright.com.projectegg.data.local.model.Ingredient;
 import starbright.com.projectegg.util.ClarifaiHelper;
+import starbright.com.projectegg.util.Constants;
 import starbright.com.projectegg.util.scheduler.BaseSchedulerProvider;
 
 class IngredientsPresenter implements IngredientsContract.Presenter, ClarifaiHelper.Callback {
@@ -140,5 +141,14 @@ class IngredientsPresenter implements IngredientsContract.Presenter, ClarifaiHel
     @Override
     public void onPredictionCompleted(String ingredients) {
         mView.hideMaterialProgressDialog();
+
+        if (ingredients.isEmpty()) {
+            mView.showPredictionEmptyToast();
+        } else {
+            String[] ingredientsSplitted = ingredients.split(Constants.COMMA);
+            for (String ingredientText : ingredientsSplitted) {
+                mCart.add(new Ingredient(ingredientText));
+            }
+        }
     }
 }

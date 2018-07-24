@@ -5,6 +5,7 @@
     <dimen name="iv_ingredient_cart_size">60dp</dimen>
     <dimen name="iv_clear_size">12dp</dimen>
     <dimen name="container_ingredient_width">100dp</dimen>
+    <dimen name="cart_ingredient_image_size">50dp</dimen>
 
     <!--Spacing-->
     <dimen name="space_4dp">4dp</dimen>

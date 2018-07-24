@@ -29,5 +29,6 @@
     <string name="ingredients.cart.empty">I\'m so empty right now…</string>
     <string name="ingredients.cart.error.duplicate">You already have that ingredient, remember?</string>
     <string name="ingredients.cart.error.max">I\'m sorry, but you can\'t bring ingredient anymore</string>
+    <string name="ingredients.prediction.empty">I\'m sorry, I couldn\'t recognize the image</string>
     <string name="ingredients.btn.submit.label">Submit</string>
 </resources>

@@ -109,6 +109,9 @@ dependencies {
     //Material Dialog
     implementation "com.afollestad.material-dialogs:core:$rootProject.ext.materialDialogVersion"
 
+    //Circle Image View
+    implementation "de.hdodenhof:circleimageview:$rootProject.ext.circleIVVersion"
+
     // Unit Test
     testImplementation "junit:junit:$rootProject.ext.jUnitVersion"
     androidTestImplementation 'com.android.support.test:runner:1.0.1'

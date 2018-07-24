@@ -305,6 +305,12 @@ public class IngredientsFragment extends Fragment implements IngredientsContract
     }
 
     @Override
+    public void showPredictionEmptyToast() {
+        Toast.makeText(getActivity(), getString(R.string.ingredients_prediction_empty),
+                Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
     public void showMaterialProgressDialog() {
         mDialog.show();
     }
