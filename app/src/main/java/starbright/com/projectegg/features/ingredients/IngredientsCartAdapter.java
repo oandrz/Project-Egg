@@ -81,7 +81,6 @@ class IngredientsCartAdapter extends RecyclerView.Adapter<IngredientsCartAdapter
                     .load(ingredient.getImageUrl())
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .apply(RequestOptions.circleCropTransform())
-                    .centerCrop()
                     .into(ivIngredient);
         }
     }
