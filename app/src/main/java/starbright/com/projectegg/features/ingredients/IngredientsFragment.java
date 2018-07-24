@@ -245,7 +245,9 @@ public class IngredientsFragment extends Fragment implements IngredientsContract
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         IngredientsFragmentPermissionsDispatcher.onRequestPermissionsResult(this,
                 requestCode, grantResults);
