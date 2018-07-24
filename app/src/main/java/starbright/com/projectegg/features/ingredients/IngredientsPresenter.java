@@ -61,7 +61,7 @@ class IngredientsPresenter implements IngredientsContract.Presenter, ClarifaiHel
     }
 
     @Override
-    public void handleOnSuggestionTextChanged(String query) {
+    public void handleSuggestionTextChanged(String query) {
         mView.hideSearchSuggestion();
         if (query.isEmpty()) {
             mView.hideSuggestionProgressBar();

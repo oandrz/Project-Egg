@@ -48,9 +48,9 @@ class IngredientsContract {
 
     interface Presenter extends BasePresenter {
         void handleActionButtonClicked(String query);
-
         void handleCartTvClicked();
-        void handleOnSuggestionTextChanged(String query);
+
+        void handleSuggestionTextChanged(String query);
         void handleSuggestionItemClicked(Ingredient ingredient);
         void handleCameraResult(String filePath);
 

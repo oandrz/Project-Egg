@@ -25,9 +25,9 @@
                 android:drawableEnd="@drawable/ic_shopping_basket"
                 android:drawablePadding="@dimen/space_small"
                 android:gravity="center"
+                android:text="@string/general.zero"
                 android:textColor="@color/white"
-                android:textSize="@dimen/normal_font"
-                android:visibility="gone" />
+                android:textSize="@dimen/normal_font" />
         </FrameLayout>
 
         <TextView

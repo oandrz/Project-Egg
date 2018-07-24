@@ -1,6 +1,7 @@
 <resources>
     <string name="app.name">Project Egg</string>
-    <string name="general_retry_label">Retry</string>
+    <string name="general.retry.label">Retry</string>
+    <string name="general.zero">0</string>
     <string name="general.error.email.empty">Please Fill your Email</string>
     <string name="general.error.email.format">Your email\'s format should be mailname@mailprovider.com</string>
     <string name="general.error.password.empty">Please Fill your Password</string>
@@ -25,6 +26,7 @@
     <string name="ingredients.dialog.progress.title">Working on it now</string>
     <string name="ingredients.dialog.progress.content">Please give me a bit time to recognize the image</string>
     <string name="ingredients.cart.total.label">Total</string>
+    <string name="ingredients.cart.empty">I\'m so empty right now…</string>
     <string name="ingredients.cart.error.duplicate">You already have that ingredient, remember?</string>
     <string name="ingredients.cart.error.max">I\'m sorry, but you can\'t bring ingredient anymore</string>
     <string name="ingredients.btn.submit.label">Submit</string>

@@ -29,8 +29,13 @@ public class CartBottomSheetDialogFragment extends BottomSheetDialogFragment
 
     public static final String EXTRA_EVENT_CART = "EXTRA_EVENT_CART";
 
+    private static final int SPAN_COUNT = 4;
+
     @BindView(R.id.tv_total_ingredient)
     TextView tvTotalIngredient;
+
+    @BindView(R.id.tv_empty)
+    TextView tvEmpty;
 
     @BindView(R.id.rv_ingredients_cart)
     RecyclerView rvIngredientsCart;
@@ -59,19 +64,37 @@ public class CartBottomSheetDialogFragment extends BottomSheetDialogFragment
     public void onViewCreated(@NonNull View view,
                               @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        updateCartSize();
+        updateCartCountView();
         setupRvIngredientCart();
     }
 
     private void setupRvIngredientCart() {
-        rvIngredientsCart.setLayoutManager(new GridLayoutManager(getActivity(), 4,
+        rvIngredientsCart.setLayoutManager(new GridLayoutManager(getActivity(), SPAN_COUNT,
                 LinearLayoutManager.VERTICAL, false));
         mAdapter = new IngredientsCartAdapter(getActivity(), mCart);
         mAdapter.setListener(this);
         rvIngredientsCart.setAdapter(mAdapter);
+        tvEmpty.setVisibility(mCart.isEmpty() ? View.VISIBLE : View.GONE);
     }
 
-    private void updateCartSize() {
+    private void updateView(int position) {
+        mCart.remove(position);
+        updateCartCountView();
+        updateList();
+    }
+
+    private void broadcastUpdatedCart() {
+        final Intent intent = new Intent(EVENT_CART_COUNT_UPDATED);
+        intent.putParcelableArrayListExtra(EXTRA_EVENT_CART, new ArrayList<>(mCart));
+        LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
+    }
+
+    private void updateList() {
+        mAdapter.notifyDataSetChanged();
+        tvEmpty.setVisibility(mCart.isEmpty() ? View.VISIBLE : View.GONE);
+    }
+
+    private void updateCartCountView() {
         tvTotalIngredient.setText(String.valueOf(mCart.size()));
     }
 
@@ -81,11 +104,7 @@ public class CartBottomSheetDialogFragment extends BottomSheetDialogFragment
 
     @Override
     public void onClearItemClickedListener(int position) {
-        mCart.remove(position);
-        mAdapter.notifyDataSetChanged();
-        updateCartSize();
-        final Intent intent = new Intent(EVENT_CART_COUNT_UPDATED);
-        intent.putParcelableArrayListExtra(EXTRA_EVENT_CART, new ArrayList<>(mCart));
-        LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
+        updateView(position);
+        broadcastUpdatedCart();
     }
 }

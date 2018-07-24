@@ -116,7 +116,7 @@ public class IngredientsFragment extends Fragment implements IngredientsContract
             if (mTimer != null) {
                 mTimer.cancel();
             }
-           mPresenter.handleOnSuggestionTextChanged(s.toString());
+            mPresenter.handleSuggestionTextChanged(s.toString());
         }
 
         @Override
@@ -314,7 +314,6 @@ public class IngredientsFragment extends Fragment implements IngredientsContract
 
     @Override
     public void updateIngredientCount(int count) {
-        tvCartCount.setVisibility(count > 0 ? View.VISIBLE : View.GONE);
         tvCartCount.setText(String.valueOf(count));
     }
 
