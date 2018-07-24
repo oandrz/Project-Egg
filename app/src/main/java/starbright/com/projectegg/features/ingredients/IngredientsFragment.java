@@ -2,8 +2,10 @@ package starbright.com.projectegg.features.ingredients;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -12,6 +14,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.FileProvider;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -53,10 +56,13 @@ import starbright.com.projectegg.util.Constants;
 import starbright.com.projectegg.util.scheduler.BaseSchedulerProvider;
 
 import static android.app.Activity.RESULT_OK;
+import static starbright.com.projectegg.features.ingredients.CartBottomSheetDialogFragment.EXTRA_EVENT_CART;
 
 @RuntimePermissions
 public class IngredientsFragment extends Fragment implements IngredientsContract.View,
         IngredientsAdapter.Listener {
+
+    public static final String EVENT_CART_COUNT_UPDATED = "EVENT_CART_COUNT_UPDATED";
 
     private static final int AUTOCOMPLETE_DELAY = 600;
     private static final int CAMERA_REQUEST_CODE = 101;
@@ -91,6 +97,13 @@ public class IngredientsFragment extends Fragment implements IngredientsContract
     private MaterialDialog mDialog;
     private CartBottomSheetDialogFragment mCartBottomSheetDialogFragment;
     private String mCurrentPhotoPath;
+
+    private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            mPresenter.setCart(intent.<Ingredient>getParcelableArrayListExtra(EXTRA_EVENT_CART));
+        }
+    };
 
     private TextWatcher mIngredientsTextWatcher = new TextWatcher() {
         @Override
@@ -136,6 +149,8 @@ public class IngredientsFragment extends Fragment implements IngredientsContract
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(mMessageReceiver,
+                new IntentFilter(EVENT_CART_COUNT_UPDATED));
         new IngredientsPresenter(
                 repository,
                 this,
@@ -161,6 +176,18 @@ public class IngredientsFragment extends Fragment implements IngredientsContract
         if (savedInstanceState != null) {
             mPresenter.setCart(savedInstanceState.<Ingredient>getParcelableArrayList(BUNDLE_CART));
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+    }
+
+    @Override
+    public void onDestroy() {
+        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(mMessageReceiver);
+        super.onDestroy();
     }
 
     @Override

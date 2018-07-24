@@ -11,6 +11,12 @@ public class IngredientsActivity extends BaseActivityWithoutToolbar {
     private IngredientsFragment mFragment;
 
     @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        initFragment();
+    }
+
+    @Override
     protected void onStart() {
         super.onStart();
         getSupportFragmentManager().beginTransaction()
@@ -18,19 +24,14 @@ public class IngredientsActivity extends BaseActivityWithoutToolbar {
                 .commit();
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        initFragment();
-    }
-
-    @Override
-    protected void onStop() {
-        getSupportFragmentManager().beginTransaction()
-                .detach(mFragment)
-                .commitAllowingStateLoss();
-        super.onStop();
-    }
+    // TODO: 24/07/18 Research if this needed
+//    @Override
+//    protected void onStop() {
+//        getSupportFragmentManager().beginTransaction()
+//                .detach(mFragment)
+//                .commitAllowingStateLoss();
+//        super.onStop();
+//    }
 
     private void initFragment() {
         mFragment = (IngredientsFragment) getSupportFragmentManager()

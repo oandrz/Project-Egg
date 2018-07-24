@@ -1,8 +1,10 @@
 package starbright.com.projectegg.features.ingredients;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetDialogFragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -19,7 +22,12 @@ import io.reactivex.annotations.NonNull;
 import starbright.com.projectegg.R;
 import starbright.com.projectegg.data.local.model.Ingredient;
 
-public class CartBottomSheetDialogFragment extends BottomSheetDialogFragment {
+import static starbright.com.projectegg.features.ingredients.IngredientsFragment.EVENT_CART_COUNT_UPDATED;
+
+public class CartBottomSheetDialogFragment extends BottomSheetDialogFragment
+        implements IngredientsCartAdapter.Listener {
+
+    public static final String EXTRA_EVENT_CART = "EXTRA_EVENT_CART";
 
     @BindView(R.id.tv_total_ingredient)
     TextView tvTotalIngredient;
@@ -51,7 +59,7 @@ public class CartBottomSheetDialogFragment extends BottomSheetDialogFragment {
     public void onViewCreated(@NonNull View view,
                               @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        tvTotalIngredient.setText(String.valueOf(mCart.size()));
+        updateCartSize();
         setupRvIngredientCart();
     }
 
@@ -59,10 +67,25 @@ public class CartBottomSheetDialogFragment extends BottomSheetDialogFragment {
         rvIngredientsCart.setLayoutManager(new GridLayoutManager(getActivity(), 4,
                 LinearLayoutManager.VERTICAL, false));
         mAdapter = new IngredientsCartAdapter(getActivity(), mCart);
+        mAdapter.setListener(this);
         rvIngredientsCart.setAdapter(mAdapter);
+    }
+
+    private void updateCartSize() {
+        tvTotalIngredient.setText(String.valueOf(mCart.size()));
     }
 
     public void setCartIngredient(List<Ingredient> cart) {
         mCart = cart;
+    }
+
+    @Override
+    public void onClearItemClickedListener(int position) {
+        mCart.remove(position);
+        mAdapter.notifyDataSetChanged();
+        updateCartSize();
+        final Intent intent = new Intent(EVENT_CART_COUNT_UPDATED);
+        intent.putParcelableArrayListExtra(EXTRA_EVENT_CART, new ArrayList<>(mCart));
+        LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
     }
 }

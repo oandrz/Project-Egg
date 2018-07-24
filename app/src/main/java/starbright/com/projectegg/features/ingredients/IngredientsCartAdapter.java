@@ -24,6 +24,7 @@ class IngredientsCartAdapter extends RecyclerView.Adapter<IngredientsCartAdapter
 
     private Context mContext;
     private List<Ingredient> mIngredientCart;
+    private Listener mListener;
 
     IngredientsCartAdapter(Context context, List<Ingredient> cart) {
         mContext = context;
@@ -34,7 +35,13 @@ class IngredientsCartAdapter extends RecyclerView.Adapter<IngredientsCartAdapter
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(mContext).inflate(R.layout.item_cart, parent, false);
-        ViewHolder viewHolder = new ViewHolder(view);
+        final ViewHolder viewHolder = new ViewHolder(view);
+        viewHolder.ivClear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mListener.onClearItemClickedListener(viewHolder.getAdapterPosition());
+            }
+        });
         return viewHolder;
     }
 
@@ -48,6 +55,10 @@ class IngredientsCartAdapter extends RecyclerView.Adapter<IngredientsCartAdapter
         return mIngredientCart.size();
     }
 
+    void setListener(Listener listener) {
+        mListener = listener;
+    }
+
     class ViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.iv_ingredient)
@@ -55,6 +66,9 @@ class IngredientsCartAdapter extends RecyclerView.Adapter<IngredientsCartAdapter
 
         @BindView(R.id.tv_ingredient_name)
         TextView tvIngredientName;
+
+        @BindView(R.id.iv_clear)
+        ImageView ivClear;
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -70,6 +84,9 @@ class IngredientsCartAdapter extends RecyclerView.Adapter<IngredientsCartAdapter
                     .centerCrop()
                     .into(ivIngredient);
         }
+    }
 
+    interface Listener {
+        void onClearItemClickedListener(int position);
     }
 }
