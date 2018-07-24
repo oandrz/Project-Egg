@@ -22,6 +22,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
+                android:background="?android:attr/selectableItemBackground"
                 android:drawableEnd="@drawable/ic_shopping_basket"
                 android:drawablePadding="@dimen/space_small"
                 android:gravity="center"
@@ -76,7 +77,8 @@
                         android:layout_width="@dimen/drawable_view_icon_size"
                         android:layout_height="@dimen/drawable_view_icon_size"
                         android:layout_gravity="center|end"
-                        android:src="@drawable/ic_camera" />
+                        android:src="@drawable/ic_camera"
+                        android:background="?android:attr/selectableItemBackground" />
 
                     <ProgressBar
                         android:id="@+id/suggestion_progress_bar"
