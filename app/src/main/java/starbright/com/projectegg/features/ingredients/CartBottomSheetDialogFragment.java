@@ -18,6 +18,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import io.reactivex.annotations.NonNull;
 import starbright.com.projectegg.R;
 import starbright.com.projectegg.data.local.model.Ingredient;
@@ -106,5 +107,10 @@ public class CartBottomSheetDialogFragment extends BottomSheetDialogFragment
     public void onClearItemClickedListener(int position) {
         updateView(position);
         broadcastUpdatedCart();
+    }
+
+    @OnClick(R.id.btn_submit)
+    void onClickedSubmit() {
+        // TODO : 26/07/18 Start new activity into recipe list
     }
 }
