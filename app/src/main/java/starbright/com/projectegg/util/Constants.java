@@ -17,7 +17,7 @@ public final class Constants {
     public static final String PROVIDER_PACKAGE_NAME = "starbright.com.projectegg.fileprovider";
 
 
-//  Networking
+    //  Networking
     public static final String IMAGE_INGREDIENT_URL = "https://spoonacular.com/cdn/ingredients_100x100/";
     public static final String QUERY_PARAM_META_INFORMATION_KEY = "metaInformation";
     public static final String QUERY_PARAM_NUMBER_KEY = "number";

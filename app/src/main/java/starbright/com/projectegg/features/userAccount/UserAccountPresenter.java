@@ -2,12 +2,12 @@ package starbright.com.projectegg.features.userAccount;
 
 import android.support.annotation.NonNull;
 
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.regex.Pattern;
 
@@ -48,29 +48,28 @@ class UserAccountPresenter implements UserAccountContract.Presenter{
         }
 
         mView.showProgressBar();
-        mView.disableConfirmButton();
+        mView.disableView();
         final Task<AuthResult> auth = isLoginAuthentication() ? login(email, password)
                 : signup(email, password);
-        auth.addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+        auth
+                .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                 @Override
                 public void onSuccess(AuthResult authResult) {
-                    mView.hideProgressBar();
-                    mView.enableConfirmButton();
-                    mView.navigatePage();
-                }
-            })
-            .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                @Override
-                public void onComplete(@NonNull Task<AuthResult> task) {
-
+                    if (!isLoginAuthentication()) {
+                        sendUserVerificationEmail(authResult.getUser());
+                    } else {
+                        mView.hideProgressBar();
+                        mView.enableView();
+                        mView.navigateToSearchRecipePage();
+                    }
                 }
             })
             .addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
                     mView.hideProgressBar();
-                    mView.enableConfirmButton();
-                    mView.showLoginErrorDialog(e.getMessage());
+                    mView.enableView();
+                    mView.showLoginErrorToast(e.getMessage());
                 }
             });
     }
@@ -92,6 +91,26 @@ class UserAccountPresenter implements UserAccountContract.Presenter{
 
     private Task<AuthResult> signup(String email, String password) {
         return mAuth.createUserWithEmailAndPassword(email, password);
+    }
+
+    private void sendUserVerificationEmail(FirebaseUser user) {
+        user.sendEmailVerification()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        mView.hideProgressBar();
+                        mView.enableView();
+                        mView.showSuccessSentEmailVerificationDialog();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        mView.hideProgressBar();
+                        mView.enableView();
+                        mView.showLoginErrorToast(e.getMessage());
+                    }
+                });
     }
 
     private boolean validateEmailFormat(String email) {

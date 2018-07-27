@@ -7,11 +7,14 @@
     <string name="general.error.password.empty">Please Fill your Password</string>
 
     <!--Login Page-->
-    <string name="login.title">Login</string>
-    <string name="login.button.text">Login</string>
     <string name="email.hint">Email</string>
     <string name="password.hint">Password</string>
+    <string name="login.title">Login</string>
+    <string name="login.button.text">Login</string>
     <string name="register.navigation">Click here if you don\'t have an account</string>
+    <string name="register.verification.dialog.success.title">Check your Email !</string>
+    <string name="register.verification.dialog.success.message">Please verify your account before login by go to your email and click the activation link</string>
+    <string name="register.verification.dialog.positive">I understand</string>
 
     <!--Register Page-->
     <string name="register.title">Create Account</string>

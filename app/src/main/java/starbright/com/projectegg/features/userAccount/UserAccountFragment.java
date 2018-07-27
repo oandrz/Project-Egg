@@ -1,6 +1,7 @@
 package starbright.com.projectegg.features.userAccount;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -21,7 +22,11 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
+
 import java.util.Objects;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -53,6 +58,9 @@ public class UserAccountFragment extends Fragment implements UserAccountContract
 
     @BindView(R.id.root_layout)
     ScrollView rootLayout;
+
+    @Inject
+    SharedPreferences sharedPreferences;
 
     private UserAccountContract.Presenter mPresenter;
 
@@ -132,22 +140,28 @@ public class UserAccountFragment extends Fragment implements UserAccountContract
     }
 
     @Override
-    public void navigatePage() {
+    public void navigateToSearchRecipePage() {
         // TODO: 14/06/18 Navigate to Home Page and Save Session in Shared Preferences
     }
 
     @Override
-    public void disableConfirmButton() {
+    public void disableView() {
+        tvNavigation.setEnabled(false);
+        etPassword.setEnabled(false);
         btnConfirm.setEnabled(false);
+        etEmail.setEnabled(false);
     }
 
     @Override
-    public void enableConfirmButton() {
+    public void enableView() {
+        tvNavigation.setEnabled(true);
         btnConfirm.setEnabled(true);
+        etPassword.setEnabled(true);
+        etEmail.setEnabled(true);
     }
 
     @Override
-    public void showLoginErrorDialog(String errorMessage) {
+    public void showLoginErrorToast(String errorMessage) {
         Snackbar.make(rootLayout, errorMessage, Snackbar.LENGTH_SHORT)
                 .setAction(R.string.general_retry_label, new View.OnClickListener() {
                     @Override
@@ -158,6 +172,15 @@ public class UserAccountFragment extends Fragment implements UserAccountContract
                 })
                 .setActionTextColor(getResources().getColor(R.color.lightRed))
                 .show();
+    }
+
+    @Override
+    public void showSuccessSentEmailVerificationDialog() {
+        showDialogWithPositiveButtonOnly(
+                R.string.register_verification_dialog_success_title,
+                R.string.register_verification_dialog_success_message,
+                R.string.register_verification_dialog_positive
+        );
     }
 
     @Override
@@ -204,5 +227,19 @@ public class UserAccountFragment extends Fragment implements UserAccountContract
 
     private void showToast(@StringRes int messageRes) {
         Toast.makeText(getActivity(), getString(messageRes), Toast.LENGTH_SHORT).show();
+    }
+
+    private void showDialogWithPositiveButtonOnly(@StringRes int titleResId,
+                                                  @StringRes int messageResId,
+                                                  @StringRes int positiveTextResId) {
+        new MaterialDialog.Builder(getActivity())
+                .title(titleResId)
+                .content(messageResId)
+                .contentColor(ContextCompat.getColor(getActivity(), R.color.black))
+                .positiveText(positiveTextResId)
+                .positiveColor(ContextCompat.getColor(getActivity(), R.color.black))
+                .canceledOnTouchOutside(false)
+                .build()
+                .show();
     }
 }

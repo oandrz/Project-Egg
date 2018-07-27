@@ -7,18 +7,24 @@ class UserAccountContract {
 
     interface View extends BaseView<Presenter> {
         void updateView(boolean isLogin);
-        void navigatePage();
-        void disableConfirmButton();
-        void enableConfirmButton();
-        void showLoginErrorDialog(String errorMessage);
 
+        void navigateToSearchRecipePage();
+
+        void disableView();
+
+        void enableView();
+
+        void setupProgressBar();
         void showProgressBar();
         void hideProgressBar();
-        void setupProgressBar();
 
         void showEmailEmptyErrorToast();
         void showEmailFormatWrongErrorToast();
         void showPasswordErrorToast();
+
+        void showLoginErrorToast(String errorMessage);
+
+        void showSuccessSentEmailVerificationDialog();
     }
 
     interface Presenter extends BasePresenter {
