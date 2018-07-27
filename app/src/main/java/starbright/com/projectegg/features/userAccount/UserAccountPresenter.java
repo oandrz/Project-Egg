@@ -19,6 +19,16 @@ class UserAccountPresenter implements UserAccountContract.Presenter{
     private final FirebaseAuth mAuth;
 
     private boolean mIsLogin;
+    private FirebaseAuth.AuthStateListener mAuthStateListener =
+            new FirebaseAuth.AuthStateListener() {
+                @Override
+                public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                    if (firebaseAuth.getCurrentUser() != null &&
+                            firebaseAuth.getCurrentUser().isEmailVerified()) {
+                        mView.navigateToSearchRecipePage();
+                    }
+                }
+            };
 
     UserAccountPresenter(UserAccountContract.View view, boolean isLogin) {
         mView = view;
@@ -28,13 +38,13 @@ class UserAccountPresenter implements UserAccountContract.Presenter{
     }
 
     @Override
-    public void onNavigationTextButtonClicked() {
+    public void handleNavigationTextButtonClicked() {
         mIsLogin = !mIsLogin;
         mView.updateView(mIsLogin);
     }
 
     @Override
-    public void onAuthenticationButtonClicked(String email, String password) {
+    public void handleAuthenticationButtonClicked(String email, String password) {
         if (email == null || email.isEmpty()) {
             if (validateEmailFormat(email)) {
                 mView.showEmailFormatWrongErrorToast();
@@ -60,7 +70,11 @@ class UserAccountPresenter implements UserAccountContract.Presenter{
                     } else {
                         mView.hideProgressBar();
                         mView.enableView();
-                        mView.navigateToSearchRecipePage();
+                        if (authResult.getUser().isEmailVerified()) {
+                            mView.navigateToSearchRecipePage();
+                        } else {
+
+                        }
                     }
                 }
             })
@@ -75,7 +89,13 @@ class UserAccountPresenter implements UserAccountContract.Presenter{
     }
 
     @Override
+    public void onDestroy() {
+        mAuth.removeAuthStateListener(mAuthStateListener);
+    }
+
+    @Override
     public void start() {
+        mAuth.addAuthStateListener(mAuthStateListener);
        mView.setupProgressBar();
        mView.updateView(mIsLogin);
     }

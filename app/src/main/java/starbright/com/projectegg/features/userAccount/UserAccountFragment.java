@@ -1,6 +1,7 @@
 package starbright.com.projectegg.features.userAccount;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
@@ -33,6 +34,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import starbright.com.projectegg.MyApp;
 import starbright.com.projectegg.R;
+import starbright.com.projectegg.features.ingredients.IngredientsActivity;
 
 public class UserAccountFragment extends Fragment implements UserAccountContract.View {
 
@@ -103,6 +105,12 @@ public class UserAccountFragment extends Fragment implements UserAccountContract
         outState.putBoolean(USER_ACCOUNT_BUNDLE, mPresenter.isLoginAuthentication());
     }
 
+    @Override
+    public void onDestroyView() {
+        mPresenter.onDestroy();
+        super.onDestroyView();
+    }
+
     @OnClick({
         R.id.tv_navigation,
         R.id.btn_confirm
@@ -110,10 +118,10 @@ public class UserAccountFragment extends Fragment implements UserAccountContract
     void onButtonClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_navigation:
-                mPresenter.onNavigationTextButtonClicked();
+                mPresenter.handleNavigationTextButtonClicked();
                 break;
             case R.id.btn_confirm:
-                mPresenter.onAuthenticationButtonClicked(
+                mPresenter.handleAuthenticationButtonClicked(
                         etEmail.getText().toString(),
                         etPassword.getText().toString()
                 );
@@ -141,7 +149,8 @@ public class UserAccountFragment extends Fragment implements UserAccountContract
 
     @Override
     public void navigateToSearchRecipePage() {
-        // TODO: 14/06/18 Navigate to Home Page and Save Session in Shared Preferences
+        startActivity(new Intent(getActivity(), IngredientsActivity.class));
+        getActivity().finish();
     }
 
     @Override
@@ -149,6 +158,7 @@ public class UserAccountFragment extends Fragment implements UserAccountContract
         tvNavigation.setEnabled(false);
         etPassword.setEnabled(false);
         btnConfirm.setEnabled(false);
+        etEmail.setEnabled(false);
         etEmail.setEnabled(false);
     }
 
@@ -166,7 +176,7 @@ public class UserAccountFragment extends Fragment implements UserAccountContract
                 .setAction(R.string.general_retry_label, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        mPresenter.onAuthenticationButtonClicked(etEmail.getText().toString(),
+                        mPresenter.handleAuthenticationButtonClicked(etEmail.getText().toString(),
                                 etPassword.getText().toString());
                     }
                 })

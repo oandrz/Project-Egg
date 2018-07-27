@@ -37,6 +37,7 @@ class IngredientsPresenter implements IngredientsContract.Presenter, ClarifaiHel
         mSchedulerProvider = schedulerProvider;
         mCompositeDisposable = new CompositeDisposable();
         mClarifaiHelper = clarifaiHelper;
+        mCart = new ArrayList<>();
     }
 
     @Override
@@ -75,10 +76,6 @@ class IngredientsPresenter implements IngredientsContract.Presenter, ClarifaiHel
 
     @Override
     public void handleSuggestionItemClicked(Ingredient ingredient) {
-        if (mCart == null) {
-            mCart = new ArrayList<>();
-        }
-
         if (mCart.size() == MAX_INGREDIENTS_IN_CART) {
             mView.showItemMaxToast();
         } else if (mCart.contains(ingredient)) {
