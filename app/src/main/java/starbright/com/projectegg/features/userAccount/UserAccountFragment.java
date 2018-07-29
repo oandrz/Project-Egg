@@ -22,6 +22,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 
 import java.util.Objects;
@@ -190,11 +191,18 @@ public class UserAccountFragment extends Fragment implements UserAccountContract
     }
 
     @Override
-    public void showSuccessSentEmailVerificationDialog() {
+    public void showVerificationEmailSentDialog() {
         showDialogWithPositiveButtonOnly(
                 R.string.register_verification_dialog_success_title,
                 R.string.register_verification_dialog_success_message,
-                R.string.register_verification_dialog_positive
+                R.string.register_verification_dialog_positive,
+                new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog,
+                                        @NonNull DialogAction which) {
+                        updateView(true);
+                    }
+                }
         );
     }
 
@@ -246,13 +254,15 @@ public class UserAccountFragment extends Fragment implements UserAccountContract
 
     private void showDialogWithPositiveButtonOnly(@StringRes int titleResId,
                                                   @StringRes int messageResId,
-                                                  @StringRes int positiveTextResId) {
+                                                  @StringRes int positiveTextResId,
+                                                  MaterialDialog.SingleButtonCallback callback
+    ) {
         new MaterialDialog.Builder(getActivity())
                 .title(titleResId)
                 .content(messageResId)
                 .contentColor(ContextCompat.getColor(getActivity(), R.color.black))
                 .positiveText(positiveTextResId)
-                .positiveColor(ContextCompat.getColor(getActivity(), R.color.black))
+                .onPositive(callback)
                 .canceledOnTouchOutside(false)
                 .build()
                 .show();

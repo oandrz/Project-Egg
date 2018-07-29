@@ -23,8 +23,7 @@ class UserAccountPresenter implements UserAccountContract.Presenter{
             new FirebaseAuth.AuthStateListener() {
                 @Override
                 public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                    if (firebaseAuth.getCurrentUser() != null &&
-                            firebaseAuth.getCurrentUser().isEmailVerified()) {
+                    if (isUserEmailVerified(firebaseAuth)) {
                         mView.navigateToSearchRecipePage();
                     }
                 }
@@ -70,6 +69,9 @@ class UserAccountPresenter implements UserAccountContract.Presenter{
                     } else {
                         mView.hideProgressBar();
                         mView.enableView();
+                        if (!authResult.getUser().isEmailVerified()) {
+                            mView.showVerificationEmailSentDialog();
+                        }
                     }
                 }
             })
@@ -115,7 +117,7 @@ class UserAccountPresenter implements UserAccountContract.Presenter{
                     public void onSuccess(Void aVoid) {
                         mView.hideProgressBar();
                         mView.enableView();
-                        mView.showSuccessSentEmailVerificationDialog();
+                        mView.showVerificationEmailSentDialog();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -126,6 +128,14 @@ class UserAccountPresenter implements UserAccountContract.Presenter{
                         mView.showLoginErrorToast(e.getMessage());
                     }
                 });
+    }
+
+    private boolean isUserEmailVerified(FirebaseAuth firebaseAuth) {
+        if (firebaseAuth.getCurrentUser() != null) {
+            return firebaseAuth.getCurrentUser().isEmailVerified();
+        } else {
+            return false;
+        }
     }
 
     private boolean validateEmailFormat(String email) {

@@ -24,7 +24,7 @@ class UserAccountContract {
 
         void showLoginErrorToast(String errorMessage);
 
-        void showSuccessSentEmailVerificationDialog();
+        void showVerificationEmailSentDialog();
     }
 
     interface Presenter extends BasePresenter {
