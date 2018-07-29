@@ -18,7 +18,7 @@ class UserAccountPresenter implements UserAccountContract.Presenter{
     private final UserAccountContract.View mView;
     private final FirebaseAuth mAuth;
 
-    private boolean mIsLogin;
+    private boolean mIsLoginAuth;
     private FirebaseAuth.AuthStateListener mAuthStateListener =
             new FirebaseAuth.AuthStateListener() {
                 @Override
@@ -32,14 +32,14 @@ class UserAccountPresenter implements UserAccountContract.Presenter{
     UserAccountPresenter(UserAccountContract.View view, boolean isLogin) {
         mView = view;
         mView.setPresenter(this);
-        mIsLogin = isLogin;
+        mIsLoginAuth = isLogin;
         mAuth = FirebaseAuth.getInstance();
     }
 
     @Override
     public void handleNavigationTextButtonClicked() {
-        mIsLogin = !mIsLogin;
-        mView.updateView(mIsLogin);
+        mIsLoginAuth = !mIsLoginAuth;
+        mView.updateView(mIsLoginAuth);
     }
 
     @Override
@@ -94,12 +94,12 @@ class UserAccountPresenter implements UserAccountContract.Presenter{
     public void start() {
         mAuth.addAuthStateListener(mAuthStateListener);
        mView.setupProgressBar();
-       mView.updateView(mIsLogin);
+        mView.updateView(mIsLoginAuth);
     }
 
     @Override
     public boolean isLoginAuthentication() {
-        return mIsLogin;
+        return mIsLoginAuth;
     }
 
     private Task<AuthResult> login(String email, String password) {
