@@ -1,5 +1,7 @@
 package starbright.com.projectegg.features.userAccount;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import starbright.com.projectegg.R;
@@ -10,6 +12,10 @@ public class UserAccountActivity extends BaseActivityWithoutToolbar {
     private static final String LOGIN_FRAGMENT_TAG = "LOGIN_FRAGMENT_TAG";
 
     private UserAccountFragment mFragment;
+
+    public static Intent newIntent(Context context) {
+        return new Intent(context, UserAccountActivity.class);
+    }
 
     @Override
     protected void onStart() {

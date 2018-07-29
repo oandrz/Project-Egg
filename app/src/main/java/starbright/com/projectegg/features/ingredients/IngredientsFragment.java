@@ -30,6 +30,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.io.File;
 import java.io.IOException;
@@ -51,6 +52,7 @@ import starbright.com.projectegg.MyApp;
 import starbright.com.projectegg.R;
 import starbright.com.projectegg.data.AppRepository;
 import starbright.com.projectegg.data.local.model.Ingredient;
+import starbright.com.projectegg.features.userAccount.UserAccountActivity;
 import starbright.com.projectegg.util.ClarifaiHelper;
 import starbright.com.projectegg.util.Constants;
 import starbright.com.projectegg.util.scheduler.BaseSchedulerProvider;
@@ -382,7 +384,8 @@ public class IngredientsFragment extends Fragment implements IngredientsContract
 
     @OnClick({
             R.id.img_action_button,
-            R.id.tv_cart_count
+            R.id.tv_cart_count,
+            R.id.tv_logout
     })
     void onClickedEvent(View view) {
         switch (view.getId()) {
@@ -391,6 +394,12 @@ public class IngredientsFragment extends Fragment implements IngredientsContract
                 break;
             case R.id.tv_cart_count:
                 mPresenter.handleCartTvClicked();
+                break;
+            case R.id.tv_logout:
+                // TODO: 29/07/18 Temporary Signout Method
+                FirebaseAuth.getInstance().signOut();
+                startActivity(UserAccountActivity.newIntent(getActivity()));
+                getActivity().finish();
                 break;
         }
     }

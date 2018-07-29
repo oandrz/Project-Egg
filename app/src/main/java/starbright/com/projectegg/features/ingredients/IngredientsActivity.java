@@ -1,5 +1,7 @@
 package starbright.com.projectegg.features.ingredients;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import starbright.com.projectegg.R;
@@ -9,6 +11,10 @@ public class IngredientsActivity extends BaseActivityWithoutToolbar {
     private static final String INGREDIENTS_FRAGMENT_TAG = "INGREDIENTS_FRAGMENT_TAG";
 
     private IngredientsFragment mFragment;
+
+    public static Intent newIntent(Context context) {
+        return new Intent(context, IngredientsActivity.class);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

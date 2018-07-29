@@ -11,17 +11,18 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <FrameLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/space_empty_large"
-            android:padding="@dimen/space_normal">
+            android:padding="@dimen/space_normal"
+            android:gravity="end"
+            android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/tv_cart_count"
                 style="@style/NormalFont"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="end"
                 android:background="?android:attr/selectableItemBackground"
                 android:drawableEnd="@drawable/ic_shopping_basket"
                 android:drawablePadding="@dimen/space_small"
@@ -29,7 +30,18 @@
                 android:text="@string/general.zero"
                 android:textColor="@color/white"
                 android:textSize="@dimen/normal_font" />
-        </FrameLayout>
+
+            <TextView
+                android:id="@+id/tv_logout"
+                style="@style/NormalFont"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="?android:attr/selectableItemBackground"
+                android:text="@string/general.logout"
+                android:layout_marginStart="@dimen/space_normal"
+                android:textColor="@color/white"
+                android:textSize="@dimen/normal_font" />
+        </LinearLayout>
 
         <TextView
             android:id="@+id/tv_title"

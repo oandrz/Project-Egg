@@ -1,7 +1,6 @@
 package starbright.com.projectegg.features.userAccount;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
@@ -149,7 +148,7 @@ public class UserAccountFragment extends Fragment implements UserAccountContract
 
     @Override
     public void navigateToSearchRecipePage() {
-        startActivity(new Intent(getActivity(), IngredientsActivity.class));
+        startActivity(IngredientsActivity.newIntent(getActivity()));
         getActivity().finish();
     }
 
