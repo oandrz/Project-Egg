@@ -52,7 +52,6 @@ import starbright.com.projectegg.MyApp;
 import starbright.com.projectegg.R;
 import starbright.com.projectegg.data.AppRepository;
 import starbright.com.projectegg.data.local.model.Ingredient;
-import starbright.com.projectegg.features.userAccount.UserAccountActivity;
 import starbright.com.projectegg.util.ClarifaiHelper;
 import starbright.com.projectegg.util.Constants;
 import starbright.com.projectegg.util.scheduler.BaseSchedulerProvider;
@@ -107,6 +106,8 @@ public class IngredientsFragment extends Fragment implements IngredientsContract
         }
     };
 
+    private FragmentListener mFragmentListener;
+
     private TextWatcher mIngredientsTextWatcher = new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -146,6 +147,7 @@ public class IngredientsFragment extends Fragment implements IngredientsContract
     public void onAttach(Context context) {
         MyApp.getAppComponent().inject(this);
         super.onAttach(context);
+        mFragmentListener = (FragmentListener) context;
     }
 
     @Override
@@ -181,9 +183,15 @@ public class IngredientsFragment extends Fragment implements IngredientsContract
     }
 
     @Override
-    public void onDestroy() {
+    public void onDetach() {
+        mFragmentListener = null;
+        super.onDetach();
+    }
+
+    @Override
+    public void onDestroyView() {
         LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(mMessageReceiver);
-        super.onDestroy();
+        super.onDestroyView();
     }
 
     @Override
@@ -398,8 +406,7 @@ public class IngredientsFragment extends Fragment implements IngredientsContract
             case R.id.tv_logout:
                 // TODO: 29/07/18 Temporary Signout Method
                 FirebaseAuth.getInstance().signOut();
-                startActivity(UserAccountActivity.newIntent(getActivity()));
-                getActivity().finish();
+                mFragmentListener.navigateUserAccountActivity();
                 break;
         }
     }
@@ -413,5 +420,9 @@ public class IngredientsFragment extends Fragment implements IngredientsContract
 
         mCurrentPhotoPath = image.getAbsolutePath();
         return image;
+    }
+
+    interface FragmentListener {
+        void navigateUserAccountActivity();
     }
 }

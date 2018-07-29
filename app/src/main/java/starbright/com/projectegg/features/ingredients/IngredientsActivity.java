@@ -6,8 +6,10 @@ import android.os.Bundle;
 
 import starbright.com.projectegg.R;
 import starbright.com.projectegg.features.base.BaseActivityWithoutToolbar;
+import starbright.com.projectegg.features.userAccount.UserAccountActivity;
 
-public class IngredientsActivity extends BaseActivityWithoutToolbar {
+public class IngredientsActivity extends BaseActivityWithoutToolbar
+        implements IngredientsFragment.FragmentListener {
     private static final String INGREDIENTS_FRAGMENT_TAG = "INGREDIENTS_FRAGMENT_TAG";
 
     private IngredientsFragment mFragment;
@@ -30,14 +32,13 @@ public class IngredientsActivity extends BaseActivityWithoutToolbar {
                 .commit();
     }
 
-    // TODO: 24/07/18 Research if this needed
-//    @Override
-//    protected void onStop() {
-//        getSupportFragmentManager().beginTransaction()
-//                .detach(mFragment)
-//                .commitAllowingStateLoss();
-//        super.onStop();
-//    }
+    @Override
+    protected void onStop() {
+        getSupportFragmentManager().beginTransaction()
+                .detach(mFragment)
+                .commitAllowingStateLoss();
+        super.onStop();
+    }
 
     private void initFragment() {
         mFragment = (IngredientsFragment) getSupportFragmentManager()
@@ -48,5 +49,11 @@ public class IngredientsActivity extends BaseActivityWithoutToolbar {
                     .add(R.id.contentFrame, mFragment, INGREDIENTS_FRAGMENT_TAG)
                     .commit();
         }
+    }
+
+    @Override
+    public void navigateUserAccountActivity() {
+        startActivity(UserAccountActivity.newIntent(this));
+        finish();
     }
 }

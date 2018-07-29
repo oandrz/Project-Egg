@@ -6,8 +6,10 @@ import android.os.Bundle;
 
 import starbright.com.projectegg.R;
 import starbright.com.projectegg.features.base.BaseActivityWithoutToolbar;
+import starbright.com.projectegg.features.ingredients.IngredientsActivity;
 
-public class UserAccountActivity extends BaseActivityWithoutToolbar {
+public class UserAccountActivity extends BaseActivityWithoutToolbar
+        implements UserAccountFragment.FragmentListener {
 
     private static final String LOGIN_FRAGMENT_TAG = "LOGIN_FRAGMENT_TAG";
 
@@ -48,5 +50,11 @@ public class UserAccountActivity extends BaseActivityWithoutToolbar {
                     .add(R.id.contentFrame, mFragment, LOGIN_FRAGMENT_TAG)
                     .commit();
         }
+    }
+
+    @Override
+    public void navigateToIngredientsActivity() {
+        startActivity(IngredientsActivity.newIntent(this));
+        finish();
     }
 }

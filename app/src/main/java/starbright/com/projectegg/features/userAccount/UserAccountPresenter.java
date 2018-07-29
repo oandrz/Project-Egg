@@ -70,11 +70,6 @@ class UserAccountPresenter implements UserAccountContract.Presenter{
                     } else {
                         mView.hideProgressBar();
                         mView.enableView();
-                        if (authResult.getUser().isEmailVerified()) {
-                            mView.navigateToSearchRecipePage();
-                        } else {
-
-                        }
                     }
                 }
             })

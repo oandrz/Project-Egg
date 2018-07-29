@@ -33,7 +33,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import starbright.com.projectegg.MyApp;
 import starbright.com.projectegg.R;
-import starbright.com.projectegg.features.ingredients.IngredientsActivity;
 
 public class UserAccountFragment extends Fragment implements UserAccountContract.View {
 
@@ -64,6 +63,7 @@ public class UserAccountFragment extends Fragment implements UserAccountContract
     SharedPreferences sharedPreferences;
 
     private UserAccountContract.Presenter mPresenter;
+    private FragmentListener mFragmentListener;
 
     public static UserAccountFragment newInstance() {
         return new UserAccountFragment();
@@ -73,6 +73,7 @@ public class UserAccountFragment extends Fragment implements UserAccountContract
     public void onAttach(Context context) {
         MyApp.getAppComponent().inject(this);
         super.onAttach(context);
+        mFragmentListener = (FragmentListener) context;
     }
 
     @Override
@@ -102,6 +103,12 @@ public class UserAccountFragment extends Fragment implements UserAccountContract
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putBoolean(USER_ACCOUNT_BUNDLE, mPresenter.isLoginAuthentication());
+    }
+
+    @Override
+    public void onDetach() {
+        mFragmentListener = null;
+        super.onDetach();
     }
 
     @Override
@@ -148,8 +155,7 @@ public class UserAccountFragment extends Fragment implements UserAccountContract
 
     @Override
     public void navigateToSearchRecipePage() {
-        startActivity(IngredientsActivity.newIntent(getActivity()));
-        getActivity().finish();
+        mFragmentListener.navigateToIngredientsActivity();
     }
 
     @Override
@@ -250,5 +256,9 @@ public class UserAccountFragment extends Fragment implements UserAccountContract
                 .canceledOnTouchOutside(false)
                 .build()
                 .show();
+    }
+
+    interface FragmentListener {
+        void navigateToIngredientsActivity();
     }
 }
