@@ -1,12 +1,14 @@
 package starbright.com.projectegg.features.base;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 
 import starbright.com.projectegg.R;
 
-public class BaseActivityWithoutToolbar extends AppCompatActivity {
+/**
+ * Created by Andreas on 4/8/2018.
+ */
+
+public class BaseActivityWithoutToolbar extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -16,9 +18,6 @@ public class BaseActivityWithoutToolbar extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.contentFrame);
-        if (!(fragment instanceof IOnBackPressedListener) || !((IOnBackPressedListener) fragment).onBackPressed()) {
-            super.onBackPressed();
-        }
+        super.onBackPressed();
     }
 }

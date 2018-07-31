@@ -1,9 +1,7 @@
 package starbright.com.projectegg.features.base;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import junit.framework.Assert;
@@ -15,7 +13,7 @@ import starbright.com.projectegg.R;
  * Created by Andreas on 4/8/2018.
  */
 
-public class BaseActivityWithToolbar extends AppCompatActivity {
+public class BaseActivityWithToolbar extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,10 +25,7 @@ public class BaseActivityWithToolbar extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.contentFrame);
-        if (!(fragment instanceof IOnBackPressedListener) || !((IOnBackPressedListener) fragment).onBackPressed()) {
-            super.onBackPressed();
-        }
+        super.onBackPressed();
     }
 
     protected void setToolbarTitle(String title) {
