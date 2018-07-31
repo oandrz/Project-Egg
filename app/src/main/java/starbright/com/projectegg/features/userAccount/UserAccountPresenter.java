@@ -37,9 +37,16 @@ class UserAccountPresenter implements UserAccountContract.Presenter{
     }
 
     @Override
-    public void handleNavigationTextButtonClicked() {
+    public void updateUserAuthRole() {
         mIsLoginAuth = !mIsLoginAuth;
         mView.updateView(mIsLoginAuth);
+    }
+
+    @Override
+    public void handleVerificationEmailDialogClicked() {
+        if (!mIsLoginAuth) {
+            updateUserAuthRole();
+        }
     }
 
     @Override

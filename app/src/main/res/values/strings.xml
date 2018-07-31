@@ -12,7 +12,7 @@
     <string name="password.hint">Password</string>
     <string name="login.title">Login</string>
     <string name="login.button.text">Login</string>
-    <string name="register.navigation">Click here if you don\'t have an account</string>
+    <string name="register.navigation">Click here if you have an account</string>
     <string name="register.verification.dialog.success.title">Check your Email !</string>
     <string name="register.verification.dialog.success.message">Please verify your account before login by go to your email and click the activation link</string>
     <string name="register.verification.dialog.positive">I understand</string>

@@ -28,11 +28,12 @@ class UserAccountContract {
     }
 
     interface Presenter extends BasePresenter {
-        void handleNavigationTextButtonClicked();
-
+        void handleVerificationEmailDialogClicked();
         void handleAuthenticationButtonClicked(String email, String password);
 
+        void updateUserAuthRole();
         void onDestroy();
+
         boolean isLoginAuthentication();
     }
 }

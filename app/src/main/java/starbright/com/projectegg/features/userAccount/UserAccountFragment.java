@@ -125,7 +125,7 @@ public class UserAccountFragment extends Fragment implements UserAccountContract
     void onButtonClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_navigation:
-                mPresenter.handleNavigationTextButtonClicked();
+                mPresenter.updateUserAuthRole();
                 break;
             case R.id.btn_confirm:
                 mPresenter.handleAuthenticationButtonClicked(
@@ -200,7 +200,7 @@ public class UserAccountFragment extends Fragment implements UserAccountContract
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog,
                                         @NonNull DialogAction which) {
-                        updateView(true);
+                        mPresenter.handleVerificationEmailDialogClicked();
                     }
                 }
         );
