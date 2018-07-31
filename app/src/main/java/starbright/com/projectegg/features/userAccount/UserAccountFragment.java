@@ -32,10 +32,12 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import starbright.com.projectegg.IOnBackPressedListener;
 import starbright.com.projectegg.MyApp;
 import starbright.com.projectegg.R;
 
-public class UserAccountFragment extends Fragment implements UserAccountContract.View {
+public class UserAccountFragment extends Fragment
+        implements UserAccountContract.View, IOnBackPressedListener {
 
     private static final String USER_ACCOUNT_BUNDLE = "USER_ACCOUNT_BUNDLE";
 
@@ -266,6 +268,16 @@ public class UserAccountFragment extends Fragment implements UserAccountContract
                 .canceledOnTouchOutside(false)
                 .build()
                 .show();
+    }
+
+    @Override
+    public boolean onBackPressed() {
+        if (!mPresenter.isLoginAuthentication()) {
+            mPresenter.updateUserAuthRole();
+            return true;
+        } else {
+            return false;
+        }
     }
 
     interface FragmentListener {
