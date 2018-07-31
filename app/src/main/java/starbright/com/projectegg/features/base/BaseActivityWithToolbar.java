@@ -9,7 +9,6 @@ import android.support.v7.widget.Toolbar;
 import junit.framework.Assert;
 
 import butterknife.ButterKnife;
-import starbright.com.projectegg.IOnBackPressedListener;
 import starbright.com.projectegg.R;
 
 /**

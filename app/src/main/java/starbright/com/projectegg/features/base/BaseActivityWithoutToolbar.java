@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 
-import starbright.com.projectegg.IOnBackPressedListener;
 import starbright.com.projectegg.R;
 
 public class BaseActivityWithoutToolbar extends AppCompatActivity {

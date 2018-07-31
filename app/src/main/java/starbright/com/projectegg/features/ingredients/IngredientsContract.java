@@ -3,9 +3,9 @@ package starbright.com.projectegg.features.ingredients;
 import java.util.ArrayList;
 import java.util.List;
 
-import starbright.com.projectegg.BasePresenter;
-import starbright.com.projectegg.BaseView;
 import starbright.com.projectegg.data.local.model.Ingredient;
+import starbright.com.projectegg.features.base.BasePresenter;
+import starbright.com.projectegg.features.base.BaseView;
 
 class IngredientsContract {
 

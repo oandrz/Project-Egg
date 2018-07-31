@@ -32,9 +32,9 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import starbright.com.projectegg.IOnBackPressedListener;
 import starbright.com.projectegg.MyApp;
 import starbright.com.projectegg.R;
+import starbright.com.projectegg.features.base.IOnBackPressedListener;
 
 public class UserAccountFragment extends Fragment
         implements UserAccountContract.View, IOnBackPressedListener {

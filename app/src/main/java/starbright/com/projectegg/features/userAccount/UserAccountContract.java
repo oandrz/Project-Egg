@@ -1,7 +1,7 @@
 package starbright.com.projectegg.features.userAccount;
 
-import starbright.com.projectegg.BasePresenter;
-import starbright.com.projectegg.BaseView;
+import starbright.com.projectegg.features.base.BasePresenter;
+import starbright.com.projectegg.features.base.BaseView;
 
 class UserAccountContract {
 

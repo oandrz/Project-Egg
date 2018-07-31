@@ -2,9 +2,9 @@ package starbright.com.projectegg.features.recipelist;
 
 import java.util.List;
 
-import starbright.com.projectegg.BasePresenter;
-import starbright.com.projectegg.BaseView;
 import starbright.com.projectegg.data.local.model.Recipe;
+import starbright.com.projectegg.features.base.BasePresenter;
+import starbright.com.projectegg.features.base.BaseView;
 
 /**
  * Created by Andreas on 4/8/2018.
