@@ -20,11 +20,14 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -393,7 +396,7 @@ public class IngredientsFragment extends Fragment implements IngredientsContract
     @OnClick({
             R.id.img_action_button,
             R.id.tv_cart_count,
-            R.id.tv_logout
+            R.id.iv_more
     })
     void onClickedEvent(View view) {
         switch (view.getId()) {
@@ -403,10 +406,8 @@ public class IngredientsFragment extends Fragment implements IngredientsContract
             case R.id.tv_cart_count:
                 mPresenter.handleCartTvClicked();
                 break;
-            case R.id.tv_logout:
-                // TODO: 29/07/18 Temporary Signout Method
-                FirebaseAuth.getInstance().signOut();
-                mFragmentListener.navigateUserAccountActivity();
+            case R.id.iv_more:
+                showPopupMenu(view);
                 break;
         }
     }
@@ -420,6 +421,29 @@ public class IngredientsFragment extends Fragment implements IngredientsContract
 
         mCurrentPhotoPath = image.getAbsolutePath();
         return image;
+    }
+
+    private void showPopupMenu(View view) {
+        final PopupMenu popup = new PopupMenu(getActivity(), view);
+        final MenuInflater inflater = popup.getMenuInflater();
+        inflater.inflate(R.menu.search_ingredient_menu, popup.getMenu());
+        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.menu_favorite:
+                        // TODO: 01/08/18 Navigate to favorite page
+                        return true;
+                    case R.id.menu_signout:
+                        FirebaseAuth.getInstance().signOut();
+                        mFragmentListener.navigateUserAccountActivity();
+                        return true;
+                    default:
+                        return false;
+                }
+            }
+        });
+        popup.show();
     }
 
     interface FragmentListener {

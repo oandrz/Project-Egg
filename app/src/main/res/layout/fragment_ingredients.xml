@@ -11,37 +11,39 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <LinearLayout
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/space_empty_large"
-            android:padding="@dimen/space_normal"
-            android:gravity="end"
-            android:orientation="horizontal">
+            android:layout_height="@dimen/space_empty_large">
 
-            <TextView
-                android:id="@+id/tv_cart_count"
-                style="@style/NormalFont"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="?android:attr/selectableItemBackground"
-                android:drawableEnd="@drawable/ic_shopping_basket"
-                android:drawablePadding="@dimen/space_small"
-                android:gravity="center"
-                android:text="@string/general.zero"
-                android:textColor="@color/white"
-                android:textSize="@dimen/normal_font" />
+                android:gravity="end|center_vertical"
+                android:orientation="horizontal"
+                android:padding="@dimen/space_normal">
 
-            <TextView
-                android:id="@+id/tv_logout"
-                style="@style/NormalFont"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="?android:attr/selectableItemBackground"
-                android:text="@string/general.logout"
-                android:layout_marginStart="@dimen/space_normal"
-                android:textColor="@color/white"
-                android:textSize="@dimen/normal_font" />
-        </LinearLayout>
+                <TextView
+                    android:id="@+id/tv_cart_count"
+                    style="@style/NormalFont"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:drawableEnd="@drawable/ic_shopping_basket"
+                    android:drawablePadding="@dimen/space_small"
+                    android:gravity="center"
+                    android:text="@string/general.zero"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/normal_font" />
+
+                <ImageView
+                    android:id="@+id/iv_more"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/space_normal"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:src="@drawable/ic_more_vert" />
+            </LinearLayout>
+        </FrameLayout>
 
         <TextView
             android:id="@+id/tv_title"
@@ -89,8 +91,8 @@
                         android:layout_width="@dimen/drawable_view_icon_size"
                         android:layout_height="@dimen/drawable_view_icon_size"
                         android:layout_gravity="center|end"
-                        android:src="@drawable/ic_camera"
-                        android:background="?android:attr/selectableItemBackground" />
+                        android:background="?android:attr/selectableItemBackground"
+                        android:src="@drawable/ic_camera" />
 
                     <ProgressBar
                         android:id="@+id/suggestion_progress_bar"

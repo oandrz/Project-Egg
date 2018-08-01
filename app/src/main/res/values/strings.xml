@@ -2,7 +2,8 @@
     <string name="app.name">Project Egg</string>
     <string name="general.retry.label">Retry</string>
     <string name="general.zero">0</string>
-    <string name="general.logout">Sign out</string>
+    <string name="general.signout">Sign out</string>
+    <string name="general.favorites">Favorites</string>
     <string name="general.error.email.empty">Please Fill your Email</string>
     <string name="general.error.email.format">Your email\'s format should be mailname@mailprovider.com</string>
     <string name="general.error.password.empty">Please Fill your Password</string>
