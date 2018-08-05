@@ -37,4 +37,9 @@
     <string name="ingredients.cart.error.max">I\'m sorry, but you can\'t bring ingredient anymore</string>
     <string name="ingredients.prediction.empty">I\'m sorry, I couldn\'t recognize the image</string>
     <string name="ingredients.btn.submit.label">Submit</string>
+
+    <!--Ingredients Page-->
+    <string name="detail.serving.label">Serving</string>
+    <string name="detail.ingredient.label">Ingredient</string>
+    <string name="detail.instruction.label">Instruction</string>
 </resources>

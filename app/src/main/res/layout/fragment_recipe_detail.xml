@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?><!--~
+  ~ Created by Andreas on 5/8/2018.
+  -->
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="@dimen/recipe_detail_image_height" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            android:padding="@dimen/space_normal">
+
+            <TextView
+                android:id="@+id/tv_recipe_title"
+                style="@style/HeaderFontWhite"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:text="testing" />
+
+            <View
+                android:id="@+id/divider"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/line_size"
+                android:layout_below="@id/tv_recipe_title"
+                android:layout_marginBottom="@dimen/space_normal"
+                android:layout_marginTop="@dimen/space_normal"
+                android:background="@color/white" />
+
+            <LinearLayout
+                android:id="@+id/container_serving"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@id/divider"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="@dimen/drawable_view_icon_size"
+                    android:layout_height="@dimen/drawable_view_icon_size"
+                    android:src="@drawable/ic_clear_white" />
+
+                <TextView
+                    style="@style/SmallFontWhite"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/detail.serving.label" />
+
+                <TextView
+                    style="@style/NormalFontWhite"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="2 people" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/container_preparation_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/divider"
+                android:layout_centerHorizontal="true"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="@dimen/drawable_view_icon_size"
+                    android:layout_height="@dimen/drawable_view_icon_size"
+                    android:src="@drawable/ic_clear_white" />
+
+                <TextView
+                    style="@style/SmallFontWhite"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/detail.serving.label" />
+
+                <TextView
+                    style="@style/NormalFontWhite"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="2 people" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/container_cooking_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_below="@id/divider"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="@dimen/drawable_view_icon_size"
+                    android:layout_height="@dimen/drawable_view_icon_size"
+                    android:src="@drawable/ic_clear_white" />
+
+                <TextView
+                    style="@style/SmallFontWhite"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/detail.serving.label" />
+
+                <TextView
+                    style="@style/NormalFontWhite"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="2 people" />
+            </LinearLayout>
+        </RelativeLayout>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/space_small"
+            app:cardCornerRadius="@dimen/card_corner_radius"
+            app:cardElevation="@dimen/card_elevation">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/space_normal">
+
+                <TextView
+                    style="@style/TitleFontRed"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="@dimen/space_normal"
+                    android:drawableStart="@drawable/ic_shopping_basket"
+                    android:gravity="center_vertical"
+                    android:text="@string/detail.ingredient.label" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_normal" />
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/space_small"
+            app:cardCornerRadius="@dimen/card_corner_radius"
+            app:cardElevation="@dimen/card_elevation">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/space_normal">
+
+                <TextView
+                    style="@style/TitleFontRed"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="@dimen/space_normal"
+                    android:drawableStart="@drawable/ic_local_dining"
+                    android:gravity="center_vertical"
+                    android:text="@string/detail.instruction.label" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_normal" />
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+    </LinearLayout>
+</ScrollView>

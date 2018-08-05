@@ -18,10 +18,28 @@
         <item name="android:textColor">@color/black</item>
     </style>
 
+    <style name="NormalFontWhite" parent="NormalFont">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="SmallFontWhite">
+        <item name="android:textSize">@dimen/small_font</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
     <style name="TitleFont">
         <item name="android:textSize">@dimen/normal_font</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="TitleFontRed" parent="TitleFont">
+        <item name="android:textColor">@color/red</item>
+    </style>
+
+    <style name="HeaderFontWhite">
+        <item name="android:textSize">@dimen/header_font</item>
+        <item name="android:textColor">@color/white</item>
     </style>
 
     <style name="FillButton">
