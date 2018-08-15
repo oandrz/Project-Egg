@@ -11,7 +11,8 @@ import android.os.Bundle;
 import starbright.com.projectegg.R;
 import starbright.com.projectegg.features.base.BaseActivityWithToolbar;
 
-public class RecipeDetailActivity extends BaseActivityWithToolbar {
+public class RecipeDetailActivity extends BaseActivityWithToolbar
+        implements RecipeDetailFragment.FragmentListener {
 
     private static final String RECIPE_FRAGMENT_TAG = "RECIPE_FRAGMENT_TAG";
     private static final String EXTRA_RECIPE_ID = "EXTRA_RECIPE_ID";

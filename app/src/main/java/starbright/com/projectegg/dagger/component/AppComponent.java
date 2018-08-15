@@ -6,6 +6,7 @@ import dagger.Component;
 import starbright.com.projectegg.dagger.module.AppModule;
 import starbright.com.projectegg.dagger.module.DataModule;
 import starbright.com.projectegg.data.remote.AppRemoteDataStore;
+import starbright.com.projectegg.features.detail.RecipeDetailFragment;
 import starbright.com.projectegg.features.ingredients.IngredientsFragment;
 import starbright.com.projectegg.features.recipelist.RecipeListFragment;
 import starbright.com.projectegg.features.userAccount.UserAccountFragment;
@@ -22,4 +23,6 @@ public interface AppComponent {
     void inject(RecipeListFragment fragment);
     void inject(UserAccountFragment fragment);
     void inject(IngredientsFragment fragment);
+
+    void inject(RecipeDetailFragment fragment);
 }
