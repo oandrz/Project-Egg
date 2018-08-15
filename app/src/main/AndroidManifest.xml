@@ -16,8 +16,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <!--todo : change to .features.userAccount.UserAccountActivity after finish (dont push)-->
         <activity
-            android:name=".features.userAccount.UserAccountActivity"
+            android:name=".features.detail.RecipeDetailActivity"
             android:windowSoftInputMode="stateHidden|adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
