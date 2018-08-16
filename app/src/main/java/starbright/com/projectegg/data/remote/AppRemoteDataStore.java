@@ -11,6 +11,7 @@ import io.reactivex.Observable;
 import io.reactivex.functions.Function;
 import retrofit2.Retrofit;
 import retrofit2.http.GET;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 import retrofit2.http.QueryMap;
 import starbright.com.projectegg.MyApp;
@@ -18,8 +19,8 @@ import starbright.com.projectegg.data.AppDataStore;
 import starbright.com.projectegg.data.local.AppLocalDataStore;
 import starbright.com.projectegg.data.local.model.Ingredient;
 import starbright.com.projectegg.data.local.model.Recipe;
-import starbright.com.projectegg.data.local.model.response.BaseResponse;
 import starbright.com.projectegg.data.local.model.response.IngredientResponse;
+import starbright.com.projectegg.data.local.model.response.RecipeDetailResponse;
 import starbright.com.projectegg.data.local.model.response.RecipeResponse;
 import starbright.com.projectegg.util.Constants;
 
@@ -72,6 +73,17 @@ public class AppRemoteDataStore implements AppDataStore {
                 });
     }
 
+    @Override
+    public Observable<RecipeDetailResponse> getRecipeDetailInformation(String recipeId) {
+        return retrofit.create(Service.class).getRecipeDetailInformation(recipeId)
+                .map(new Function<RecipeDetailResponse, RecipeDetailResponse>() {
+                    @Override
+                    public RecipeDetailResponse apply(RecipeDetailResponse recipeDetailResponse) {
+                        return null;
+                    }
+                });
+    }
+
     private interface Service {
         @GET("recipes/findByIngredients")
         Observable<List<RecipeResponse>> getRecipes(
@@ -83,6 +95,11 @@ public class AppRemoteDataStore implements AppDataStore {
         Observable<List<IngredientResponse>> searchAutocompleteIngredients(
                 @Query("query") String query,
                 @QueryMap Map<String, String> options
+        );
+
+        @GET("recipes/{recipeId}/information")
+        Observable<RecipeDetailResponse> getRecipeDetailInformation(
+                @Path("recipeId") String recipeId
         );
     }
 }

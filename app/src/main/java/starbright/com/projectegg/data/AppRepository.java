@@ -8,6 +8,7 @@ import io.reactivex.Observable;
 import starbright.com.projectegg.data.local.AppLocalDataStore;
 import starbright.com.projectegg.data.local.model.Ingredient;
 import starbright.com.projectegg.data.local.model.Recipe;
+import starbright.com.projectegg.data.local.model.response.RecipeDetailResponse;
 import starbright.com.projectegg.data.remote.AppRemoteDataStore;
 
 /**
@@ -33,5 +34,10 @@ public class AppRepository implements AppDataStore {
     @Override
     public Observable<List<Ingredient>> searchIngredient(String query) {
         return mAppRemoteDatastore.searchIngredient(query);
+    }
+
+    @Override
+    public Observable<RecipeDetailResponse> getRecipeDetailInformation(String recipeId) {
+        return mAppRemoteDatastore.getRecipeDetailInformation(recipeId);
     }
 }
