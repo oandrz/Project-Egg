@@ -74,12 +74,12 @@ public class AppRemoteDataStore implements AppDataStore {
     }
 
     @Override
-    public Observable<RecipeDetailResponse> getRecipeDetailInformation(String recipeId) {
+    public Observable<Recipe> getRecipeDetailInformation(String recipeId) {
         return retrofit.create(Service.class).getRecipeDetailInformation(recipeId)
-                .map(new Function<RecipeDetailResponse, RecipeDetailResponse>() {
+                .map(new Function<RecipeDetailResponse, Recipe>() {
                     @Override
-                    public RecipeDetailResponse apply(RecipeDetailResponse recipeDetailResponse) {
-                        return null;
+                    public Recipe apply(RecipeDetailResponse recipeDetailResponse) {
+                        return new Recipe(recipeDetailResponse);
                     }
                 });
     }

@@ -32,7 +32,7 @@ public class RecipeDetailResponse {
     private String mSourceName;
 
     @SerializedName("analyzedInstructions")
-    private InstructionResponse mAnalyzedInstructions;
+    private List<InstructionResponse> mAnalyzedInstructions;
 
     @SerializedName("extendedIngredients")
     private List<ExtendedIngredientResponse> mIngredients;
@@ -65,7 +65,7 @@ public class RecipeDetailResponse {
         return mSourceName;
     }
 
-    public InstructionResponse getAnalyzedInstructions() {
+    public List<InstructionResponse> getAnalyzedInstructions() {
         return mAnalyzedInstructions;
     }
 

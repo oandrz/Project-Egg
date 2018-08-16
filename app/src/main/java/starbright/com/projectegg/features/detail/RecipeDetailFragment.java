@@ -9,21 +9,41 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 
 import javax.inject.Inject;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import starbright.com.projectegg.MyApp;
 import starbright.com.projectegg.R;
 import starbright.com.projectegg.data.AppRepository;
 import starbright.com.projectegg.util.scheduler.BaseSchedulerProvider;
 
-public class RecipeDetailFragment extends Fragment
-        implements RecipeDetailContract.View {
+public class RecipeDetailFragment extends Fragment implements RecipeDetailContract.View {
 
     private static final String BUNDLE_RECIPE_ID = "BUNDLE_RECIPE_ID";
+
+    @BindView(R.id.progress_bar)
+    ProgressBar progressBar;
+
+    @BindView(R.id.img_banner_food)
+    ImageView imgBannerFood;
+
+    @BindView(R.id.container_body)
+    RelativeLayout containerBody;
+
+    @BindView(R.id.card_ingredient)
+    CardView cardIngredient;
+
+    @BindView(R.id.card_instruction)
+    CardView cardInstruction;
 
     @Inject
     AppRepository repository;
@@ -61,12 +81,30 @@ public class RecipeDetailFragment extends Fragment
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_recipe_detail, container, false);
+        ButterKnife.bind(this, view);
         return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        mPresenter.start();
+        mPresenter.getRecipeDetailInformation(getArguments().getString(BUNDLE_RECIPE_ID));
     }
 
     @Override
     public void setPresenter(RecipeDetailPresenter presenter) {
         mPresenter = presenter;
+    }
+
+    @Override
+    public void showProgressBar() {
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideProgressBar() {
+        progressBar.setVisibility(View.GONE);
     }
 
     interface FragmentListener {

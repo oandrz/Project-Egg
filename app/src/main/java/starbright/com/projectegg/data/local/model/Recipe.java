@@ -1,7 +1,9 @@
 package starbright.com.projectegg.data.local.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import io.reactivex.annotations.Nullable;
 import starbright.com.projectegg.data.local.model.response.ExtendedIngredientResponse;
 import starbright.com.projectegg.data.local.model.response.RecipeDetailResponse;
 import starbright.com.projectegg.data.local.model.response.RecipeResponse;
@@ -20,10 +22,15 @@ public class Recipe {
     private int mCookingMinutes;
     private String mTitle;
     private String mImage;
+    @Nullable
     private String mImageType;
+    @Nullable
     private String mSourceStringUrl;
+    @Nullable
     private String mSourceName;
+    @Nullable
     private List<Ingredient> mIngredients;
+    @Nullable
     private List<Instruction> mInstruction;
 
     public Recipe(int id,
@@ -63,12 +70,14 @@ public class Recipe {
 
         final List<ExtendedIngredientResponse> extendedIngredientResponses =
                 response.getExtendedIngredientResponse();
+        mIngredients = new ArrayList<>(extendedIngredientResponses.size());
         for (ExtendedIngredientResponse ingredient : extendedIngredientResponses) {
             mIngredients.add(new Ingredient(ingredient));
         }
 
         final List<StepResponse> stepResponses = response.getAnalyzedInstructions()
-                .getStepResponse();
+                .get(0).getStepResponse();
+        mInstruction = new ArrayList<>(stepResponses.size());
         for (StepResponse stepResponse : stepResponses) {
             mInstruction.add(new Instruction(stepResponse.getNumber(),
                     stepResponse.getStep()));
@@ -108,22 +117,27 @@ public class Recipe {
         return mImage;
     }
 
+    @Nullable
     public String getImageType() {
         return mImageType;
     }
 
+    @Nullable
     public String getSourceStringUrl() {
         return mSourceStringUrl;
     }
 
+    @Nullable
     public String getSourceName() {
         return mSourceName;
     }
 
+    @Nullable
     public List<Ingredient> getIngredients() {
         return mIngredients;
     }
 
+    @Nullable
     public List<Instruction> getInstruction() {
         return mInstruction;
     }

@@ -10,10 +10,12 @@ import starbright.com.projectegg.features.base.BaseView;
 class RecipeDetailContract {
 
     interface View extends BaseView<RecipeDetailPresenter> {
+        void showProgressBar();
 
+        void hideProgressBar();
     }
 
     interface Presenter extends BasePresenter {
-
+        void getRecipeDetailInformation(String recipeId);
     }
 }
