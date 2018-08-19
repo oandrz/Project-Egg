@@ -51,8 +51,8 @@ public class Ingredient implements Parcelable {
         mId = in.readString();
         mName = in.readString();
         mImageUrl = in.readString();
-        mUnit = in.readString();
         mAmount = in.readInt();
+        mUnit = in.readString();
     }
 
     public String getId() {
@@ -105,8 +105,8 @@ public class Ingredient implements Parcelable {
         dest.writeString(mId);
         dest.writeString(mName);
         dest.writeString(mImageUrl);
-        dest.writeString(mUnit);
         dest.writeInt(mAmount);
+        dest.writeString(mUnit);
     }
 
     @Override

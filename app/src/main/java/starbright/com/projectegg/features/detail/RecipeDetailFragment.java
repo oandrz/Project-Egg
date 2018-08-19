@@ -10,6 +10,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +22,9 @@ import android.widget.TextView;
 
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.inject.Inject;
 
 import butterknife.BindView;
@@ -27,8 +32,11 @@ import butterknife.ButterKnife;
 import starbright.com.projectegg.MyApp;
 import starbright.com.projectegg.R;
 import starbright.com.projectegg.data.AppRepository;
+import starbright.com.projectegg.data.local.model.Ingredient;
+import starbright.com.projectegg.data.local.model.Instruction;
 import starbright.com.projectegg.data.local.model.Recipe;
 import starbright.com.projectegg.util.GlideApp;
+import starbright.com.projectegg.util.TextViewRecyclerAdapter;
 import starbright.com.projectegg.util.scheduler.BaseSchedulerProvider;
 
 public class RecipeDetailFragment extends Fragment implements RecipeDetailContract.View {
@@ -49,6 +57,12 @@ public class RecipeDetailFragment extends Fragment implements RecipeDetailContra
 
     @BindView(R.id.card_instruction)
     CardView cardInstruction;
+
+    @BindView(R.id.rv_ingredient)
+    RecyclerView rvIngredient;
+
+    @BindView(R.id.rv_instruction)
+    RecyclerView rvInstruction;
 
     @BindView(R.id.tv_serving_count)
     TextView tvServingCount;
@@ -125,6 +139,7 @@ public class RecipeDetailFragment extends Fragment implements RecipeDetailContra
     public void updateView(Recipe recipe) {
         renderBannerFoodImage(recipe.getImage());
         renderHeaderContainer(recipe);
+        renderBodyContainer(recipe);
     }
 
     private void renderBannerFoodImage(String imageUrl) {
@@ -142,6 +157,43 @@ public class RecipeDetailFragment extends Fragment implements RecipeDetailContra
         tvPreparationTime.setText(getString(R.string.detail_time_format,
                 recipe.getPreparationMinutes()));
         tvCookingTime.setText(getString(R.string.detail_time_format, recipe.getCookingMinutes()));
+    }
+
+    private void renderBodyContainer(Recipe recipe) {
+        renderIngredientCard(recipe.getIngredients());
+        renderInstructionCard(recipe.getInstruction());
+    }
+
+    private void renderIngredientCard(List<Ingredient> ingredients) {
+        final List<String> formattedInstructions = new ArrayList<>(ingredients.size());
+        int number = 1;
+        for (Ingredient ingredient : ingredients) {
+            formattedInstructions.add(getString(R.string.general_number_text_unit_format,
+                    number, ingredient.getName(), ingredient.getAmount(), ingredient.getUnit()));
+            number++;
+        }
+        cardIngredient.setVisibility(View.VISIBLE);
+        rvIngredient.setNestedScrollingEnabled(false);
+        rvIngredient.setLayoutManager(new LinearLayoutManager(getActivity(),
+                LinearLayoutManager.VERTICAL, false));
+        final TextViewRecyclerAdapter adapter = new TextViewRecyclerAdapter(getActivity(),
+                formattedInstructions);
+        rvIngredient.setAdapter(adapter);
+    }
+
+    private void renderInstructionCard(List<Instruction> instructions) {
+        final List<String> formattedInstructions = new ArrayList<>(instructions.size());
+        for (Instruction instruction : instructions) {
+            formattedInstructions.add(getString(R.string.general_number_text_format,
+                    instruction.getNumber(), instruction.getStep()));
+        }
+        cardInstruction.setVisibility(View.VISIBLE);
+        rvInstruction.setNestedScrollingEnabled(false);
+        rvInstruction.setLayoutManager(new LinearLayoutManager(getActivity(),
+                LinearLayoutManager.VERTICAL, false));
+        final TextViewRecyclerAdapter adapter = new TextViewRecyclerAdapter(getActivity(),
+                formattedInstructions);
+        rvInstruction.setAdapter(adapter);
     }
 
     interface FragmentListener {

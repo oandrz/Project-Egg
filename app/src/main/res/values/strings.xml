@@ -7,6 +7,8 @@
     <string name="general.error.email.empty">Please Fill your Email</string>
     <string name="general.error.email.format">Your email\'s format should be mailname@mailprovider.com</string>
     <string name="general.error.password.empty">Please Fill your Password</string>
+    <string name="general.number.text.format">%s. %s</string>
+    <string name="general.number.text.unit.format">%s. %s %s %s</string>
 
     <!--Login Page-->
     <string name="email.hint">Email</string>
