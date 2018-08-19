@@ -40,6 +40,8 @@
 
     <!--Ingredients Page-->
     <string name="detail.serving.label">Serving</string>
+    <string name="detail.preparationtime.label">Preparation Time</string>
+    <string name="detail.cookingtime.label">Cooking Time</string>
     <string name="detail.ingredient.label">Ingredient</string>
     <string name="detail.instruction.label">Instruction</string>
 </resources>

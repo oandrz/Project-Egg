@@ -17,6 +17,8 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+
 import javax.inject.Inject;
 
 import butterknife.BindView;
@@ -24,6 +26,8 @@ import butterknife.ButterKnife;
 import starbright.com.projectegg.MyApp;
 import starbright.com.projectegg.R;
 import starbright.com.projectegg.data.AppRepository;
+import starbright.com.projectegg.data.local.model.Recipe;
+import starbright.com.projectegg.util.GlideApp;
 import starbright.com.projectegg.util.scheduler.BaseSchedulerProvider;
 
 public class RecipeDetailFragment extends Fragment implements RecipeDetailContract.View {
@@ -36,8 +40,8 @@ public class RecipeDetailFragment extends Fragment implements RecipeDetailContra
     @BindView(R.id.img_banner_food)
     ImageView imgBannerFood;
 
-    @BindView(R.id.container_body)
-    RelativeLayout containerBody;
+    @BindView(R.id.container_header)
+    RelativeLayout containerHeader;
 
     @BindView(R.id.card_ingredient)
     CardView cardIngredient;
@@ -105,6 +109,26 @@ public class RecipeDetailFragment extends Fragment implements RecipeDetailContra
     @Override
     public void hideProgressBar() {
         progressBar.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void updateView(Recipe recipe) {
+        renderBannerFoodImage(recipe.getImage());
+        renderHeaderContainer(recipe);
+    }
+
+    private void renderBannerFoodImage(String imageUrl) {
+        imgBannerFood.setVisibility(View.VISIBLE);
+        GlideApp.with(getActivity())
+                .load(imageUrl)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .centerCrop()
+                .into(imgBannerFood);
+    }
+
+    private void renderHeaderContainer(Recipe recipe) {
+        containerHeader.setVisibility(View.VISIBLE);
+
     }
 
     interface FragmentListener {

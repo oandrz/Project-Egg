@@ -42,6 +42,7 @@ class RecipeDetailPresenter implements RecipeDetailContract.Presenter {
                             @Override
                             public void accept(Recipe recipe) {
                                 mView.hideProgressBar();
+                                mView.updateView(recipe);
                             }
                         }, new Consumer<Throwable>() {
                             @Override
