@@ -31,6 +31,9 @@ public class RecipeDetailResponse {
     @SerializedName("sourceName")
     private String mSourceName;
 
+    @SerializedName("servings")
+    private int mServings;
+
     @SerializedName("analyzedInstructions")
     private List<InstructionResponse> mAnalyzedInstructions;
 
@@ -71,5 +74,9 @@ public class RecipeDetailResponse {
 
     public List<ExtendedIngredientResponse> getExtendedIngredientResponse() {
         return mIngredients;
+    }
+
+    public int getServings() {
+        return mServings;
     }
 }

@@ -44,4 +44,6 @@
     <string name="detail.cookingtime.label">Cooking Time</string>
     <string name="detail.ingredient.label">Ingredient</string>
     <string name="detail.instruction.label">Instruction</string>
+    <string name="detail.time.format">%d Minutes</string>
+    <string name="detail.serving.format">%d Peoples</string>
 </resources>

@@ -24,8 +24,8 @@
         <ImageView
             android:id="@+id/img_banner_food"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:minHeight="@dimen/recipe_detail_image_height"
+            android:layout_height="@dimen/banner_image_height"
+            android:scaleType="centerCrop"
             android:visibility="gone" />
 
         <RelativeLayout
@@ -128,10 +128,10 @@
                     style="@style/SmallFontWhite"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/detail.serving.label" />
+                    android:text="@string/detail.cookingtime.label" />
 
                 <TextView
-                    android:id="@+id/tv_people_count"
+                    android:id="@+id/tv_cooking_time"
                     style="@style/NormalFontWhite"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

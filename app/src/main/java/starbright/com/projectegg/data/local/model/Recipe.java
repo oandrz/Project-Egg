@@ -20,6 +20,7 @@ public class Recipe {
     private int mLikes;
     private int mPreparationMinutes;
     private int mCookingMinutes;
+    private int mServingCount;
     private String mTitle;
     private String mImage;
     @Nullable
@@ -67,6 +68,7 @@ public class Recipe {
         mCookingMinutes = response.getCookingMinutes();
         mSourceStringUrl = response.getSourceStringUrl();
         mSourceName = response.getSourceName();
+        mServingCount = response.getServings();
 
         final List<ExtendedIngredientResponse> extendedIngredientResponses =
                 response.getExtendedIngredientResponse();
@@ -107,6 +109,10 @@ public class Recipe {
 
     public int getCookingMinutes() {
         return mCookingMinutes;
+    }
+
+    public int getServing() {
+        return mServingCount;
     }
 
     public String getTitle() {

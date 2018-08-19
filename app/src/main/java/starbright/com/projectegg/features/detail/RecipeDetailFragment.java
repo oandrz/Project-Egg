@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
@@ -48,6 +49,15 @@ public class RecipeDetailFragment extends Fragment implements RecipeDetailContra
 
     @BindView(R.id.card_instruction)
     CardView cardInstruction;
+
+    @BindView(R.id.tv_serving_count)
+    TextView tvServingCount;
+
+    @BindView(R.id.tv_preparation_time)
+    TextView tvPreparationTime;
+
+    @BindView(R.id.tv_cooking_time)
+    TextView tvCookingTime;
 
     @Inject
     AppRepository repository;
@@ -128,7 +138,10 @@ public class RecipeDetailFragment extends Fragment implements RecipeDetailContra
 
     private void renderHeaderContainer(Recipe recipe) {
         containerHeader.setVisibility(View.VISIBLE);
-
+        tvServingCount.setText(getString(R.string.detail_serving_format, recipe.getServing()));
+        tvPreparationTime.setText(getString(R.string.detail_time_format,
+                recipe.getPreparationMinutes()));
+        tvCookingTime.setText(getString(R.string.detail_time_format, recipe.getCookingMinutes()));
     }
 
     interface FragmentListener {
