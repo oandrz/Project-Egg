@@ -18,6 +18,7 @@ class RecipeDetailPresenter implements RecipeDetailContract.Presenter {
     private CompositeDisposable mCompositeDisposable;
 
     private String mRecipeId;
+    private Recipe mRecipe;
 
     RecipeDetailPresenter(AppRepository repository,
                           RecipeDetailContract.View view,
@@ -50,13 +51,39 @@ class RecipeDetailPresenter implements RecipeDetailContract.Presenter {
                             @Override
                             public void accept(Recipe recipe) {
                                 mView.hideProgressBar();
-                                mView.updateView(recipe);
+                                mRecipe = recipe;
+                                if (!isIngredientsEmpty() || !isInstructionEmpty()) {
+                                    mView.hideEmptyStateTextView();
+                                    updateView();
+                                } else {
+                                    mView.hideScrollContainer();
+                                    mView.renderEmptyStateTextView();
+                                }
                             }
                         }, new Consumer<Throwable>() {
                             @Override
                             public void accept(Throwable throwable) {
                                 mView.hideProgressBar();
+                                mView.hideScrollContainer();
+                                mView.renderErrorStateTextView(throwable.getMessage());
                             }
                         }));
+    }
+
+    private void updateView() {
+        mView.showScrollContainer();
+        mView.renderBannerFoodImage(mRecipe.getImage());
+        mView.renderHeaderContainer(mRecipe.getServing(), mRecipe.getPreparationMinutes(),
+                mRecipe.getCookingMinutes());
+        mView.renderIngredientCard(mRecipe.getIngredients());
+        mView.renderInstructionCard(mRecipe.getInstruction());
+    }
+
+    private boolean isIngredientsEmpty() {
+        return mRecipe.getIngredients() == null || mRecipe.getIngredients().isEmpty();
+    }
+
+    private boolean isInstructionEmpty() {
+        return mRecipe.getInstruction() == null || mRecipe.getInstruction().isEmpty();
     }
 }

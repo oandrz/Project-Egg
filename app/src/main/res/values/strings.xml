@@ -48,4 +48,5 @@
     <string name="detail.instruction.label">Instruction</string>
     <string name="detail.time.format">%d Minutes</string>
     <string name="detail.serving.format">%d Peoples</string>
+    <string name="detail.empty.label">I\'m sorry I still don\'t have the data of item that you want</string>
 </resources>

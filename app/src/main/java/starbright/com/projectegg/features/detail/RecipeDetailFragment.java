@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -34,7 +35,6 @@ import starbright.com.projectegg.R;
 import starbright.com.projectegg.data.AppRepository;
 import starbright.com.projectegg.data.local.model.Ingredient;
 import starbright.com.projectegg.data.local.model.Instruction;
-import starbright.com.projectegg.data.local.model.Recipe;
 import starbright.com.projectegg.util.GlideApp;
 import starbright.com.projectegg.util.TextViewRecyclerAdapter;
 import starbright.com.projectegg.util.scheduler.BaseSchedulerProvider;
@@ -72,6 +72,12 @@ public class RecipeDetailFragment extends Fragment implements RecipeDetailContra
 
     @BindView(R.id.tv_cooking_time)
     TextView tvCookingTime;
+
+    @BindView(R.id.scroll_container)
+    NestedScrollView scrollContainer;
+
+    @BindView(R.id.tv_empty_text)
+    TextView tvEmptyText;
 
     @Inject
     AppRepository repository;
@@ -136,13 +142,34 @@ public class RecipeDetailFragment extends Fragment implements RecipeDetailContra
     }
 
     @Override
-    public void updateView(Recipe recipe) {
-        renderBannerFoodImage(recipe.getImage());
-        renderHeaderContainer(recipe);
-        renderBodyContainer(recipe);
+    public void hideScrollContainer() {
+        scrollContainer.setVisibility(View.GONE);
     }
 
-    private void renderBannerFoodImage(String imageUrl) {
+    @Override
+    public void showScrollContainer() {
+        scrollContainer.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideEmptyStateTextView() {
+        tvEmptyText.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void renderErrorStateTextView(String errorMessage) {
+        tvEmptyText.setVisibility(View.VISIBLE);
+        tvEmptyText.setText(errorMessage);
+    }
+
+    @Override
+    public void renderEmptyStateTextView() {
+        tvEmptyText.setVisibility(View.VISIBLE);
+        tvEmptyText.setText(getString(R.string.detail_empty_label));
+    }
+
+    @Override
+    public void renderBannerFoodImage(String imageUrl) {
         imgBannerFood.setVisibility(View.VISIBLE);
         GlideApp.with(getActivity())
                 .load(imageUrl)
@@ -151,20 +178,16 @@ public class RecipeDetailFragment extends Fragment implements RecipeDetailContra
                 .into(imgBannerFood);
     }
 
-    private void renderHeaderContainer(Recipe recipe) {
+    @Override
+    public void renderHeaderContainer(int serving, int preparationMinutes, int cookingMinutes) {
         containerHeader.setVisibility(View.VISIBLE);
-        tvServingCount.setText(getString(R.string.detail_serving_format, recipe.getServing()));
-        tvPreparationTime.setText(getString(R.string.detail_time_format,
-                recipe.getPreparationMinutes()));
-        tvCookingTime.setText(getString(R.string.detail_time_format, recipe.getCookingMinutes()));
+        tvServingCount.setText(getString(R.string.detail_serving_format, serving));
+        tvPreparationTime.setText(getString(R.string.detail_time_format, preparationMinutes));
+        tvCookingTime.setText(getString(R.string.detail_time_format, cookingMinutes));
     }
 
-    private void renderBodyContainer(Recipe recipe) {
-        renderIngredientCard(recipe.getIngredients());
-        renderInstructionCard(recipe.getInstruction());
-    }
-
-    private void renderIngredientCard(List<Ingredient> ingredients) {
+    @Override
+    public void renderIngredientCard(List<Ingredient> ingredients) {
         final List<String> formattedInstructions = new ArrayList<>(ingredients.size());
         int number = 1;
         for (Ingredient ingredient : ingredients) {
@@ -181,7 +204,8 @@ public class RecipeDetailFragment extends Fragment implements RecipeDetailContra
         rvIngredient.setAdapter(adapter);
     }
 
-    private void renderInstructionCard(List<Instruction> instructions) {
+    @Override
+    public void renderInstructionCard(List<Instruction> instructions) {
         final List<String> formattedInstructions = new ArrayList<>(instructions.size());
         for (Instruction instruction : instructions) {
             formattedInstructions.add(getString(R.string.general_number_text_format,
