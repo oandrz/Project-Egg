@@ -18,22 +18,17 @@ class RecipeDetailContract {
         void hideProgressBar();
 
         void hideScrollContainer();
-
         void showScrollContainer();
-
         void hideEmptyStateTextView();
 
         void renderErrorStateTextView(String errorMessage);
-
         void renderEmptyStateTextView();
-
         void renderBannerFoodImage(String imageURL);
-
         void renderHeaderContainer(int serving, int preparationMinutes, int cookingMinutes);
-
         void renderIngredientCard(List<Ingredient> ingredients);
-
         void renderInstructionCard(List<Instruction> instructions);
+
+        void setupSwipeRefreshLayout();
     }
 
     interface Presenter extends BasePresenter {

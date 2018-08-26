@@ -32,6 +32,7 @@ class RecipeDetailPresenter implements RecipeDetailContract.Presenter {
 
     @Override
     public void start() {
+        mView.setupSwipeRefreshLayout();
         getRecipeDetailInformation(mRecipeId);
     }
 
@@ -42,6 +43,7 @@ class RecipeDetailPresenter implements RecipeDetailContract.Presenter {
 
     @Override
     public void getRecipeDetailInformation(String recipeId) {
+        mView.hideScrollContainer();
         mView.showProgressBar();
         mCompositeDisposable
                 .add(mRepository.getRecipeDetailInformation(recipeId)
@@ -56,7 +58,6 @@ class RecipeDetailPresenter implements RecipeDetailContract.Presenter {
                                     mView.hideEmptyStateTextView();
                                     updateView();
                                 } else {
-                                    mView.hideScrollContainer();
                                     mView.renderEmptyStateTextView();
                                 }
                             }
@@ -64,7 +65,6 @@ class RecipeDetailPresenter implements RecipeDetailContract.Presenter {
                             @Override
                             public void accept(Throwable throwable) {
                                 mView.hideProgressBar();
-                                mView.hideScrollContainer();
                                 mView.renderErrorStateTextView(throwable.getMessage());
                             }
                         }));

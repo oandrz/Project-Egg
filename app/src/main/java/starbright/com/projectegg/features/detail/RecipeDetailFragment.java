@@ -9,7 +9,9 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.NestedScrollView;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -17,7 +19,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -42,9 +43,6 @@ import starbright.com.projectegg.util.scheduler.BaseSchedulerProvider;
 public class RecipeDetailFragment extends Fragment implements RecipeDetailContract.View {
 
     private static final String BUNDLE_RECIPE_ID = "BUNDLE_RECIPE_ID";
-
-    @BindView(R.id.progress_bar)
-    ProgressBar progressBar;
 
     @BindView(R.id.img_banner_food)
     ImageView imgBannerFood;
@@ -78,6 +76,9 @@ public class RecipeDetailFragment extends Fragment implements RecipeDetailContra
 
     @BindView(R.id.tv_empty_text)
     TextView tvEmptyText;
+
+    @BindView(R.id.swipe_refresh_container)
+    SwipeRefreshLayout swipeRefreshLayout;
 
     @Inject
     AppRepository repository;
@@ -133,12 +134,12 @@ public class RecipeDetailFragment extends Fragment implements RecipeDetailContra
 
     @Override
     public void showProgressBar() {
-        progressBar.setVisibility(View.VISIBLE);
+        swipeRefreshLayout.setRefreshing(true);
     }
 
     @Override
     public void hideProgressBar() {
-        progressBar.setVisibility(View.GONE);
+        swipeRefreshLayout.setRefreshing(false);
     }
 
     @Override
@@ -218,6 +219,17 @@ public class RecipeDetailFragment extends Fragment implements RecipeDetailContra
         final TextViewRecyclerAdapter adapter = new TextViewRecyclerAdapter(getActivity(),
                 formattedInstructions);
         rvInstruction.setAdapter(adapter);
+    }
+
+    @Override
+    public void setupSwipeRefreshLayout() {
+        swipeRefreshLayout.setColorSchemeColors(ContextCompat.getColor(getActivity(), R.color.red));
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mPresenter.getRecipeDetailInformation(getArguments().getString(BUNDLE_RECIPE_ID));
+            }
+        });
     }
 
     interface FragmentListener {
