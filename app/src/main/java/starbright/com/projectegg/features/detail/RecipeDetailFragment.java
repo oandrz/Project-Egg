@@ -116,8 +116,8 @@ public class RecipeDetailFragment extends Fragment implements RecipeDetailContra
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        mPresenter.setRecipeId(getArguments().getString(BUNDLE_RECIPE_ID));
         mPresenter.start();
-        mPresenter.getRecipeDetailInformation(getArguments().getString(BUNDLE_RECIPE_ID));
     }
 
     @Override

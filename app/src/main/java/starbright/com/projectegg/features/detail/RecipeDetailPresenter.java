@@ -17,6 +17,8 @@ class RecipeDetailPresenter implements RecipeDetailContract.Presenter {
     private final BaseSchedulerProvider mSchedulerProvider;
     private CompositeDisposable mCompositeDisposable;
 
+    private String mRecipeId;
+
     RecipeDetailPresenter(AppRepository repository,
                           RecipeDetailContract.View view,
                           BaseSchedulerProvider schedulerProvider) {
@@ -29,6 +31,12 @@ class RecipeDetailPresenter implements RecipeDetailContract.Presenter {
 
     @Override
     public void start() {
+        getRecipeDetailInformation(mRecipeId);
+    }
+
+    @Override
+    public void setRecipeId(String recipeId) {
+        mRecipeId = recipeId;
     }
 
     @Override

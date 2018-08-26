@@ -18,6 +18,7 @@ class RecipeDetailContract {
     }
 
     interface Presenter extends BasePresenter {
+        void setRecipeId(String recipeId);
         void getRecipeDetailInformation(String recipeId);
     }
 }
