@@ -144,9 +144,10 @@ public class RecipeDetailFragment extends Fragment implements RecipeDetailContra
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_share:
-                mPresenter.handleShareButtonClicked();
+                mPresenter.handleShareMenuClicked();
                 return true;
             case R.id.menu_webview:
+                mPresenter.handleWebViewMenuClicked();
                 return true;
         }
         return false;
@@ -268,7 +269,12 @@ public class RecipeDetailFragment extends Fragment implements RecipeDetailContra
         startActivity(Intent.createChooser(shareIntent, getString(R.string.general_sharechooser)));
     }
 
-    interface FragmentListener {
+    @Override
+    public void navigateToWebViewActivity(String url) {
+        mFragmentListener.navigateToWebViewActivity(url);
+    }
 
+    interface FragmentListener {
+        void navigateToWebViewActivity(String url);
     }
 }

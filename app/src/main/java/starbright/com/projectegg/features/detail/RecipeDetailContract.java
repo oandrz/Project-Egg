@@ -32,12 +32,16 @@ class RecipeDetailContract {
         void setupSwipeRefreshLayout();
 
         void createShareIntent(String url, String recipeName);
+
+        void navigateToWebViewActivity(String url);
     }
 
     interface Presenter extends BasePresenter {
         void setRecipeId(String recipeId);
         void getRecipeDetailInformation(String recipeId);
 
-        void handleShareButtonClicked();
+        void handleShareMenuClicked();
+
+        void handleWebViewMenuClicked();
     }
 }

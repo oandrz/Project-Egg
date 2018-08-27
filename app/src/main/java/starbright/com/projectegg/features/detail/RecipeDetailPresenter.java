@@ -71,8 +71,13 @@ class RecipeDetailPresenter implements RecipeDetailContract.Presenter {
     }
 
     @Override
-    public void handleShareButtonClicked() {
+    public void handleShareMenuClicked() {
         mView.createShareIntent(mRecipe.getSourceStringUrl(), mRecipe.getTitle());
+    }
+
+    @Override
+    public void handleWebViewMenuClicked() {
+        mView.navigateToWebViewActivity(mRecipe.getSourceStringUrl());
     }
 
     private void updateView() {

@@ -10,6 +10,7 @@ import android.os.Bundle;
 
 import starbright.com.projectegg.R;
 import starbright.com.projectegg.features.base.BaseActivityWithToolbar;
+import starbright.com.projectegg.features.base.WebviewActivity;
 
 public class RecipeDetailActivity extends BaseActivityWithToolbar
         implements RecipeDetailFragment.FragmentListener {
@@ -56,5 +57,10 @@ public class RecipeDetailActivity extends BaseActivityWithToolbar
                     .add(R.id.contentFrame, mFragment, RECIPE_FRAGMENT_TAG)
                     .commit();
         }
+    }
+
+    @Override
+    public void navigateToWebViewActivity(String url) {
+        startActivity(WebviewActivity.newIntent(this, url));
     }
 }
