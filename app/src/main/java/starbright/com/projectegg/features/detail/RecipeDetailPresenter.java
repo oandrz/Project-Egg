@@ -70,6 +70,11 @@ class RecipeDetailPresenter implements RecipeDetailContract.Presenter {
                         }));
     }
 
+    @Override
+    public void handleShareButtonClicked() {
+        mView.createShareIntent(mRecipe.getSourceStringUrl(), mRecipe.getTitle());
+    }
+
     private void updateView() {
         mView.showScrollContainer();
         mView.renderBannerFoodImage(mRecipe.getImage());

@@ -5,6 +5,7 @@
 package starbright.com.projectegg.features.detail;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -16,6 +17,9 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -107,6 +111,7 @@ public class RecipeDetailFragment extends Fragment implements RecipeDetailContra
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
         new RecipeDetailPresenter(repository, this, schedulerProvider);
     }
 
@@ -125,6 +130,23 @@ public class RecipeDetailFragment extends Fragment implements RecipeDetailContra
         super.onViewCreated(view, savedInstanceState);
         mPresenter.setRecipeId(getArguments().getString(BUNDLE_RECIPE_ID));
         mPresenter.start();
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.recipe_detail_menu, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_share:
+                mPresenter.handleShareButtonClicked();
+                return true;
+            case R.id.menu_webview:
+                return true;
+        }
+        return false;
     }
 
     @Override
@@ -230,6 +252,15 @@ public class RecipeDetailFragment extends Fragment implements RecipeDetailContra
                 mPresenter.getRecipeDetailInformation(getArguments().getString(BUNDLE_RECIPE_ID));
             }
         });
+    }
+
+    @Override
+    public void createShareIntent(String url, String recipeName) {
+        final String textToShare = getString(R.string.detail_intent_share, recipeName, url);
+        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        shareIntent.setType("text/plain");
+        shareIntent.putExtra(Intent.EXTRA_TEXT, textToShare);
+        startActivity(Intent.createChooser(shareIntent, getString(R.string.general_sharechooser)));
     }
 
     interface FragmentListener {

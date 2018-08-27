@@ -4,6 +4,7 @@
     <string name="general.zero">0</string>
     <string name="general.signout">Sign out</string>
     <string name="general.favorites">Favorites</string>
+    <string name="general.sharechooser">Share Using</string>
     <string name="general.error.email.empty">Please Fill your Email</string>
     <string name="general.error.email.format">Your email\'s format should be mailname@mailprovider.com</string>
     <string name="general.error.password.empty">Please Fill your Password</string>
@@ -49,4 +50,7 @@
     <string name="detail.time.format">%d Minutes</string>
     <string name="detail.serving.format">%d Peoples</string>
     <string name="detail.empty.label">I\'m sorry I still don\'t have the data of item that you want</string>
+    <string name="detail.menu.share.label">Share</string>
+    <string name="detail.menu.detail.label">Open Detail in WebView</string>
+    <string name="detail.intent.share">Hey, check this out ! I found delicious this recipe %s \nlink below\n%s</string>
 </resources>

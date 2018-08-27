@@ -29,10 +29,14 @@ class RecipeDetailContract {
         void renderInstructionCard(List<Instruction> instructions);
 
         void setupSwipeRefreshLayout();
+
+        void createShareIntent(String url, String recipeName);
     }
 
     interface Presenter extends BasePresenter {
         void setRecipeId(String recipeId);
         void getRecipeDetailInformation(String recipeId);
+
+        void handleShareButtonClicked();
     }
 }
