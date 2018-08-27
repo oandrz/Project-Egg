@@ -24,7 +24,8 @@ class RecipeDetailContract {
         void renderErrorStateTextView(String errorMessage);
         void renderEmptyStateTextView();
         void renderBannerFoodImage(String imageURL);
-        void renderHeaderContainer(int serving, int preparationMinutes, int cookingMinutes);
+
+        void renderHeaderContainer(int serving, int preparationMinutes, int cookingMinutes, String recipeName);
         void renderIngredientCard(List<Ingredient> ingredients);
         void renderInstructionCard(List<Instruction> instructions);
 

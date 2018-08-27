@@ -84,6 +84,9 @@ public class RecipeDetailFragment extends Fragment implements RecipeDetailContra
     @BindView(R.id.swipe_refresh_container)
     SwipeRefreshLayout swipeRefreshLayout;
 
+    @BindView(R.id.tv_recipe_title)
+    TextView tvRecipeName;
+
     @Inject
     AppRepository repository;
 
@@ -202,8 +205,10 @@ public class RecipeDetailFragment extends Fragment implements RecipeDetailContra
     }
 
     @Override
-    public void renderHeaderContainer(int serving, int preparationMinutes, int cookingMinutes) {
+    public void renderHeaderContainer(int serving, int preparationMinutes, int cookingMinutes
+            , String recipeName) {
         containerHeader.setVisibility(View.VISIBLE);
+        tvRecipeName.setText(recipeName);
         tvServingCount.setText(getString(R.string.detail_serving_format, serving));
         tvPreparationTime.setText(getString(R.string.detail_time_format, preparationMinutes));
         tvCookingTime.setText(getString(R.string.detail_time_format, cookingMinutes));

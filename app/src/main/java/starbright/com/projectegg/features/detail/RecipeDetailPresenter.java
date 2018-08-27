@@ -79,7 +79,7 @@ class RecipeDetailPresenter implements RecipeDetailContract.Presenter {
         mView.showScrollContainer();
         mView.renderBannerFoodImage(mRecipe.getImage());
         mView.renderHeaderContainer(mRecipe.getServing(), mRecipe.getPreparationMinutes(),
-                mRecipe.getCookingMinutes());
+                mRecipe.getCookingMinutes(), mRecipe.getTitle());
         mView.renderIngredientCard(mRecipe.getIngredients());
         mView.renderInstructionCard(mRecipe.getInstruction());
     }

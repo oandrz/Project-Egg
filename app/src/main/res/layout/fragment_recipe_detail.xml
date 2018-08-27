@@ -42,8 +42,7 @@
                         android:id="@+id/tv_recipe_title"
                         style="@style/HeaderFontWhite"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="testing" />
+                        android:layout_height="wrap_content" />
 
                     <View
                         android:id="@+id/divider"
