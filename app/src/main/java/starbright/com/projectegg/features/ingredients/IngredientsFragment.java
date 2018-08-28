@@ -156,8 +156,6 @@ public class IngredientsFragment extends Fragment implements IngredientsContract
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(mMessageReceiver,
-                new IntentFilter(EVENT_CART_COUNT_UPDATED));
         new IngredientsPresenter(
                 repository,
                 this,
@@ -179,6 +177,8 @@ public class IngredientsFragment extends Fragment implements IngredientsContract
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(mMessageReceiver,
+                new IntentFilter(EVENT_CART_COUNT_UPDATED));
         mPresenter.start();
         if (savedInstanceState != null) {
             mPresenter.setCart(savedInstanceState.<Ingredient>getParcelableArrayList(BUNDLE_CART));

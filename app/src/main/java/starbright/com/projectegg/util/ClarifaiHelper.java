@@ -31,7 +31,7 @@ public class ClarifaiHelper {
 
     private static final int CLARIFAI_REQUEST_TIMEOUT = 30;
     private static final int BYTE_BUFFER_SIZE = 1024;
-    private static final float MINIMUM_PREDICTION_PERCENTAGE = 0.95f;
+    private static final float MINIMUM_PREDICTION_PERCENTAGE = 0.99f;
 
     private final ClarifaiClient mClarifaiClient;
     private Context mContext;
