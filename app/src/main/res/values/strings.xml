@@ -40,7 +40,7 @@
     <string name="ingredients.cart.error.max">I\'m sorry, but you can\'t bring ingredient anymore</string>
     <string name="ingredients.prediction.empty">I\'m sorry, I couldn\'t recognize the image</string>
     <string name="ingredients.btn.submit.label">Submit</string>
-    <string name="ingredients.added.text">Ingredient Successfully Added</string>
+    <string name="ingredients.added.text">Successfully add item to your cart</string>
 
     <!--Detail Page-->
     <string name="detail.serving.label">Serving</string>
