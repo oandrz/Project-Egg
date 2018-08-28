@@ -147,6 +147,8 @@ class IngredientsPresenter implements IngredientsContract.Presenter, ClarifaiHel
             for (String ingredientText : ingredientsSplitted) {
                 mCart.add(new Ingredient(ingredientText));
             }
+            mView.updateIngredientCount(mCart.size());
+            mView.showItemAddedToast();
         }
     }
 }

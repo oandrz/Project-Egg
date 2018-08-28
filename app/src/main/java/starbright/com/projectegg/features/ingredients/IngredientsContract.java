@@ -33,6 +33,8 @@ class IngredientsContract {
         void showDuplicateItemToast();
         void showPredictionEmptyToast();
 
+        void showItemAddedToast();
+
         void showSuccessPutIngredientToast(String ingredientName);
 
         void showMaterialProgressDialog();

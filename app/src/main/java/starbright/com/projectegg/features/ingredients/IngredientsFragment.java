@@ -324,6 +324,12 @@ public class IngredientsFragment extends Fragment implements IngredientsContract
     }
 
     @Override
+    public void showItemAddedToast() {
+        Toast.makeText(getActivity(), getString(R.string.ingredients_added_text),
+                Toast.LENGTH_LONG).show();
+    }
+
+    @Override
     public void showSuccessPutIngredientToast(String ingredientName) {
         Toast.makeText(getActivity(), getString(R.string.ingredients_cart_included_format,
                 ingredientName), Toast.LENGTH_SHORT).show();
