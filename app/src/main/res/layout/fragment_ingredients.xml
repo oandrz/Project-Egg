@@ -28,7 +28,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="?android:attr/selectableItemBackground"
-                    android:drawableEnd="@drawable/ic_shopping_basket"
+                    android:drawableEnd="@drawable/ic_shopping_basket_white"
                     android:drawablePadding="@dimen/space_small"
                     android:gravity="center"
                     android:text="@string/general.zero"
