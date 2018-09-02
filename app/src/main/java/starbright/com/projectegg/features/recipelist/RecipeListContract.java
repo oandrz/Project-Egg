@@ -2,6 +2,7 @@ package starbright.com.projectegg.features.recipelist;
 
 import java.util.List;
 
+import starbright.com.projectegg.data.local.model.Ingredient;
 import starbright.com.projectegg.data.local.model.Recipe;
 import starbright.com.projectegg.features.base.BasePresenter;
 import starbright.com.projectegg.features.base.BaseView;
@@ -17,9 +18,15 @@ class RecipeListContract {
         void bindRecipesToList(List<Recipe> recipes);
         void showLoadingBar();
         void hideLoadingBar();
+
+        void showDetail(String recipeId);
     }
 
     interface Presenter extends BasePresenter{
         void getRecipesBasedIngredients(String ingredients);
+
+        void handleListItemClicked(int position);
+
+        void setIngredients(List<Ingredient> ingredients);
     }
 }

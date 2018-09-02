@@ -15,7 +15,7 @@ public class ExtendedIngredientResponse {
     private String mName;
 
     @SerializedName("amount")
-    private int mAmount;
+    private float mAmount;
 
     @SerializedName("unit")
     private String mUnit;
@@ -31,7 +31,7 @@ public class ExtendedIngredientResponse {
         return mName;
     }
 
-    public int getAmount() {
+    public float getAmount() {
         return mAmount;
     }
 

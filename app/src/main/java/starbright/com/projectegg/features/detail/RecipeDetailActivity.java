@@ -52,7 +52,8 @@ public class RecipeDetailActivity extends BaseActivityWithToolbar
         mFragment = (RecipeDetailFragment) getSupportFragmentManager()
                 .findFragmentByTag(RECIPE_FRAGMENT_TAG);
         if (mFragment == null) {
-            mFragment = RecipeDetailFragment.newInstance("556476");
+            mFragment = RecipeDetailFragment.newInstance(getIntent().getExtras()
+                    .getString(EXTRA_RECIPE_ID));
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.contentFrame, mFragment, RECIPE_FRAGMENT_TAG)
                     .commit();

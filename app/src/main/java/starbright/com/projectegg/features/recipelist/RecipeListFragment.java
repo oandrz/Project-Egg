@@ -29,8 +29,8 @@ import starbright.com.projectegg.util.scheduler.BaseSchedulerProvider;
  * Created by Andreas on 4/8/2018.
  */
 
-public class RecipeListFragment extends Fragment
-        implements RecipeListContract.View {
+public class RecipeListFragment extends Fragment implements RecipeListContract.View,
+        RecipeListAdapter.Listener {
 
     private static String INGREDIENT_LIST_BUNDLE = "INGREDIENT_LIST_BUNDLE";
 
@@ -46,6 +46,7 @@ public class RecipeListFragment extends Fragment
     @BindView(R.id.progress_bar)
     ProgressBar progressBar;
 
+    private FragmentListener mFragmentListener;
     private RecipeListContract.Presenter mPresenter;
     private RecipeListAdapter mAdapter;
 
@@ -61,6 +62,7 @@ public class RecipeListFragment extends Fragment
     public void onAttach(Context context) {
         MyApp.getAppComponent().inject(this);
         super.onAttach(context);
+        mFragmentListener = (FragmentListener) context;
     }
 
     @Override
@@ -82,7 +84,21 @@ public class RecipeListFragment extends Fragment
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        mPresenter.setIngredients(getArguments().
+                <Ingredient>getParcelableArrayList(INGREDIENT_LIST_BUNDLE));
         mPresenter.start();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        mAdapter.setListener(null);
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mFragmentListener = null;
     }
 
     @Override
@@ -98,6 +114,7 @@ public class RecipeListFragment extends Fragment
                 , false)
         );
         mAdapter = new RecipeListAdapter(getActivity());
+        mAdapter.setListener(this);
         rvRecipe.setAdapter(mAdapter);
     }
 
@@ -115,5 +132,19 @@ public class RecipeListFragment extends Fragment
     @Override
     public void hideLoadingBar() {
         progressBar.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void showDetail(String recipeId) {
+        mFragmentListener.navigateRecipeDetailActivity(recipeId);
+    }
+
+    @Override
+    public void onItemClicked(int position) {
+        mPresenter.handleListItemClicked(position);
+    }
+
+    interface FragmentListener {
+        void navigateRecipeDetailActivity(String recipeId);
     }
 }

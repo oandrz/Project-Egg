@@ -15,7 +15,7 @@ public class Ingredient implements Parcelable {
     private String mName;
     private String mImageUrl;
     private String mUnit;
-    private int mAmount;
+    private float mAmount;
 
     public static final Creator<Ingredient> CREATOR = new Creator<Ingredient>() {
         @Override
@@ -87,7 +87,7 @@ public class Ingredient implements Parcelable {
         mUnit = unit;
     }
 
-    public int getAmount() {
+    public float getAmount() {
         return mAmount;
     }
 
@@ -105,7 +105,7 @@ public class Ingredient implements Parcelable {
         dest.writeString(mId);
         dest.writeString(mName);
         dest.writeString(mImageUrl);
-        dest.writeInt(mAmount);
+        dest.writeFloat(mAmount);
         dest.writeString(mUnit);
     }
 
