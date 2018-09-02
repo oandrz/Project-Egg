@@ -23,8 +23,6 @@ import starbright.com.projectegg.data.local.model.Ingredient;
 public class CartBottomSheetDialogFragment extends BottomSheetDialogFragment
         implements IngredientsCartAdapter.Listener {
 
-    public static final String EXTRA_EVENT_CART = "EXTRA_EVENT_CART";
-
     private static final int SPAN_COUNT = 4;
 
     @BindView(R.id.tv_total_ingredient)
