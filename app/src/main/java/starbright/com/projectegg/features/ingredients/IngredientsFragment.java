@@ -2,10 +2,8 @@ package starbright.com.projectegg.features.ingredients;
 
 import android.Manifest;
 import android.app.Activity;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -14,7 +12,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.FileProvider;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -60,7 +57,6 @@ import starbright.com.projectegg.util.Constants;
 import starbright.com.projectegg.util.scheduler.BaseSchedulerProvider;
 
 import static android.app.Activity.RESULT_OK;
-import static starbright.com.projectegg.features.ingredients.CartBottomSheetDialogFragment.EXTRA_EVENT_CART;
 
 @RuntimePermissions
 public class IngredientsFragment extends Fragment implements IngredientsContract.View,
@@ -101,13 +97,6 @@ public class IngredientsFragment extends Fragment implements IngredientsContract
     private MaterialDialog mDialog;
     private CartBottomSheetDialogFragment mCartBottomSheetDialogFragment;
     private String mCurrentPhotoPath;
-
-    private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            mPresenter.setCart(intent.<Ingredient>getParcelableArrayListExtra(EXTRA_EVENT_CART));
-        }
-    };
 
     private FragmentListener mFragmentListener;
 
@@ -177,8 +166,6 @@ public class IngredientsFragment extends Fragment implements IngredientsContract
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(mMessageReceiver,
-                new IntentFilter(EVENT_CART_COUNT_UPDATED));
         mPresenter.start();
         if (savedInstanceState != null) {
             mPresenter.setCart(savedInstanceState.<Ingredient>getParcelableArrayList(BUNDLE_CART));
@@ -189,12 +176,6 @@ public class IngredientsFragment extends Fragment implements IngredientsContract
     public void onDetach() {
         mFragmentListener = null;
         super.onDetach();
-    }
-
-    @Override
-    public void onDestroyView() {
-        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(mMessageReceiver);
-        super.onDestroyView();
     }
 
     @Override
@@ -245,6 +226,17 @@ public class IngredientsFragment extends Fragment implements IngredientsContract
     @Override
     public void setupBottomSheetDialogFragment() {
         mCartBottomSheetDialogFragment = new CartBottomSheetDialogFragment();
+        mCartBottomSheetDialogFragment.setListener(new CartBottomSheetDialogFragment.SheetListener() {
+            @Override
+            public void updateCart(List<Ingredient> ingredients) {
+                mPresenter.setCart(ingredients);
+            }
+
+            @Override
+            public void submitButtonClicked() {
+                mFragmentListener.navigateRecipeListActivity(mPresenter.getCart());
+            }
+        });
     }
 
     @Override
@@ -454,5 +446,7 @@ public class IngredientsFragment extends Fragment implements IngredientsContract
 
     interface FragmentListener {
         void navigateUserAccountActivity();
+
+        void navigateRecipeListActivity(List<Ingredient> ingredients);
     }
 }

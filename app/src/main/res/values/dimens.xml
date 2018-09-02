@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="image_size">240dp</dimen>
+    <dimen name="image_size">140dp</dimen>
     <dimen name="iv_ingredient_size">40dp</dimen>
     <dimen name="iv_ingredient_cart_size">60dp</dimen>
     <dimen name="iv_clear_size">12dp</dimen>

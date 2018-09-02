@@ -44,7 +44,9 @@ class IngredientsPresenter implements IngredientsContract.Presenter, ClarifaiHel
     public void start() {
         mView.setupEtSearchIngredients();
         mView.setupRvIngredientSuggestion();
-        mView.setupBottomSheetDialogFragment();
+        if (!mCart.isEmpty()) {
+            mView.updateIngredientCount(mCart.size());
+        }
     }
 
     @Override
@@ -58,6 +60,7 @@ class IngredientsPresenter implements IngredientsContract.Presenter, ClarifaiHel
 
     @Override
     public void handleCartTvClicked() {
+        mView.setupBottomSheetDialogFragment();
         mView.setCartItem(mCart);
         mView.showBottomSheetDialog();
     }
@@ -95,27 +98,27 @@ class IngredientsPresenter implements IngredientsContract.Presenter, ClarifaiHel
 
         mCompositeDisposable
                 .add(mRepository.searchIngredient(query)
-                .subscribeOn(mSchedulerProvider.computation())
-                .observeOn(mSchedulerProvider.ui())
-                .subscribe(new Consumer<List<Ingredient>>() {
-                    @Override
-                    public void accept(List<Ingredient> ingredients) {
-                        mView.hideSuggestionProgressBar();
-                        mView.hideSoftkeyboard();
-                        if (ingredients.isEmpty()) {
-                            mView.showItemEmptyToast();
-                        }
-                        mView.showActionClear();
-                        mView.showSearchSuggestion(ingredients);
-                    }
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(Throwable throwable) {
-                        mView.hideSuggestionProgressBar();
-                        mView.showActionClear();
-                    }
-                })
-        );
+                        .subscribeOn(mSchedulerProvider.computation())
+                        .observeOn(mSchedulerProvider.ui())
+                        .subscribe(new Consumer<List<Ingredient>>() {
+                            @Override
+                            public void accept(List<Ingredient> ingredients) {
+                                mView.hideSuggestionProgressBar();
+                                mView.hideSoftkeyboard();
+                                if (ingredients.isEmpty()) {
+                                    mView.showItemEmptyToast();
+                                }
+                                mView.showActionClear();
+                                mView.showSearchSuggestion(ingredients);
+                            }
+                        }, new Consumer<Throwable>() {
+                            @Override
+                            public void accept(Throwable throwable) {
+                                mView.hideSuggestionProgressBar();
+                                mView.showActionClear();
+                            }
+                        })
+                );
     }
 
     @Override

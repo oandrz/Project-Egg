@@ -1,10 +1,8 @@
 package starbright.com.projectegg.features.ingredients;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetDialogFragment;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -22,8 +19,6 @@ import butterknife.OnClick;
 import io.reactivex.annotations.NonNull;
 import starbright.com.projectegg.R;
 import starbright.com.projectegg.data.local.model.Ingredient;
-
-import static starbright.com.projectegg.features.ingredients.IngredientsFragment.EVENT_CART_COUNT_UPDATED;
 
 public class CartBottomSheetDialogFragment extends BottomSheetDialogFragment
         implements IngredientsCartAdapter.Listener {
@@ -41,6 +36,7 @@ public class CartBottomSheetDialogFragment extends BottomSheetDialogFragment
     @BindView(R.id.rv_ingredients_cart)
     RecyclerView rvIngredientsCart;
 
+    private SheetListener mSheetListener;
     private IngredientsCartAdapter mAdapter;
     private List<Ingredient> mCart;
 
@@ -69,6 +65,18 @@ public class CartBottomSheetDialogFragment extends BottomSheetDialogFragment
         setupRvIngredientCart();
     }
 
+    @Override
+    public void onClearItemClickedListener(int position) {
+        updateView(position);
+        mSheetListener.updateCart(mCart);
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mSheetListener = null;
+    }
+
     private void setupRvIngredientCart() {
         rvIngredientsCart.setLayoutManager(new GridLayoutManager(getActivity(), SPAN_COUNT,
                 LinearLayoutManager.VERTICAL, false));
@@ -84,12 +92,6 @@ public class CartBottomSheetDialogFragment extends BottomSheetDialogFragment
         updateList();
     }
 
-    private void broadcastUpdatedCart() {
-        final Intent intent = new Intent(EVENT_CART_COUNT_UPDATED);
-        intent.putParcelableArrayListExtra(EXTRA_EVENT_CART, new ArrayList<>(mCart));
-        LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
-    }
-
     private void updateList() {
         mAdapter.notifyDataSetChanged();
         tvEmpty.setVisibility(mCart.isEmpty() ? View.VISIBLE : View.GONE);
@@ -103,14 +105,18 @@ public class CartBottomSheetDialogFragment extends BottomSheetDialogFragment
         mCart = cart;
     }
 
-    @Override
-    public void onClearItemClickedListener(int position) {
-        updateView(position);
-        broadcastUpdatedCart();
+    public void setListener(SheetListener listener) {
+        mSheetListener = listener;
     }
 
     @OnClick(R.id.btn_submit)
     void onClickedSubmit() {
-        // TODO : 26/07/18 Start new activity into recipe list
+        mSheetListener.submitButtonClicked();
+    }
+
+    interface SheetListener {
+        void updateCart(List<Ingredient> ingredients);
+
+        void submitButtonClicked();
     }
 }

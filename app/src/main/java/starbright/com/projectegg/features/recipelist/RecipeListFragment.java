@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -20,6 +21,7 @@ import butterknife.ButterKnife;
 import starbright.com.projectegg.MyApp;
 import starbright.com.projectegg.R;
 import starbright.com.projectegg.data.AppRepository;
+import starbright.com.projectegg.data.local.model.Ingredient;
 import starbright.com.projectegg.data.local.model.Recipe;
 import starbright.com.projectegg.util.scheduler.BaseSchedulerProvider;
 
@@ -29,6 +31,8 @@ import starbright.com.projectegg.util.scheduler.BaseSchedulerProvider;
 
 public class RecipeListFragment extends Fragment
         implements RecipeListContract.View {
+
+    private static String INGREDIENT_LIST_BUNDLE = "INGREDIENT_LIST_BUNDLE";
 
     @Inject
     AppRepository repo;
@@ -45,8 +49,12 @@ public class RecipeListFragment extends Fragment
     private RecipeListContract.Presenter mPresenter;
     private RecipeListAdapter mAdapter;
 
-    public static RecipeListFragment newInstance() {
-        return new RecipeListFragment();
+    public static RecipeListFragment newInstance(ArrayList<Ingredient> ingredients) {
+        Bundle bundle = new Bundle();
+        bundle.putParcelableArrayList(INGREDIENT_LIST_BUNDLE, ingredients);
+        RecipeListFragment fragment = new RecipeListFragment();
+        fragment.setArguments(bundle);
+        return fragment;
     }
 
     @Override
