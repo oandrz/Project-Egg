@@ -37,6 +37,7 @@ public class RecipeListActivity extends BaseActivityWithToolbar
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setBackButtonEnabled(true);
         initFragment();
     }
 

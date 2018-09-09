@@ -26,7 +26,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".features.recipelist.RecipeListActivity" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -43,7 +42,12 @@
             android:windowSoftInputMode="stateHidden|adjustResize" />
 
         <activity
+            android:name=".features.recipelist.RecipeListActivity"
+            android:parentActivityName=".features.ingredients.IngredientsActivity" />
+
+        <activity
             android:name=".features.detail.RecipeDetailActivity"
+            android:parentActivityName=".features.recipelist.RecipeListActivity"
             android:windowSoftInputMode="stateHidden|adjustResize" />
 
         <activity
