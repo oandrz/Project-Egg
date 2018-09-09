@@ -4,11 +4,12 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical"
+    android:gravity="center"
     android:padding="@dimen/space_normal">
 
     <android.support.design.widget.CoordinatorLayout
-        android:layout_width="@dimen/cart_ingredient_image_size"
-        android:layout_height="@dimen/iv_ingredient_size">
+        android:layout_width="@dimen/cart_image_container_size"
+        android:layout_height="wrap_content">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/iv_ingredient"

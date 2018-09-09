@@ -7,10 +7,11 @@
     <dimen name="image_size">180dp</dimen>
     <dimen name="iv_ingredient_size">40dp</dimen>
     <dimen name="iv_ingredient_cart_size">60dp</dimen>
-    <dimen name="iv_clear_size">12dp</dimen>
+    <dimen name="iv_clear_size">14dp</dimen>
     <dimen name="container_ingredient_width">100dp</dimen>
     <dimen name="recipe_detail_image_height">180dp</dimen>
     <dimen name="cart_ingredient_image_size">50dp</dimen>
+    <dimen name="cart_image_container_size">64dp</dimen>
     <dimen name="line_size">1dp</dimen>
     <dimen name="banner_image_height">300dp</dimen>
 

@@ -3,7 +3,6 @@ package starbright.com.projectegg.features.ingredients;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetDialogFragment;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -76,8 +75,8 @@ public class CartBottomSheetDialogFragment extends BottomSheetDialogFragment
     }
 
     private void setupRvIngredientCart() {
-        rvIngredientsCart.setLayoutManager(new GridLayoutManager(getActivity(), SPAN_COUNT,
-                LinearLayoutManager.VERTICAL, false));
+        rvIngredientsCart.setLayoutManager(new LinearLayoutManager(getActivity(),
+                LinearLayoutManager.HORIZONTAL, false));
         mAdapter = new IngredientsCartAdapter(getActivity(), mCart);
         mAdapter.setListener(this);
         rvIngredientsCart.setAdapter(mAdapter);
