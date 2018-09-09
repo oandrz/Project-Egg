@@ -1,3 +1,7 @@
+/**
+ * Created by Andreas on 9/9/2018.
+ */
+
 package starbright.com.projectegg.features.ingredients;
 
 import android.Manifest;
@@ -62,8 +66,6 @@ import static android.app.Activity.RESULT_OK;
 public class IngredientsFragment extends Fragment implements IngredientsContract.View,
         IngredientsAdapter.Listener {
 
-    public static final String EVENT_CART_COUNT_UPDATED = "EVENT_CART_COUNT_UPDATED";
-
     private static final int AUTOCOMPLETE_DELAY = 600;
     private static final int CAMERA_REQUEST_CODE = 101;
 
@@ -120,12 +122,14 @@ public class IngredientsFragment extends Fragment implements IngredientsContract
             mTimer.schedule(new TimerTask() {
                 @Override
                 public void run() {
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            mPresenter.searchIngredient(s.toString());
-                        }
-                    });
+                    if (getActivity() != null) {
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                mPresenter.searchIngredient(s.toString());
+                            }
+                        });
+                    }
                 }
             }, AUTOCOMPLETE_DELAY);
         }
@@ -343,7 +347,7 @@ public class IngredientsFragment extends Fragment implements IngredientsContract
     }
 
     @Override
-    public void hideSoftkeyboard() {
+    public void hideSoftKeyboard() {
         final InputMethodManager imm = (InputMethodManager) getActivity()
                 .getSystemService(Activity.INPUT_METHOD_SERVICE);
         if (imm != null) {

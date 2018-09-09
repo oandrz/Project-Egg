@@ -1,3 +1,7 @@
+/**
+ * Created by Andreas on 9/9/2018.
+ */
+
 package starbright.com.projectegg.features.ingredients;
 
 import android.net.Uri;
@@ -104,7 +108,7 @@ class IngredientsPresenter implements IngredientsContract.Presenter, ClarifaiHel
                             @Override
                             public void accept(List<Ingredient> ingredients) {
                                 mView.hideSuggestionProgressBar();
-                                mView.hideSoftkeyboard();
+                                mView.hideSoftKeyboard();
                                 if (ingredients.isEmpty()) {
                                     mView.showItemEmptyToast();
                                 }

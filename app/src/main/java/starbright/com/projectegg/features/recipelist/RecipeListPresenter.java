@@ -1,3 +1,7 @@
+/**
+ * Created by Andreas on 9/9/2018.
+ */
+
 package starbright.com.projectegg.features.recipelist;
 
 import java.util.ArrayList;
@@ -57,9 +61,8 @@ class RecipeListPresenter implements RecipeListContract.Presenter {
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) {
-                        // TODO: 02/09/18 Show Error Snackbar
                         mView.hideLoadingBar();
-                        System.out.println(throwable.getMessage());
+                        mView.showErrorSnackBar(throwable.getMessage());
                     }
                 })
         );

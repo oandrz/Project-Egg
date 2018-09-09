@@ -1,3 +1,7 @@
+/**
+ * Created by Andreas on 9/9/2018.
+ */
+
 package starbright.com.projectegg.features.recipelist;
 
 import android.content.Context;
@@ -137,6 +141,11 @@ public class RecipeListFragment extends Fragment implements RecipeListContract.V
     @Override
     public void showDetail(String recipeId) {
         mFragmentListener.navigateRecipeDetailActivity(recipeId);
+    }
+
+    @Override
+    public void showErrorSnackBar(String errorMessage) {
+
     }
 
     @Override
