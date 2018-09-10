@@ -1,3 +1,7 @@
+/**
+ * Created by Andreas on 10/9/2018.
+ */
+
 package starbright.com.projectegg.features.userAccount;
 
 import android.content.Context;
@@ -34,11 +38,11 @@ public class UserAccountActivity extends BaseActivityWithoutToolbar
     }
 
     @Override
-    protected void onStop() {
+    protected void onDestroy() {
         getSupportFragmentManager().beginTransaction()
                 .detach(mFragment)
                 .commitAllowingStateLoss();
-        super.onStop();
+        super.onDestroy();
     }
 
     private void initFragment() {

@@ -1,3 +1,7 @@
+<!--~
+  ~ Created by Andreas on 10/9/2018.
+  -->
+
 <resources>
     <string name="app.name">Project Egg</string>
     <string name="general.retry.label">Retry</string>
@@ -43,6 +47,10 @@
     <string name="ingredients.added.text">Successfully add item to your cart</string>
 
     <!--Detail Page-->
+    <string name="recipelist.title">Recipe List</string>
+
+    <!--Detail Page-->
+    <string name="detail.title">Recipe Detail</string>
     <string name="detail.serving.label">Serving</string>
     <string name="detail.preparationtime.label">Preparation Time</string>
     <string name="detail.cookingtime.label">Cooking Time</string>

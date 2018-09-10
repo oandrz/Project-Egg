@@ -1,3 +1,7 @@
+/**
+ * Created by Andreas on 10/9/2018.
+ */
+
 package starbright.com.projectegg.features.recipelist;
 
 import android.content.Context;
@@ -37,16 +41,17 @@ public class RecipeListActivity extends BaseActivityWithToolbar
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTitle(getString(R.string.recipelist_title));
         setBackButtonEnabled(true);
         initFragment();
     }
 
     @Override
-    protected void onStop() {
+    protected void onDestroy() {
         getSupportFragmentManager().beginTransaction()
                 .detach(mFragment)
                 .commitAllowingStateLoss();
-        super.onStop();
+        super.onDestroy();
     }
 
     private void initFragment() {

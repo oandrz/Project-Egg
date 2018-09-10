@@ -1,4 +1,8 @@
 /**
+ * Created by Andreas on 10/9/2018.
+ */
+
+/**
  * Created by Andreas on 5/8/2018.
  */
 
@@ -37,16 +41,17 @@ public class RecipeDetailActivity extends BaseActivityWithToolbar
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTitle(R.string.detail_title);
         setBackButtonEnabled(true);
         initFragment();
     }
 
     @Override
-    protected void onStop() {
+    protected void onDestroy() {
         getSupportFragmentManager().beginTransaction()
                 .detach(mFragment)
                 .commitAllowingStateLoss();
-        super.onStop();
+        super.onDestroy();
     }
 
     private void initFragment() {
