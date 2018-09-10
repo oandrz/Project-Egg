@@ -4,6 +4,10 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
+/**
+ * Created by Andreas on 10/9/2018.
+ */
+
 //ButterKnife
 apply plugin: 'com.jakewharton.butterknife'
 
@@ -40,6 +44,7 @@ android {
             applicationIdSuffix ".free"
             versionNameSuffix "-free"
             buildConfigField 'String', 'SPOON_KEY', '\"jZGKN2hgXcmsh1b8iqQnW4NLHS3fp1wh3IEjsnVj2p24ygMF1X\"'
+            buildConfigField 'String', 'ADMOB_APP_ID', '\"ca-app-pub-6407679845315648~1210399614\"'
         }
 
         paid {
@@ -47,6 +52,7 @@ android {
             applicationIdSuffix ".paid"
             versionNameSuffix "-paid"
             buildConfigField 'String', 'SPOON_KEY', '\"jZGKN2hgXcmsh1b8iqQnW4NLHS3fp1wh3IEjsnVj2p24ygMF1X\"'
+            buildConfigField 'String', 'ADMOB_APP_ID', '\"ca-app-pub-6407679845315648~1210399614\"'
         }
     }
 }
@@ -70,7 +76,6 @@ dependencies {
 
     //Butterknife
     implementation "com.jakewharton:butterknife:$rootProject.ext.butterKnifeVersion"
-    implementation 'com.android.support.constraint:constraint-layout:1.1.2'
     annotationProcessor "com.jakewharton:butterknife-compiler:$rootProject.ext.butterKnifeVersion"
 
     //dagger
@@ -111,6 +116,9 @@ dependencies {
 
     //Circle Image View
     implementation "de.hdodenhof:circleimageview:$rootProject.ext.circleIVVersion"
+
+    //Google Play Service : Admob
+    implementation "com.google.android.gms:play-services-ads:$rootProject.ext.admobVersion"
 
     // Unit Test
     testImplementation "junit:junit:$rootProject.ext.jUnitVersion"
