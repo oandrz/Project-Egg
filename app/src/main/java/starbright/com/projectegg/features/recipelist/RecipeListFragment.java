@@ -1,4 +1,8 @@
 /**
+ * Created by Andreas on 10/9/2018.
+ */
+
+/**
  * Created by Andreas on 9/9/2018.
  */
 
@@ -7,13 +11,16 @@ package starbright.com.projectegg.features.recipelist;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
+import android.widget.FrameLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,8 +54,11 @@ public class RecipeListFragment extends Fragment implements RecipeListContract.V
     @BindView(R.id.rv_recipe)
     RecyclerView rvRecipe;
 
-    @BindView(R.id.progress_bar)
-    ProgressBar progressBar;
+    @BindView(R.id.root_layout)
+    FrameLayout rootLayout;
+
+    @BindView(R.id.swipe_refresh_container)
+    SwipeRefreshLayout swipeRefreshContainer;
 
     private FragmentListener mFragmentListener;
     private RecipeListContract.Presenter mPresenter;
@@ -123,6 +133,18 @@ public class RecipeListFragment extends Fragment implements RecipeListContract.V
     }
 
     @Override
+    public void setupSwipeRefreshLayout() {
+        swipeRefreshContainer.setColorSchemeColors(
+                ContextCompat.getColor(getActivity(), R.color.red));
+        swipeRefreshContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mPresenter.handleRefresh();
+            }
+        });
+    }
+
+    @Override
     public void bindRecipesToList(List<Recipe> recipes) {
         rvRecipe.setVisibility(View.VISIBLE);
         mAdapter.setRecipes(recipes);
@@ -130,12 +152,12 @@ public class RecipeListFragment extends Fragment implements RecipeListContract.V
 
     @Override
     public void showLoadingBar() {
-        progressBar.setVisibility(View.VISIBLE);
+        swipeRefreshContainer.setRefreshing(true);
     }
 
     @Override
     public void hideLoadingBar() {
-        progressBar.setVisibility(View.GONE);
+        swipeRefreshContainer.setRefreshing(false);
     }
 
     @Override
@@ -145,7 +167,7 @@ public class RecipeListFragment extends Fragment implements RecipeListContract.V
 
     @Override
     public void showErrorSnackBar(String errorMessage) {
-
+        Snackbar.make(rootLayout, errorMessage, Snackbar.LENGTH_SHORT);
     }
 
     @Override

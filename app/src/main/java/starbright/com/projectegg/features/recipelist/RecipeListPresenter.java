@@ -1,4 +1,8 @@
 /**
+ * Created by Andreas on 10/9/2018.
+ */
+
+/**
  * Created by Andreas on 9/9/2018.
  */
 
@@ -41,6 +45,7 @@ class RecipeListPresenter implements RecipeListContract.Presenter {
     @Override
     public void start() {
         mView.setupRecyclerView();
+        mView.setupSwipeRefreshLayout();
         getRecipesBasedIngredients(mapIngredients());
     }
 
@@ -71,6 +76,11 @@ class RecipeListPresenter implements RecipeListContract.Presenter {
     @Override
     public void handleListItemClicked(int position) {
         mView.showDetail(String.valueOf(mRecipes.get(position).getId()));
+    }
+
+    @Override
+    public void handleRefresh() {
+        getRecipesBasedIngredients(mapIngredients());
     }
 
     @Override

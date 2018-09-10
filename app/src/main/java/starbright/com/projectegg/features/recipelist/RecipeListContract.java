@@ -1,4 +1,8 @@
 /**
+ * Created by Andreas on 10/9/2018.
+ */
+
+/**
  * Created by Andreas on 9/9/2018.
  */
 
@@ -11,14 +15,13 @@ import starbright.com.projectegg.data.local.model.Recipe;
 import starbright.com.projectegg.features.base.BasePresenter;
 import starbright.com.projectegg.features.base.BaseView;
 
-/**
- * Created by Andreas on 4/8/2018.
- */
-
 class RecipeListContract {
 
     interface View extends BaseView<Presenter> {
         void setupRecyclerView();
+
+        void setupSwipeRefreshLayout();
+
         void showLoadingBar();
         void hideLoadingBar();
 
@@ -32,6 +35,8 @@ class RecipeListContract {
         void getRecipesBasedIngredients(String ingredients);
 
         void handleListItemClicked(int position);
+
+        void handleRefresh();
 
         void setIngredients(List<Ingredient> ingredients);
     }
