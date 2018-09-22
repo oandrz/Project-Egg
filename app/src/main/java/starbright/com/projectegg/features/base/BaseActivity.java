@@ -1,4 +1,8 @@
 /**
+ * Created by Andreas on 22/9/2018.
+ */
+
+/**
  * Created by Andreas on 10/9/2018.
  */
 
@@ -29,7 +33,8 @@ abstract class BaseActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.contentFrame);
-        if (!(fragment instanceof IOnBackPressedListener) || !((IOnBackPressedListener) fragment).onBackPressed()) {
+        if (!(fragment instanceof IOnBackPressedListener)
+                || !((IOnBackPressedListener) fragment).onBackPressed()) {
             super.onBackPressed();
         }
     }

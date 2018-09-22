@@ -1,4 +1,8 @@
 /**
+ * Created by Andreas on 22/9/2018.
+ */
+
+/**
  * Created by Andreas on 5/8/2018.
  */
 
@@ -27,6 +31,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -86,6 +92,9 @@ public class RecipeDetailFragment extends Fragment implements RecipeDetailContra
 
     @BindView(R.id.tv_recipe_title)
     TextView tvRecipeName;
+
+    @BindView(R.id.ad_view)
+    AdView adView;
 
     @Inject
     AppRepository repository;
@@ -258,6 +267,11 @@ public class RecipeDetailFragment extends Fragment implements RecipeDetailContra
                 mPresenter.getRecipeDetailInformation(getArguments().getString(BUNDLE_RECIPE_ID));
             }
         });
+    }
+
+    @Override
+    public void setupAdView() {
+        adView.loadAd(new AdRequest.Builder().build());
     }
 
     @Override

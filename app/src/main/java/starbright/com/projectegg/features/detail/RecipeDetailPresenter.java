@@ -1,4 +1,8 @@
 /**
+ * Created by Andreas on 22/9/2018.
+ */
+
+/**
  * Created by Andreas on 15/8/2018.
  */
 
@@ -32,6 +36,7 @@ class RecipeDetailPresenter implements RecipeDetailContract.Presenter {
 
     @Override
     public void start() {
+        mView.setupAdView();
         mView.setupSwipeRefreshLayout();
         getRecipeDetailInformation(mRecipeId);
     }

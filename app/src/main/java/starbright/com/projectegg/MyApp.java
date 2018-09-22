@@ -1,7 +1,13 @@
+/**
+ * Created by Andreas on 22/9/2018.
+ */
+
 package starbright.com.projectegg;
 
 import android.app.Application;
 import android.os.Build;
+
+import com.google.android.gms.ads.MobileAds;
 
 import starbright.com.projectegg.dagger.component.AppComponent;
 import starbright.com.projectegg.dagger.component.DaggerAppComponent;
@@ -23,6 +29,7 @@ public class MyApp extends Application {
                 .appModule(new AppModule(this))
                 .dataModule(new DataModule(BuildConfig.BASE_URL))
                 .build();
+        MobileAds.initialize(this, BuildConfig.ADMOB_APP_ID);
     }
 
     public static AppComponent getAppComponent() {

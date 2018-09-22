@@ -1,4 +1,8 @@
 <!--~
+  ~ Created by Andreas on 22/9/2018.
+  -->
+
+<!--~
   ~ Created by Andreas on 10/9/2018.
   -->
 
@@ -62,4 +66,9 @@
     <string name="detail.menu.share.label">Share</string>
     <string name="detail.menu.detail.label">Open Detail in WebView</string>
     <string name="detail.intent.share">Hey, check this out ! I found delicious this recipe %s \nlink below\n%s</string>
+
+    <!--Ads View-->
+    <string name="ads.size">BANNER</string>
+    <string name="ads.unitid">ca-app-pub-3940256099942544/6300978111</string>
+
 </resources>

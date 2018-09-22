@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--~
+  ~ Created by Andreas on 22/9/2018.
+  -->
+
+<!--~
   ~ Created by Andreas on 9/9/2018.
   -->
 
@@ -34,4 +38,5 @@
     <!--Icon-->
     <dimen name="login_icon_size">120dp</dimen>
     <dimen name="drawable_view_icon_size">24dp</dimen>
+    <dimen name="ad_icon_size">12dp</dimen>
 </resources>

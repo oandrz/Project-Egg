@@ -1,4 +1,8 @@
 /**
+ * Created by Andreas on 22/9/2018.
+ */
+
+/**
  * Created by Andreas on 10/9/2018.
  */
 
@@ -49,7 +53,6 @@ class RecipeListPresenter implements RecipeListContract.Presenter {
         getRecipesBasedIngredients(mapIngredients());
     }
 
-    @Override
     public void getRecipesBasedIngredients(String ingredients) {
         mView.showLoadingBar();
         mCompositeDisposable.add(
