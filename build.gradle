@@ -1,4 +1,8 @@
 /**
+ * Created by Andreas on 29/9/2018.
+ */
+
+/**
  * Created by Andreas on 10/9/2018.
  */
 
@@ -56,4 +60,5 @@ ext {
     materialDialogVersion = '0.9.6.0'
     circleIVVersion = '2.2.0'
     admobVersion = '15.0.1'
+    roomVersion = '1.0.0'
 }

@@ -5,6 +5,10 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
 /**
+ * Created by Andreas on 29/9/2018.
+ */
+
+/**
  * Created by Andreas on 10/9/2018.
  */
 
@@ -119,6 +123,10 @@ dependencies {
 
     //Google Play Service : Admob
     implementation "com.google.android.gms:play-services-ads:$rootProject.ext.admobVersion"
+
+    //Room
+    implementation "android.arch.persistence.room:runtime:$rootProject.ext.roomVersion"
+    annotationProcessor "android.arch.persistence.room:compiler:$rootProject.ext.roomVersion"
 
     // Unit Test
     testImplementation "junit:junit:$rootProject.ext.jUnitVersion"

@@ -1,4 +1,12 @@
+/**
+ * Created by Andreas on 29/9/2018.
+ */
+
 package starbright.com.projectegg.data.local.model;
+
+import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,26 +21,56 @@ import starbright.com.projectegg.data.local.model.response.StepResponse;
  * Created by Andreas on 4/8/2018.
  */
 
+@Entity(tableName = "recipe")
 public class Recipe {
+
+    @PrimaryKey
+    @ColumnInfo(name = "id")
     private int mId;
+
+    @ColumnInfo(name = "usedIngredientCount")
     private int mUsedIngredientCount;
+
+    @ColumnInfo(name = "missedIngredientCounts")
     private int mMissedIngredientCount;
+
+    @ColumnInfo(name = "likes")
     private int mLikes;
+
+    @ColumnInfo(name = "preparationMinutes")
     private int mPreparationMinutes;
+
+    @ColumnInfo(name = "cookingMinutes")
     private int mCookingMinutes;
+
+    @ColumnInfo(name = "servingCounts")
     private int mServingCount;
+
+    @ColumnInfo(name = "title")
     private String mTitle;
+
+    @ColumnInfo(name = "image")
     private String mImage;
+
     @Nullable
+    @ColumnInfo(name = "imageType")
     private String mImageType;
+
     @Nullable
+    @ColumnInfo(name = "sourcesStringUrl")
     private String mSourceStringUrl;
+
     @Nullable
+    @ColumnInfo(name = "sourceName")
     private String mSourceName;
+
     @Nullable
+    @ColumnInfo(name = "ingredients")
     private List<Ingredient> mIngredients;
+
     @Nullable
-    private List<Instruction> mInstruction;
+    @ColumnInfo(name = "instructions")
+    private List<Instruction> mInstructions;
 
     public Recipe(int id,
                   String title,
@@ -79,9 +117,9 @@ public class Recipe {
 
         final List<StepResponse> stepResponses = response.getAnalyzedInstructions()
                 .get(0).getStepResponse();
-        mInstruction = new ArrayList<>(stepResponses.size());
+        mInstructions = new ArrayList<>(stepResponses.size());
         for (StepResponse stepResponse : stepResponses) {
-            mInstruction.add(new Instruction(stepResponse.getNumber(),
+            mInstructions.add(new Instruction(stepResponse.getNumber(),
                     stepResponse.getStep()));
         }
     }
@@ -145,6 +183,6 @@ public class Recipe {
 
     @Nullable
     public List<Instruction> getInstruction() {
-        return mInstruction;
+        return mInstructions;
     }
 }
