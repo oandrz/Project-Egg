@@ -1,6 +1,11 @@
+/**
+ * Created by Andreas on 29/9/2018.
+ */
+
 package starbright.com.projectegg.dagger.module;
 
 import android.app.Application;
+import android.arch.persistence.room.Room;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
@@ -24,6 +29,7 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import starbright.com.projectegg.BuildConfig;
 import starbright.com.projectegg.data.local.AppLocalDataStore;
+import starbright.com.projectegg.data.local.RecipeDatabase;
 import starbright.com.projectegg.data.remote.AppRemoteDataStore;
 import starbright.com.projectegg.util.scheduler.BaseSchedulerProvider;
 import starbright.com.projectegg.util.scheduler.SchedulerProvider;
@@ -36,9 +42,11 @@ import starbright.com.projectegg.util.scheduler.SchedulerProvider;
 public class DataModule {
 
     private String mBaseUrl;
+    private String mDatabaseName;
 
-    public DataModule(String baseUrl) {
-        this.mBaseUrl = baseUrl;
+    public DataModule(String baseUrl, String databaseName) {
+        mBaseUrl = baseUrl;
+        mDatabaseName = databaseName;
     }
 
     @Provides
@@ -92,13 +100,19 @@ public class DataModule {
                 .build();
     }
 
+    @Provides
+    @Singleton
+    RecipeDatabase provideDatabase(Application context) {
+        return Room.databaseBuilder(context, RecipeDatabase.class, mDatabaseName).build();
+    }
+
     /*
     *   Still temporary only since this app hasn't used local storage to save
     *   data
     * */
     @Provides
     @Singleton
-    AppLocalDataStore porvidesAppLocalDataStore(Application context) {
+    AppLocalDataStore providesAppLocalDataStore(Application context) {
         return new AppLocalDataStore();
     }
 

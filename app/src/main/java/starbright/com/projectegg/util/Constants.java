@@ -1,3 +1,7 @@
+/**
+ * Created by Andreas on 29/9/2018.
+ */
+
 package starbright.com.projectegg.util;
 
 /**
@@ -22,5 +26,8 @@ public final class Constants {
     public static final String QUERY_PARAM_META_INFORMATION_KEY = "metaInformation";
     public static final String QUERY_PARAM_NUMBER_KEY = "number";
 
+    public static final String OPERATION_NOT_SUPPORTED = "Operation not supported";
+
+    public static final String DATABASE_NAME = "db_recipe";
     private Constants() {}
 }

@@ -2,6 +2,10 @@
  * Created by Andreas on 29/9/2018.
  */
 
+/**
+ * Created by Andreas on 29/9/2018.
+ */
+
 package starbright.com.projectegg.data.local.model;
 
 import android.arch.persistence.room.ColumnInfo;
@@ -149,7 +153,7 @@ public class Recipe {
         return mCookingMinutes;
     }
 
-    public int getServing() {
+    public int getServingCount() {
         return mServingCount;
     }
 
@@ -182,7 +186,63 @@ public class Recipe {
     }
 
     @Nullable
-    public List<Instruction> getInstruction() {
+    public List<Instruction> getInstructions() {
         return mInstructions;
+    }
+
+    public void setId(int id) {
+        mId = id;
+    }
+
+    public void setUsedIngredientCount(int usedIngredientCount) {
+        mUsedIngredientCount = mUsedIngredientCount;
+    }
+
+    public void setMissedIngredientCount(int missedIngredientCount) {
+        mMissedIngredientCount = mMissedIngredientCount;
+    }
+
+    public void setLikes(int likes) {
+        mLikes = likes;
+    }
+
+    public void setPreparationMinutes(int preparationMinutes) {
+        mPreparationMinutes = preparationMinutes;
+    }
+
+    public void setCookingMinutes(int cookingMinutes) {
+        mCookingMinutes = cookingMinutes;
+    }
+
+    public void setServingCount(int servingCount) {
+        mServingCount = servingCount;
+    }
+
+    public void setTitle(String title) {
+        mTitle = title;
+    }
+
+    public void setImage(String image) {
+        mImage = image;
+    }
+
+    public void setImageType(String imageType) {
+        mImageType = imageType;
+    }
+
+    public void setSourceStringUrl(String sourceStringUrl) {
+        mSourceStringUrl = sourceStringUrl;
+    }
+
+    public void setSourceName(String sourceName) {
+        mSourceName = sourceName;
+    }
+
+    public void setIngredients(List<Ingredient> ingredients) {
+        mIngredients = ingredients;
+    }
+
+    public void setInstructions(List<Instruction> instructions) {
+        mInstructions = instructions;
     }
 }

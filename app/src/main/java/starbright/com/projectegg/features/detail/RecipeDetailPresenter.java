@@ -3,6 +3,10 @@
  */
 
 /**
+ * Created by Andreas on 29/9/2018.
+ */
+
+/**
  * Created by Andreas on 22/9/2018.
  */
 
@@ -88,10 +92,10 @@ class RecipeDetailPresenter implements RecipeDetailContract.Presenter {
     private void updateView() {
         mView.showScrollContainer();
         mView.renderBannerFoodImage(mRecipe.getImage());
-        mView.renderHeaderContainer(mRecipe.getServing(), mRecipe.getPreparationMinutes(),
+        mView.renderHeaderContainer(mRecipe.getServingCount(), mRecipe.getPreparationMinutes(),
                 mRecipe.getCookingMinutes(), mRecipe.getTitle());
         mView.renderIngredientCard(mRecipe.getIngredients());
-        mView.renderInstructionCard(mRecipe.getInstruction());
+        mView.renderInstructionCard(mRecipe.getInstructions());
     }
 
     private boolean isIngredientsEmpty() {
@@ -99,6 +103,6 @@ class RecipeDetailPresenter implements RecipeDetailContract.Presenter {
     }
 
     private boolean isInstructionEmpty() {
-        return mRecipe.getInstruction() == null || mRecipe.getInstruction().isEmpty();
+        return mRecipe.getInstructions() == null || mRecipe.getInstructions().isEmpty();
     }
 }

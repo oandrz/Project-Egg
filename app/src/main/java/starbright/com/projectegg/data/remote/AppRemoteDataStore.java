@@ -1,3 +1,7 @@
+/**
+ * Created by Andreas on 29/9/2018.
+ */
+
 package starbright.com.projectegg.data.remote;
 
 import java.util.ArrayList;
@@ -16,7 +20,6 @@ import retrofit2.http.Query;
 import retrofit2.http.QueryMap;
 import starbright.com.projectegg.MyApp;
 import starbright.com.projectegg.data.AppDataStore;
-import starbright.com.projectegg.data.local.AppLocalDataStore;
 import starbright.com.projectegg.data.local.model.Ingredient;
 import starbright.com.projectegg.data.local.model.Recipe;
 import starbright.com.projectegg.data.local.model.response.IngredientResponse;
@@ -31,9 +34,6 @@ import starbright.com.projectegg.util.Constants;
 public class AppRemoteDataStore implements AppDataStore {
     @Inject
     Retrofit retrofit;
-
-    @Inject
-    AppLocalDataStore appLocalDataStore;
 
     public AppRemoteDataStore() {
         MyApp.getAppComponent().inject(this);
