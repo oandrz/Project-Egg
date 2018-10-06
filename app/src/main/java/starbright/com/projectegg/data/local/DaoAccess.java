@@ -1,4 +1,8 @@
 /**
+ * Created by Andreas on 7/10/2018.
+ */
+
+/**
  * Created by Andreas on 29/9/2018.
  */
 
@@ -13,7 +17,7 @@ import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
 
-import io.reactivex.Single;
+import io.reactivex.Maybe;
 import starbright.com.projectegg.data.local.model.Recipe;
 
 @Dao
@@ -25,6 +29,6 @@ public interface DaoAccess {
     @Update
     int updateRecipe(Recipe recipe);
 
-    @Query("SELECT * FROM recipe WHERE id=:recipeId")
-    Single<Recipe> getRecipe(int recipeId);
+    @Query("SELECT * FROM recipe WHERE id =:recipeId")
+    Maybe<Recipe> getRecipe(int recipeId);
 }

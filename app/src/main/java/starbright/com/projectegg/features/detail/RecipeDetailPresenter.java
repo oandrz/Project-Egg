@@ -1,4 +1,8 @@
 /**
+ * Created by Andreas on 7/10/2018.
+ */
+
+/**
  * Created by Andreas on 29/9/2018.
  */
 
@@ -63,7 +67,7 @@ class RecipeDetailPresenter implements RecipeDetailContract.Presenter {
                             public void accept(Recipe recipe) {
                                 mView.hideProgressBar();
                                 mRecipe = recipe;
-                                if (!isIngredientsEmpty() || !isInstructionEmpty()) {
+                                if (mRecipe != null) {
                                     mView.hideEmptyStateTextView();
                                     updateView();
                                 } else {
@@ -74,7 +78,13 @@ class RecipeDetailPresenter implements RecipeDetailContract.Presenter {
                             @Override
                             public void accept(Throwable throwable) {
                                 mView.hideProgressBar();
-                                mView.renderErrorStateTextView(throwable.getMessage());
+                                if (mRecipe != null) {
+                                    mView.hideEmptyStateTextView();
+                                    updateView();
+                                } else {
+                                    mView.renderEmptyStateTextView();
+                                }
+//                                mView.renderErrorStateTextView(throwable.getMessage());
                             }
                         }));
     }

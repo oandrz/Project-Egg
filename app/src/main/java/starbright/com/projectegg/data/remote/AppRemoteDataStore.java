@@ -1,4 +1,8 @@
 /**
+ * Created by Andreas on 7/10/2018.
+ */
+
+/**
  * Created by Andreas on 29/9/2018.
  */
 
@@ -32,6 +36,7 @@ import starbright.com.projectegg.util.Constants;
  */
 
 public class AppRemoteDataStore implements AppDataStore {
+
     @Inject
     Retrofit retrofit;
 
@@ -82,6 +87,11 @@ public class AppRemoteDataStore implements AppDataStore {
                         return new Recipe(recipeDetailResponse);
                     }
                 });
+    }
+
+    @Override
+    public void saveDetailInformation(Recipe recipe) {
+        throw new UnsupportedOperationException();
     }
 
     private interface Service {

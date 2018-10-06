@@ -1,3 +1,7 @@
+/**
+ * Created by Andreas on 7/10/2018.
+ */
+
 package starbright.com.projectegg.data;
 
 import java.util.List;
@@ -15,4 +19,6 @@ public interface AppDataStore {
     Observable<List<Ingredient>> searchIngredient(String query);
 
     Observable<Recipe> getRecipeDetailInformation(String recipeId);
+
+    void saveDetailInformation(Recipe recipe);
 }

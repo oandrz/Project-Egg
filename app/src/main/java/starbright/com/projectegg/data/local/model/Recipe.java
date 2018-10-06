@@ -1,4 +1,8 @@
 /**
+ * Created by Andreas on 7/10/2018.
+ */
+
+/**
  * Created by Andreas on 29/9/2018.
  */
 
@@ -28,7 +32,9 @@ import starbright.com.projectegg.data.local.model.response.StepResponse;
 @Entity(tableName = "recipe")
 public class Recipe {
 
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
+    private int uid;
+
     @ColumnInfo(name = "id")
     private int mId;
 
@@ -129,6 +135,10 @@ public class Recipe {
     }
 
 
+    public int getUid() {
+        return uid;
+    }
+
     public int getId() {
         return mId;
     }
@@ -188,6 +198,10 @@ public class Recipe {
     @Nullable
     public List<Instruction> getInstructions() {
         return mInstructions;
+    }
+
+    public void setUid(int uid) {
+        this.uid = uid;
     }
 
     public void setId(int id) {
