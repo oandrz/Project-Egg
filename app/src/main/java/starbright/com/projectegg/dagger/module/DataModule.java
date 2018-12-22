@@ -19,6 +19,7 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import id.zelory.compressor.Compressor;
 import okhttp3.Cache;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
@@ -126,5 +127,11 @@ public class DataModule {
     @Singleton
     BaseSchedulerProvider providesSchedulerComposer() {
         return SchedulerProvider.getInstance();
+    }
+
+    @Provides
+    @Singleton
+    Compressor providesCompressor(Application context) {
+        return new Compressor(context);
     }
 }

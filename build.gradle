@@ -61,4 +61,5 @@ ext {
     circleIVVersion = '2.2.0'
     admobVersion = '15.0.1'
     roomVersion = '1.0.0'
+    zeibatsuVersion = '2.1.0'
 }

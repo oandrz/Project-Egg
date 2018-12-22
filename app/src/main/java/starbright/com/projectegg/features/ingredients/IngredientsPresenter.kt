@@ -5,6 +5,7 @@
 package starbright.com.projectegg.features.ingredients
 
 import android.net.Uri
+import id.zelory.compressor.Compressor
 import io.reactivex.disposables.CompositeDisposable
 import starbright.com.projectegg.data.AppRepository
 import starbright.com.projectegg.data.local.model.Ingredient
@@ -18,9 +19,11 @@ internal class IngredientsPresenter(
         private val mRepository: AppRepository,
         private val mView: IngredientsContract.View,
         private val mSchedulerProvider: BaseSchedulerProvider,
-        private val mClarifaiHelper: ClarifaiHelper) : IngredientsContract.Presenter, ClarifaiHelper.Callback {
-    private val mCompositeDisposable: CompositeDisposable
+        private val mClarifaiHelper: ClarifaiHelper,
+        private val compressor: Compressor) : IngredientsContract.Presenter,
+        ClarifaiHelper.Callback {
 
+    private val mCompositeDisposable: CompositeDisposable
     private var mCart: MutableList<Ingredient>
 
     init {
@@ -110,7 +113,7 @@ internal class IngredientsPresenter(
     override fun handleCameraResult(filePath: String) {
         mView.setupMaterialProgressDialog()
         mView.showMaterialProgressDialog()
-        mClarifaiHelper.predict(Uri.fromFile(File(filePath)), this)
+        mClarifaiHelper.predict(Uri.fromFile(compressor.compressToFile(File(filePath))), this)
     }
 
     override fun onPredictionCompleted(ingredients: String) {
@@ -121,8 +124,11 @@ internal class IngredientsPresenter(
         } else {
             val ingredientsSplitted = ingredients.split(Constants.COMMA.toRegex())
             ingredientsSplitted.forEach { ingredient ->
-                if (!mCart.asSequence().map { it.name }.any { it == ingredient }
-                ) {
+                val isIngredientIncluded: Boolean = mCart
+                        .asSequence()
+                        .map { it.name }
+                        .any { it == ingredient }
+                if (!isIngredientIncluded) {
                     mCart.add(Ingredient(ingredient))
                 }
             }

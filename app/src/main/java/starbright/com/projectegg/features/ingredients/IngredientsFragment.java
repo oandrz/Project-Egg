@@ -50,6 +50,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import id.zelory.compressor.Compressor;
 import permissions.dispatcher.NeedsPermission;
 import permissions.dispatcher.RuntimePermissions;
 import starbright.com.projectegg.MyApp;
@@ -73,6 +74,9 @@ public class IngredientsFragment extends Fragment implements IngredientsContract
 
     @Inject
     AppRepository repository;
+
+    @Inject
+    Compressor compressor;
 
     @Inject
     BaseSchedulerProvider schedulerProvider;
@@ -153,7 +157,8 @@ public class IngredientsFragment extends Fragment implements IngredientsContract
                 repository,
                 this,
                 schedulerProvider,
-                new ClarifaiHelper(getActivity())
+                new ClarifaiHelper(getActivity()),
+                compressor
         );
     }
 
