@@ -435,9 +435,6 @@ public class IngredientsFragment extends Fragment implements IngredientsContract
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
-                    case R.id.menu_favorite:
-                        // TODO: 01/08/18 Navigate to favorite page
-                        return true;
                     case R.id.menu_signout:
                         FirebaseAuth.getInstance().signOut();
                         mFragmentListener.navigateUserAccountActivity();
