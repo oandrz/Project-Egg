@@ -338,7 +338,9 @@ public class IngredientsFragment extends Fragment implements IngredientsContract
 
     @Override
     public void hideMaterialProgressDialog() {
-        mDialog.dismiss();
+        if (mDialog != null) {
+            mDialog.dismiss();
+        }
     }
 
     @Override
