@@ -7,7 +7,6 @@
   -->
 
 <resources>
-    <string name="app.name">Project Egg</string>
     <string name="general.retry.label">Retry</string>
     <string name="general.zero">0</string>
     <string name="general.signout">Sign out</string>

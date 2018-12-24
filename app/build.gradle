@@ -42,16 +42,19 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             buildConfigField 'String', 'SPOON_KEY', '\"jZGKN2hgXcmsh1b8iqQnW4NLHS3fp1wh3IEjsnVj2p24ygMF1X\"'
             resValue 'string', 'ADMOB_UNIT_ID', '\"ca-app-pub-3940256099942544/6300978111\"'
+            resValue 'string', 'app_name', '\"Project Egg Debug\"'
         }
+
         release {
             minifyEnabled true
             applicationIdSuffix ".release"
             versionNameSuffix "-release"
+            debuggable true
+            signingConfig signingConfigs.config
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             buildConfigField 'String', 'SPOON_KEY', '\"jZGKN2hgXcmsh1b8iqQnW4NLHS3fp1wh3IEjsnVj2p24ygMF1X\"'
             resValue 'string', 'ADMOB_UNIT_ID', '\"ca-app-pub-6407679845315648/6183183094\"'
-            debuggable true
-            signingConfig signingConfigs.config
+            resValue 'string', 'app_name', '\"Project Egg\"'
         }
     }
 }
