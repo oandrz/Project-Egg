@@ -12,11 +12,20 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'com.jakewharton.butterknife'
 
 android {
-    compileSdkVersion rootProject.ext.compileSdkVersion
+    signingConfigs {
+        config {
+            keyAlias 'key0'
+            keyPassword 'perseus'
+            storeFile file('/Users/bukalapak/Desktop/key/key')
+            storePassword 'perseus'
+        }
+    }
+    compileSdkVersion 27
     defaultConfig {
         applicationId "starbright.com.projectegg"
-        minSdkVersion rootProject.ext.minSdkVersion
-        targetSdkVersion rootProject.ext.targetSdkVersion
+        minSdkVersion 19
+        targetSdkVersion 27
+        buildToolsVersion '27.0.3'
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -27,32 +36,19 @@ android {
     buildTypes {
         debug {
             minifyEnabled false
+            applicationIdSuffix ".debug"
+            versionNameSuffix "-debug"
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField 'String', 'SPOON_KEY', '\"jZGKN2hgXcmsh1b8iqQnW4NLHS3fp1wh3IEjsnVj2p24ygMF1X\"'
+            resValue 'string', 'ADMOB_APP_ID', '\"ca-app-pub-3940256099942544/6300978111\"'
         }
-
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-    }
-
-    flavorDimensions "mode"
-
-    productFlavors {
-        free {
-            dimension "mode"
-            applicationIdSuffix ".free"
-            versionNameSuffix "-free"
             buildConfigField 'String', 'SPOON_KEY', '\"jZGKN2hgXcmsh1b8iqQnW4NLHS3fp1wh3IEjsnVj2p24ygMF1X\"'
-            buildConfigField 'String', 'ADMOB_APP_ID', '\"ca-app-pub-6407679845315648~1210399614\"'
-        }
-
-        paid {
-            dimension "mode"
-            applicationIdSuffix ".paid"
-            versionNameSuffix "-paid"
-            buildConfigField 'String', 'SPOON_KEY', '\"jZGKN2hgXcmsh1b8iqQnW4NLHS3fp1wh3IEjsnVj2p24ygMF1X\"'
-            buildConfigField 'String', 'ADMOB_APP_ID', '\"ca-app-pub-6407679845315648~1210399614\"'
+            resValue 'string', 'ADMOB_APP_ID', '\"ca-app-pub-6407679845315648~1210399614\"'
+            debuggable true
+            signingConfig signingConfigs.config
         }
     }
 }
@@ -62,7 +58,7 @@ repositories {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
 
     //Kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
@@ -132,7 +128,6 @@ dependencies {
     testImplementation "junit:junit:$rootProject.ext.jUnitVersion"
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:2.2.2'
-
     provided 'javax.annotation:jsr250-api:1.0'
     provided 'org.glassfish:javax.annotation:10.0-b28'
 }

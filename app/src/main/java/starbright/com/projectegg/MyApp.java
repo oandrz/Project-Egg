@@ -34,7 +34,7 @@ public class MyApp extends Application {
                 .appModule(new AppModule(this))
                 .dataModule(new DataModule(BuildConfig.BASE_URL, Constants.DATABASE_NAME))
                 .build();
-        MobileAds.initialize(this, BuildConfig.ADMOB_APP_ID);
+        MobileAds.initialize(this, getString(R.string.ADMOB_APP_ID));
     }
 
     public static AppComponent getAppComponent() {

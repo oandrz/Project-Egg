@@ -15,7 +15,6 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.google.android.gms.ads.MobileAds;
 
-import starbright.com.projectegg.BuildConfig;
 import starbright.com.projectegg.R;
 
 /**
@@ -27,7 +26,7 @@ abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        MobileAds.initialize(this, BuildConfig.ADMOB_APP_ID);
+        MobileAds.initialize(this, getString(R.string.ADMOB_APP_ID));
     }
 
     @Override
