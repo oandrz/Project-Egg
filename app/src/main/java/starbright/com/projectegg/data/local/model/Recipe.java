@@ -1,15 +1,3 @@
-/**
- * Created by Andreas on 7/10/2018.
- */
-
-/**
- * Created by Andreas on 29/9/2018.
- */
-
-/**
- * Created by Andreas on 29/9/2018.
- */
-
 package starbright.com.projectegg.data.local.model;
 
 import android.arch.persistence.room.ColumnInfo;
@@ -24,10 +12,6 @@ import starbright.com.projectegg.data.local.model.response.ExtendedIngredientRes
 import starbright.com.projectegg.data.local.model.response.RecipeDetailResponse;
 import starbright.com.projectegg.data.local.model.response.RecipeResponse;
 import starbright.com.projectegg.data.local.model.response.StepResponse;
-
-/**
- * Created by Andreas on 4/8/2018.
- */
 
 @Entity(tableName = "recipe")
 public class Recipe {

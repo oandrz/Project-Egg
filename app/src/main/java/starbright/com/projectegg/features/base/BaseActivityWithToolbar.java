@@ -10,10 +10,6 @@ import junit.framework.Assert;
 import butterknife.ButterKnife;
 import starbright.com.projectegg.R;
 
-/**
- * Created by Andreas on 4/8/2018.
- */
-
 public class BaseActivityWithToolbar extends BaseActivity {
 
     @Override

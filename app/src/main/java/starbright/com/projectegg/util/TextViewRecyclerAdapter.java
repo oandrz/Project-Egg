@@ -1,15 +1,3 @@
-/**
- * Created by Andreas on 19/8/2018.
- */
-
-/**
- * Created by Andreas on 19/8/2018.
- */
-
-/**
- * Created by Andreas on 19/8/2018.
- */
-
 package starbright.com.projectegg.util;
 
 import android.content.Context;

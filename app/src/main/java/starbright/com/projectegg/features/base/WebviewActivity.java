@@ -1,7 +1,3 @@
-/**
- * Created by Andreas on 27/8/2018.
- */
-
 package starbright.com.projectegg.features.base;
 
 import android.content.Context;

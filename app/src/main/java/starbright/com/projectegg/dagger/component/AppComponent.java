@@ -16,10 +16,6 @@ import starbright.com.projectegg.features.ingredients.IngredientsFragment;
 import starbright.com.projectegg.features.recipelist.RecipeListFragment;
 import starbright.com.projectegg.features.userAccount.UserAccountFragment;
 
-/**
- * Created by Andreas on 4/8/2018.
- */
-
 @Singleton
 @Component(modules = {AppModule.class, DataModule.class})
 public interface AppComponent {

@@ -23,10 +23,6 @@ import clarifai2.dto.prediction.Concept;
 import okhttp3.OkHttpClient;
 import starbright.com.projectegg.BuildConfig;
 
-/**
- * Created by Andreas on 4/7/2018.
- */
-
 public class ClarifaiHelper {
 
     private static final int CLARIFAI_REQUEST_TIMEOUT = 30;

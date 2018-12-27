@@ -35,10 +35,6 @@ import starbright.com.projectegg.data.remote.AppRemoteDataStore;
 import starbright.com.projectegg.util.scheduler.BaseSchedulerProvider;
 import starbright.com.projectegg.util.scheduler.SchedulerProvider;
 
-/**
- * Created by Andreas on 4/8/2018.
- */
-
 @Module
 public class DataModule {
 

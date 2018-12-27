@@ -4,10 +4,6 @@ import android.os.Bundle;
 
 import starbright.com.projectegg.R;
 
-/**
- * Created by Andreas on 4/8/2018.
- */
-
 public class BaseActivityWithoutToolbar extends BaseActivity {
 
     @Override

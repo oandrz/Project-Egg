@@ -20,10 +20,6 @@ import starbright.com.projectegg.R;
 import starbright.com.projectegg.data.local.model.Recipe;
 import starbright.com.projectegg.util.GlideApp;
 
-/**
- * Created by Andreas on 4/15/2018.
- */
-
 class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.ViewHolder> {
 
     private Context mContext;

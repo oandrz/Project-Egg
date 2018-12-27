@@ -1,7 +1,3 @@
-/**
- * Created by Andreas on 10/9/2018.
- */
-
 package starbright.com.projectegg.features.recipelist;
 
 import android.content.Context;

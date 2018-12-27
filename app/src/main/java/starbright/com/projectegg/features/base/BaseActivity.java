@@ -17,10 +17,6 @@ import com.google.android.gms.ads.MobileAds;
 
 import starbright.com.projectegg.R;
 
-/**
- * Created by Andreas on 4/8/2018.
- */
-
 abstract class BaseActivity extends AppCompatActivity {
 
     @Override

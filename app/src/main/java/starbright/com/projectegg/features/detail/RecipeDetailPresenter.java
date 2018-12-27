@@ -1,19 +1,3 @@
-/**
- * Created by Andreas on 7/10/2018.
- */
-
-/**
- * Created by Andreas on 29/9/2018.
- */
-
-/**
- * Created by Andreas on 29/9/2018.
- */
-
-/**
- * Created by Andreas on 22/9/2018.
- */
-
 package starbright.com.projectegg.features.detail;
 
 import io.reactivex.disposables.CompositeDisposable;

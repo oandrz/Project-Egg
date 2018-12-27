@@ -1,11 +1,3 @@
-/**
- * Created by Andreas on 29/9/2018.
- */
-
-/**
- * Created by Andreas on 22/9/2018.
- */
-
 package starbright.com.projectegg.features.detail;
 
 import java.util.List;

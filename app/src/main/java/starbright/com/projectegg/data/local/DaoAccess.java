@@ -1,15 +1,3 @@
-/**
- * Created by Andreas on 7/10/2018.
- */
-
-/**
- * Created by Andreas on 29/9/2018.
- */
-
-/**
- * Created by Andreas on 29/9/2018.
- */
-
 package starbright.com.projectegg.data.local;
 
 import android.arch.persistence.room.Dao;

@@ -1,11 +1,3 @@
-/**
- * Created by Andreas on 29/9/2018.
- */
-
-/**
- * Created by Andreas on 22/9/2018.
- */
-
 package starbright.com.projectegg;
 
 import android.app.Application;
@@ -18,10 +10,6 @@ import starbright.com.projectegg.dagger.component.DaggerAppComponent;
 import starbright.com.projectegg.dagger.module.AppModule;
 import starbright.com.projectegg.dagger.module.DataModule;
 import starbright.com.projectegg.util.Constants;
-
-/**
- * Created by Andreas on 4/8/2018.
- */
 
 public class MyApp extends Application {
 

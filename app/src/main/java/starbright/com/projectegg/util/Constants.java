@@ -1,12 +1,4 @@
-/**
- * Created by Andreas on 29/9/2018.
- */
-
 package starbright.com.projectegg.util;
-
-/**
- * Created by Andreas on 4/8/2018.
- */
 
 public final class Constants {
 

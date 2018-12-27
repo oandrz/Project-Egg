@@ -1,11 +1,3 @@
-/**
- * Created by Andreas on 29/9/2018.
- */
-
-/**
- * Created by Andreas on 29/9/2018.
- */
-
 package starbright.com.projectegg.data.local.model;
 
 import android.arch.persistence.room.TypeConverter;

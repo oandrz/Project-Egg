@@ -1,11 +1,3 @@
-/**
- * Created by Andreas on 10/9/2018.
- */
-
-/**
- * Created by Andreas on 9/9/2018.
- */
-
 package starbright.com.projectegg.features.recipelist;
 
 import android.content.Context;
@@ -35,10 +27,6 @@ import starbright.com.projectegg.data.AppRepository;
 import starbright.com.projectegg.data.local.model.Ingredient;
 import starbright.com.projectegg.data.local.model.Recipe;
 import starbright.com.projectegg.util.scheduler.BaseSchedulerProvider;
-
-/**
- * Created by Andreas on 4/8/2018.
- */
 
 public class RecipeListFragment extends Fragment implements RecipeListContract.View,
         RecipeListAdapter.Listener {

@@ -1,15 +1,3 @@
-/**
- * Created by Andreas on 22/9/2018.
- */
-
-/**
- * Created by Andreas on 10/9/2018.
- */
-
-/**
- * Created by Andreas on 9/9/2018.
- */
-
 package starbright.com.projectegg.features.recipelist;
 
 import java.util.List;
