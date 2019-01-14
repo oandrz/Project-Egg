@@ -45,7 +45,7 @@ ext {
     jUnitVersion = '4.12'
     clarifaiVersion = '2.4.0'
     daggerVersion = '2.0.2'
-    retrofitVersion = '2.2.0'
+    retrofitVersion = '2.5.0'
     okhttpVersion = '3.3.0'
     butterKnifeVersion = '8.8.1'
     rxjavaVersion = '2.0.7'

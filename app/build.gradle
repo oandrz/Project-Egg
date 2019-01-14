@@ -49,7 +49,7 @@ android {
             minifyEnabled true
             applicationIdSuffix ".release"
             versionNameSuffix "-release"
-            debuggable true
+            debuggable false
             signingConfig signingConfigs.config
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             buildConfigField 'String', 'SPOON_KEY', '\"jZGKN2hgXcmsh1b8iqQnW4NLHS3fp1wh3IEjsnVj2p24ygMF1X\"'
