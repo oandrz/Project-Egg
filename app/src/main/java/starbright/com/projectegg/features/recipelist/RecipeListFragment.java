@@ -18,6 +18,9 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -82,6 +85,7 @@ public class RecipeListFragment extends Fragment implements RecipeListContract.V
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
         new RecipeListPresenter(repo, this, schedulerProvider);
     }
 
@@ -113,6 +117,20 @@ public class RecipeListFragment extends Fragment implements RecipeListContract.V
     public void onDetach() {
         super.onDetach();
         mFragmentListener = null;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.recipe_list_menu, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_filter:
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

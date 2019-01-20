@@ -51,8 +51,9 @@
     <string name="ingredients.btn.submit.label">Submit</string>
     <string name="ingredients.added.text">Successfully add item to your cart</string>
 
-    <!--Detail Page-->
+    <!--Recipe List Page-->
     <string name="recipelist.title">Recipe List</string>
+    <string name="recipelist.filter.label">Filter</string>
 
     <!--Detail Page-->
     <string name="detail.title">Recipe Detail</string>
