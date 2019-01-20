@@ -63,6 +63,11 @@
             android:screenOrientation="portrait" />
 
         <activity
+            android:name=".features.filter.FilterActivity"
+            android:parentActivityName=".features.recipelist.RecipeListActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
             android:name=".features.base.WebviewActivity"
             android:parentActivityName=".features.detail.RecipeDetailActivity"
             android:screenOrientation="portrait" />

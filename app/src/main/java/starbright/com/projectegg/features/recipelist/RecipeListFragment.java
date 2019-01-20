@@ -37,6 +37,7 @@ import starbright.com.projectegg.R;
 import starbright.com.projectegg.data.AppRepository;
 import starbright.com.projectegg.data.local.model.Ingredient;
 import starbright.com.projectegg.data.local.model.Recipe;
+import starbright.com.projectegg.features.filter.FilterActivity;
 import starbright.com.projectegg.util.scheduler.BaseSchedulerProvider;
 
 /**
@@ -128,6 +129,8 @@ public class RecipeListFragment extends Fragment implements RecipeListContract.V
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_filter:
+                startActivity(FilterActivity.newIntent(getActivity()));
+                ;
                 break;
         }
         return super.onOptionsItemSelected(item);
