@@ -21,15 +21,16 @@
 
     <!--Spacing-->
     <dimen name="space_4dp">4dp</dimen>
-    <dimen name="space_small">8dp</dimen>
-    <dimen name="space_normal">16dp</dimen>
-    <dimen name="space_large">32dp</dimen>
+    <dimen name="space_8dp">8dp</dimen>
+    <dimen name="space_16dp">16dp</dimen>
+    <dimen name="space_32dp">32dp</dimen>
     <dimen name="space_empty_large">150dp</dimen>
 
     <!--Font Size-->
     <dimen name="small_font">10sp</dimen>
     <dimen name="normal_font">14sp</dimen>
     <dimen name="header_font">24sp</dimen>
+    <dimen name="header6_font">20sp</dimen>
 
     <!--Card View-->
     <dimen name="card_elevation">4dp</dimen>

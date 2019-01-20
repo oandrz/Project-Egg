@@ -36,6 +36,8 @@
 
     <!--Ingredients Page-->
     <string name="ingredients.title">Add Ingredients</string>
+    <string name="ingredients.header.label">Ingredients</string>
+    <string name="cuisine.header.label">Cuisine</string>
     <string name="ingredients.search.hint">Search ingredients here</string>
     <string name="ingredients.search.empty">The Item you\'re looking for is not available</string>
     <string name="ingredients.cart.included.format">I\'ve put %s into your cart</string>
