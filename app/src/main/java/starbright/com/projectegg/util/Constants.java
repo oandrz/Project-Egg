@@ -25,6 +25,11 @@ public final class Constants {
     public static final String IMAGE_INGREDIENT_URL = "https://spoonacular.com/cdn/ingredients_100x100/";
     public static final String QUERY_PARAM_META_INFORMATION_KEY = "metaInformation";
     public static final String QUERY_PARAM_NUMBER_KEY = "number";
+    public static final String QUERY_PARAM_LIMIT_LICENSE_KEY = "limitLicense";
+    public static final String QUERY_PARAM_OFFSET_KEY = "offset";
+    public static final String QUERY_PARAM_RANKING_KEY = "ranking";
+
+    public static final String OFFSET_VALUE = "0";
 
     public static final String OPERATION_NOT_SUPPORTED = "Operation not supported";
 
