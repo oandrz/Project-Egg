@@ -7,6 +7,7 @@ package starbright.com.projectegg.features.filter
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.support.v4.app.Fragment
 import starbright.com.projectegg.R
 import starbright.com.projectegg.features.base.BaseActivityWithToolbar
 
@@ -16,10 +17,12 @@ class FilterActivity : BaseActivityWithToolbar() {
 
     override fun onStart() {
         super.onStart()
-        supportFragmentManager
+        fragment?.let {
+            supportFragmentManager
                 .beginTransaction()
-                .attach(fragment)
+                    .attach(it)
                 .commit()
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,10 +33,12 @@ class FilterActivity : BaseActivityWithToolbar() {
     }
 
     override fun onDestroy() {
-        supportFragmentManager
+        fragment?.let {
+            supportFragmentManager
                 .beginTransaction()
-                .detach(fragment)
+                    .detach(it)
                 .commitAllowingStateLoss()
+        }
         super.onDestroy()
     }
 
@@ -43,7 +48,7 @@ class FilterActivity : BaseActivityWithToolbar() {
             fragment = FilterFragment.newInstance()
             supportFragmentManager
                     .beginTransaction()
-                    .add(R.id.contentFrame, fragment, FILTER_FRAGMENT_TAG)
+                    .add(R.id.contentFrame, fragment as Fragment, FILTER_FRAGMENT_TAG)
                     .commit()
         }
     }

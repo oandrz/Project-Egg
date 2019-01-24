@@ -5,8 +5,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
-import junit.framework.Assert;
-
 import butterknife.ButterKnife;
 import starbright.com.projectegg.R;
 
@@ -42,13 +40,13 @@ public class BaseActivityWithToolbar extends BaseActivity {
 
     protected void setToolbarTitle(String title) {
         final ActionBar actionBar = getSupportActionBar();
-        Assert.assertNotNull(actionBar);
+        if (actionBar == null) throw new IllegalStateException("");
         actionBar.setTitle(title);
     }
 
     protected void setBackButtonEnabled(boolean enabled) {
         final ActionBar actionBar = getSupportActionBar();
-        Assert.assertNotNull(actionBar);
+        if (actionBar == null) throw new IllegalStateException("");
         actionBar.setDisplayHomeAsUpEnabled(enabled);
         actionBar.setHomeButtonEnabled(enabled);
     }

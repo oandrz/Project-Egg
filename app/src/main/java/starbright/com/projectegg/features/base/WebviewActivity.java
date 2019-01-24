@@ -18,8 +18,6 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 
-import junit.framework.Assert;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import starbright.com.projectegg.R;
@@ -67,8 +65,8 @@ public class WebviewActivity extends AppCompatActivity {
     private void setupToolbar() {
         setSupportActionBar(toolbar);
         final ActionBar actionBar = getSupportActionBar();
+        if (actionBar == null) throw new IllegalStateException("");
         actionBar.setTitle(getIntent().getStringExtra(EXTRA_URL));
-        Assert.assertNotNull(actionBar);
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
     }

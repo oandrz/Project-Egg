@@ -41,7 +41,7 @@ ext {
     buildToolsVersion = '27.0.3'
 
     // App dependencies
-    supportLibraryVersion = '27.1.1'
+    supportLibraryVersion = '28.0.0'
     jUnitVersion = '4.12'
     clarifaiVersion = '2.4.0'
     daggerVersion = '2.0.2'
@@ -59,4 +59,5 @@ ext {
     admobVersion = '17.1.2'
     roomVersion = '1.0.0'
     zeibatsuVersion = '2.1.0'
+    chipVersion = '1.2.5'
 }
