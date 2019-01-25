@@ -59,5 +59,4 @@ ext {
     admobVersion = '17.1.2'
     roomVersion = '1.0.0'
     zeibatsuVersion = '2.1.0'
-    chipVersion = '1.2.5'
 }

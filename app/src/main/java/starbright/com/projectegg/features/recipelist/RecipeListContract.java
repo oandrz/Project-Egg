@@ -26,6 +26,8 @@ class RecipeListContract {
 
         void setupSwipeRefreshLayout();
 
+        void setupFilterSheet();
+
         void showLoadingBar();
         void hideLoadingBar();
 

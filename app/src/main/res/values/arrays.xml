@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?><!--~
+  ~ Created by Andreas on 24/1/2019.
+  -->
+
+<resources>
+    <array name="dishTypes">
+        <item>@string/filter.dish.main.label</item>
+        <item>@string/filter.dish.side.label</item>
+        <item>@string/filter.dish.appetizer.label</item>
+        <item>@string/filter.dish.salad.label</item>
+        <item>@string/filter.dish.breakfast.label</item>
+        <item>@string/filter.dish.soup.label</item>
+        <item>@string/filter.dish.sauce.label</item>
+        <item>@string/filter.dish.drink.label</item>
+        <item>@string/filter.dish.beverage.label</item>
+    </array>
+</resources>

@@ -37,7 +37,7 @@ import starbright.com.projectegg.R;
 import starbright.com.projectegg.data.AppRepository;
 import starbright.com.projectegg.data.local.model.Ingredient;
 import starbright.com.projectegg.data.local.model.Recipe;
-import starbright.com.projectegg.features.filter.FilterActivity;
+import starbright.com.projectegg.features.filter.FilterBottomSheetDialogFragment;
 import starbright.com.projectegg.util.scheduler.BaseSchedulerProvider;
 
 /**
@@ -45,7 +45,7 @@ import starbright.com.projectegg.util.scheduler.BaseSchedulerProvider;
  */
 
 public class RecipeListFragment extends Fragment implements RecipeListContract.View,
-        RecipeListAdapter.Listener {
+        RecipeListAdapter.Listener, FilterBottomSheetDialogFragment.Listener {
 
     private static String INGREDIENT_LIST_BUNDLE = "INGREDIENT_LIST_BUNDLE";
 
@@ -65,6 +65,7 @@ public class RecipeListFragment extends Fragment implements RecipeListContract.V
     SwipeRefreshLayout swipeRefreshContainer;
 
     private FragmentListener mFragmentListener;
+    private FilterBottomSheetDialogFragment mFilterFragment;
     private RecipeListContract.Presenter mPresenter;
     private RecipeListAdapter mAdapter;
 
@@ -129,8 +130,9 @@ public class RecipeListFragment extends Fragment implements RecipeListContract.V
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_filter:
-                startActivity(FilterActivity.newIntent(getActivity()));
-                ;
+                setupFilterSheet();
+                mFilterFragment.show(getChildFragmentManager(),
+                        mFilterFragment.getTag());
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -163,6 +165,12 @@ public class RecipeListFragment extends Fragment implements RecipeListContract.V
                 mPresenter.handleRefresh();
             }
         });
+    }
+
+    @Override
+    public void setupFilterSheet() {
+        mFilterFragment = new FilterBottomSheetDialogFragment();
+        mFilterFragment.setListener(this);
     }
 
     @Override

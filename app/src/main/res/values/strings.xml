@@ -15,6 +15,7 @@
     <string name="general.error.email.empty">Please Fill your Email</string>
     <string name="general.error.email.format">Your email\'s format should be mailname@mailprovider.com</string>
     <string name="general.error.password.empty">Please Fill your Password</string>
+    <string name="general.submit.label">Submit</string>
     <string name="general.number.text.format">%s. %s</string>
     <string name="general.number.text.unit.format">%s. %s %s %s</string>
 
@@ -71,4 +72,19 @@
 
     <!--Ads View-->
     <string name="ads.size">BANNER</string>
+
+    <!--Filter-->
+    <string name="filter.label">Filter</string>
+    <string name="filter.dishtype.label">Dish Type</string>
+    <string name="filter.cuisine.label">Cuisine</string>
+
+    <string name="filter.dish.main.label">main course</string>
+    <string name="filter.dish.side.label">side dish</string>
+    <string name="filter.dish.appetizer.label">appetizer</string>
+    <string name="filter.dish.salad.label">salad bread</string>
+    <string name="filter.dish.breakfast.label">breakfast</string>
+    <string name="filter.dish.soup.label">soup</string>
+    <string name="filter.dish.sauce.label">sauce</string>
+    <string name="filter.dish.drink.label">drink</string>
+    <string name="filter.dish.beverage.label">beverage</string>
 </resources>

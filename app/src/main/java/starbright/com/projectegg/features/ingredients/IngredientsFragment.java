@@ -374,6 +374,13 @@ public class IngredientsFragment extends Fragment implements IngredientsContract
     }
 
     @Override
+    public void onDestroyView() {
+        mCartBottomSheetDialogFragment.setListener(null);
+        mCartBottomSheetDialogFragment = null;
+        super.onDestroyView();
+    }
+
+    @Override
     public void hideSearchSuggestion() {
         rvIngredients.setVisibility(View.GONE);
     }

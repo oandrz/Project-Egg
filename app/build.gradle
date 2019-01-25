@@ -130,9 +130,6 @@ dependencies {
     implementation "android.arch.persistence.room:rxjava2:$rootProject.ext.roomVersion"
     annotationProcessor "android.arch.persistence.room:compiler:$rootProject.ext.roomVersion"
 
-    //Chip View
-    implementation "com.robertlevonyan.view:MaterialChipView:$rootProject.ext.chipVersion"
-
     // Unit Test
     testImplementation "junit:junit:$rootProject.ext.jUnitVersion"
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
