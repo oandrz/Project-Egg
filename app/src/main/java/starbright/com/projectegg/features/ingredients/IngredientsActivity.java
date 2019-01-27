@@ -1,15 +1,24 @@
+/**
+ * Created by Andreas on 10/9/2018.
+ */
+
 package starbright.com.projectegg.features.ingredients;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import java.util.List;
+
 import starbright.com.projectegg.R;
+import starbright.com.projectegg.data.local.model.Ingredient;
 import starbright.com.projectegg.features.base.BaseActivityWithoutToolbar;
+import starbright.com.projectegg.features.recipelist.RecipeListActivity;
 import starbright.com.projectegg.features.userAccount.UserAccountActivity;
 
 public class IngredientsActivity extends BaseActivityWithoutToolbar
         implements IngredientsFragment.FragmentListener {
+
     private static final String INGREDIENTS_FRAGMENT_TAG = "INGREDIENTS_FRAGMENT_TAG";
 
     private IngredientsFragment mFragment;
@@ -33,11 +42,11 @@ public class IngredientsActivity extends BaseActivityWithoutToolbar
     }
 
     @Override
-    protected void onStop() {
+    protected void onDestroy() {
         getSupportFragmentManager().beginTransaction()
                 .detach(mFragment)
                 .commitAllowingStateLoss();
-        super.onStop();
+        super.onDestroy();
     }
 
     private void initFragment() {
@@ -55,5 +64,10 @@ public class IngredientsActivity extends BaseActivityWithoutToolbar
     public void navigateUserAccountActivity() {
         startActivity(UserAccountActivity.newIntent(this));
         finish();
+    }
+
+    @Override
+    public void navigateRecipeListActivity(List<Ingredient> ingredients) {
+        startActivity(RecipeListActivity.newIntent(this, ingredients));
     }
 }

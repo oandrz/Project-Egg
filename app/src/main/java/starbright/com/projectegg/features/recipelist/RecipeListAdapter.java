@@ -28,6 +28,7 @@ class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.ViewHolde
 
     private Context mContext;
     private List<Recipe> mRecipes;
+    private Listener mListener;
 
     RecipeListAdapter(Context context) {
         mContext = context;
@@ -39,11 +40,11 @@ class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.ViewHolde
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(mContext)
                 .inflate(R.layout.item_recipe, parent, false);
-        ViewHolder holder = new ViewHolder(view);
+        final ViewHolder holder = new ViewHolder(view);
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                mListener.onItemClicked(holder.getAdapterPosition());
             }
         });
         return holder;
@@ -63,6 +64,10 @@ class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.ViewHolde
         mRecipes.clear();
         mRecipes.addAll(recipes);
         notifyDataSetChanged();
+    }
+
+    void setListener(Listener listener) {
+        mListener = listener;
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
@@ -86,5 +91,9 @@ class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.ViewHolde
                     .centerCrop()
                     .into(imgThumbnail);
         }
+    }
+
+    interface Listener {
+        void onItemClicked(int position);
     }
 }

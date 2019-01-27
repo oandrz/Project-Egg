@@ -31,7 +31,7 @@ public class ClarifaiHelper {
 
     private static final int CLARIFAI_REQUEST_TIMEOUT = 30;
     private static final int BYTE_BUFFER_SIZE = 1024;
-    private static final float MINIMUM_PREDICTION_PERCENTAGE = 0.99f;
+    private static final float MINIMUM_PREDICTION_PERCENTAGE = 0.97f;
 
     private final ClarifaiClient mClarifaiClient;
     private Context mContext;
@@ -69,6 +69,8 @@ public class ClarifaiHelper {
 
     public interface Callback {
         void onPredictionCompleted(String ingredients);
+
+        void onPredictionFailed();
     }
 
     private static class ImageRecognizerTask extends AsyncTask<
@@ -101,14 +103,18 @@ public class ClarifaiHelper {
         protected void onPostExecute(
                 ClarifaiResponse<List<ClarifaiOutput<Concept>>> response) {
             super.onPostExecute(response);
-            final List<Concept> data = response.get().get(0).data();
-            final List<String> predictions = new ArrayList<>();
-            for (Concept concept : data) {
-                if (concept.value() > MINIMUM_PREDICTION_PERCENTAGE) {
-                    predictions.add(concept.name());
+            if (response.isSuccessful()) {
+                final List<Concept> data = response.get().get(0).data();
+                final List<String> predictions = new ArrayList<>();
+                for (Concept concept : data) {
+                    if (concept.value() > MINIMUM_PREDICTION_PERCENTAGE) {
+                        predictions.add(concept.name());
+                    }
                 }
+                mCallback.onPredictionCompleted(TextUtils.join(Constants.COMMA, predictions));
+            } else {
+                mCallback.onPredictionFailed();
             }
-            mCallback.onPredictionCompleted(TextUtils.join(Constants.COMMA, predictions));
         }
     }
 }

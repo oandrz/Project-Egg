@@ -1,22 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--~
+  ~ Created by Andreas on 22/9/2018.
+  -->
+
+<!--~
+  ~ Created by Andreas on 9/9/2018.
+  -->
+
 <resources>
-    <dimen name="image_size">240dp</dimen>
+    <dimen name="image_size">180dp</dimen>
     <dimen name="iv_ingredient_size">40dp</dimen>
     <dimen name="iv_ingredient_cart_size">60dp</dimen>
-    <dimen name="iv_clear_size">12dp</dimen>
+    <dimen name="iv_clear_size">14dp</dimen>
     <dimen name="container_ingredient_width">100dp</dimen>
+    <dimen name="recipe_detail_image_height">180dp</dimen>
     <dimen name="cart_ingredient_image_size">50dp</dimen>
+    <dimen name="cart_image_container_size">64dp</dimen>
+    <dimen name="line_size">1dp</dimen>
+    <dimen name="banner_image_height">300dp</dimen>
 
     <!--Spacing-->
     <dimen name="space_4dp">4dp</dimen>
-    <dimen name="space_small">8dp</dimen>
-    <dimen name="space_normal">16dp</dimen>
-    <dimen name="space_large">32dp</dimen>
+    <dimen name="space_8dp">8dp</dimen>
+    <dimen name="space_16dp">16dp</dimen>
+    <dimen name="space_24dp">24dp</dimen>
+    <dimen name="space_32dp">32dp</dimen>
     <dimen name="space_empty_large">150dp</dimen>
 
     <!--Font Size-->
+    <dimen name="small_font">10sp</dimen>
     <dimen name="normal_font">14sp</dimen>
+    <dimen name="sub_header_font">18sp</dimen>
     <dimen name="header_font">24sp</dimen>
+    <dimen name="header6_font">20sp</dimen>
 
     <!--Card View-->
     <dimen name="card_elevation">4dp</dimen>
@@ -25,4 +41,5 @@
     <!--Icon-->
     <dimen name="login_icon_size">120dp</dimen>
     <dimen name="drawable_view_icon_size">24dp</dimen>
+    <dimen name="ad_icon_size">12dp</dimen>
 </resources>

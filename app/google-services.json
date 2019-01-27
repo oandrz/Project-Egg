@@ -8,23 +8,19 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:508383242266:android:d954b2aeeea14b2b",
+        "mobilesdk_app_id": "1:508383242266:android:a2cf04a33ea5f5c7",
         "android_client_info": {
-          "package_name": "starbright.com.projectegg.free"
+          "package_name": "starbright.com.projectegg.debug"
         }
       },
       "oauth_client": [
         {
-          "client_id": "508383242266-hml1cam2d2fjisdovgv36c99g66alqj4.apps.googleusercontent.com",
+          "client_id": "508383242266-gt5v8i6oskl3p0ebhi2s1g9o3e3fab1u.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "starbright.com.projectegg.free",
+            "package_name": "starbright.com.projectegg.debug",
             "certificate_hash": "3ccd094d9d385934ecfdc24133ca4e2549a3e215"
           }
-        },
-        {
-          "client_id": "508383242266-7cr5oee0jvromvraelq5l3vsohi9b16f.apps.googleusercontent.com",
-          "client_type": 3
         },
         {
           "client_id": "508383242266-7cr5oee0jvromvraelq5l3vsohi9b16f.apps.googleusercontent.com",
@@ -56,23 +52,19 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:508383242266:android:de4c7c0ed5b89238",
+        "mobilesdk_app_id": "1:508383242266:android:b7a448e6715e28d8",
         "android_client_info": {
-          "package_name": "starbright.com.projectegg.paid"
+          "package_name": "starbright.com.projectegg.release"
         }
       },
       "oauth_client": [
         {
-          "client_id": "508383242266-g1p5722s555lg2m15oiphnhg4p7lrm4g.apps.googleusercontent.com",
+          "client_id": "508383242266-qjkiho4oblffpcm23bhtfi3c5hddagts.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "starbright.com.projectegg.paid",
-            "certificate_hash": "3ccd094d9d385934ecfdc24133ca4e2549a3e215"
+            "package_name": "starbright.com.projectegg.release",
+            "certificate_hash": "b9486ab8117866bd2e556b56450656bb5c53de30"
           }
-        },
-        {
-          "client_id": "508383242266-7cr5oee0jvromvraelq5l3vsohi9b16f.apps.googleusercontent.com",
-          "client_type": 3
         },
         {
           "client_id": "508383242266-7cr5oee0jvromvraelq5l3vsohi9b16f.apps.googleusercontent.com",
@@ -100,7 +92,8 @@
         "ads_service": {
           "status": 2
         }
-      }
+      },
+      "admob_app_id": "ca-app-pub-6407679845315648~1210399614"
     }
   ],
   "configuration_version": "1"

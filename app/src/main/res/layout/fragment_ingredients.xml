@@ -11,44 +11,46 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <LinearLayout
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/space_empty_large"
-            android:padding="@dimen/space_normal"
-            android:gravity="end"
-            android:orientation="horizontal">
+            android:layout_height="@dimen/space_empty_large">
 
-            <TextView
-                android:id="@+id/tv_cart_count"
-                style="@style/NormalFont"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="?android:attr/selectableItemBackground"
-                android:drawableEnd="@drawable/ic_shopping_basket"
-                android:drawablePadding="@dimen/space_small"
-                android:gravity="center"
-                android:text="@string/general.zero"
-                android:textColor="@color/white"
-                android:textSize="@dimen/normal_font" />
+                android:gravity="end|center_vertical"
+                android:orientation="horizontal"
+                android:padding="@dimen/space_16dp">
 
-            <TextView
-                android:id="@+id/tv_logout"
-                style="@style/NormalFont"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="?android:attr/selectableItemBackground"
-                android:text="@string/general.logout"
-                android:layout_marginStart="@dimen/space_normal"
-                android:textColor="@color/white"
-                android:textSize="@dimen/normal_font" />
-        </LinearLayout>
+                <TextView
+                    android:id="@+id/tv_cart_count"
+                    style="@style/NormalFont"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:drawableEnd="@drawable/ic_shopping_basket_white"
+                    android:drawablePadding="@dimen/space_8dp"
+                    android:gravity="center"
+                    android:text="@string/general.zero"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/normal_font" />
+
+                <ImageView
+                    android:id="@+id/iv_more"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/space_16dp"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:src="@drawable/ic_more_vert" />
+            </LinearLayout>
+        </FrameLayout>
 
         <TextView
             android:id="@+id/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_margin="@dimen/space_normal"
+            android:layout_margin="@dimen/space_16dp"
             android:text="@string/ingredients.title"
             android:textColor="@color/white"
             android:textSize="@dimen/header_font"
@@ -57,7 +59,7 @@
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/space_normal"
+            android:layout_margin="@dimen/space_16dp"
             app:cardElevation="@dimen/card_elevation">
 
             <RelativeLayout
@@ -69,28 +71,28 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:padding="@dimen/space_normal">
+                    android:padding="@dimen/space_16dp">
 
                     <EditText
                         android:id="@+id/et_search_ingredients"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@color/white"
-                        android:drawablePadding="@dimen/space_normal"
+                        android:drawablePadding="@dimen/space_16dp"
                         android:drawableStart="@drawable/ic_search"
                         android:hint="@string/ingredients.search.hint"
                         android:imeOptions="actionNext"
                         android:inputType="text"
                         android:maxLines="1"
-                        android:paddingEnd="@dimen/space_large" />
+                        android:paddingEnd="@dimen/space_32dp" />
 
                     <ImageView
                         android:id="@+id/img_action_button"
                         android:layout_width="@dimen/drawable_view_icon_size"
                         android:layout_height="@dimen/drawable_view_icon_size"
                         android:layout_gravity="center|end"
-                        android:src="@drawable/ic_camera"
-                        android:background="?android:attr/selectableItemBackground" />
+                        android:background="?android:attr/selectableItemBackground"
+                        android:src="@drawable/ic_camera" />
 
                     <ProgressBar
                         android:id="@+id/suggestion_progress_bar"

@@ -1,11 +1,19 @@
+<!--~
+  ~ Created by Andreas on 22/9/2018.
+  -->
+
 <resources>
-    <string name="app.name">Project Egg</string>
     <string name="general.retry.label">Retry</string>
     <string name="general.zero">0</string>
-    <string name="general.logout">Sign out</string>
+    <string name="general.signout">Sign out</string>
+    <string name="general.favorites">Favorites</string>
+    <string name="general.sharechooser">Share Using</string>
     <string name="general.error.email.empty">Please Fill your Email</string>
     <string name="general.error.email.format">Your email\'s format should be mailname@mailprovider.com</string>
     <string name="general.error.password.empty">Please Fill your Password</string>
+    <string name="general.submit.label">Submit</string>
+    <string name="general.number.text.format">%s. %s</string>
+    <string name="general.number.text.unit.format">%s. %s %s %s</string>
 
     <!--Login Page-->
     <string name="email.hint">Email</string>
@@ -25,6 +33,8 @@
 
     <!--Ingredients Page-->
     <string name="ingredients.title">Add Ingredients</string>
+    <string name="ingredients.header.label">Ingredients</string>
+    <string name="cuisine.header.label">Cuisine</string>
     <string name="ingredients.search.hint">Search ingredients here</string>
     <string name="ingredients.search.empty">The Item you\'re looking for is not available</string>
     <string name="ingredients.cart.included.format">I\'ve put %s into your cart</string>
@@ -36,4 +46,65 @@
     <string name="ingredients.cart.error.max">I\'m sorry, but you can\'t bring ingredient anymore</string>
     <string name="ingredients.prediction.empty">I\'m sorry, I couldn\'t recognize the image</string>
     <string name="ingredients.btn.submit.label">Submit</string>
+    <string name="ingredients.added.text">Successfully add item to your cart</string>
+
+    <!--Recipe List Page-->
+    <string name="recipelist.title">Recipe List</string>
+    <string name="recipelist.filter.label">Filter</string>
+
+    <!--Detail Page-->
+    <string name="detail.title">Recipe Detail</string>
+    <string name="detail.serving.label">Serving</string>
+    <string name="detail.preparationtime.label">Preparation Time</string>
+    <string name="detail.cookingtime.label">Cooking Time</string>
+    <string name="detail.ingredient.label">Ingredient</string>
+    <string name="detail.instruction.label">Instruction</string>
+    <string name="detail.time.format">%d Minutes</string>
+    <string name="detail.serving.format">%d Peoples</string>
+    <string name="detail.empty.label">I\'m sorry I still don\'t have the data of item that you want</string>
+    <string name="detail.menu.share.label">Share</string>
+    <string name="detail.menu.detail.label">Open Detail in WebView</string>
+    <string name="detail.intent.share">Hey, check this out ! I found delicious this recipe %s \nlink below\n%s</string>
+
+    <!--Ads View-->
+    <string name="ads.size">BANNER</string>
+
+    <!--Filter-->
+    <string name="filter.label">Filter</string>
+    <string name="filter.dishtype.label">Dish Type</string>
+    <string name="filter.cuisine.label">Cuisine</string>
+
+    <string name="filter.dish.main.label">main course</string>
+    <string name="filter.dish.side.label">side dish</string>
+    <string name="filter.dish.appetizer.label">appetizer</string>
+    <string name="filter.dish.salad.label">salad bread</string>
+    <string name="filter.dish.breakfast.label">breakfast</string>
+    <string name="filter.dish.soup.label">soup</string>
+    <string name="filter.dish.sauce.label">sauce</string>
+    <string name="filter.dish.drink.label">drink</string>
+    <string name="filter.dish.beverage.label">beverage</string>
+
+    <string name="filter.cuisine.african.label">african</string>
+    <string name="filter.cuisine.chinese.label">chinese</string>
+    <string name="filter.cuisine.japanese.label">japanese</string>
+    <string name="filter.cuisine.korean.label">korean</string>
+    <string name="filter.cuisine.vietanemese.label">vietanemese</string>
+    <string name="filter.cuisine.thai.label">thai</string>
+    <string name="filter.cuisine.indian.label">indian</string>
+    <string name="filter.cuisine.british.label">british</string>
+    <string name="filter.cuisine.irish.label">irish</string>
+    <string name="filter.cuisine.french.label">french</string>
+    <string name="filter.cuisine.italian.label">italian</string>
+    <string name="filter.cuisine.mexican.label">mexican</string>
+    <string name="filter.cuisine.spanish.label">spanish</string>
+    <string name="filter.cuisine.middleeastern.label">middle eastern</string>
+    <string name="filter.cuisine.jewish.label">jewish</string>
+    <string name="filter.cuisine.american.label">american</string>
+    <string name="filter.cuisine.cajun.label">cajun</string>
+    <string name="filter.cuisine.greek.label">greek</string>
+    <string name="filter.cuisine.german.label">german</string>
+    <string name="filter.cuisine.nordic.label">nordic</string>
+    <string name="filter.cuisine.easterneuropean.label"> eastern european</string>
+    <string name="filter.cuisine.caribbean.label">caribbean</string>
+    <string name="filter.cuisine.latianamerica.label">latin american</string>
 </resources>
