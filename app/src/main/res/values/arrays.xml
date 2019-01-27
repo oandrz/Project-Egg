@@ -14,4 +14,30 @@
         <item>@string/filter.dish.drink.label</item>
         <item>@string/filter.dish.beverage.label</item>
     </array>
+
+    <array name="cuisines">
+        <item>@string/filter.cuisine.african.label</item>
+        <item>@string/filter.cuisine.american.label</item>
+        <item>@string/filter.cuisine.british.label</item>
+        <!--<item>@string/filter.cuisine.cajun.label</item>-->
+        <!--<item>@string/filter.cuisine.caribbean.label</item>-->
+        <item>@string/filter.cuisine.chinese.label</item>
+        <!--<item>@string/filter.cuisine.easterneuropean.label</item>-->
+        <item>@string/filter.cuisine.french.label</item>
+        <item>@string/filter.cuisine.german.label</item>
+        <item>@string/filter.cuisine.greek.label</item>
+        <item>@string/filter.cuisine.indian.label</item>
+        <item>@string/filter.cuisine.irish.label</item>
+        <item>@string/filter.cuisine.italian.label</item>
+        <item>@string/filter.cuisine.japanese.label</item>
+        <!--<item>@string/filter.cuisine.jewish.label</item>-->
+        <item>@string/filter.cuisine.korean.label</item>
+        <item>@string/filter.cuisine.latianamerica.label</item>
+        <item>@string/filter.cuisine.mexican.label</item>
+        <item>@string/filter.cuisine.middleeastern.label</item>
+        <!--<item>@string/filter.cuisine.nordic.label</item>-->
+        <item>@string/filter.cuisine.spanish.label</item>
+        <item>@string/filter.cuisine.thai.label</item>
+        <item>@string/filter.cuisine.vietanemese.label</item>
+    </array>
 </resources>

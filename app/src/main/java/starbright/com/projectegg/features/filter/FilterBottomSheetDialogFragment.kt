@@ -18,6 +18,7 @@ import starbright.com.projectegg.R
 class FilterBottomSheetDialogFragment : BottomSheetDialogFragment() {
 
     private lateinit var dishTypes: List<String>
+    private lateinit var cuisines: List<String>
 
     var listener: Listener? = null
 
@@ -29,6 +30,9 @@ class FilterBottomSheetDialogFragment : BottomSheetDialogFragment() {
         dishTypes = resources
                 .getStringArray(R.array.dishTypes)
                 .toList()
+        cuisines = resources
+                .getStringArray(R.array.cuisines)
+                .toList()
     }
 
     override fun onCreateView(inflater: LayoutInflater,
@@ -39,7 +43,8 @@ class FilterBottomSheetDialogFragment : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        renderChipView()
+        renderDishTypesChips()
+        renderCuisineChips()
     }
 
     override fun onDetach() {
@@ -47,7 +52,7 @@ class FilterBottomSheetDialogFragment : BottomSheetDialogFragment() {
         listener = null
     }
 
-    private fun renderChipView() {
+    private fun renderDishTypesChips() {
         var counter = 1
         setupChipGroup()
         dishTypes.forEach { type ->
@@ -82,6 +87,44 @@ class FilterBottomSheetDialogFragment : BottomSheetDialogFragment() {
                     Toast.makeText(activity, selectedChip.text, Toast.LENGTH_SHORT).show()
                 }
             }
+        }
+    }
+
+    private fun setupCuisineChipGroup() {
+        container_cuisine.let {
+            it.isSingleSelection = true
+            it.setOnCheckedChangeListener { chipGroup, id ->
+                val selectedChip: Chip? = chipGroup.findViewById(id)
+                selectedChip?.let {
+                    Toast.makeText(activity, selectedChip.text, Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
+
+    private fun renderCuisineChips() {
+        var counter = 1
+        setupCuisineChipGroup()
+        cuisines.forEach { type ->
+            val chip = Chip(activity).also {
+                it.id = counter
+                it.text = type
+                it.isClickable = true
+                it.checkedIcon = null
+                it.isCheckable = true
+                it.setChipBackgroundColorResource(R.color.gray_300)
+                it.setOnCheckedChangeListener { _, isSelected ->
+                    if (isSelected) {
+                        it.setChipBackgroundColorResource(R.color.colorAccent)
+                    } else {
+                        it.setChipBackgroundColorResource(R.color.gray_300)
+                    }
+                }
+
+            }
+            container_cuisine.addView(chip)
+            dishTypeIds.add(counter)
+            counter++
         }
     }
 

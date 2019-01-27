@@ -36,6 +36,23 @@
             android:layout_marginEnd="@dimen/space_16dp"
             android:layout_marginTop="@dimen/space_8dp" />
 
+        <TextView
+            style="@style/subHeaderBlack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_32dp"
+            android:text="@string/filter.cuisine.label"
+            android:layout_marginStart="@dimen/space_16dp"
+            android:layout_marginEnd="@dimen/space_16dp" />
+
+        <android.support.design.chip.ChipGroup
+            android:id="@+id/container_cuisine"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_16dp"
+            android:layout_marginEnd="@dimen/space_16dp"
+            android:layout_marginTop="@dimen/space_8dp" />
+
         <Button
             android:id="@+id/btn_confirm"
             style="@style/FillButton"

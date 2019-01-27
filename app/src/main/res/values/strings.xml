@@ -2,10 +2,6 @@
   ~ Created by Andreas on 22/9/2018.
   -->
 
-<!--~
-  ~ Created by Andreas on 10/9/2018.
-  -->
-
 <resources>
     <string name="general.retry.label">Retry</string>
     <string name="general.zero">0</string>
@@ -87,4 +83,28 @@
     <string name="filter.dish.sauce.label">sauce</string>
     <string name="filter.dish.drink.label">drink</string>
     <string name="filter.dish.beverage.label">beverage</string>
+
+    <string name="filter.cuisine.african.label">african</string>
+    <string name="filter.cuisine.chinese.label">chinese</string>
+    <string name="filter.cuisine.japanese.label">japanese</string>
+    <string name="filter.cuisine.korean.label">korean</string>
+    <string name="filter.cuisine.vietanemese.label">vietanemese</string>
+    <string name="filter.cuisine.thai.label">thai</string>
+    <string name="filter.cuisine.indian.label">indian</string>
+    <string name="filter.cuisine.british.label">british</string>
+    <string name="filter.cuisine.irish.label">irish</string>
+    <string name="filter.cuisine.french.label">french</string>
+    <string name="filter.cuisine.italian.label">italian</string>
+    <string name="filter.cuisine.mexican.label">mexican</string>
+    <string name="filter.cuisine.spanish.label">spanish</string>
+    <string name="filter.cuisine.middleeastern.label">middle eastern</string>
+    <string name="filter.cuisine.jewish.label">jewish</string>
+    <string name="filter.cuisine.american.label">american</string>
+    <string name="filter.cuisine.cajun.label">cajun</string>
+    <string name="filter.cuisine.greek.label">greek</string>
+    <string name="filter.cuisine.german.label">german</string>
+    <string name="filter.cuisine.nordic.label">nordic</string>
+    <string name="filter.cuisine.easterneuropean.label"> eastern european</string>
+    <string name="filter.cuisine.caribbean.label">caribbean</string>
+    <string name="filter.cuisine.latianamerica.label">latin american</string>
 </resources>
