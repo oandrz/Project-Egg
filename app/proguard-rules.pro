@@ -19,9 +19,3 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
--dontwarn clarifai2.**
--keep class clarifai2.** { *; }
--dontwarn okhttp3.internal.**
--keep class okhttp3.internal.** { *; }
--dontwarn org.codehaus.mojo.animal_sniffer.**
--keep class org.codehaus.mojo.animal_sniffer.** { *; }

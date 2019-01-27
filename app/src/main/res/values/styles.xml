@@ -4,7 +4,7 @@
 
     <style name="AppTheme.OverlapSystemBar" parent="Base.AppTheme" />
 
-    <style name="Base.AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+    <style name="Base.AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
@@ -18,45 +18,17 @@
         <item name="android:textColor">@color/black</item>
     </style>
 
-    <style name="NormalFontWhite" parent="NormalFont">
-        <item name="android:textColor">@color/white</item>
-    </style>
-
-    <style name="SmallFontWhite">
-        <item name="android:textSize">@dimen/small_font</item>
-        <item name="android:textColor">@color/white</item>
-    </style>
-
     <style name="TitleFont">
         <item name="android:textSize">@dimen/normal_font</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/black</item>
     </style>
 
-    <style name="TitleFontRed" parent="TitleFont">
-        <item name="android:textColor">@color/red</item>
-    </style>
-
-    <style name="HeaderFontWhite">
-        <item name="android:textSize">@dimen/header_font</item>
-        <item name="android:textColor">@color/white</item>
-    </style>
-
-    <style name="HeaderFontBlackBold">
-        <item name="android:textSize">@dimen/header_font</item>
-        <item name="android:textColor">@color/black</item>
-        <item name="android:textStyle">bold</item>
-    </style>
-
-    <style name="subHeaderBlack">
-        <item name="android:textSize">@dimen/sub_header_font</item>
-        <item name="android:textColor">@color/black</item>
-    </style>
-
-    <style name="FillButton" parent="@style/Widget.MaterialComponents.Button">
-        <item name="android:padding">@dimen/space_16dp</item>
-        <item name="android:layout_marginLeft">@dimen/space_16dp</item>
-        <item name="android:layout_marginRight">@dimen/space_16dp</item>
+    <style name="FillButton">
+        <item name="android:background">@drawable/fill_button_selector</item>
+        <item name="android:padding">@dimen/space_normal</item>
+        <item name="android:layout_marginLeft">@dimen/space_normal</item>
+        <item name="android:layout_marginRight">@dimen/space_normal</item>
         <item name="android:textColor">@color/white</item>
         <item name="android:textAllCaps">true</item>
     </style>

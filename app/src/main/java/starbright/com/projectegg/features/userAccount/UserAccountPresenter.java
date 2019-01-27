@@ -1,7 +1,3 @@
-/**
- * Created by Andreas on 9/9/2018.
- */
-
 package starbright.com.projectegg.features.userAccount;
 
 import android.support.annotation.NonNull;
@@ -142,7 +138,11 @@ class UserAccountPresenter implements UserAccountContract.Presenter{
     }
 
     private boolean isUserEmailVerified(FirebaseAuth firebaseAuth) {
-        return firebaseAuth.getCurrentUser() != null && firebaseAuth.getCurrentUser().isEmailVerified();
+        if (firebaseAuth.getCurrentUser() != null) {
+            return firebaseAuth.getCurrentUser().isEmailVerified();
+        } else {
+            return false;
+        }
     }
 
     private boolean validateEmailFormat(String email) {

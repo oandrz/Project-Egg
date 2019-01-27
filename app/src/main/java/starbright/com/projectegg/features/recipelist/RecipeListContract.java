@@ -1,55 +1,25 @@
-/**
- * Created by Andreas on 22/9/2018.
- */
-
-/**
- * Created by Andreas on 10/9/2018.
- */
-
-/**
- * Created by Andreas on 9/9/2018.
- */
-
 package starbright.com.projectegg.features.recipelist;
 
 import java.util.List;
 
-import starbright.com.projectegg.data.local.model.Ingredient;
 import starbright.com.projectegg.data.local.model.Recipe;
 import starbright.com.projectegg.features.base.BasePresenter;
 import starbright.com.projectegg.features.base.BaseView;
+
+/**
+ * Created by Andreas on 4/8/2018.
+ */
 
 class RecipeListContract {
 
     interface View extends BaseView<Presenter> {
         void setupRecyclerView();
-
-        void setupSwipeRefreshLayout();
-
-        void setupFilterSheet();
-
+        void bindRecipesToList(List<Recipe> recipes);
         void showLoadingBar();
         void hideLoadingBar();
-
-        void bindRecipesToList(List<Recipe> recipes);
-        void showDetail(String recipeId);
-
-        void showErrorSnackBar(String errorMessage);
     }
 
     interface Presenter extends BasePresenter{
-        void handleListItemClicked(int position);
-        void handleRefresh();
-
-        void handleFilter(String dishType, String cuisine);
-
-        void setLastSelectedDishType(String dishType);
-
-        void setLastSelectedCuisine(String cuisine);
-
-        String getLastSelectedDishType();
-
-        String getLastSelectedCuisine();
-        void setIngredients(List<Ingredient> ingredients);
+        void getRecipesBasedIngredients(String ingredients);
     }
 }

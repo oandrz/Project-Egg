@@ -3,7 +3,8 @@ package starbright.com.projectegg.features.base;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
-import android.view.MenuItem;
+
+import junit.framework.Assert;
 
 import butterknife.ButterKnife;
 import starbright.com.projectegg.R;
@@ -27,26 +28,15 @@ public class BaseActivityWithToolbar extends BaseActivity {
         super.onBackPressed();
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                onBackPressed();
-                return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
     protected void setToolbarTitle(String title) {
         final ActionBar actionBar = getSupportActionBar();
-        if (actionBar == null) throw new IllegalStateException("");
+        Assert.assertNotNull(actionBar);
         actionBar.setTitle(title);
     }
 
     protected void setBackButtonEnabled(boolean enabled) {
         final ActionBar actionBar = getSupportActionBar();
-        if (actionBar == null) throw new IllegalStateException("");
+        Assert.assertNotNull(actionBar);
         actionBar.setDisplayHomeAsUpEnabled(enabled);
         actionBar.setHomeButtonEnabled(enabled);
     }

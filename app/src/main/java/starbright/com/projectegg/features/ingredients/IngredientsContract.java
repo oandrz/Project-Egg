@@ -1,7 +1,3 @@
-/**
- * Created by Andreas on 9/9/2018.
- */
-
 package starbright.com.projectegg.features.ingredients;
 
 import java.util.ArrayList;
@@ -37,8 +33,6 @@ class IngredientsContract {
         void showDuplicateItemToast();
         void showPredictionEmptyToast();
 
-        void showItemAddedToast();
-
         void showSuccessPutIngredientToast(String ingredientName);
 
         void showMaterialProgressDialog();
@@ -50,7 +44,7 @@ class IngredientsContract {
 
         void updateIngredientCount(int count);
 
-        void hideSoftKeyboard();
+        void hideSoftkeyboard();
     }
 
     interface Presenter extends BasePresenter {

@@ -1,11 +1,3 @@
-/**
- * Created by Andreas on 29/9/2018.
- */
-
-/**
- * Created by Andreas on 10/9/2018.
- */
-
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
@@ -38,25 +30,25 @@ task clean(type: Delete) {
 ext {
     // Sdk and tools
     // Support library and architecture components support minSdk 14 and above.
+    minSdkVersion = 19
+    targetSdkVersion = 26
+    compileSdkVersion = 26
     buildToolsVersion = '27.0.3'
 
     // App dependencies
-    supportLibraryVersion = '28.0.0'
+    supportLibraryVersion = '27.1.1'
     jUnitVersion = '4.12'
     clarifaiVersion = '2.4.0'
     daggerVersion = '2.0.2'
-    retrofitVersion = '2.5.0'
+    retrofitVersion = '2.2.0'
     okhttpVersion = '3.3.0'
-    butterKnifeVersion = '8.8.1'
+    butterKnifeVersion = '8.5.1'
     rxjavaVersion = '2.0.7'
-    rxAndroidVersion = '2.0.2'
+    rxAndroidVersion = '2.0.1'
     hotchemiVersion = '3.1.0'
     glideVersion = '4.7.1'
-    firebaseCoreVersion = '16.0.6'
-    firebaseAuthVersion = '16.1.0'
+    firebaseCoreVersion = '16.0.0'
+    firebaseAuthVersion = '16.0.1'
     materialDialogVersion = '0.9.6.0'
     circleIVVersion = '2.2.0'
-    admobVersion = '17.1.2'
-    roomVersion = '1.0.0'
-    zeibatsuVersion = '2.1.0'
 }

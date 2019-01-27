@@ -1,13 +1,11 @@
-/**
- * Created by Andreas on 9/9/2018.
- */
-
 package starbright.com.projectegg.features.ingredients;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -16,19 +14,17 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.FileProvider;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.PopupMenu;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -50,7 +46,6 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import id.zelory.compressor.Compressor;
 import permissions.dispatcher.NeedsPermission;
 import permissions.dispatcher.RuntimePermissions;
 import starbright.com.projectegg.MyApp;
@@ -62,10 +57,13 @@ import starbright.com.projectegg.util.Constants;
 import starbright.com.projectegg.util.scheduler.BaseSchedulerProvider;
 
 import static android.app.Activity.RESULT_OK;
+import static starbright.com.projectegg.features.ingredients.CartBottomSheetDialogFragment.EXTRA_EVENT_CART;
 
 @RuntimePermissions
 public class IngredientsFragment extends Fragment implements IngredientsContract.View,
         IngredientsAdapter.Listener {
+
+    public static final String EVENT_CART_COUNT_UPDATED = "EVENT_CART_COUNT_UPDATED";
 
     private static final int AUTOCOMPLETE_DELAY = 600;
     private static final int CAMERA_REQUEST_CODE = 101;
@@ -74,9 +72,6 @@ public class IngredientsFragment extends Fragment implements IngredientsContract
 
     @Inject
     AppRepository repository;
-
-    @Inject
-    Compressor compressor;
 
     @Inject
     BaseSchedulerProvider schedulerProvider;
@@ -104,6 +99,13 @@ public class IngredientsFragment extends Fragment implements IngredientsContract
     private CartBottomSheetDialogFragment mCartBottomSheetDialogFragment;
     private String mCurrentPhotoPath;
 
+    private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            mPresenter.setCart(intent.<Ingredient>getParcelableArrayListExtra(EXTRA_EVENT_CART));
+        }
+    };
+
     private FragmentListener mFragmentListener;
 
     private TextWatcher mIngredientsTextWatcher = new TextWatcher() {
@@ -126,14 +128,12 @@ public class IngredientsFragment extends Fragment implements IngredientsContract
             mTimer.schedule(new TimerTask() {
                 @Override
                 public void run() {
-                    if (getActivity() != null) {
-                        getActivity().runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                mPresenter.searchIngredient(s.toString());
-                            }
-                        });
-                    }
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            mPresenter.searchIngredient(s.toString());
+                        }
+                    });
                 }
             }, AUTOCOMPLETE_DELAY);
         }
@@ -153,12 +153,13 @@ public class IngredientsFragment extends Fragment implements IngredientsContract
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(mMessageReceiver,
+                new IntentFilter(EVENT_CART_COUNT_UPDATED));
         new IngredientsPresenter(
                 repository,
                 this,
                 schedulerProvider,
-                new ClarifaiHelper(getActivity()),
-                compressor
+                new ClarifaiHelper(getActivity())
         );
     }
 
@@ -185,6 +186,12 @@ public class IngredientsFragment extends Fragment implements IngredientsContract
     public void onDetach() {
         mFragmentListener = null;
         super.onDetach();
+    }
+
+    @Override
+    public void onDestroyView() {
+        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(mMessageReceiver);
+        super.onDestroyView();
     }
 
     @Override
@@ -235,17 +242,6 @@ public class IngredientsFragment extends Fragment implements IngredientsContract
     @Override
     public void setupBottomSheetDialogFragment() {
         mCartBottomSheetDialogFragment = new CartBottomSheetDialogFragment();
-        mCartBottomSheetDialogFragment.setListener(new CartBottomSheetDialogFragment.SheetListener() {
-            @Override
-            public void updateCart(List<Ingredient> ingredients) {
-                mPresenter.setCart(ingredients);
-            }
-
-            @Override
-            public void submitButtonClicked() {
-                mFragmentListener.navigateRecipeListActivity(mPresenter.getCart());
-            }
-        });
     }
 
     @Override
@@ -325,12 +321,6 @@ public class IngredientsFragment extends Fragment implements IngredientsContract
     }
 
     @Override
-    public void showItemAddedToast() {
-        Toast.makeText(getActivity(), getString(R.string.ingredients_added_text),
-                Toast.LENGTH_LONG).show();
-    }
-
-    @Override
     public void showSuccessPutIngredientToast(String ingredientName) {
         Toast.makeText(getActivity(), getString(R.string.ingredients_cart_included_format,
                 ingredientName), Toast.LENGTH_SHORT).show();
@@ -343,9 +333,7 @@ public class IngredientsFragment extends Fragment implements IngredientsContract
 
     @Override
     public void hideMaterialProgressDialog() {
-        if (mDialog != null) {
-            mDialog.dismiss();
-        }
+        mDialog.dismiss();
     }
 
     @Override
@@ -354,7 +342,7 @@ public class IngredientsFragment extends Fragment implements IngredientsContract
     }
 
     @Override
-    public void hideSoftKeyboard() {
+    public void hideSoftkeyboard() {
         final InputMethodManager imm = (InputMethodManager) getActivity()
                 .getSystemService(Activity.INPUT_METHOD_SERVICE);
         if (imm != null) {
@@ -371,13 +359,6 @@ public class IngredientsFragment extends Fragment implements IngredientsContract
     @Override
     public void setCartItem(List<Ingredient> cart) {
         mCartBottomSheetDialogFragment.setCartIngredient(cart);
-    }
-
-    @Override
-    public void onDestroyView() {
-        mCartBottomSheetDialogFragment.setListener(null);
-        mCartBottomSheetDialogFragment = null;
-        super.onDestroyView();
     }
 
     @Override
@@ -412,7 +393,7 @@ public class IngredientsFragment extends Fragment implements IngredientsContract
     @OnClick({
             R.id.img_action_button,
             R.id.tv_cart_count,
-            R.id.iv_more
+            R.id.tv_logout
     })
     void onClickedEvent(View view) {
         switch (view.getId()) {
@@ -422,8 +403,10 @@ public class IngredientsFragment extends Fragment implements IngredientsContract
             case R.id.tv_cart_count:
                 mPresenter.handleCartTvClicked();
                 break;
-            case R.id.iv_more:
-                showPopupMenu(view);
+            case R.id.tv_logout:
+                // TODO: 29/07/18 Temporary Signout Method
+                FirebaseAuth.getInstance().signOut();
+                mFragmentListener.navigateUserAccountActivity();
                 break;
         }
     }
@@ -439,29 +422,7 @@ public class IngredientsFragment extends Fragment implements IngredientsContract
         return image;
     }
 
-    private void showPopupMenu(View view) {
-        final PopupMenu popup = new PopupMenu(getActivity(), view);
-        final MenuInflater inflater = popup.getMenuInflater();
-        inflater.inflate(R.menu.search_ingredient_menu, popup.getMenu());
-        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.menu_signout:
-                        FirebaseAuth.getInstance().signOut();
-                        mFragmentListener.navigateUserAccountActivity();
-                        return true;
-                    default:
-                        return false;
-                }
-            }
-        });
-        popup.show();
-    }
-
     interface FragmentListener {
         void navigateUserAccountActivity();
-
-        void navigateRecipeListActivity(List<Ingredient> ingredients);
     }
 }

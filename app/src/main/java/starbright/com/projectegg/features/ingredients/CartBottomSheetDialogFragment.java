@@ -1,14 +1,16 @@
 package starbright.com.projectegg.features.ingredients;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetDialogFragment;
+import android.support.v4.content.LocalBroadcastManager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -21,8 +23,14 @@ import io.reactivex.annotations.NonNull;
 import starbright.com.projectegg.R;
 import starbright.com.projectegg.data.local.model.Ingredient;
 
+import static starbright.com.projectegg.features.ingredients.IngredientsFragment.EVENT_CART_COUNT_UPDATED;
+
 public class CartBottomSheetDialogFragment extends BottomSheetDialogFragment
         implements IngredientsCartAdapter.Listener {
+
+    public static final String EXTRA_EVENT_CART = "EXTRA_EVENT_CART";
+
+    private static final int SPAN_COUNT = 4;
 
     @BindView(R.id.tv_total_ingredient)
     TextView tvTotalIngredient;
@@ -30,18 +38,13 @@ public class CartBottomSheetDialogFragment extends BottomSheetDialogFragment
     @BindView(R.id.tv_empty)
     TextView tvEmpty;
 
-    @BindView(R.id.btn_submit)
-    Button btnSubmit;
-
     @BindView(R.id.rv_ingredients_cart)
     RecyclerView rvIngredientsCart;
 
-    private SheetListener mSheetListener;
     private IngredientsCartAdapter mAdapter;
     private List<Ingredient> mCart;
 
     public CartBottomSheetDialogFragment() {
-        mCart = new ArrayList<>();
     }
 
     @Override
@@ -51,7 +54,7 @@ public class CartBottomSheetDialogFragment extends BottomSheetDialogFragment
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
-                             @NonNull ViewGroup container,
+                             ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.partial_bottom_sheet, container, false);
         ButterKnife.bind(this, view);
@@ -64,29 +67,11 @@ public class CartBottomSheetDialogFragment extends BottomSheetDialogFragment
         super.onViewCreated(view, savedInstanceState);
         updateCartCountView();
         setupRvIngredientCart();
-        updateButtonView();
-    }
-
-    @Override
-    public void onClearItemClickedListener(int position) {
-        updateView(position);
-        mSheetListener.updateCart(mCart);
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mSheetListener = null;
-    }
-
-    @OnClick(R.id.btn_submit)
-    void onClickedSubmit() {
-        mSheetListener.submitButtonClicked();
     }
 
     private void setupRvIngredientCart() {
-        rvIngredientsCart.setLayoutManager(new LinearLayoutManager(getActivity(),
-                LinearLayoutManager.HORIZONTAL, false));
+        rvIngredientsCart.setLayoutManager(new GridLayoutManager(getActivity(), SPAN_COUNT,
+                LinearLayoutManager.VERTICAL, false));
         mAdapter = new IngredientsCartAdapter(getActivity(), mCart);
         mAdapter.setListener(this);
         rvIngredientsCart.setAdapter(mAdapter);
@@ -97,20 +82,17 @@ public class CartBottomSheetDialogFragment extends BottomSheetDialogFragment
         mCart.remove(position);
         updateCartCountView();
         updateList();
-        updateButtonView();
+    }
+
+    private void broadcastUpdatedCart() {
+        final Intent intent = new Intent(EVENT_CART_COUNT_UPDATED);
+        intent.putParcelableArrayListExtra(EXTRA_EVENT_CART, new ArrayList<>(mCart));
+        LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
     }
 
     private void updateList() {
         mAdapter.notifyDataSetChanged();
         tvEmpty.setVisibility(mCart.isEmpty() ? View.VISIBLE : View.GONE);
-    }
-
-    private void updateButtonView() {
-        if (mCart.isEmpty()) {
-            btnSubmit.setEnabled(false);
-        } else {
-            btnSubmit.setEnabled(true);
-        }
     }
 
     private void updateCartCountView() {
@@ -121,13 +103,14 @@ public class CartBottomSheetDialogFragment extends BottomSheetDialogFragment
         mCart = cart;
     }
 
-    public void setListener(SheetListener listener) {
-        mSheetListener = listener;
+    @Override
+    public void onClearItemClickedListener(int position) {
+        updateView(position);
+        broadcastUpdatedCart();
     }
 
-    interface SheetListener {
-        void updateCart(List<Ingredient> ingredients);
-
-        void submitButtonClicked();
+    @OnClick(R.id.btn_submit)
+    void onClickedSubmit() {
+        // TODO : 26/07/18 Start new activity into recipe list
     }
 }
