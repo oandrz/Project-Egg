@@ -41,6 +41,15 @@ class RecipeListContract {
         void handleListItemClicked(int position);
         void handleRefresh();
 
+        void handleFilter(String dishType, String cuisine);
+
+        void setLastSelectedDishType(String dishType);
+
+        void setLastSelectedCuisine(String cuisine);
+
+        String getLastSelectedDishType();
+
+        String getLastSelectedCuisine();
         void setIngredients(List<Ingredient> ingredients);
     }
 }

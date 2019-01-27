@@ -170,6 +170,8 @@ public class RecipeListFragment extends Fragment implements RecipeListContract.V
     @Override
     public void setupFilterSheet() {
         mFilterFragment = new FilterBottomSheetDialogFragment();
+        mFilterFragment.setSelectedDishType(mPresenter.getLastSelectedDishType());
+        mFilterFragment.setSelectedCuisine(mPresenter.getLastSelectedCuisine());
         mFilterFragment.setListener(this);
     }
 
@@ -202,6 +204,12 @@ public class RecipeListFragment extends Fragment implements RecipeListContract.V
     @Override
     public void onItemClicked(int position) {
         mPresenter.handleListItemClicked(position);
+    }
+
+    @Override
+    public void refresh(@org.jetbrains.annotations.Nullable String dishType,
+                        @org.jetbrains.annotations.Nullable String cuisine) {
+        mPresenter.handleFilter(dishType, cuisine);
     }
 
     interface FragmentListener {

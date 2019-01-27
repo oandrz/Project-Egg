@@ -30,13 +30,17 @@ class AppRemoteDataStore : AppDataStore {
         MyApp.getAppComponent().inject(this)
     }
 
-    override fun getRecipes(ingredients: String): Observable<List<Recipe>> {
+    override fun getRecipes(ingredients: String,
+                            dishTypes: String?,
+                            cuisines: String?): Observable<List<Recipe>> {
         val maxRecipe = "10"
         val params: MutableMap<String, String> = mutableMapOf()
         params[Constants.QUERY_PARAM_NUMBER_KEY] = maxRecipe
         params[Constants.QUERY_PARAM_LIMIT_LICENSE_KEY] = true.toString()
         params[Constants.QUERY_PARAM_OFFSET_KEY] = Constants.OFFSET_VALUE
         params[Constants.QUERY_PARAM_RANKING_KEY] = "2"
+        params[Constants.QUERY_PARAM_TYPE_KEY] = dishTypes ?: ""
+        params[Constants.QUERY_PARAM_CUISINE_KEY] = cuisines ?: ""
         return retrofit
                 .create(Service::class.java)
                 .getRecipes(ingredients, params)

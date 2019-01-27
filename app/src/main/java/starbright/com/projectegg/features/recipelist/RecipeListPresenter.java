@@ -36,6 +36,9 @@ class RecipeListPresenter implements RecipeListContract.Presenter {
     private List<Recipe> mRecipes = new ArrayList<>();
     private List<Ingredient> mIngredients;
 
+    private String lastSelectedDishType;
+    private String lastSelectedCuisine;
+
     RecipeListPresenter(AppRepository repo,
                                RecipeListContract.View view,
                                BaseSchedulerProvider schedulerProvider) {
@@ -50,13 +53,13 @@ class RecipeListPresenter implements RecipeListContract.Presenter {
     public void start() {
         mView.setupRecyclerView();
         mView.setupSwipeRefreshLayout();
-        getRecipesBasedIngredients(mapIngredients());
+        getRecipesBasedIngredients(mapIngredients(), lastSelectedDishType, lastSelectedCuisine);
     }
 
-    public void getRecipesBasedIngredients(String ingredients) {
+    public void getRecipesBasedIngredients(String ingredients, String dishType, String cuisine) {
         mView.showLoadingBar();
         mCompositeDisposable.add(
-                mRepository.getRecipes(ingredients)
+                mRepository.getRecipes(ingredients, dishType, cuisine)
                 .subscribeOn(mSchedulerProvider.computation())
                 .observeOn(mSchedulerProvider.ui())
                 .subscribe(new Consumer<List<Recipe>>() {
@@ -83,7 +86,34 @@ class RecipeListPresenter implements RecipeListContract.Presenter {
 
     @Override
     public void handleRefresh() {
-        getRecipesBasedIngredients(mapIngredients());
+        getRecipesBasedIngredients(mapIngredients(), lastSelectedDishType, lastSelectedCuisine);
+    }
+
+    @Override
+    public void handleFilter(String dishType, String cuisine) {
+        lastSelectedDishType = dishType;
+        lastSelectedCuisine = cuisine;
+        getRecipesBasedIngredients(mapIngredients(), dishType, cuisine);
+    }
+
+    @Override
+    public void setLastSelectedDishType(String dishType) {
+        lastSelectedDishType = dishType;
+    }
+
+    @Override
+    public void setLastSelectedCuisine(String cuisine) {
+        lastSelectedCuisine = cuisine;
+    }
+
+    @Override
+    public String getLastSelectedDishType() {
+        return lastSelectedDishType;
+    }
+
+    @Override
+    public String getLastSelectedCuisine() {
+        return lastSelectedCuisine;
     }
 
     @Override

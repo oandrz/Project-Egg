@@ -28,6 +28,8 @@ public final class Constants {
     public static final String QUERY_PARAM_LIMIT_LICENSE_KEY = "limitLicense";
     public static final String QUERY_PARAM_OFFSET_KEY = "offset";
     public static final String QUERY_PARAM_RANKING_KEY = "ranking";
+    public static final String QUERY_PARAM_CUISINE_KEY = "cuisine";
+    public static final String QUERY_PARAM_TYPE_KEY = "type";
 
     public static final String OFFSET_VALUE = "0";
 

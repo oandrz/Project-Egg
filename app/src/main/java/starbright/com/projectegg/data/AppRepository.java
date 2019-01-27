@@ -4,6 +4,9 @@
 
 package starbright.com.projectegg.data;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import java.util.List;
 
 import javax.inject.Inject;
@@ -31,9 +34,12 @@ public class AppRepository implements AppDataStore {
         mAppRemoteDatastore = appRemoteDatastore;
     }
 
+    @NotNull
     @Override
-    public Observable<List<Recipe>> getRecipes(String ingredients) {
-        return mAppRemoteDatastore.getRecipes(ingredients);
+    public Observable<List<Recipe>> getRecipes(@NotNull String ingredients,
+                                               @Nullable String dishTypes,
+                                               @Nullable String cuisines) {
+        return mAppRemoteDatastore.getRecipes(ingredients, dishTypes, cuisines);
     }
 
     @Override

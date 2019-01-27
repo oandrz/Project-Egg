@@ -8,6 +8,9 @@
 
 package starbright.com.projectegg.data.local;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import java.util.List;
 
 import javax.inject.Inject;
@@ -32,8 +35,9 @@ public class AppLocalDataStore implements AppDataStore {
         MyApp.getAppComponent().inject(this);
     }
 
+    @NotNull
     @Override
-    public Observable<List<Recipe>> getRecipes(String ingredients) {
+    public Observable<List<Recipe>> getRecipes(@NotNull String ingredients, @Nullable String dishTypes, @Nullable String cuisines) {
         System.err.print(Constants.OPERATION_NOT_SUPPORTED);
         throw new UnsupportedOperationException();
     }

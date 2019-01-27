@@ -10,7 +10,6 @@ import android.support.design.widget.BottomSheetDialogFragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import kotlinx.android.synthetic.main.fragment_filter.*
 import starbright.com.projectegg.R
 
@@ -21,9 +20,10 @@ class FilterBottomSheetDialogFragment : BottomSheetDialogFragment() {
     private lateinit var cuisines: List<String>
 
     var listener: Listener? = null
+    var selectedCuisine: String? = null
+    var selectedDishType: String? = null
 
     private val dishTypeIds: MutableList<Int> = mutableListOf()
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,6 +45,10 @@ class FilterBottomSheetDialogFragment : BottomSheetDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         renderDishTypesChips()
         renderCuisineChips()
+        btn_confirm.setOnClickListener {
+            dismissAllowingStateLoss()
+            listener?.refresh(selectedDishType, selectedCuisine)
+        }
     }
 
     override fun onDetach() {
@@ -62,7 +66,14 @@ class FilterBottomSheetDialogFragment : BottomSheetDialogFragment() {
                 it.isClickable = true
                 it.checkedIcon = null
                 it.isCheckable = true
-                it.setChipBackgroundColorResource(R.color.gray_300)
+                it.isChecked = type == selectedDishType
+                it.setChipBackgroundColorResource(
+                        if (it.isChecked) {
+                            R.color.colorAccent
+                        } else {
+                            R.color.gray_300
+                        }
+                )
                 it.setOnCheckedChangeListener { _, isSelected ->
                     if (isSelected) {
                         it.setChipBackgroundColorResource(R.color.colorAccent)
@@ -70,7 +81,6 @@ class FilterBottomSheetDialogFragment : BottomSheetDialogFragment() {
                         it.setChipBackgroundColorResource(R.color.gray_300)
                     }
                 }
-
             }
             container_dish.addView(chip)
             dishTypeIds.add(counter)
@@ -83,9 +93,7 @@ class FilterBottomSheetDialogFragment : BottomSheetDialogFragment() {
             it.isSingleSelection = true
             it.setOnCheckedChangeListener { chipGroup, id ->
                 val selectedChip: Chip? = chipGroup.findViewById(id)
-                selectedChip?.let {
-                    Toast.makeText(activity, selectedChip.text, Toast.LENGTH_SHORT).show()
-                }
+                selectedDishType = selectedChip?.text?.toString() ?: ""
             }
         }
     }
@@ -95,9 +103,7 @@ class FilterBottomSheetDialogFragment : BottomSheetDialogFragment() {
             it.isSingleSelection = true
             it.setOnCheckedChangeListener { chipGroup, id ->
                 val selectedChip: Chip? = chipGroup.findViewById(id)
-                selectedChip?.let {
-                    Toast.makeText(activity, selectedChip.text, Toast.LENGTH_SHORT).show()
-                }
+                selectedCuisine = selectedChip?.text?.toString() ?: ""
             }
         }
     }
@@ -112,7 +118,14 @@ class FilterBottomSheetDialogFragment : BottomSheetDialogFragment() {
                 it.isClickable = true
                 it.checkedIcon = null
                 it.isCheckable = true
-                it.setChipBackgroundColorResource(R.color.gray_300)
+                it.isChecked = type == selectedCuisine
+                it.setChipBackgroundColorResource(
+                        if (it.isChecked) {
+                            R.color.colorAccent
+                        } else {
+                            R.color.gray_300
+                        }
+                )
                 it.setOnCheckedChangeListener { _, isSelected ->
                     if (isSelected) {
                         it.setChipBackgroundColorResource(R.color.colorAccent)
@@ -129,6 +142,6 @@ class FilterBottomSheetDialogFragment : BottomSheetDialogFragment() {
     }
 
     interface Listener {
-
+        fun refresh(dishType: String?, cuisine: String?)
     }
 }
