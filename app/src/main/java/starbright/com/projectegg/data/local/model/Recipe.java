@@ -103,16 +103,16 @@ public class Recipe {
         mTitle = response.getTitle();
         mImage = response.getImage();
         mImageType = response.getImageType();
-        mUsedIngredientCount = response.getUsedIngredientCount();
-        mMissedIngredientCount = response.getMissedingredientCount();
+        mUsedIngredientCount = response.getUsedIngredientsCount();
+        mMissedIngredientCount = response.getMissedIngredientsCount();
         mLikes = response.getLikes();
     }
 
     public Recipe(RecipeDetailResponse response) {
         mId = response.getId();
         mTitle = response.getTitle();
-        mImage = response.getImageStringUrl();
-        mPreparationMinutes = response.getPreparationMinutes();
+        mImage = response.getImage();
+        mPreparationMinutes = response.getPreparationMinute();
         mCookingMinutes = response.getCookingMinutes();
         mSourceStringUrl = response.getSourceStringUrl();
         mSourceName = response.getSourceName();
@@ -126,7 +126,7 @@ public class Recipe {
         }
 
         final List<StepResponse> stepResponses = response.getAnalyzedInstructions()
-                .get(0).getStepResponse();
+                .get(0).getSteps();
         mInstructions = new ArrayList<>(stepResponses.size());
         for (StepResponse stepResponse : stepResponses) {
             mInstructions.add(new Instruction(stepResponse.getNumber(),

@@ -12,7 +12,7 @@ import starbright.com.projectegg.data.local.model.Ingredient
 import starbright.com.projectegg.data.local.model.Recipe
 import starbright.com.projectegg.data.local.model.response.IngredientResponse
 import starbright.com.projectegg.data.local.model.response.RecipeDetailResponse
-import starbright.com.projectegg.data.local.model.response.RecipeResponse
+import starbright.com.projectegg.data.local.model.response.RecipeSearchResponse
 import starbright.com.projectegg.util.Constants
 import java.util.*
 import javax.inject.Inject
@@ -31,13 +31,19 @@ class AppRemoteDataStore : AppDataStore {
     }
 
     override fun getRecipes(ingredients: String): Observable<List<Recipe>> {
+        val maxRecipe = "10"
+        val params: MutableMap<String, String> = mutableMapOf()
+        params[Constants.QUERY_PARAM_NUMBER_KEY] = maxRecipe
+        params[Constants.QUERY_PARAM_LIMIT_LICENSE_KEY] = true.toString()
+        params[Constants.QUERY_PARAM_OFFSET_KEY] = Constants.OFFSET_VALUE
+        params[Constants.QUERY_PARAM_RANKING_KEY] = "2"
         return retrofit
                 .create(Service::class.java)
-                .getRecipes(ingredients, HashMap())
+                .getRecipes(ingredients, params)
                 .map { responses ->
-                    val recipes = ArrayList<Recipe>(responses.size)
-                    for (response in responses) {
-                        recipes.add(Recipe(response))
+                    val recipes = mutableListOf<Recipe>()
+                    responses.recipes.forEach {
+                        recipes.add(Recipe(it))
                     }
                     recipes
                 }
@@ -49,8 +55,7 @@ class AppRemoteDataStore : AppDataStore {
         queryMap[Constants.QUERY_PARAM_META_INFORMATION_KEY] = true.toString()
         queryMap[Constants.QUERY_PARAM_NUMBER_KEY] = numberOfIngredient.toString()
         return retrofit
-                .create(Service::class.java)
-                .searchAutocompleteIngredients(query, queryMap)
+                .create(Service::class.java).searchAutocompleteIngredients(query, queryMap)
                 .map { responses ->
                     val ingredients = ArrayList<Ingredient>(responses.size)
                     for (response in responses) {
@@ -61,8 +66,7 @@ class AppRemoteDataStore : AppDataStore {
     }
 
     override fun getRecipeDetailInformation(recipeId: String): Observable<Recipe> {
-        return retrofit
-                .create(Service::class.java)
+        return retrofit.create(Service::class.java)
                 .getRecipeDetailInformation(recipeId)
                 .map { recipeDetailResponse -> Recipe(recipeDetailResponse) }
     }
@@ -72,11 +76,11 @@ class AppRemoteDataStore : AppDataStore {
     }
 
     private interface Service {
-        @GET("recipes/findByIngredients")
+        @GET("recipes/searchComplex")
         fun getRecipes(
-                @Query("ingredients") ingredients: String,
+                @Query("includeIngredients") ingredients: String,
                 @QueryMap options: Map<String, String>
-        ): Observable<List<RecipeResponse>>
+        ): Observable<RecipeSearchResponse>
 
         @GET("food/ingredients/autocomplete")
         fun searchAutocompleteIngredients(
