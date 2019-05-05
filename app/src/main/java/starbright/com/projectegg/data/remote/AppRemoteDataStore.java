@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import io.reactivex.Observable;
 import io.reactivex.functions.Function;
@@ -22,7 +23,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 import retrofit2.http.QueryMap;
-import starbright.com.projectegg.MyApp;
+import starbright.com.projectegg.dagger.qualifier.RemoteDataStore;
 import starbright.com.projectegg.data.AppDataStore;
 import starbright.com.projectegg.data.local.model.Ingredient;
 import starbright.com.projectegg.data.local.model.Recipe;
@@ -35,18 +36,19 @@ import starbright.com.projectegg.util.Constants;
  * Created by Andreas on 4/8/2018.
  */
 
+@Singleton
 public class AppRemoteDataStore implements AppDataStore {
 
-    @Inject
-    Retrofit retrofit;
+    private Retrofit mRetrofit;
 
-    public AppRemoteDataStore() {
-        MyApp.getAppComponent().inject(this);
+    @Inject
+    AppRemoteDataStore(Retrofit retrofit) {
+        mRetrofit = retrofit;
     }
 
     @Override
     public Observable<List<Recipe>> getRecipes(String ingredients) {
-        return retrofit.create(Service.class).getRecipes(ingredients, new HashMap<String, String>())
+        return mRetrofit.create(Service.class).getRecipes(ingredients, new HashMap<String, String>())
                 .map(new Function<List<RecipeResponse>, List<Recipe>>() {
                     @Override
                     public List<Recipe> apply(List<RecipeResponse> responses) {
@@ -65,7 +67,7 @@ public class AppRemoteDataStore implements AppDataStore {
         final Map<String, String> queryMap = new HashMap<>();
         queryMap.put(Constants.QUERY_PARAM_META_INFORMATION_KEY, String.valueOf(true));
         queryMap.put(Constants.QUERY_PARAM_NUMBER_KEY, String.valueOf(numberOfIngredient));
-        return retrofit.create(Service.class).searchAutocompleteIngredients(query, queryMap)
+        return mRetrofit.create(Service.class).searchAutocompleteIngredients(query, queryMap)
                 .map(new Function<List<IngredientResponse>, List<Ingredient>>() {
                     @Override
                     public List<Ingredient> apply(List<IngredientResponse> responses) {
@@ -80,7 +82,7 @@ public class AppRemoteDataStore implements AppDataStore {
 
     @Override
     public Observable<Recipe> getRecipeDetailInformation(String recipeId) {
-        return retrofit.create(Service.class).getRecipeDetailInformation(recipeId)
+        return mRetrofit.create(Service.class).getRecipeDetailInformation(recipeId)
                 .map(new Function<RecipeDetailResponse, Recipe>() {
                     @Override
                     public Recipe apply(RecipeDetailResponse recipeDetailResponse) {

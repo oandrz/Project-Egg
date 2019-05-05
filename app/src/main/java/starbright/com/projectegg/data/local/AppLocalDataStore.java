@@ -11,9 +11,11 @@ package starbright.com.projectegg.data.local;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import io.reactivex.Observable;
 import starbright.com.projectegg.MyApp;
+import starbright.com.projectegg.dagger.qualifier.LocalDataStore;
 import starbright.com.projectegg.data.AppDataStore;
 import starbright.com.projectegg.data.local.model.Ingredient;
 import starbright.com.projectegg.data.local.model.Recipe;
@@ -23,13 +25,14 @@ import starbright.com.projectegg.util.Constants;
  * Created by Andreas on 4/8/2018.
  */
 
+@Singleton
 public class AppLocalDataStore implements AppDataStore {
 
-    @Inject
-    RecipeDatabase db;
+    private RecipeDatabase mDb;
 
-    public AppLocalDataStore() {
-        MyApp.getAppComponent().inject(this);
+    @Inject
+    AppLocalDataStore(RecipeDatabase db) {
+        mDb = db;
     }
 
     @Override
@@ -46,11 +49,11 @@ public class AppLocalDataStore implements AppDataStore {
 
     @Override
     public Observable<Recipe> getRecipeDetailInformation(String recipeId) {
-        return db.daoAccess().getRecipe(Integer.parseInt(recipeId)).toObservable();
+        return mDb.daoAccess().getRecipe(Integer.parseInt(recipeId)).toObservable();
     }
 
     @Override
     public void saveDetailInformation(Recipe recipe) {
-        db.daoAccess().insertRecipe(recipe);
+        mDb.daoAccess().insertRecipe(recipe);
     }
 }
