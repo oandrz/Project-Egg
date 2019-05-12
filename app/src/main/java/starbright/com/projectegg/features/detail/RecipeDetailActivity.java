@@ -2,10 +2,6 @@
  * Created by Andreas on 10/9/2018.
  */
 
-/**
- * Created by Andreas on 5/8/2018.
- */
-
 package starbright.com.projectegg.features.detail;
 
 import android.content.Context;

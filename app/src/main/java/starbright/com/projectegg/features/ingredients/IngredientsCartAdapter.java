@@ -19,7 +19,7 @@ import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
 import starbright.com.projectegg.R;
 import starbright.com.projectegg.data.local.model.Ingredient;
-import starbright.com.projectegg.util.GlideApp;
+//import starbright.com.projectegg.util.GlideApp;
 
 class IngredientsCartAdapter extends RecyclerView.Adapter<IngredientsCartAdapter.ViewHolder> {
 
@@ -78,19 +78,19 @@ class IngredientsCartAdapter extends RecyclerView.Adapter<IngredientsCartAdapter
 
         void bind(Ingredient ingredient) {
             tvIngredientName.setText(ingredient.getName());
-            if (ingredient.getImageUrl() != null && !ingredient.getImageUrl().isEmpty()) {
-                GlideApp.with(mContext)
-                        .load(ingredient.getImageUrl())
-                        .diskCacheStrategy(DiskCacheStrategy.ALL)
-                        .apply(RequestOptions.circleCropTransform())
-                        .into(ivIngredient);
-            } else {
-                GlideApp.with(mContext)
-                        .load(mContext.getResources().getDrawable(R.drawable.ic_room_service))
-                        .diskCacheStrategy(DiskCacheStrategy.ALL)
-                        .apply(RequestOptions.circleCropTransform())
-                        .into(ivIngredient);
-            }
+//            if (ingredient.getImageUrl() != null && !ingredient.getImageUrl().isEmpty()) {
+//                GlideApp.with(mContext)
+//                        .load(ingredient.getImageUrl())
+//                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+//                        .apply(RequestOptions.circleCropTransform())
+//                        .into(ivIngredient);
+//            } else {
+//                GlideApp.with(mContext)
+//                        .load(mContext.getResources().getDrawable(R.drawable.ic_room_service))
+//                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+//                        .apply(RequestOptions.circleCropTransform())
+//                        .into(ivIngredient);
+//            }
         }
     }
 

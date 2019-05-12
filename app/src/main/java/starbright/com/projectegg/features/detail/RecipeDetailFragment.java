@@ -2,10 +2,6 @@
  * Created by Andreas on 29/9/2018.
  */
 
-/**
- * Created by Andreas on 22/9/2018.
- */
-
 package starbright.com.projectegg.features.detail;
 
 import android.content.Context;
@@ -46,7 +42,7 @@ import starbright.com.projectegg.R;
 import starbright.com.projectegg.data.AppRepository;
 import starbright.com.projectegg.data.local.model.Ingredient;
 import starbright.com.projectegg.data.local.model.Instruction;
-import starbright.com.projectegg.util.GlideApp;
+//import starbright.com.projectegg.util.GlideApp;
 import starbright.com.projectegg.util.TextViewRecyclerAdapter;
 import starbright.com.projectegg.util.scheduler.BaseSchedulerProvider;
 
@@ -207,11 +203,11 @@ public class RecipeDetailFragment extends Fragment implements RecipeDetailContra
     @Override
     public void renderBannerFoodImage(String imageUrl) {
         imgBannerFood.setVisibility(View.VISIBLE);
-        GlideApp.with(getActivity())
-                .load(imageUrl)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .centerCrop()
-                .into(imgBannerFood);
+//        GlideApp.with(getActivity())
+//                .load(imageUrl)
+//                .diskCacheStrategy(DiskCacheStrategy.ALL)
+//                .centerCrop()
+//                .into(imgBannerFood);
     }
 
     @Override

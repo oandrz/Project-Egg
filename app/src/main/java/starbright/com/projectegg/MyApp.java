@@ -16,7 +16,6 @@ import com.google.android.gms.ads.MobileAds;
 import starbright.com.projectegg.dagger.component.AppComponent;
 import starbright.com.projectegg.dagger.component.DaggerAppComponent;
 import starbright.com.projectegg.dagger.module.AppModule;
-import starbright.com.projectegg.util.Constants;
 
 /**
  * Created by Andreas on 4/8/2018.

@@ -22,7 +22,7 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name=".features.userAccount.UserAccountActivity"
+            android:name=".features.ingredients.IngredientsActivity"
             android:windowSoftInputMode="stateHidden|adjustResize"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -46,10 +46,10 @@
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="@string/ADMOB_APP_ID" />
 
-        <activity
-            android:name=".features.ingredients.IngredientsActivity"
-            android:windowSoftInputMode="stateHidden|adjustResize"
-            android:screenOrientation="portrait" />
+        <!--<activity-->
+            <!--android:name=".features.ingredients.IngredientsActivity"-->
+            <!--android:windowSoftInputMode="stateHidden|adjustResize"-->
+            <!--android:screenOrientation="portrait" />-->
 
         <activity
             android:name=".features.recipelist.RecipeListActivity"

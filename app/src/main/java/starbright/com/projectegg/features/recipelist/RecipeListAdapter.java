@@ -18,7 +18,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import starbright.com.projectegg.R;
 import starbright.com.projectegg.data.local.model.Recipe;
-import starbright.com.projectegg.util.GlideApp;
+//import starbright.com.projectegg.util.GlideApp;
 
 /**
  * Created by Andreas on 4/15/2018.
@@ -85,11 +85,11 @@ class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.ViewHolde
 
         private void bindView(Recipe recipe) {
             tvRecipeName.setText(recipe.getTitle());
-            GlideApp.with(mContext)
-                    .load(recipe.getImage())
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .centerCrop()
-                    .into(imgThumbnail);
+//            GlideApp.with(mContext)
+//                    .load(recipe.getImage())
+//                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+//                    .centerCrop()
+//                    .into(imgThumbnail);
         }
     }
 

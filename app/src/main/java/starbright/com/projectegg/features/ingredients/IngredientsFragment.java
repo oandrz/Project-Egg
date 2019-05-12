@@ -255,7 +255,7 @@ public class IngredientsFragment extends Fragment implements IngredientsContract
 
     @Override
     public void openCamera() {
-        IngredientsFragmentPermissionsDispatcher.startCameraIntentWithPermissionCheck(this);
+//        IngredientsFragmentPermissionsDispatcher.startCameraIntentWithPermissionCheck(this);
     }
 
     @Override
@@ -263,8 +263,8 @@ public class IngredientsFragment extends Fragment implements IngredientsContract
                                            @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        IngredientsFragmentPermissionsDispatcher.onRequestPermissionsResult(this,
-                requestCode, grantResults);
+//        IngredientsFragmentPermissionsDispatcher.onRequestPermissionsResult(this,
+//                requestCode, grantResults);
     }
 
     @Override
