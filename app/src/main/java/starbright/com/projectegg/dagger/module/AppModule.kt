@@ -12,7 +12,9 @@ import javax.inject.Singleton
 import dagger.Module
 import dagger.Provides
 import id.zelory.compressor.Compressor
+import io.reactivex.disposables.CompositeDisposable
 import starbright.com.projectegg.dagger.qualifier.ApplicationContext
+import starbright.com.projectegg.util.ClarifaiHelper
 import starbright.com.projectegg.util.scheduler.BaseSchedulerProvider
 import starbright.com.projectegg.util.scheduler.SchedulerProvider
 
@@ -36,5 +38,17 @@ class AppModule(private val application: Application) {
     @Singleton
     internal fun providesCompressor(@ApplicationContext context: Context): Compressor {
         return Compressor(context)
+    }
+
+    @Provides
+    @Singleton
+    internal fun providesClarifaiHelper(@ApplicationContext context: Context): ClarifaiHelper {
+        return ClarifaiHelper(context)
+    }
+
+    @Provides
+    @Singleton
+    internal fun providesCompositeDiposable(): CompositeDisposable {
+        return CompositeDisposable()
     }
 }

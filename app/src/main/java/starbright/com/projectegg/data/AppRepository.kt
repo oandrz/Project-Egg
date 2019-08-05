@@ -16,9 +16,10 @@ import starbright.com.projectegg.data.local.model.Ingredient
 import starbright.com.projectegg.data.local.model.Recipe
 
 @Singleton
-class AppRepository @Inject
-constructor(@LocalData private val mAppLocalDatastore: AppDataStore,
-            @RemoteData private val mAppRemoteDatastore: AppDataStore) : AppDataStore {
+class AppRepository @Inject constructor(
+        @LocalData private val mAppLocalDatastore: AppDataStore,
+        @RemoteData private val mAppRemoteDatastore: AppDataStore
+) : AppDataStore {
 
     override fun getRecipes(ingredients: String): Observable<List<Recipe>> {
         return mAppRemoteDatastore.getRecipes(ingredients)

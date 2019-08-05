@@ -7,6 +7,7 @@ package starbright.com.projectegg.features.ingredients;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 
 import java.util.List;
 
@@ -53,7 +54,7 @@ public class IngredientsActivity extends BaseActivityWithoutToolbar
         mFragment = (IngredientsFragment) getSupportFragmentManager()
                 .findFragmentByTag(INGREDIENTS_FRAGMENT_TAG);
         if (mFragment == null) {
-            mFragment = IngredientsFragment.newInstance();
+            mFragment = IngredientsFragment.Companion.newInstance();
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.contentFrame, mFragment, INGREDIENTS_FRAGMENT_TAG)
                     .commit();
@@ -67,7 +68,7 @@ public class IngredientsActivity extends BaseActivityWithoutToolbar
     }
 
     @Override
-    public void navigateRecipeListActivity(List<Ingredient> ingredients) {
+    public void navigateRecipeListActivity(@NonNull List<Ingredient> ingredients) {
         startActivity(RecipeListActivity.newIntent(this, ingredients));
     }
 }
