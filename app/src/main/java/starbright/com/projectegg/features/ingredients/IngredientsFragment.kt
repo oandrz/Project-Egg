@@ -1,11 +1,17 @@
 /**
+ * Created by Andreas on 11/8/2019.
+ */
+
+/**
  * Created by Andreas on 9/9/2018.
  */
 
 package starbright.com.projectegg.features.ingredients
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.Activity.RESULT_OK
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -77,6 +83,12 @@ class IngredientsFragment : Fragment(), IngredientsContract.View {
         fragmentListener = context as FragmentListener?
     }
 
+    @SuppressLint("NeedOnRequestPermissionsResult")
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        onRequestPermissionsResult(requestCode, grantResults)
+    }
+
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -100,9 +112,9 @@ class IngredientsFragment : Fragment(), IngredientsContract.View {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-//        if (resultCode == RESULT_OK && requestCode == CAMERA_REQUEST_CODE) {
-//            this.presenter.handleCameraResult(currentPhotoPath)
-//        }
+        if (resultCode == RESULT_OK && requestCode == CAMERA_REQUEST_CODE) {
+            presenter.handleCameraResult(currentPhotoPath!!)
+        }
     }
 
     override fun setupEtSearchIngredients() {
@@ -142,7 +154,6 @@ class IngredientsFragment : Fragment(), IngredientsContract.View {
         }
     }
 
-
     override fun setupMaterialProgressDialog() {
         dialog = MaterialDialog.Builder(activity as Context)
                 .title(R.string.ingredients_dialog_progress_title)
@@ -171,7 +182,7 @@ class IngredientsFragment : Fragment(), IngredientsContract.View {
     }
 
     override fun openCamera() {
-        //        IngredientsFragmentPermissionsDispatcher.startCameraIntentWithPermissionCheck(this);
+        startCameraIntentWithPermissionCheck()
     }
 
     override fun showSearchSuggestion(ingredients: List<Ingredient>) {
