@@ -22,31 +22,24 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.PopupMenu
 import android.widget.Toast
-
 import com.afollestad.materialdialogs.MaterialDialog
 import com.google.firebase.auth.FirebaseAuth
-
-import java.io.File
-import java.io.IOException
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
-import java.util.Timer
-
-import javax.inject.Inject
-
+import kotlinx.android.synthetic.main.fragment_ingredients.*
 import permissions.dispatcher.NeedsPermission
 import permissions.dispatcher.RuntimePermissions
 import starbright.com.projectegg.MyApp
 import starbright.com.projectegg.R
 import starbright.com.projectegg.data.local.model.Ingredient
 import starbright.com.projectegg.util.Constants
-
-import kotlinx.android.synthetic.main.fragment_ingredients.*
+import java.io.File
+import java.io.IOException
+import java.text.SimpleDateFormat
+import java.util.*
+import javax.inject.Inject
 import kotlin.concurrent.schedule
 
 @RuntimePermissions
-class IngredientsFragment : Fragment(), IngredientsContract.View, IngredientsAdapter.Listener {
+class IngredientsFragment : Fragment(), IngredientsContract.View {
 
     @Inject
     lateinit var presenter: IngredientsPresenter
@@ -100,7 +93,7 @@ class IngredientsFragment : Fragment(), IngredientsContract.View, IngredientsAda
     override fun onDetach() {
         fragmentListener = null
         et_search_ingredients.removeTextChangedListener(mIngredientsTextWatcher)
-        cartBottomSheetDialogFragment.setListener(null)
+        cartBottomSheetDialogFragment.sheetListener = null
         presenter.onDestroy()
         super.onDetach()
     }
@@ -119,7 +112,9 @@ class IngredientsFragment : Fragment(), IngredientsContract.View, IngredientsAda
     override fun setupRvIngredientSuggestion() {
         activity?.let {
             searchSuggestionAdapter = IngredientsAdapter(it).also { adapter ->
-                adapter.setListener(this)
+                adapter.onClickListener = { selectedIngredient ->
+                    presenter.handleSuggestionItemClicked(selectedIngredient)
+                }
             }
         }
 
@@ -159,17 +154,15 @@ class IngredientsFragment : Fragment(), IngredientsContract.View, IngredientsAda
 
     override fun setupBottomSheetDialogFragment() {
         cartBottomSheetDialogFragment = CartBottomSheetDialogFragment().also {
-            it.setListener(
-                object : CartBottomSheetDialogFragment.SheetListener {
-                    override fun updateCart(ingredients: List<Ingredient>) {
-                        presenter.cart = ingredients.toMutableList()
-                    }
-
-                    override fun submitButtonClicked() {
-                        fragmentListener?.navigateRecipeListActivity(presenter.cart)
-                    }
+            it.sheetListener = object : CartBottomSheetDialogFragment.SheetListener {
+                override fun updateCart(ingredients: MutableList<Ingredient>) {
+                    presenter.cart = ingredients.toMutableList()
                 }
-            )
+
+                override fun submitButtonClicked() {
+                    fragmentListener?.navigateRecipeListActivity(presenter.cart)
+                }
+            }
         }
     }
 
@@ -255,7 +248,7 @@ class IngredientsFragment : Fragment(), IngredientsContract.View, IngredientsAda
     }
 
     override fun hideSoftKeyboard() {
-        (activity?.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager).also {
+        (activity!!.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager).also {
             it.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0)
         }
     }
@@ -265,16 +258,12 @@ class IngredientsFragment : Fragment(), IngredientsContract.View, IngredientsAda
                 cartBottomSheetDialogFragment.tag)
     }
 
-    override fun setCartItem(cart: List<Ingredient>) {
-        cartBottomSheetDialogFragment.setCartIngredient(cart)
+    override fun setCartItem(cart: MutableList<Ingredient>) {
+        cartBottomSheetDialogFragment.cart = cart.toMutableList()
     }
 
     override fun hideSearchSuggestion() {
         rv_ingredients.visibility = View.GONE
-    }
-
-    override fun onSuggestionItemClicked(selectedItem: Ingredient) {
-        this.presenter.handleSuggestionItemClicked(selectedItem)
     }
 
     @NeedsPermission(Manifest.permission.CAMERA)

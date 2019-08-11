@@ -5,6 +5,7 @@ import android.os.Parcelable;
 
 import java.util.Objects;
 
+import io.reactivex.annotations.Nullable;
 import starbright.com.projectegg.data.local.model.response.ExtendedIngredientResponse;
 import starbright.com.projectegg.data.local.model.response.IngredientResponse;
 import starbright.com.projectegg.util.Constants;
@@ -71,6 +72,7 @@ public class Ingredient implements Parcelable {
         mName = name;
     }
 
+    @Nullable
     public String getImageUrl() {
         return mImageUrl;
     }

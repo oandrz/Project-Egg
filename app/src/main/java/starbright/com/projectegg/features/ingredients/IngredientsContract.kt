@@ -4,11 +4,8 @@
 
 package starbright.com.projectegg.features.ingredients
 
-import java.util.ArrayList
-
 import starbright.com.projectegg.data.local.model.Ingredient
 import starbright.com.projectegg.features.base.BasePresenter
-import starbright.com.projectegg.features.base.BaseView
 
 internal class IngredientsContract {
 
@@ -48,7 +45,7 @@ internal class IngredientsContract {
 
         fun showBottomSheetDialog()
 
-        fun setCartItem(cart: List<Ingredient>)
+        fun setCartItem(cart: MutableList<Ingredient>)
 
         fun updateIngredientCount(count: Int)
 
