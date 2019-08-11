@@ -7,6 +7,10 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
 /**
+ * Created by Andreas on 11/8/2019.
+ */
+
+/**
  * Created by Andreas on 7/10/2018.
  */
 
@@ -23,6 +27,7 @@ android {
         }
     }
     compileSdkVersion 27
+
     defaultConfig {
         applicationId "starbright.com.projectegg"
         minSdkVersion 19
@@ -36,6 +41,7 @@ android {
         buildConfigField "String", "BASE_URL", "\"https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/\""
         resValue 'string', 'ADMOB_APP_ID', '\"ca-app-pub-6407679845315648~1210399614\"'
     }
+
     buildTypes {
         debug {
             minifyEnabled false
@@ -80,7 +86,7 @@ dependencies {
 
     //Butterknife
     implementation "com.jakewharton:butterknife:$rootProject.ext.butterKnifeVersion"
-    annotationProcessor "com.jakewharton:butterknife-compiler:$rootProject.ext.butterKnifeVersion"
+    kapt "com.jakewharton:butterknife-compiler:$rootProject.ext.butterKnifeVersion"
 
     //dagger
     implementation "com.google.dagger:dagger:$rootProject.ext.daggerVersion"
@@ -107,7 +113,7 @@ dependencies {
 
     //HotChemi
     implementation "com.github.hotchemi:permissionsdispatcher:$rootProject.ext.hotchemiVersion"
-    annotationProcessor "com.github.hotchemi:permissionsdispatcher-processor:$rootProject.ext.hotchemiVersion"
+    kapt "com.github.hotchemi:permissionsdispatcher-processor:$rootProject.ext.hotchemiVersion"
 
     //Glide
     implementation "com.github.bumptech.glide:glide:$rootProject.ext.glideVersion"

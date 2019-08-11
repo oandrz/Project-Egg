@@ -1,3 +1,7 @@
+/**
+ * Created by Andreas on 11/8/2019.
+ */
+
 package starbright.com.projectegg.features.ingredients
 
 import android.content.Context
@@ -28,7 +32,7 @@ internal class IngredientsAdapter(private val context: Context) :
         val view = LayoutInflater.from(context).inflate(R.layout.item_ingredient, parent, false)
         val viewHolder = IngredientViewHolder(view)
         view.setOnClickListener {
-            dataSource.get(viewHolder.adapterPosition)?.let { ingredient ->
+            dataSource[viewHolder.adapterPosition].let { ingredient ->
                 onClickListener?.invoke(ingredient)
             }
         }
