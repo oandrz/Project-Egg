@@ -1,4 +1,8 @@
 /**
+ * Created by Andreas on 11/8/2019.
+ */
+
+/**
  * Created by Andreas on 10/9/2018.
  */
 
@@ -58,7 +62,7 @@ public class UserAccountActivity extends BaseActivityWithoutToolbar
 
     @Override
     public void navigateToIngredientsActivity() {
-        startActivity(IngredientsActivity.newIntent(this));
+        startActivity(IngredientsActivity.Companion.newIntent(this));
         finish();
     }
 }
