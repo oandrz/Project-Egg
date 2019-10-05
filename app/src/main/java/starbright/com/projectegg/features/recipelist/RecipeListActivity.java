@@ -1,4 +1,8 @@
 /**
+ * Created by Andreas on 5/10/2019.
+ */
+
+/**
  * Created by Andreas on 10/9/2018.
  */
 
@@ -69,6 +73,6 @@ public class RecipeListActivity extends BaseActivityWithToolbar
 
     @Override
     public void navigateRecipeDetailActivity(String recipeId) {
-        startActivity(RecipeDetailActivity.newIntent(this, recipeId));
+        startActivity(RecipeDetailActivity.Companion.newIntent(this, recipeId));
     }
 }

@@ -1,4 +1,8 @@
 /**
+ * Created by Andreas on 5/10/2019.
+ */
+
+/**
  * Created by Andreas on 26/8/2019.
  */
 
@@ -19,7 +23,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.5.0'
+        classpath 'com.android.tools.build:gradle:3.5.1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath 'com.jakewharton.hugo:hugo-plugin:1.2.1'
         //ButterKnife
