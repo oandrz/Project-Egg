@@ -7,11 +7,7 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
 /**
- * Created by Andreas on 11/8/2019.
- */
-
-/**
- * Created by Andreas on 7/10/2018.
+ * Created by Andreas on 7/10/2019.
  */
 
 //ButterKnife
