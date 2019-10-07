@@ -1,3 +1,7 @@
+/**
+ * Created by Andreas on 7/10/2019.
+ */
+
 package starbright.com.projectegg.features.userAccount;
 
 import starbright.com.projectegg.features.base.BasePresenter;
@@ -15,11 +19,15 @@ class UserAccountContract {
         void enableView();
 
         void setupProgressBar();
+
         void showProgressBar();
+
         void hideProgressBar();
 
         void showEmailEmptyErrorToast();
+
         void showEmailFormatWrongErrorToast();
+
         void showPasswordErrorToast();
 
         void showLoginErrorToast(String errorMessage);
@@ -29,9 +37,11 @@ class UserAccountContract {
 
     interface Presenter extends BasePresenter {
         void handleVerificationEmailDialogClicked();
+
         void handleAuthenticationButtonClicked(String email, String password);
 
         void updateUserAuthRole();
+
         void onDestroy();
 
         boolean isLoginAuthentication();

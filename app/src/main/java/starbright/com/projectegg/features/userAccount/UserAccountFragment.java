@@ -1,3 +1,7 @@
+/**
+ * Created by Andreas on 7/10/2019.
+ */
+
 package starbright.com.projectegg.features.userAccount;
 
 import android.content.Context;
@@ -121,8 +125,8 @@ public class UserAccountFragment extends Fragment
     }
 
     @OnClick({
-        R.id.tv_navigation,
-        R.id.btn_confirm
+            R.id.tv_navigation,
+            R.id.btn_confirm
     })
     void onButtonClicked(View view) {
         switch (view.getId()) {
