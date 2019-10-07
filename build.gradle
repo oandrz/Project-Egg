@@ -46,7 +46,7 @@ ext {
     clarifaiVersion = '2.4.0'
     daggerVersion = '2.21'
     retrofitVersion = '2.5.0'
-    okhttpVersion = '3.3.0'
+    okhttpVersion = '4.2.1'
     butterKnifeVersion = '8.8.1'
     rxjavaVersion = '2.0.7'
     rxAndroidVersion = '2.0.2'
