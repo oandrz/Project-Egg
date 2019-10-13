@@ -10,7 +10,7 @@ import android.arch.persistence.room.Query
 import android.arch.persistence.room.Update
 
 import io.reactivex.Maybe
-import starbright.com.projectegg.data.local.model.Recipe
+import starbright.com.projectegg.data.model.Recipe
 
 @Dao
 interface DaoAccess {

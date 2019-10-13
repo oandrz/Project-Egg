@@ -33,9 +33,8 @@ import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.fragment_ingredients.*
 import permissions.dispatcher.NeedsPermission
 import permissions.dispatcher.RuntimePermissions
-import starbright.com.projectegg.MyApp
 import starbright.com.projectegg.R
-import starbright.com.projectegg.data.local.model.Ingredient
+import starbright.com.projectegg.data.model.Ingredient
 import starbright.com.projectegg.util.Constants
 import java.io.File
 import java.io.IOException
@@ -78,7 +77,7 @@ class IngredientsFragment : Fragment(), IngredientsContract.View {
     }
 
     override fun onAttach(context: Context?) {
-        MyApp.getAppComponent().inject(this)
+//        MyApp.getAppComponent().inject(this)
         super.onAttach(context)
         fragmentListener = context as FragmentListener?
     }

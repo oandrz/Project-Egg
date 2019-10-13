@@ -8,8 +8,8 @@
 
 package starbright.com.projectegg.features.detail
 
-import starbright.com.projectegg.data.local.model.Ingredient
-import starbright.com.projectegg.data.local.model.Instruction
+import starbright.com.projectegg.data.model.Ingredient
+import starbright.com.projectegg.data.model.Instruction
 import starbright.com.projectegg.features.base.BasePresenter
 import starbright.com.projectegg.features.base.BaseView
 

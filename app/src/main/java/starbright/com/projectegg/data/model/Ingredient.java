@@ -1,4 +1,4 @@
-package starbright.com.projectegg.data.local.model;
+package starbright.com.projectegg.data.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -6,8 +6,8 @@ import android.os.Parcelable;
 import java.util.Objects;
 
 import io.reactivex.annotations.Nullable;
-import starbright.com.projectegg.data.local.model.response.ExtendedIngredientResponse;
-import starbright.com.projectegg.data.local.model.response.IngredientResponse;
+import starbright.com.projectegg.data.model.response.ExtendedIngredientResponse;
+import starbright.com.projectegg.data.model.response.IngredientResponse;
 import starbright.com.projectegg.util.Constants;
 
 public class Ingredient implements Parcelable {

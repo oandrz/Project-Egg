@@ -37,7 +37,7 @@ class UserAccountFragment : Fragment(), UserAccountContract.View, IOnBackPressed
     private var mFragmentListener: FragmentListener? = null
 
     override fun onAttach(context: Context?) {
-        MyApp.getAppComponent().inject(this)
+//        MyApp.getAppComponent().inject(this)
         super.onAttach(context)
         mFragmentListener = context as FragmentListener?
     }
@@ -146,7 +146,7 @@ class UserAccountFragment : Fragment(), UserAccountContract.View, IOnBackPressed
     }
 
     override fun setupProgressBar() {
-        if (MyApp.isPreLolipop()) {
+        if (MyApp.isPreLolipop) {
             val drawableProgress = DrawableCompat.wrap(
                     progress_bar.indeterminateDrawable)
             DrawableCompat.setTint(

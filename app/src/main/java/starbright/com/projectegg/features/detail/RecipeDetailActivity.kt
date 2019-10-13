@@ -13,7 +13,6 @@ import android.content.Intent
 import android.os.Bundle
 
 import starbright.com.projectegg.R
-import starbright.com.projectegg.features.base.BaseActivityWithToolbar
 import starbright.com.projectegg.features.base.WebviewActivity
 
 class RecipeDetailActivity : BaseActivityWithToolbar(), RecipeDetailFragment.FragmentListener {

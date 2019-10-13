@@ -12,7 +12,7 @@ import android.view.ViewGroup
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import kotlinx.android.synthetic.main.item_recipe.view.*
 import starbright.com.projectegg.R
-import starbright.com.projectegg.data.local.model.Recipe
+import starbright.com.projectegg.data.model.Recipe
 import starbright.com.projectegg.util.GlideApp
 import java.util.*
 

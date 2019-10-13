@@ -11,9 +11,8 @@ import dagger.Provides
 import id.zelory.compressor.Compressor
 import io.reactivex.disposables.CompositeDisposable
 import starbright.com.projectegg.dagger.qualifier.ApplicationContext
-import starbright.com.projectegg.util.ClarifaiHelper
-import starbright.com.projectegg.util.scheduler.BaseSchedulerProvider
 import starbright.com.projectegg.util.scheduler.SchedulerProvider
+import starbright.com.projectegg.util.scheduler.SchedulerProviderContract
 import javax.inject.Singleton
 
 @Module
@@ -27,7 +26,7 @@ class AppModule(private val application: Application) {
 
     @Provides
     @Singleton
-    fun providesSchedulerComposer(): BaseSchedulerProvider {
+    fun providesSchedulerComposer(): SchedulerProviderContract {
         return SchedulerProvider.getInstance()
     }
 
@@ -37,11 +36,11 @@ class AppModule(private val application: Application) {
         return Compressor(context)
     }
 
-    @Provides
-    @Singleton
-    fun providesClarifaiHelper(@ApplicationContext context: Context): ClarifaiHelper {
-        return ClarifaiHelper(context)
-    }
+//    @Provides
+//    @Singleton
+//    fun providesClarifaiHelper(@ApplicationContext context: Context): ClarifaiHelper {
+//        return ClarifaiHelper(context)
+//    }
 
     @Provides
     @Singleton

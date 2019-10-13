@@ -8,26 +8,22 @@
 
 package starbright.com.projectegg.data.remote
 
-import java.util.ArrayList
-import java.util.HashMap
-
-import javax.inject.Inject
-import javax.inject.Singleton
-
 import io.reactivex.Observable
-import io.reactivex.functions.Function
 import retrofit2.Retrofit
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
 import retrofit2.http.QueryMap
 import starbright.com.projectegg.data.AppDataStore
-import starbright.com.projectegg.data.local.model.Ingredient
-import starbright.com.projectegg.data.local.model.Recipe
-import starbright.com.projectegg.data.local.model.response.IngredientResponse
-import starbright.com.projectegg.data.local.model.response.RecipeDetailResponse
-import starbright.com.projectegg.data.local.model.response.RecipeResponse
+import starbright.com.projectegg.data.model.Ingredient
+import starbright.com.projectegg.data.model.Recipe
+import starbright.com.projectegg.data.model.response.IngredientResponse
+import starbright.com.projectegg.data.model.response.RecipeDetailResponse
+import starbright.com.projectegg.data.model.response.RecipeResponse
 import starbright.com.projectegg.util.Constants
+import java.util.*
+import javax.inject.Inject
+import javax.inject.Singleton
 
 @Singleton
 class AppRemoteDataStore @Inject constructor(private val mRetrofit: Retrofit) : AppDataStore {

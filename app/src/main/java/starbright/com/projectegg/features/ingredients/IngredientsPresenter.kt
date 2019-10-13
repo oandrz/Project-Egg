@@ -8,16 +8,16 @@ import android.net.Uri
 import id.zelory.compressor.Compressor
 import io.reactivex.disposables.CompositeDisposable
 import starbright.com.projectegg.data.AppRepository
-import starbright.com.projectegg.data.local.model.Ingredient
+import starbright.com.projectegg.data.model.Ingredient
 import starbright.com.projectegg.util.ClarifaiHelper
 import starbright.com.projectegg.util.Constants
-import starbright.com.projectegg.util.scheduler.BaseSchedulerProvider
+import starbright.com.projectegg.util.scheduler.SchedulerProviderContract
 import java.io.File
 import javax.inject.Inject
 
 class IngredientsPresenter @Inject constructor(
         private val repository: AppRepository,
-        private val schedulerProvider: BaseSchedulerProvider,
+        private val schedulerProvider: SchedulerProviderContract,
         private val clarifaiHelper: ClarifaiHelper,
         private val compressor: Compressor,
         private val compositeDiposable: CompositeDisposable

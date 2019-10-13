@@ -6,7 +6,7 @@
  * Created by Andreas on 29/9/2018.
  */
 
-package starbright.com.projectegg.data.local.model;
+package starbright.com.projectegg.data.model;
 
 import android.arch.persistence.room.TypeConverter;
 

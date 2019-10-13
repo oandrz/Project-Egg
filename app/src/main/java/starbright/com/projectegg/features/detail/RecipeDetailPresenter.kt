@@ -10,13 +10,13 @@ package starbright.com.projectegg.features.detail
 
 import io.reactivex.disposables.CompositeDisposable
 import starbright.com.projectegg.data.AppRepository
-import starbright.com.projectegg.data.local.model.Recipe
-import starbright.com.projectegg.util.scheduler.BaseSchedulerProvider
+import starbright.com.projectegg.data.model.Recipe
+import starbright.com.projectegg.util.scheduler.SchedulerProviderContract
 
 class RecipeDetailPresenter(
         private val mRepository: AppRepository,
         private val mView: RecipeDetailContract.View,
-        private val mSchedulerProvider: BaseSchedulerProvider
+        private val mSchedulerProvider: SchedulerProviderContract
 ) : RecipeDetailContract.Presenter {
     private val mCompositeDisposable: CompositeDisposable
 

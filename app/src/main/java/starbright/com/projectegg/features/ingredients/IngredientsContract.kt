@@ -4,7 +4,7 @@
 
 package starbright.com.projectegg.features.ingredients
 
-import starbright.com.projectegg.data.local.model.Ingredient
+import starbright.com.projectegg.data.model.Ingredient
 import starbright.com.projectegg.features.base.BasePresenter
 
 internal class IngredientsContract {

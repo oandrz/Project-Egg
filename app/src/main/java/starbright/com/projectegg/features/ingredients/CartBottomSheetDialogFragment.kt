@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import io.reactivex.annotations.NonNull
 import kotlinx.android.synthetic.main.partial_bottom_sheet.*
 import starbright.com.projectegg.R
-import starbright.com.projectegg.data.local.model.Ingredient
+import starbright.com.projectegg.data.model.Ingredient
 
 class CartBottomSheetDialogFragment : BottomSheetDialogFragment() {
 

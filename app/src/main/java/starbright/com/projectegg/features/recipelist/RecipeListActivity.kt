@@ -8,8 +8,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import starbright.com.projectegg.R
-import starbright.com.projectegg.data.local.model.Ingredient
-import starbright.com.projectegg.features.base.BaseActivityWithToolbar
+import starbright.com.projectegg.data.model.Ingredient
 import starbright.com.projectegg.features.detail.RecipeDetailActivity
 import java.util.*
 

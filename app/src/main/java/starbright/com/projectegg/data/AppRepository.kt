@@ -4,16 +4,14 @@
 
 package starbright.com.projectegg.data
 
-import javax.inject.Inject
-import javax.inject.Singleton
-
 import io.reactivex.Observable
-import io.reactivex.functions.Consumer
 import io.reactivex.schedulers.Schedulers
 import starbright.com.projectegg.dagger.qualifier.LocalData
 import starbright.com.projectegg.dagger.qualifier.RemoteData
-import starbright.com.projectegg.data.local.model.Ingredient
-import starbright.com.projectegg.data.local.model.Recipe
+import starbright.com.projectegg.data.model.Ingredient
+import starbright.com.projectegg.data.model.Recipe
+import javax.inject.Inject
+import javax.inject.Singleton
 
 @Singleton
 class AppRepository @Inject constructor(

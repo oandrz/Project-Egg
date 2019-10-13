@@ -14,19 +14,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.fragment_recipe_list.*
-import starbright.com.projectegg.MyApp
 import starbright.com.projectegg.R
 import starbright.com.projectegg.data.AppRepository
-import starbright.com.projectegg.data.local.model.Ingredient
-import starbright.com.projectegg.data.local.model.Recipe
-import starbright.com.projectegg.util.scheduler.BaseSchedulerProvider
+import starbright.com.projectegg.data.model.Ingredient
+import starbright.com.projectegg.data.model.Recipe
+import starbright.com.projectegg.util.scheduler.SchedulerProviderContract
 import java.util.*
 import javax.inject.Inject
 
 class RecipeListFragment : Fragment(), RecipeListContract.View, RecipeListAdapter.Listener {
 
     @Inject
-    lateinit var schedulerProvider: BaseSchedulerProvider
+    lateinit var schedulerProvider: SchedulerProviderContract
     @Inject
     lateinit var repo: AppRepository
 
@@ -35,7 +34,7 @@ class RecipeListFragment : Fragment(), RecipeListContract.View, RecipeListAdapte
     private lateinit var mAdapter: RecipeListAdapter
 
     override fun onAttach(context: Context?) {
-        MyApp.getAppComponent().inject(this)
+//        MyApp.getAppComponent().inject(this)
         super.onAttach(context)
         mFragmentListener = context as? FragmentListener
     }

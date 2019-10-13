@@ -13,8 +13,7 @@ import android.content.Intent
 import android.os.Bundle
 
 import starbright.com.projectegg.R
-import starbright.com.projectegg.data.local.model.Ingredient
-import starbright.com.projectegg.features.base.BaseActivityWithoutToolbar
+import starbright.com.projectegg.data.model.Ingredient
 import starbright.com.projectegg.features.recipelist.RecipeListActivity
 import starbright.com.projectegg.features.userAccount.UserAccountActivity
 

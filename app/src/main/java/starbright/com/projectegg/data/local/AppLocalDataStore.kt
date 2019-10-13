@@ -8,14 +8,13 @@
 
 package starbright.com.projectegg.data.local
 
-import javax.inject.Inject
-import javax.inject.Singleton
-
 import io.reactivex.Observable
 import starbright.com.projectegg.data.AppDataStore
-import starbright.com.projectegg.data.local.model.Ingredient
-import starbright.com.projectegg.data.local.model.Recipe
+import starbright.com.projectegg.data.model.Ingredient
+import starbright.com.projectegg.data.model.Recipe
 import starbright.com.projectegg.util.Constants
+import javax.inject.Inject
+import javax.inject.Singleton
 
 /**
  * Created by Andreas on 4/8/2018.

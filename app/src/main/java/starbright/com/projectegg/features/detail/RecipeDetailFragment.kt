@@ -1,8 +1,4 @@
 /**
- * Created by Andreas on 5/10/2019.
- */
-
-/**
  * Created by Andreas on 11/8/2019.
  */
 
@@ -17,21 +13,20 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.*
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import kotlinx.android.synthetic.main.fragment_recipe_detail.*
-import starbright.com.projectegg.MyApp
 import starbright.com.projectegg.R
 import starbright.com.projectegg.data.AppRepository
-import starbright.com.projectegg.data.local.model.Ingredient
-import starbright.com.projectegg.data.local.model.Instruction
+import starbright.com.projectegg.data.model.Ingredient
+import starbright.com.projectegg.data.model.Instruction
 import starbright.com.projectegg.util.GlideApp
 import starbright.com.projectegg.util.TextViewRecyclerAdapter
-import starbright.com.projectegg.util.scheduler.BaseSchedulerProvider
+import starbright.com.projectegg.util.scheduler.SchedulerProviderContract
 import java.util.*
 import javax.inject.Inject
 
 class RecipeDetailFragment : Fragment(), RecipeDetailContract.View {
 
     @Inject
-    lateinit var schedulerProvider: BaseSchedulerProvider
+    lateinit var schedulerProvider: SchedulerProviderContract
     @Inject
     lateinit var repository: AppRepository
 
@@ -39,7 +34,7 @@ class RecipeDetailFragment : Fragment(), RecipeDetailContract.View {
     private var mFragmentListener: FragmentListener? = null
 
     override fun onAttach(context: Context?) {
-        MyApp.getAppComponent().inject(this)
+//        MyApp.getAppComponent().inject(this)
         super.onAttach(context)
         mFragmentListener = context as FragmentListener?
     }

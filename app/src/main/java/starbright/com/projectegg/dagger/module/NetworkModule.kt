@@ -20,6 +20,7 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import starbright.com.projectegg.BuildConfig
 import starbright.com.projectegg.dagger.qualifier.ApplicationContext
+import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 @Module
@@ -52,11 +53,12 @@ class NetworkModule {
     @Provides
     @Singleton
     fun provideOkhttpClient(
-            cache: Cache,
-            logInterceptor: HttpLoggingInterceptor
+            cache: Cache, logInterceptor: HttpLoggingInterceptor
     ): OkHttpClient = OkHttpClient.Builder()
             .addInterceptor(HeaderInterceptor())
             .addInterceptor(logInterceptor)
+            .readTimeout(60.toLong(), TimeUnit.SECONDS)
+            .writeTimeout(60.toLong(), TimeUnit.SECONDS)
             .cache(cache)
             .build()
 

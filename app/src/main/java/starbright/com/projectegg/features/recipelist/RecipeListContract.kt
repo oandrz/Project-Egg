@@ -4,8 +4,8 @@
 
 package starbright.com.projectegg.features.recipelist
 
-import starbright.com.projectegg.data.local.model.Ingredient
-import starbright.com.projectegg.data.local.model.Recipe
+import starbright.com.projectegg.data.model.Ingredient
+import starbright.com.projectegg.data.model.Recipe
 import starbright.com.projectegg.features.base.BasePresenter
 import starbright.com.projectegg.features.base.BaseView
 

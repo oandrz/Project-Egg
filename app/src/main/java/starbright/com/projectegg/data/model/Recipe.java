@@ -10,7 +10,7 @@
  * Created by Andreas on 29/9/2018.
  */
 
-package starbright.com.projectegg.data.local.model;
+package starbright.com.projectegg.data.model;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
@@ -20,10 +20,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.annotations.Nullable;
-import starbright.com.projectegg.data.local.model.response.ExtendedIngredientResponse;
-import starbright.com.projectegg.data.local.model.response.RecipeDetailResponse;
-import starbright.com.projectegg.data.local.model.response.RecipeResponse;
-import starbright.com.projectegg.data.local.model.response.StepResponse;
+import starbright.com.projectegg.data.model.response.ExtendedIngredientResponse;
+import starbright.com.projectegg.data.model.response.RecipeDetailResponse;
+import starbright.com.projectegg.data.model.response.RecipeResponse;
+import starbright.com.projectegg.data.model.response.StepResponse;
 
 /**
  * Created by Andreas on 4/8/2018.

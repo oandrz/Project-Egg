@@ -9,7 +9,6 @@ import android.content.Intent
 import android.os.Bundle
 
 import starbright.com.projectegg.R
-import starbright.com.projectegg.features.base.BaseActivityWithoutToolbar
 import starbright.com.projectegg.features.ingredients.IngredientsActivity
 
 class UserAccountActivity : BaseActivityWithoutToolbar(), UserAccountFragment.FragmentListener {

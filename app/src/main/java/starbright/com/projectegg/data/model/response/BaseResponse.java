@@ -1,4 +1,4 @@
-package starbright.com.projectegg.data.local.model.response;
+package starbright.com.projectegg.data.model.response;
 
 import com.google.gson.annotations.SerializedName;
 

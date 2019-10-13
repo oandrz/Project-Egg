@@ -13,7 +13,7 @@ import starbright.com.projectegg.data.local.AppLocalDataStore
 import starbright.com.projectegg.data.remote.AppRemoteDataStore
 
 @Module
-class RepositoryModule {
+class DataStoreModule {
 
     @Provides
     @LocalData

@@ -8,7 +8,7 @@ import io.reactivex.Scheduler;
  * Created by Andreas on 4/14/2018.
  */
 
-public interface BaseSchedulerProvider {
+public interface SchedulerProviderContract {
     @NonNull
     Scheduler computation();
 

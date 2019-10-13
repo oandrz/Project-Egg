@@ -6,14 +6,14 @@ package starbright.com.projectegg.features.recipelist
 
 import io.reactivex.disposables.CompositeDisposable
 import starbright.com.projectegg.data.AppRepository
-import starbright.com.projectegg.data.local.model.Ingredient
-import starbright.com.projectegg.data.local.model.Recipe
-import starbright.com.projectegg.util.scheduler.BaseSchedulerProvider
+import starbright.com.projectegg.data.model.Ingredient
+import starbright.com.projectegg.data.model.Recipe
+import starbright.com.projectegg.util.scheduler.SchedulerProviderContract
 import java.util.*
 
 internal class RecipeListPresenter(private val mRepository: AppRepository,
                                    private val mView: RecipeListContract.View,
-                                   private val mSchedulerProvider: BaseSchedulerProvider) : RecipeListContract.Presenter {
+                                   private val mSchedulerProvider: SchedulerProviderContract) : RecipeListContract.Presenter {
     private val mCompositeDisposable: CompositeDisposable
 
     private var mRecipes: List<Recipe> = listOf()
