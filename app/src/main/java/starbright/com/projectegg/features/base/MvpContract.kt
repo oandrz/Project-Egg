@@ -4,8 +4,11 @@
 
 package starbright.com.projectegg.features.base
 
-interface BaseViewContract {
+import android.support.annotation.StringRes
 
+interface BaseViewContract {
+    fun showError(@StringRes res: Int? = null, text: String? = null)
+    fun navigateToHome()
 }
 
 interface BasePresenterContract {
