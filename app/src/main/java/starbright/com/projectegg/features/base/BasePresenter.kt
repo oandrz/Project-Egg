@@ -14,9 +14,18 @@ abstract class BasePresenter<V : BaseViewContract>(
         protected val schedulerProvider: SchedulerProviderContract,
         protected val compositeDisposable: CompositeDisposable,
         protected val networkHelper: NetworkHelper
-) {
+) : BasePresenterContract {
 
     private lateinit var view: V
+
+    override fun onCreateScreen() {
+        onStart()
+    }
+
+    override fun onDestroyScreen() {
+        unSubscribe()
+        onDestroy()
+    }
 
     private fun unSubscribe() {
         compositeDisposable.dispose()
@@ -49,14 +58,11 @@ abstract class BasePresenter<V : BaseViewContract>(
         }
     }
 
-    protected fun onActivityDestroyed() {
-        unSubscribe()
-    }
-
     protected fun forceLogout() {
         val baseView = view as BaseViewContract
         baseView.navigateToHome()
     }
 
-    abstract fun onActivityCreate()
+    protected abstract fun onStart()
+    protected abstract fun onDestroy()
 }
