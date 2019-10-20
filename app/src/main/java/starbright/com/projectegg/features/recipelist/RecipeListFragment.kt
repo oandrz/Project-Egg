@@ -7,53 +7,34 @@ package starbright.com.projectegg.features.recipelist
 import android.content.Context
 import android.os.Bundle
 import android.support.design.widget.Snackbar
-import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import kotlinx.android.synthetic.main.fragment_recipe_list.*
 import starbright.com.projectegg.R
-import starbright.com.projectegg.data.AppRepository
+import starbright.com.projectegg.dagger.component.FragmentComponent
 import starbright.com.projectegg.data.model.Ingredient
 import starbright.com.projectegg.data.model.Recipe
-import starbright.com.projectegg.util.scheduler.SchedulerProviderContract
+import starbright.com.projectegg.features.base.BaseFragment
 import java.util.*
-import javax.inject.Inject
 
-class RecipeListFragment : Fragment(), RecipeListContract.View, RecipeListAdapter.Listener {
-
-    @Inject
-    lateinit var schedulerProvider: SchedulerProviderContract
-    @Inject
-    lateinit var repo: AppRepository
+class RecipeListFragment : BaseFragment<RecipeListContract.View, RecipeListPresenter>(), RecipeListContract.View, RecipeListAdapter.Listener {
 
     private var mFragmentListener: FragmentListener? = null
     private lateinit var mPresenter: RecipeListContract.Presenter
     private lateinit var mAdapter: RecipeListAdapter
 
     override fun onAttach(context: Context?) {
-//        MyApp.getAppComponent().inject(this)
         super.onAttach(context)
         mFragmentListener = context as? FragmentListener
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        RecipeListPresenter(repo, this, schedulerProvider)
-    }
+    override fun getLayoutRes(): Int = R.layout.fragment_recipe_list
 
-    override fun onCreateView(inflater: LayoutInflater,
-                              container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_recipe_list, container, false)
-    }
+    override fun injectDependencies(fragmentComponent: FragmentComponent) =
+            fragmentComponent.inject(this)
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        mPresenter.setIngredients(arguments!!.getParcelableArrayList(INGREDIENT_LIST_BUNDLE)!!)
-        mPresenter.start()
+    override fun setupView(view: View) {
     }
 
     override fun onDestroyView() {
@@ -64,10 +45,6 @@ class RecipeListFragment : Fragment(), RecipeListContract.View, RecipeListAdapte
     override fun onDetach() {
         super.onDetach()
         mFragmentListener = null
-    }
-
-    override fun setPresenter(presenter: RecipeListContract.Presenter) {
-        mPresenter = presenter
     }
 
     override fun setupRecyclerView() {

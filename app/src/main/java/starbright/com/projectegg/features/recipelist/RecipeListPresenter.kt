@@ -8,47 +8,47 @@ import io.reactivex.disposables.CompositeDisposable
 import starbright.com.projectegg.data.AppRepository
 import starbright.com.projectegg.data.model.Ingredient
 import starbright.com.projectegg.data.model.Recipe
+import starbright.com.projectegg.features.base.BasePresenter
+import starbright.com.projectegg.util.NetworkHelper
 import starbright.com.projectegg.util.scheduler.SchedulerProviderContract
 import java.util.*
+import javax.inject.Inject
 
-internal class RecipeListPresenter(private val mRepository: AppRepository,
-                                   private val mView: RecipeListContract.View,
-                                   private val mSchedulerProvider: SchedulerProviderContract) : RecipeListContract.Presenter {
-    private val mCompositeDisposable: CompositeDisposable
+class RecipeListPresenter @Inject constructor(
+        schedulerProvider: SchedulerProviderContract,
+        compositeDisposable: CompositeDisposable,
+        networkHelper: NetworkHelper,
+        private val mRepository: AppRepository
+) : BasePresenter<RecipeListContract.View>(schedulerProvider, compositeDisposable, networkHelper), RecipeListContract.Presenter {
+    override fun onCreateScreen() {
+        view.setupRecyclerView()
+        view.setupSwipeRefreshLayout()
+        getRecipesBasedIngredients(mapIngredients())
+    }
 
     private var mRecipes: List<Recipe> = listOf()
     private var mIngredients: List<Ingredient> = listOf()
 
-    init {
-        mView.setPresenter(this)
-        mCompositeDisposable = CompositeDisposable()
-    }
-
-    override fun start() {
-        mView.setupRecyclerView()
-        mView.setupSwipeRefreshLayout()
-        getRecipesBasedIngredients(mapIngredients())
-    }
 
     fun getRecipesBasedIngredients(ingredients: String) {
-        mView.showLoadingBar()
-        mCompositeDisposable.add(
+        view.showLoadingBar()
+        compositeDisposable.add(
                 mRepository.getRecipes(ingredients)
-                        .subscribeOn(mSchedulerProvider.computation())
-                        .observeOn(mSchedulerProvider.ui())
+                        .subscribeOn(schedulerProvider.computation())
+                        .observeOn(schedulerProvider.ui())
                         .subscribe({ recipes ->
                             mRecipes = recipes.toMutableList()
-                            mView.hideLoadingBar()
-                            mView.bindRecipesToList(recipes.toMutableList())
+                            view.hideLoadingBar()
+                            view.bindRecipesToList(recipes.toMutableList())
                         }, { throwable ->
-                            mView.hideLoadingBar()
-                            mView.showErrorSnackBar(throwable.message ?: "")
+                            view.hideLoadingBar()
+                            view.showErrorSnackBar(throwable.message ?: "")
                         })
         )
     }
 
     override fun handleListItemClicked(position: Int) {
-        mView.showDetail(mRecipes[position].id.toString())
+        view.showDetail(mRecipes[position].id.toString())
     }
 
     override fun handleRefresh() {

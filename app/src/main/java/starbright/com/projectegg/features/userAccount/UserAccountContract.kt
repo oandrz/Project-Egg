@@ -4,12 +4,9 @@
 
 package starbright.com.projectegg.features.userAccount
 
-import starbright.com.projectegg.features.base.BasePresenter
-import starbright.com.projectegg.features.base.BaseView
-
 class UserAccountContract {
 
-    interface View : BaseView<Presenter> {
+    interface View {
         fun updateView(isLogin: Boolean)
 
         fun navigateToSearchRecipePage()
@@ -35,7 +32,7 @@ class UserAccountContract {
         fun showVerificationEmailSentDialog()
     }
 
-    interface Presenter : BasePresenter {
+    interface Presenter {
 
         fun handleVerificationEmailDialogClicked()
 

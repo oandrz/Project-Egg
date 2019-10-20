@@ -24,14 +24,14 @@ class RecipeDetailPresenter(
     private var mRecipe: Recipe? = null
 
     init {
-        mView.setPresenter(this)
+//        mView.setPresenter(this)
         mCompositeDisposable = CompositeDisposable()
     }
-
-    override fun start() {
-        mView.setupSwipeRefreshLayout()
-        getRecipeDetailInformation(mRecipeId)
-    }
+//
+//    override fun start() {
+//        mView.setupSwipeRefreshLayout()
+//        getRecipeDetailInformation(mRecipeId)
+//    }
 
     override fun setRecipeId(recipeId: String) {
         mRecipeId = recipeId

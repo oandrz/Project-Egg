@@ -11,6 +11,8 @@ import starbright.com.projectegg.dagger.module.AppModule
 import starbright.com.projectegg.dagger.module.DataStoreModule
 import starbright.com.projectegg.dagger.module.NetworkModule
 import starbright.com.projectegg.dagger.module.StorageModule
+import starbright.com.projectegg.data.AppRepository
+import starbright.com.projectegg.util.NetworkHelper
 import starbright.com.projectegg.util.scheduler.SchedulerProviderContract
 import javax.inject.Singleton
 
@@ -25,4 +27,6 @@ interface ApplicationComponent {
     fun getSchedulerProvider(): SchedulerProviderContract
     fun getCompositeDiposable(): CompositeDisposable
     fun getCompressor(): Compressor
+    fun getNetworkHelper(): NetworkHelper
+    fun getAppRepository(): AppRepository
 }

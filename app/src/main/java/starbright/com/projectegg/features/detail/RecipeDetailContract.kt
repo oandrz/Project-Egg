@@ -10,12 +10,10 @@ package starbright.com.projectegg.features.detail
 
 import starbright.com.projectegg.data.model.Ingredient
 import starbright.com.projectegg.data.model.Instruction
-import starbright.com.projectegg.features.base.BasePresenter
-import starbright.com.projectegg.features.base.BaseView
 
 class RecipeDetailContract {
 
-    interface View : BaseView<RecipeDetailPresenter> {
+    interface View {
         fun showProgressBar()
         fun hideProgressBar()
 
@@ -38,7 +36,7 @@ class RecipeDetailContract {
         fun navigateToWebViewActivity(url: String)
     }
 
-    interface Presenter : BasePresenter {
+    interface Presenter {
         fun setRecipeId(recipeId: String)
         fun getRecipeDetailInformation(recipeId: String)
 

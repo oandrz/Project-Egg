@@ -13,11 +13,8 @@ import retrofit2.HttpException
 import starbright.com.projectegg.data.model.response.NetworkError
 import java.io.IOException
 import java.net.ConnectException
-import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
-class NetworkHelper @Inject constructor(private val context: Context) {
+class NetworkHelper constructor(private val context: Context) {
     companion object {
         private const val TAG = "NetworkHelper"
     }

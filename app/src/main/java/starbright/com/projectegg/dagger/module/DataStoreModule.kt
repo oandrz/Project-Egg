@@ -17,13 +17,13 @@ class DataStoreModule {
 
     @Provides
     @LocalData
-    internal fun provideLocalDataStore(dataStore: AppLocalDataStore): AppDataStore {
+    fun provideLocalDataStore(dataStore: AppLocalDataStore): AppDataStore {
         return dataStore
     }
 
     @Provides
     @RemoteData
-    internal fun provideRemoteDataStore(dataStore: AppRemoteDataStore): AppDataStore {
+    fun provideRemoteDataStore(dataStore: AppRemoteDataStore): AppDataStore {
         return dataStore
     }
 }

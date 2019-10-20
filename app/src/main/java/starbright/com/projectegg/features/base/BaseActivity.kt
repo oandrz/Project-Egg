@@ -24,7 +24,14 @@ abstract class BaseActivity<V : BaseViewContract, P : BasePresenter<V>> : AppCom
         injectDependencies(buildComponent())
         super.onCreate(savedInstanceState)
         setContentView(getLayoutRes())
-        presenter.onCreateScreen()
+        presenter.run {
+            attachView(getActivity())
+            onCreateScreen()
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
     }
 
     override fun onDestroy() {
@@ -58,6 +65,8 @@ abstract class BaseActivity<V : BaseViewContract, P : BasePresenter<V>> : AppCom
 
     @LayoutRes
     protected abstract fun getLayoutRes(): Int
+
+    protected abstract fun getActivity(): V
 
     protected abstract fun injectDependencies(activityComponent: ActivityComponent)
 }

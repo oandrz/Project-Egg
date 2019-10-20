@@ -6,12 +6,12 @@ package starbright.com.projectegg.features.recipelist
 
 import starbright.com.projectegg.data.model.Ingredient
 import starbright.com.projectegg.data.model.Recipe
-import starbright.com.projectegg.features.base.BasePresenter
-import starbright.com.projectegg.features.base.BaseView
+import starbright.com.projectegg.features.base.BasePresenterContract
+import starbright.com.projectegg.features.base.BaseViewContract
 
 class RecipeListContract {
 
-    interface View : BaseView<Presenter> {
+    interface View : BaseViewContract {
         fun setupRecyclerView()
 
         fun setupSwipeRefreshLayout()
@@ -25,7 +25,7 @@ class RecipeListContract {
         fun showErrorSnackBar(errorMessage: String)
     }
 
-    interface Presenter : BasePresenter {
+    interface Presenter : BasePresenterContract {
         fun handleListItemClicked(position: Int)
         fun handleRefresh()
 

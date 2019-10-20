@@ -42,7 +42,7 @@ class CartBottomSheetDialogFragment : BottomSheetDialogFragment() {
         adapter = IngredientsCartAdapter(activity!!, cart).also {
             it.listener = { selectedPosition ->
                 updateView(selectedPosition)
-                sheetListener?.updateCart(cart)
+                sheetListener?.onItemRemovedFromCart()
             }
         }
 
@@ -75,7 +75,7 @@ class CartBottomSheetDialogFragment : BottomSheetDialogFragment() {
     }
 
     interface SheetListener {
-        fun updateCart(ingredients: MutableList<Ingredient>)
+        fun onItemRemovedFromCart()
         fun submitButtonClicked()
     }
 }

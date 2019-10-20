@@ -4,13 +4,16 @@
 
 package starbright.com.projectegg.dagger.module
 
-import android.app.Activity
 import dagger.Module
-import starbright.com.projectegg.dagger.qualifier.ActivityContext
+import dagger.Provides
+import starbright.com.projectegg.features.base.BaseActivity
+import starbright.com.projectegg.util.ClarifaiHelper
 
 @Module
-class ActivityModule(private val activity: Activity) {
+class ActivityModule(private val activity: BaseActivity<*, *>) {
 
-    @ActivityContext
-    fun provideContext() = activity
+    @Provides
+    fun providesClarifaiHelper(): ClarifaiHelper {
+        return ClarifaiHelper(activity)
+    }
 }

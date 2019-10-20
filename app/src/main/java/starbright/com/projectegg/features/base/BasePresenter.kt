@@ -16,23 +16,18 @@ abstract class BasePresenter<V : BaseViewContract>(
         protected val networkHelper: NetworkHelper
 ) : BasePresenterContract {
 
-    private lateinit var view: V
-
-    override fun onCreateScreen() {
-        onStart()
-    }
+    protected lateinit var view: V
 
     override fun onDestroyScreen() {
         unSubscribe()
-        onDestroy()
+    }
+
+    fun attachView(view: V) {
+        this.view = view
     }
 
     private fun unSubscribe() {
         compositeDisposable.dispose()
-    }
-
-    protected fun attachView(view: V) {
-        this.view = view
     }
 
     protected fun checkInternetConnection(): Boolean = networkHelper.isConnectedWithNetwork()
@@ -62,7 +57,4 @@ abstract class BasePresenter<V : BaseViewContract>(
         val baseView = view as BaseViewContract
         baseView.navigateToHome()
     }
-
-    protected abstract fun onStart()
-    protected abstract fun onDestroy()
 }
