@@ -36,8 +36,8 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 @RuntimePermissions
-class IngredientsActivity : BaseActivity<IngredientsContract.View, IngredientsPresenter>(),
-        IngredientsContract.View {
+class IngredientsActivity : BaseActivity<IngredientsContract.View,
+        IngredientsPresenter>(), IngredientsContract.View {
 
     private lateinit var searchSuggestionAdapter: IngredientsAdapter
     private lateinit var dialog: MaterialDialog

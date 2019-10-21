@@ -30,7 +30,7 @@ abstract class BasePresenter<V : BaseViewContract>(
         compositeDisposable.dispose()
     }
 
-    protected fun checkInternetConnection(): Boolean = networkHelper.isConnectedWithNetwork()
+    protected fun isConnectedToInternet(): Boolean = networkHelper.isConnectedWithNetwork()
 
     protected fun handleNetworkError(error: Throwable) {
         networkHelper.castToNetworkError(error).run {

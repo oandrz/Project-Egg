@@ -30,10 +30,6 @@ abstract class BaseActivity<V : BaseViewContract, P : BasePresenter<V>> : AppCom
         }
     }
 
-    override fun onStart() {
-        super.onStart()
-    }
-
     override fun onDestroy() {
         presenter.onDestroyScreen()
         super.onDestroy()

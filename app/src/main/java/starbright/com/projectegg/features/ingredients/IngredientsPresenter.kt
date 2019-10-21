@@ -8,6 +8,7 @@ import android.net.Uri
 import id.zelory.compressor.Compressor
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
+import starbright.com.projectegg.R
 import starbright.com.projectegg.data.AppRepository
 import starbright.com.projectegg.data.model.Ingredient
 import starbright.com.projectegg.features.base.BasePresenter
@@ -90,11 +91,12 @@ class IngredientsPresenter @Inject constructor(
     }
 
     override fun handleSubmitButtonClicked() {
-
+        view.navigateToRecipeList(cart)
     }
 
     override fun searchIngredient(query: String) {
-        if (query.isEmpty() && compositeDisposable.size() > 0) compositeDisposable.clear()
+        if (!isConnectedToInternet()) view.showError(R.string.server_connection_error)
+        else if (query.isEmpty() && compositeDisposable.size() > 0) compositeDisposable.clear()
 
         compositeDisposable.add(
                 Observable.just(query)
