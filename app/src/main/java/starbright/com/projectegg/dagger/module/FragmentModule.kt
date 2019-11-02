@@ -21,14 +21,4 @@ class FragmentModule(private val fragment: Fragment) {
     @Provides
     fun provideContext() = fragment
 
-    @Provides
-    fun provideRecipeListPresenter(
-            schedulerProvider: SchedulerProviderContract,
-            compositeDisposable: CompositeDisposable,
-            networkHelper: NetworkHelper,
-            repository: AppRepository
-    ): RecipeListPresenter =
-            RecipeListPresenter(
-                    schedulerProvider, compositeDisposable, networkHelper, repository
-            )
 }

@@ -38,10 +38,10 @@ public class ClarifaiHelper {
 
     public ClarifaiHelper(Context context) {
         mClarifaiClient = new ClarifaiBuilder(BuildConfig.CLARIFAI_KEY)
-                .client(new OkHttpClient.Builder()
-                        .readTimeout(CLARIFAI_REQUEST_TIMEOUT, TimeUnit.SECONDS)
-                        .build()
-                ).buildSync();
+            .client(new OkHttpClient.Builder()
+                .readTimeout(CLARIFAI_REQUEST_TIMEOUT, TimeUnit.SECONDS)
+                .build()
+            ).buildSync();
         mContext = context;
     }
 
@@ -74,7 +74,7 @@ public class ClarifaiHelper {
     }
 
     private static class ImageRecognizerTask extends AsyncTask<
-            Void, Void, ClarifaiResponse<List<ClarifaiOutput<Concept>>>> {
+        Void, Void, ClarifaiResponse<List<ClarifaiOutput<Concept>>>> {
         private byte[] mImageBytes;
 
         private ClarifaiClient mClarifaiClient;
@@ -95,13 +95,13 @@ public class ClarifaiHelper {
         protected ClarifaiResponse<List<ClarifaiOutput<Concept>>> doInBackground(Void... params) {
             final ConceptModel foodModel = mClarifaiClient.getDefaultModels().foodModel();
             return foodModel.predict()
-                    .withInputs(ClarifaiInput.forImage(ClarifaiImage.of(mImageBytes)))
-                    .executeSync();
+                .withInputs(ClarifaiInput.forImage(ClarifaiImage.of(mImageBytes)))
+                .executeSync();
         }
 
         @Override
         protected void onPostExecute(
-                ClarifaiResponse<List<ClarifaiOutput<Concept>>> response) {
+            ClarifaiResponse<List<ClarifaiOutput<Concept>>> response) {
             super.onPostExecute(response);
             if (response.isSuccessful()) {
                 final List<Concept> data = response.get().get(0).data();

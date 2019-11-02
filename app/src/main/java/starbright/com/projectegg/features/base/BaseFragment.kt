@@ -28,12 +28,12 @@ abstract class BaseFragment<V : BaseViewContract, P : BasePresenter<V>> : Fragme
     }
 
     private fun buildFragmentComponent(): FragmentComponent = DaggerFragmentComponent.builder()
-            .applicationComponent((context?.applicationContext as MyApp).appComponent)
-            .fragmentModule(FragmentModule(this))
-            .build()
+        .applicationComponent((context?.applicationContext as MyApp).appComponent)
+        .fragmentModule(FragmentModule(this))
+        .build()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-            inflater.inflate(getLayoutRes(), container, false)
+        inflater.inflate(getLayoutRes(), container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

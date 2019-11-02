@@ -20,7 +20,7 @@ public class SchedulerProvider implements SchedulerProviderContract {
 
     }
 
-    public static synchronized  SchedulerProvider getInstance() {
+    public static synchronized SchedulerProvider getInstance() {
         if (INSTANCE == null) {
             INSTANCE = new SchedulerProvider();
         }

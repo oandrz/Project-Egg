@@ -22,13 +22,13 @@ import java.lang.ref.WeakReference
 import java.util.*
 
 class RecipeListActivity : BaseActivity<RecipeListContract.View, RecipeListPresenter>(),
-        RecipeListContract.View, RecipeListAdapter.Listener {
+    RecipeListContract.View, RecipeListAdapter.Listener {
 
     private lateinit var adapter: RecipeListAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setToolbarBehavior(NormalToolbar(
-                WeakReference(this), R.id.toolbar, R.string.recipelist_title
+            WeakReference(this), R.id.toolbar, R.string.recipelist_title
         ))
         super.onCreate(savedInstanceState)
     }
@@ -36,7 +36,7 @@ class RecipeListActivity : BaseActivity<RecipeListContract.View, RecipeListPrese
     override fun getLayoutRes(): Int = R.layout.activity_recipe_list
 
     override fun injectDependencies(activityComponent: ActivityComponent) =
-            activityComponent.inject(this)
+        activityComponent.inject(this)
 
     override fun getActivity(): RecipeListContract.View = this
 
@@ -50,7 +50,7 @@ class RecipeListActivity : BaseActivity<RecipeListContract.View, RecipeListPrese
         adapter.mListener = this
         rv_recipe.let {
             it.layoutManager = LinearLayoutManager(
-                    this, LinearLayoutManager.VERTICAL, false
+                this, LinearLayoutManager.VERTICAL, false
             )
             it.adapter = adapter
         }

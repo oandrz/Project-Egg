@@ -10,9 +10,9 @@ import android.support.v7.widget.Toolbar
 import java.lang.ref.WeakReference
 
 class NormalToolbar(
-        private val activity: WeakReference<AppCompatActivity>,
-        private val toolbarId: Int,
-        @StringRes private val toolbarTitleRes: Int
+    private val activity: WeakReference<AppCompatActivity>,
+    private val toolbarId: Int,
+    @StringRes private val toolbarTitleRes: Int
 ) : ToolbarBehavior {
 
     override fun buildToolbar() {

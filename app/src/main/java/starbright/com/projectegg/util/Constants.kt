@@ -13,9 +13,9 @@ object Constants {
     const val COMMA = ","
     const val YYYY_MM_DD_FORMAT = "yyyyMMdd"
     const val EMAIL_FORMAT = "^[a-zA-Z0-9_+&*-]+(?:\\." +
-            "[a-zA-Z0-9_+&*-]+)*@" +
-            "(?:[a-zA-Z0-9-]+\\.)+[a-z" +
-            "A-Z]{2,7}$"
+        "[a-zA-Z0-9_+&*-]+)*@" +
+        "(?:[a-zA-Z0-9-]+\\.)+[a-z" +
+        "A-Z]{2,7}$"
     const val JPG = ".jpg"
 
     const val PROVIDER_PACKAGE_NAME = "starbright.com.projectegg.fileprovider"

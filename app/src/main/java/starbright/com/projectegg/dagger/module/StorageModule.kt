@@ -28,6 +28,6 @@ class StorageModule {
     @Singleton
     fun provideDatabase(@ApplicationContext context: Context): RecipeDatabase {
         return Room.databaseBuilder(context, RecipeDatabase::class.java,
-                Constants.DATABASE_NAME).build()
+            Constants.DATABASE_NAME).build()
     }
 }

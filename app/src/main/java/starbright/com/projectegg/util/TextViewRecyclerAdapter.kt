@@ -24,7 +24,7 @@ class TextViewRecyclerAdapter(private val mContext: Context, private val mDataSo
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(mContext)
-                .inflate(R.layout.item_text_only, parent, false)
+            .inflate(R.layout.item_text_only, parent, false)
         return ViewHolder(view)
     }
 

@@ -31,13 +31,13 @@ class AppRemoteDataStore @Inject constructor(private val mRetrofit: Retrofit) : 
 
     override fun getRecipes(ingredients: String): Observable<List<Recipe>> {
         return mRetrofit.create(Service::class.java).getRecipes(ingredients = ingredients, options = HashMap())
-                .map { responses ->
-                    val recipes = ArrayList<Recipe>(responses.size)
-                    for (response in responses) {
-                        recipes.add(Recipe(response))
-                    }
-                    recipes
+            .map { responses ->
+                val recipes = ArrayList<Recipe>(responses.size)
+                for (response in responses) {
+                    recipes.add(Recipe(response))
                 }
+                recipes
+            }
     }
 
     override fun searchIngredient(query: String): Observable<List<Ingredient>> {
@@ -46,18 +46,18 @@ class AppRemoteDataStore @Inject constructor(private val mRetrofit: Retrofit) : 
         queryMap[Constants.QUERY_PARAM_META_INFORMATION_KEY] = true.toString()
         queryMap[Constants.QUERY_PARAM_NUMBER_KEY] = numberOfIngredient.toString()
         return mRetrofit.create(Service::class.java).searchAutocompleteIngredients(query = query, options = queryMap)
-                .map { responses ->
-                    val ingredients = ArrayList<Ingredient>(responses.size)
-                    for (response in responses) {
-                        ingredients.add(Ingredient(response))
-                    }
-                    ingredients
+            .map { responses ->
+                val ingredients = ArrayList<Ingredient>(responses.size)
+                for (response in responses) {
+                    ingredients.add(Ingredient(response))
                 }
+                ingredients
+            }
     }
 
     override fun getRecipeDetailInformation(recipeId: String): Observable<Recipe> {
         return mRetrofit.create(Service::class.java).getRecipeDetailInformation(recipeId = recipeId)
-                .map { recipeDetailResponse -> Recipe(recipeDetailResponse) }
+            .map { recipeDetailResponse -> Recipe(recipeDetailResponse) }
     }
 
     override fun saveDetailInformation(recipe: Recipe) {
@@ -67,22 +67,22 @@ class AppRemoteDataStore @Inject constructor(private val mRetrofit: Retrofit) : 
     private interface Service {
         @GET("recipes/findByIngredients")
         fun getRecipes(
-                @Query(Constants.QUERY_API_KEY) apiKey: String? = BuildConfig.SPOON_KEY,
-                @Query("ingredients") ingredients: String,
-                @QueryMap options: Map<String, String>
+            @Query(Constants.QUERY_API_KEY) apiKey: String? = BuildConfig.SPOON_KEY,
+            @Query("ingredients") ingredients: String,
+            @QueryMap options: Map<String, String>
         ): Observable<List<RecipeResponse>>
 
         @GET("food/ingredients/autocomplete")
         fun searchAutocompleteIngredients(
-                @Query(Constants.QUERY_API_KEY) apiKey: String? = BuildConfig.SPOON_KEY,
-                @Query("query") query: String,
-                @QueryMap options: Map<String, String>
+            @Query(Constants.QUERY_API_KEY) apiKey: String? = BuildConfig.SPOON_KEY,
+            @Query("query") query: String,
+            @QueryMap options: Map<String, String>
         ): Observable<List<IngredientResponse>>
 
         @GET("recipes/{recipeId}/information")
         fun getRecipeDetailInformation(
-                @Query(Constants.QUERY_API_KEY) apiKey: String? = BuildConfig.SPOON_KEY,
-                @Path("recipeId") recipeId: String
+            @Query(Constants.QUERY_API_KEY) apiKey: String? = BuildConfig.SPOON_KEY,
+            @Path("recipeId") recipeId: String
         ): Observable<RecipeDetailResponse>
     }
 }

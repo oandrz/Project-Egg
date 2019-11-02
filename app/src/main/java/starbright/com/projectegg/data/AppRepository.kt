@@ -15,8 +15,8 @@ import javax.inject.Singleton
 
 @Singleton
 class AppRepository @Inject constructor(
-        @LocalData private val appLocalDataStore: AppDataStore,
-        @RemoteData private val appRemoteDataStore: AppDataStore
+    @LocalData private val appLocalDataStore: AppDataStore,
+    @RemoteData private val appRemoteDataStore: AppDataStore
 ) : AppDataStore {
 
     override fun getRecipes(ingredients: String): Observable<List<Recipe>> {
@@ -29,12 +29,12 @@ class AppRepository @Inject constructor(
 
     override fun getRecipeDetailInformation(recipeId: String): Observable<Recipe> {
         return Observable.mergeDelayError(
-                appRemoteDataStore
-                        .getRecipeDetailInformation(recipeId)
-                        .doOnNext { recipe -> appLocalDataStore.saveDetailInformation(recipe) }
-                        .subscribeOn(Schedulers.io()),
-                appLocalDataStore.getRecipeDetailInformation(recipeId)
-                        .subscribeOn(Schedulers.io())
+            appRemoteDataStore
+                .getRecipeDetailInformation(recipeId)
+                .doOnNext { recipe -> appLocalDataStore.saveDetailInformation(recipe) }
+                .subscribeOn(Schedulers.io()),
+            appLocalDataStore.getRecipeDetailInformation(recipeId)
+                .subscribeOn(Schedulers.io())
         )
     }
 

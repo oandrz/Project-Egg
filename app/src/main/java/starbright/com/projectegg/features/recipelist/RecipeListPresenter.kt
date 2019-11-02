@@ -15,10 +15,10 @@ import java.util.*
 import javax.inject.Inject
 
 class RecipeListPresenter @Inject constructor(
-        schedulerProvider: SchedulerProviderContract,
-        compositeDisposable: CompositeDisposable,
-        networkHelper: NetworkHelper,
-        private val mRepository: AppRepository
+    schedulerProvider: SchedulerProviderContract,
+    compositeDisposable: CompositeDisposable,
+    networkHelper: NetworkHelper,
+    private val mRepository: AppRepository
 ) : BasePresenter<RecipeListContract.View>(schedulerProvider, compositeDisposable, networkHelper), RecipeListContract.Presenter {
 
     private var recipes: List<Recipe> = listOf()
@@ -51,17 +51,17 @@ class RecipeListPresenter @Inject constructor(
     private fun getRecipesBasedIngredients(ingredients: String) {
         view.showLoadingBar()
         compositeDisposable.add(
-                mRepository.getRecipes(ingredients)
-                        .subscribeOn(schedulerProvider.computation())
-                        .observeOn(schedulerProvider.ui())
-                        .subscribe({ recipes ->
-                            this.recipes = recipes.toMutableList()
-                            view.hideLoadingBar()
-                            view.bindRecipesToList(recipes.toMutableList())
-                        }, { throwable ->
-                            view.hideLoadingBar()
-                            view.showErrorSnackBar(throwable.message ?: "")
-                        })
+            mRepository.getRecipes(ingredients)
+                .subscribeOn(schedulerProvider.computation())
+                .observeOn(schedulerProvider.ui())
+                .subscribe({ recipes ->
+                    this.recipes = recipes.toMutableList()
+                    view.hideLoadingBar()
+                    view.bindRecipesToList(recipes.toMutableList())
+                }, { throwable ->
+                    view.hideLoadingBar()
+                    view.showErrorSnackBar(throwable.message ?: "")
+                })
         )
     }
 

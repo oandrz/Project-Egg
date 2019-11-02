@@ -8,13 +8,10 @@ import dagger.Component
 import starbright.com.projectegg.dagger.module.FragmentModule
 import starbright.com.projectegg.dagger.scope.FragmentScope
 
-//import starbright.com.projectegg.features.recipelist.RecipeListFragment
-
 @FragmentScope
 @Component(
-        dependencies = [ApplicationComponent::class],
-        modules = [FragmentModule::class]
+    dependencies = [ApplicationComponent::class],
+    modules = [FragmentModule::class]
 )
 interface FragmentComponent {
-//    fun inject(fragment: RecipeListFragment)
 }

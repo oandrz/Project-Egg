@@ -11,9 +11,9 @@ import starbright.com.projectegg.util.scheduler.SchedulerProviderContract
 import javax.net.ssl.HttpsURLConnection
 
 abstract class BasePresenter<V : BaseViewContract>(
-        protected val schedulerProvider: SchedulerProviderContract,
-        protected val compositeDisposable: CompositeDisposable,
-        protected val networkHelper: NetworkHelper
+    protected val schedulerProvider: SchedulerProviderContract,
+    protected val compositeDisposable: CompositeDisposable,
+    protected val networkHelper: NetworkHelper
 ) : BasePresenterContract {
 
     protected lateinit var view: V

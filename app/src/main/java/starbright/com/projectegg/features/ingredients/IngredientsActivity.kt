@@ -37,7 +37,7 @@ import java.util.*
 
 @RuntimePermissions
 class IngredientsActivity : BaseActivity<IngredientsContract.View,
-        IngredientsPresenter>(), IngredientsContract.View {
+    IngredientsPresenter>(), IngredientsContract.View {
 
     private lateinit var searchSuggestionAdapter: IngredientsAdapter
     private lateinit var dialog: MaterialDialog
@@ -61,7 +61,7 @@ class IngredientsActivity : BaseActivity<IngredientsContract.View,
     override fun getLayoutRes(): Int = R.layout.fragment_ingredients
 
     override fun injectDependencies(activityComponent: ActivityComponent) =
-            activityComponent.inject(this)
+        activityComponent.inject(this)
 
     override fun getActivity(): IngredientsContract.View = this
 
@@ -108,11 +108,11 @@ class IngredientsActivity : BaseActivity<IngredientsContract.View,
 
     private fun setupMaterialProgressDialog() {
         dialog = MaterialDialog.Builder(this)
-                .title(R.string.ingredients_dialog_progress_title)
-                .content(R.string.ingredients_dialog_progress_content)
-                .progress(true, 0)
-                .canceledOnTouchOutside(false)
-                .build()
+            .title(R.string.ingredients_dialog_progress_title)
+            .content(R.string.ingredients_dialog_progress_content)
+            .progress(true, 0)
+            .canceledOnTouchOutside(false)
+            .build()
     }
 
     private fun setupImageActionButton() {
@@ -195,32 +195,32 @@ class IngredientsActivity : BaseActivity<IngredientsContract.View,
 
     override fun showItemEmptyToast() {
         Toast.makeText(this, getString(R.string.ingredients_search_empty),
-                Toast.LENGTH_SHORT).show()
+            Toast.LENGTH_SHORT).show()
     }
 
     override fun showItemMaxToast() {
         Toast.makeText(this, getString(R.string.ingredients_cart_error_max),
-                Toast.LENGTH_SHORT).show()
+            Toast.LENGTH_SHORT).show()
     }
 
     override fun showDuplicateItemToast() {
         Toast.makeText(this, getString(R.string.ingredients_cart_error_duplicate),
-                Toast.LENGTH_SHORT).show()
+            Toast.LENGTH_SHORT).show()
     }
 
     override fun showPredictionEmptyToast() {
         Toast.makeText(this, getString(R.string.ingredients_prediction_empty),
-                Toast.LENGTH_SHORT).show()
+            Toast.LENGTH_SHORT).show()
     }
 
     override fun showItemAddedToast() {
         Toast.makeText(this, getString(R.string.ingredients_added_text),
-                Toast.LENGTH_LONG).show()
+            Toast.LENGTH_LONG).show()
     }
 
     override fun showSuccessPutIngredientToast(ingredientName: String) {
         Toast.makeText(this, getString(R.string.ingredients_cart_included_format,
-                ingredientName), Toast.LENGTH_SHORT).show()
+            ingredientName), Toast.LENGTH_SHORT).show()
     }
 
     override fun showMaterialProgressDialog() {
@@ -278,9 +278,9 @@ class IngredientsActivity : BaseActivity<IngredientsContract.View,
 
         if (photoFile != null) {
             val photoURI = FileProvider.getUriForFile(
-                    this,
-                    Constants.PROVIDER_PACKAGE_NAME,
-                    photoFile)
+                this,
+                Constants.PROVIDER_PACKAGE_NAME,
+                photoFile)
             val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
             intent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
             startActivityForResult(intent, CAMERA_REQUEST_CODE)

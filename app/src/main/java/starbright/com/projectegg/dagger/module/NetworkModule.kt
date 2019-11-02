@@ -36,9 +36,9 @@ class NetworkModule {
     @Provides
     @Singleton
     fun provideGson(): Gson = GsonBuilder()
-            .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
-            .setDateFormat("yyyy-MM-dd HH:mm:ss")
-            .create()
+        .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+        .setDateFormat("yyyy-MM-dd HH:mm:ss")
+        .create()
 
     @Provides
     @Singleton
@@ -53,33 +53,33 @@ class NetworkModule {
     @Provides
     @Singleton
     fun provideOkhttpClient(
-            cache: Cache, logInterceptor: HttpLoggingInterceptor
+        cache: Cache, logInterceptor: HttpLoggingInterceptor
     ): OkHttpClient = OkHttpClient.Builder()
-            .addInterceptor(HeaderInterceptor())
-            .addInterceptor(logInterceptor)
-            .readTimeout(60.toLong(), TimeUnit.SECONDS)
-            .writeTimeout(60.toLong(), TimeUnit.SECONDS)
-            .cache(cache)
-            .build()
+        .addInterceptor(HeaderInterceptor())
+        .addInterceptor(logInterceptor)
+        .readTimeout(60.toLong(), TimeUnit.SECONDS)
+        .writeTimeout(60.toLong(), TimeUnit.SECONDS)
+        .cache(cache)
+        .build()
 
     @Provides
     @Singleton
     fun provideRetrofit(gson: Gson, okHttpClient: OkHttpClient): Retrofit =
-            Retrofit.Builder()
-                    .baseUrl(BuildConfig.BASE_URL)
-                    .client(okHttpClient)
-                .addConverterFactory(GsonConverterFactory.create(gson))
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .build()
+        Retrofit.Builder()
+            .baseUrl(BuildConfig.BASE_URL)
+            .client(okHttpClient)
+            .addConverterFactory(GsonConverterFactory.create(gson))
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .build()
 }
 
 private class HeaderInterceptor : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         val request = chain.request()
-                .newBuilder()
-                .addHeader(ACCEPT_HEADER_KEY, "application/json")
-                .addHeader(CACHE_CONTROL_HEADER_KEY, "max-age=120")
-                .build()
+            .newBuilder()
+            .addHeader(ACCEPT_HEADER_KEY, "application/json")
+            .addHeader(CACHE_CONTROL_HEADER_KEY, "max-age=120")
+            .build()
         return chain.proceed(request)
     }
 

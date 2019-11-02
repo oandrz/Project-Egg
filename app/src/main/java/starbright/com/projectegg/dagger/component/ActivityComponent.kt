@@ -12,8 +12,8 @@ import starbright.com.projectegg.features.recipelist.RecipeListActivity
 
 @ActivityScope
 @Component(
-        dependencies = [ApplicationComponent::class],
-        modules = [ActivityModule::class]
+    dependencies = [ApplicationComponent::class],
+    modules = [ActivityModule::class]
 )
 interface ActivityComponent {
     fun inject(activity: RecipeListActivity)

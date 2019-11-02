@@ -34,9 +34,9 @@ abstract class BaseActivity<V : BaseViewContract, P : BasePresenter<V>> : AppCom
     }
 
     private fun buildComponent(): ActivityComponent = DaggerActivityComponent.builder()
-            .applicationComponent((application as MyApp).appComponent)
-            .activityModule(ActivityModule(this))
-            .build()
+        .applicationComponent((application as MyApp).appComponent)
+        .activityModule(ActivityModule(this))
+        .build()
 
     private fun setToolbarIfExist() {
         toolbarBehavior?.buildToolbar()

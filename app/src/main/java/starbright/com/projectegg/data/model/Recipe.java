@@ -1,5 +1,9 @@
 /**
  * Created by Andreas on 7/10/2018.
+ * <p>
+ * Created by Andreas on 29/9/2018.
+ * <p>
+ * Created by Andreas on 29/9/2018.
  */
 
 /**
@@ -119,18 +123,18 @@ public class Recipe {
         mServingCount = response.getServings();
 
         final List<ExtendedIngredientResponse> extendedIngredientResponses =
-                response.getExtendedIngredientResponse();
+            response.getExtendedIngredientResponse();
         mIngredients = new ArrayList<>(extendedIngredientResponses.size());
         for (ExtendedIngredientResponse ingredient : extendedIngredientResponses) {
             mIngredients.add(new Ingredient(ingredient));
         }
 
         final List<StepResponse> stepResponses = response.getAnalyzedInstructions()
-                .get(0).getStepResponse();
+            .get(0).getStepResponse();
         mInstructions = new ArrayList<>(stepResponses.size());
         for (StepResponse stepResponse : stepResponses) {
             mInstructions.add(new Instruction(stepResponse.getNumber(),
-                    stepResponse.getStep()));
+                stepResponse.getStep()));
         }
     }
 

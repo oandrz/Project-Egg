@@ -117,10 +117,10 @@ public class Ingredient implements Parcelable {
         if (o == null || getClass() != o.getClass()) return false;
         Ingredient that = (Ingredient) o;
         return mAmount == that.mAmount &&
-                Objects.equals(mId, that.mId) &&
-                Objects.equals(mName, that.mName) &&
-                Objects.equals(mImageUrl, that.mImageUrl) &&
-                Objects.equals(mUnit, that.mUnit);
+            Objects.equals(mId, that.mId) &&
+            Objects.equals(mName, that.mName) &&
+            Objects.equals(mImageUrl, that.mImageUrl) &&
+            Objects.equals(mUnit, that.mUnit);
     }
 
     @Override

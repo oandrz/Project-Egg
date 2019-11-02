@@ -14,9 +14,9 @@ import starbright.com.projectegg.data.model.Recipe
 import starbright.com.projectegg.util.scheduler.SchedulerProviderContract
 
 class RecipeDetailPresenter(
-        private val mRepository: AppRepository,
-        private val mView: RecipeDetailContract.View,
-        private val mSchedulerProvider: SchedulerProviderContract
+    private val mRepository: AppRepository,
+    private val mView: RecipeDetailContract.View,
+    private val mSchedulerProvider: SchedulerProviderContract
 ) : RecipeDetailContract.Presenter {
     private val mCompositeDisposable: CompositeDisposable
 
@@ -43,27 +43,27 @@ class RecipeDetailPresenter(
             showProgressBar()
         }
         mCompositeDisposable
-                .add(mRepository.getRecipeDetailInformation(recipeId)
-                        .subscribeOn(mSchedulerProvider.computation())
-                        .observeOn(mSchedulerProvider.ui())
-                        .subscribe({ recipe ->
-                            mView.hideProgressBar()
-                            mRecipe = recipe
-                            if (mRecipe != null) {
-                                mView.hideEmptyStateTextView()
-                                updateView()
-                            } else {
-                                mView.renderEmptyStateTextView()
-                            }
-                        }, {
-                            mView.hideProgressBar()
-                            if (mRecipe != null) {
-                                mView.hideEmptyStateTextView()
-                                updateView()
-                            } else {
-                                mView.renderEmptyStateTextView()
-                            }
-                        }))
+            .add(mRepository.getRecipeDetailInformation(recipeId)
+                .subscribeOn(mSchedulerProvider.computation())
+                .observeOn(mSchedulerProvider.ui())
+                .subscribe({ recipe ->
+                    mView.hideProgressBar()
+                    mRecipe = recipe
+                    if (mRecipe != null) {
+                        mView.hideEmptyStateTextView()
+                        updateView()
+                    } else {
+                        mView.renderEmptyStateTextView()
+                    }
+                }, {
+                    mView.hideProgressBar()
+                    if (mRecipe != null) {
+                        mView.hideEmptyStateTextView()
+                        updateView()
+                    } else {
+                        mView.renderEmptyStateTextView()
+                    }
+                }))
     }
 
     override fun handleShareMenuClicked() {
@@ -88,7 +88,7 @@ class RecipeDetailPresenter(
                 showScrollContainer()
                 renderBannerFoodImage(recipe.image)
                 renderHeaderContainer(recipe.servingCount, recipe.preparationMinutes,
-                        recipe.cookingMinutes, recipe.title)
+                    recipe.cookingMinutes, recipe.title)
                 recipe.ingredients?.let { ingredients ->
                     renderIngredientCard(ingredients)
                 }

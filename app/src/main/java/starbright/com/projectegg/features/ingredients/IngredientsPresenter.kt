@@ -21,14 +21,14 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class IngredientsPresenter @Inject constructor(
-        schedulerProvider: SchedulerProviderContract,
-        compositeDisposable: CompositeDisposable,
-        networkHelper: NetworkHelper,
-        private val compressor: Compressor,
-        private val repository: AppRepository,
-        private val clarifaiHelper: ClarifaiHelper
+    schedulerProvider: SchedulerProviderContract,
+    compositeDisposable: CompositeDisposable,
+    networkHelper: NetworkHelper,
+    private val compressor: Compressor,
+    private val repository: AppRepository,
+    private val clarifaiHelper: ClarifaiHelper
 ) : BasePresenter<IngredientsContract.View>(schedulerProvider, compositeDisposable, networkHelper),
-        IngredientsContract.Presenter, ClarifaiHelper.Callback {
+    IngredientsContract.Presenter, ClarifaiHelper.Callback {
 
     private var cart: MutableList<Ingredient> = mutableListOf()
         set(value) {
@@ -99,30 +99,30 @@ class IngredientsPresenter @Inject constructor(
         else if (query.isEmpty() && compositeDisposable.size() > 0) compositeDisposable.clear()
 
         compositeDisposable.add(
-                Observable.just(query)
-                        .debounce(30, TimeUnit.SECONDS)
-                        .filter { it.isNotEmpty() }
-                        .distinctUntilChanged()
-                        .switchMap { repository.searchIngredient(it) }
-                    .subscribeOn(schedulerProvider.io())
-                    .observeOn(schedulerProvider.ui())
-                    .subscribe({ ingredients ->
-                        view.run {
-                            hideSuggestionProgressBar()
-                            hideSoftKeyboard()
-                            if (ingredients.isEmpty()) {
-                                showItemEmptyToast()
-                            }
-                            showActionClear()
-                            showSearchSuggestion(ingredients)
+            Observable.just(query)
+                .debounce(30, TimeUnit.SECONDS)
+                .filter { it.isNotEmpty() }
+                .distinctUntilChanged()
+                .switchMap { repository.searchIngredient(it) }
+                .subscribeOn(schedulerProvider.io())
+                .observeOn(schedulerProvider.ui())
+                .subscribe({ ingredients ->
+                    view.run {
+                        hideSuggestionProgressBar()
+                        hideSoftKeyboard()
+                        if (ingredients.isEmpty()) {
+                            showItemEmptyToast()
                         }
-                    }, {
-                        view.run {
-                            hideSuggestionProgressBar()
-                            hideSearchSuggestion()
-                            handleNetworkError(it)
-                        }
-                    })
+                        showActionClear()
+                        showSearchSuggestion(ingredients)
+                    }
+                }, {
+                    view.run {
+                        hideSuggestionProgressBar()
+                        hideSearchSuggestion()
+                        handleNetworkError(it)
+                    }
+                })
         )
     }
 
@@ -138,8 +138,8 @@ class IngredientsPresenter @Inject constructor(
             } else {
                 ingredients.split(Constants.COMMA.toRegex()).forEach { ingredient ->
                     val isIngredientIncluded: Boolean = cart.asSequence()
-                            .map { it.name }
-                            .any { it == ingredient }
+                        .map { it.name }
+                        .any { it == ingredient }
                     if (!isIngredientIncluded) {
                         cart.add(Ingredient(ingredient))
                     }

@@ -7,4 +7,4 @@ import com.bumptech.glide.annotation.GlideModule;
  */
 
 @GlideModule
-public final class MyGlideModule extends com.bumptech.glide.module.AppGlideModule { }
+public final class MyGlideModule extends com.bumptech.glide.module.AppGlideModule {}
