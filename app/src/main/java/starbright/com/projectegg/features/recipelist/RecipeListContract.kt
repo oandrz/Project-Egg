@@ -12,9 +12,8 @@ import starbright.com.projectegg.features.base.BaseViewContract
 class RecipeListContract {
 
     interface View : BaseViewContract {
-        fun setupRecyclerView()
-
-        fun setupSwipeRefreshLayout()
+        fun setupView()
+        fun provideIngredients(): List<Ingredient>?
 
         fun showLoadingBar()
         fun hideLoadingBar()

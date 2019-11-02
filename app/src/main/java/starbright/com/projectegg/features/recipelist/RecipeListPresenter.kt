@@ -20,24 +20,42 @@ class RecipeListPresenter @Inject constructor(
         networkHelper: NetworkHelper,
         private val mRepository: AppRepository
 ) : BasePresenter<RecipeListContract.View>(schedulerProvider, compositeDisposable, networkHelper), RecipeListContract.Presenter {
+
+    private var recipes: List<Recipe> = listOf()
+    private var ingredients: List<Ingredient> = listOf()
+
     override fun onCreateScreen() {
-        view.setupRecyclerView()
-        view.setupSwipeRefreshLayout()
+        view.let {
+            val ingredients = it.provideIngredients()
+            if (ingredients != null) {
+                this.ingredients = ingredients
+            }
+            it.setupView()
+        }
+        view.setupView()
         getRecipesBasedIngredients(mapIngredients())
     }
 
-    private var mRecipes: List<Recipe> = listOf()
-    private var mIngredients: List<Ingredient> = listOf()
+    override fun handleListItemClicked(position: Int) {
+        view.showDetail(recipes[position].id.toString())
+    }
 
+    override fun handleRefresh() {
+        getRecipesBasedIngredients(mapIngredients())
+    }
 
-    fun getRecipesBasedIngredients(ingredients: String) {
+    override fun setIngredients(ingredients: MutableList<Ingredient>) {
+        this.ingredients = ArrayList(ingredients)
+    }
+
+    private fun getRecipesBasedIngredients(ingredients: String) {
         view.showLoadingBar()
         compositeDisposable.add(
                 mRepository.getRecipes(ingredients)
                         .subscribeOn(schedulerProvider.computation())
                         .observeOn(schedulerProvider.ui())
                         .subscribe({ recipes ->
-                            mRecipes = recipes.toMutableList()
+                            this.recipes = recipes.toMutableList()
                             view.hideLoadingBar()
                             view.bindRecipesToList(recipes.toMutableList())
                         }, { throwable ->
@@ -47,22 +65,10 @@ class RecipeListPresenter @Inject constructor(
         )
     }
 
-    override fun handleListItemClicked(position: Int) {
-        view.showDetail(mRecipes[position].id.toString())
-    }
-
-    override fun handleRefresh() {
-        getRecipesBasedIngredients(mapIngredients())
-    }
-
-    override fun setIngredients(ingredients: MutableList<Ingredient>) {
-        mIngredients = ArrayList(ingredients)
-    }
-
     private fun mapIngredients(): String {
         val stringBuilder = StringBuilder()
-        var ingredientSize = mIngredients.size
-        for (ingredient in mIngredients) {
+        var ingredientSize = ingredients.size
+        for (ingredient in ingredients) {
             stringBuilder.append(ingredient.name)
             ingredientSize--
             if (ingredientSize > 0) {

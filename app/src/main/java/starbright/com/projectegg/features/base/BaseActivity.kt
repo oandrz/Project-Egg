@@ -20,25 +20,32 @@ abstract class BaseActivity<V : BaseViewContract, P : BasePresenter<V>> : AppCom
     @Inject
     lateinit var presenter: P
 
+    private var toolbarBehavior: ToolbarBehavior? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         injectDependencies(buildComponent())
         super.onCreate(savedInstanceState)
         setContentView(getLayoutRes())
+        setToolbarIfExist()
         presenter.run {
             attachView(getActivity())
             onCreateScreen()
         }
     }
 
-    override fun onDestroy() {
-        presenter.onDestroyScreen()
-        super.onDestroy()
-    }
-
     private fun buildComponent(): ActivityComponent = DaggerActivityComponent.builder()
             .applicationComponent((application as MyApp).appComponent)
             .activityModule(ActivityModule(this))
             .build()
+
+    private fun setToolbarIfExist() {
+        toolbarBehavior?.buildToolbar()
+    }
+
+    override fun onDestroy() {
+        presenter.onDestroyScreen()
+        super.onDestroy()
+    }
 
     override fun showError(res: Int?, text: String?) {
         if (res != null) {
@@ -55,6 +62,10 @@ abstract class BaseActivity<V : BaseViewContract, P : BasePresenter<V>> : AppCom
 
     override fun navigateToHome() {
         ///todo: intent to home
+    }
+
+    protected fun setToolbarBehavior(behavior: ToolbarBehavior) {
+        toolbarBehavior = behavior
     }
 
     open fun goBack() = onBackPressed()
