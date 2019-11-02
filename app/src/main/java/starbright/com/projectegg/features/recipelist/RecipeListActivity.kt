@@ -88,7 +88,7 @@ class RecipeListActivity : BaseActivity<RecipeListContract.View, RecipeListPrese
     }
 
     override fun showDetail(recipeId: String) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        print("s")
     }
 
     override fun showErrorSnackBar(errorMessage: String) {
