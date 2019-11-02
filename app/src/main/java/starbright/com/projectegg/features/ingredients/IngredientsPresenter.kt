@@ -120,7 +120,7 @@ class IngredientsPresenter @Inject constructor(
                         view.run {
                             hideSuggestionProgressBar()
                             hideSearchSuggestion()
-                            showItemEmptyToast()
+                            handleNetworkError(it)
                         }
                     })
         )

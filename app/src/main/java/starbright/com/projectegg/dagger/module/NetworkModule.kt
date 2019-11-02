@@ -77,9 +77,14 @@ private class HeaderInterceptor : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         val request = chain.request()
                 .newBuilder()
-                .addHeader("X-Mashape-Key", BuildConfig.SPOON_KEY)
-                .addHeader("Accept", "application/json")
+                .addHeader(ACCEPT_HEADER_KEY, "application/json")
+                .addHeader(CACHE_CONTROL_HEADER_KEY, "max-age=120")
                 .build()
         return chain.proceed(request)
+    }
+
+    companion object {
+        private const val ACCEPT_HEADER_KEY = "Accept"
+        private const val CACHE_CONTROL_HEADER_KEY = "cache-control"
     }
 }

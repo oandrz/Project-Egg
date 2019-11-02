@@ -56,7 +56,6 @@ ext {
     firebaseAuthVersion = '17.0.0'
     materialDialogVersion = '0.9.6.0'
     circleIVVersion = '2.2.0'
-    admobVersion = '17.1.2'
     roomVersion = '1.1.1'
     zeibatsuVersion = '2.1.0'
 }

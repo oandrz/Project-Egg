@@ -34,8 +34,7 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
         buildConfigField "String", "CLARIFAI_KEY", "\"d724362606ac43c39a3a3cee03b85657\""
-        buildConfigField "String", "BASE_URL", "\"https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/\""
-        resValue 'string', 'ADMOB_APP_ID', '\"ca-app-pub-6407679845315648~1210399614\"'
+        buildConfigField "String", "BASE_URL", "\"https://api.spoonacular.com\""
     }
 
     buildTypes {
@@ -44,8 +43,7 @@ android {
             applicationIdSuffix ".debug"
             versionNameSuffix "-debug"
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            buildConfigField 'String', 'SPOON_KEY', '\"jZGKN2hgXcmsh1b8iqQnW4NLHS3fp1wh3IEjsnVj2p24ygMF1X\"'
-            resValue 'string', 'ADMOB_UNIT_ID', '\"ca-app-pub-3940256099942544/6300978111\"'
+            buildConfigField 'String', 'SPOON_KEY', '\"c14f35c6748443ef89c645e7a09404c7\"'
             resValue 'string', 'app_name', '\"Recipescope-Debug\"'
         }
 
@@ -56,8 +54,7 @@ android {
             debuggable false
             signingConfig signingConfigs.config
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            buildConfigField 'String', 'SPOON_KEY', '\"jZGKN2hgXcmsh1b8iqQnW4NLHS3fp1wh3IEjsnVj2p24ygMF1X\"'
-            resValue 'string', 'ADMOB_UNIT_ID', '\"ca-app-pub-6407679845315648/6183183094\"'
+            buildConfigField 'String', 'SPOON_KEY', '\"c14f35c6748443ef89c645e7a09404c7\"'
             resValue 'string', 'app_name', '\"Recipescope\"'
         }
     }
@@ -124,9 +121,6 @@ dependencies {
 
     //Circle Image View
     implementation "de.hdodenhof:circleimageview:$rootProject.ext.circleIVVersion"
-
-    //Google Play Service : Admob
-    implementation "com.google.android.gms:play-services-ads:$rootProject.ext.admobVersion"
 
     //Zeibatsu Compressor
     implementation "id.zelory:compressor:$rootProject.ext.zeibatsuVersion"
