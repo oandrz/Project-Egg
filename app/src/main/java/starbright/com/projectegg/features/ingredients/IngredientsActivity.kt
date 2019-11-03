@@ -63,7 +63,7 @@ class IngredientsActivity : BaseActivity<IngredientsContract.View,
     override fun injectDependencies(activityComponent: ActivityComponent) =
         activityComponent.inject(this)
 
-    override fun getActivity(): IngredientsContract.View = this
+    override fun getView(): IngredientsContract.View = this
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

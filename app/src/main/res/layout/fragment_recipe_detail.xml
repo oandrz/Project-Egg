@@ -1,23 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?><!--~
   ~ Created by Andreas on 5/10/2019.
   -->
-
-<!--~
-  ~ Created by Andreas on 29/9/2018.
-  -->
-
-<!--~
-  ~ Created by Andreas on 22/9/2018.
-  -->
-
-<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/swipe_refresh_container"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <FrameLayout
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorPrimary"
+            android:minHeight="?attr/actionBarSize"
+            android:theme="@style/Toolbar"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_refresh_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -59,16 +65,16 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/line_size"
                         android:layout_below="@id/tv_recipe_title"
-                        android:layout_marginBottom="@dimen/space_normal"
                         android:layout_marginTop="@dimen/space_normal"
+                        android:layout_marginBottom="@dimen/space_normal"
                         android:background="@color/white" />
 
                     <LinearLayout
                         android:id="@+id/container_serving"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentStart="true"
                         android:layout_below="@id/divider"
+                        android:layout_alignParentStart="true"
                         android:layout_marginStart="@dimen/space_large"
                         android:gravity="center_horizontal"
                         android:orientation="vertical">
@@ -124,8 +130,8 @@
                         android:id="@+id/container_cooking_time"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
                         android:layout_below="@id/divider"
+                        android:layout_alignParentEnd="true"
                         android:layout_marginEnd="@dimen/space_large"
                         android:gravity="center_horizontal"
                         android:orientation="vertical">
@@ -169,8 +175,8 @@
                             style="@style/TitleFontRed"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:drawablePadding="@dimen/space_normal"
                             android:drawableStart="@drawable/ic_shopping_basket"
+                            android:drawablePadding="@dimen/space_normal"
                             android:gravity="center_vertical"
                             android:text="@string/detail.ingredient.label" />
 
@@ -201,8 +207,8 @@
                             style="@style/TitleFontRed"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:drawablePadding="@dimen/space_normal"
                             android:drawableStart="@drawable/ic_local_dining"
+                            android:drawablePadding="@dimen/space_normal"
                             android:gravity="center_vertical"
                             android:text="@string/detail.instruction.label" />
 
@@ -220,8 +226,8 @@
             android:id="@+id/tv_empty_text"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:gravity="center"
             android:text="@string/detail.empty.label"
-            android:visibility="gone"
-            android:gravity="center" />
-    </FrameLayout>
-</android.support.v4.widget.SwipeRefreshLayout>
+            android:visibility="gone" />
+    </android.support.v4.widget.SwipeRefreshLayout>
+</LinearLayout>

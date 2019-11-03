@@ -81,8 +81,8 @@ class AppRemoteDataStore @Inject constructor(private val mRetrofit: Retrofit) : 
 
         @GET("recipes/{recipeId}/information")
         fun getRecipeDetailInformation(
-            @Query(Constants.QUERY_API_KEY) apiKey: String? = BuildConfig.SPOON_KEY,
-            @Path("recipeId") recipeId: String
+            @Path("recipeId") recipeId: String,
+            @Query(Constants.QUERY_API_KEY) apiKey: String? = BuildConfig.SPOON_KEY
         ): Observable<RecipeDetailResponse>
     }
 }

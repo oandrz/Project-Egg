@@ -18,6 +18,7 @@ import starbright.com.projectegg.data.model.Ingredient
 import starbright.com.projectegg.data.model.Recipe
 import starbright.com.projectegg.features.base.BaseActivity
 import starbright.com.projectegg.features.base.NormalToolbar
+import starbright.com.projectegg.features.detail.RecipeDetailActivity
 import java.lang.ref.WeakReference
 import java.util.*
 
@@ -38,7 +39,7 @@ class RecipeListActivity : BaseActivity<RecipeListContract.View, RecipeListPrese
     override fun injectDependencies(activityComponent: ActivityComponent) =
         activityComponent.inject(this)
 
-    override fun getActivity(): RecipeListContract.View = this
+    override fun getView(): RecipeListContract.View = this
 
     override fun setupView() {
         setupSwipeRefreshLayout()
@@ -88,7 +89,7 @@ class RecipeListActivity : BaseActivity<RecipeListContract.View, RecipeListPrese
     }
 
     override fun showDetail(recipeId: String) {
-        print("s")
+        startActivity(RecipeDetailActivity.getIntent(this, recipeId))
     }
 
     override fun showErrorSnackBar(errorMessage: String) {
@@ -96,7 +97,6 @@ class RecipeListActivity : BaseActivity<RecipeListContract.View, RecipeListPrese
     }
 
     companion object {
-        private const val RECIPE_LIST_FRAGMENT_TAG = "RECIPE_LIST_FRAGMENT_TAG"
         private const val INGREDIENT_EXTRA_KEY = "INGREDIENT_EXTRA_KEY"
 
         fun newIntent(context: Context, ingredients: List<Ingredient>): Intent {

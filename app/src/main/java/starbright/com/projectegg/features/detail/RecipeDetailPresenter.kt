@@ -11,64 +11,56 @@ package starbright.com.projectegg.features.detail
 import io.reactivex.disposables.CompositeDisposable
 import starbright.com.projectegg.data.AppRepository
 import starbright.com.projectegg.data.model.Recipe
+import starbright.com.projectegg.features.base.BasePresenter
+import starbright.com.projectegg.util.NetworkHelper
 import starbright.com.projectegg.util.scheduler.SchedulerProviderContract
+import javax.inject.Inject
 
-class RecipeDetailPresenter(
-    private val mRepository: AppRepository,
-    private val mView: RecipeDetailContract.View,
-    private val mSchedulerProvider: SchedulerProviderContract
-) : RecipeDetailContract.Presenter {
-    private val mCompositeDisposable: CompositeDisposable
+class RecipeDetailPresenter @Inject constructor(
+    schedulerProvider: SchedulerProviderContract,
+    compositeDisposable: CompositeDisposable,
+    networkHelper: NetworkHelper,
+    private val repository: AppRepository
+) : BasePresenter<RecipeDetailContract.View>(schedulerProvider, compositeDisposable, networkHelper), RecipeDetailContract.Presenter {
 
-    private lateinit var mRecipeId: String
     private var mRecipe: Recipe? = null
 
-    init {
-//        mView.setPresenter(this)
-        mCompositeDisposable = CompositeDisposable()
-    }
-//
-//    override fun start() {
-//        mView.setupSwipeRefreshLayout()
-//        getRecipeDetailInformation(mRecipeId)
-//    }
-
-    override fun setRecipeId(recipeId: String) {
-        mRecipeId = recipeId
+    override fun onCreateScreen() {
+        view.setupSwipeRefreshLayout()
     }
 
     override fun getRecipeDetailInformation(recipeId: String) {
-        mView.apply {
+        view.run {
             hideScrollContainer()
             showProgressBar()
         }
-        mCompositeDisposable
-            .add(mRepository.getRecipeDetailInformation(recipeId)
-                .subscribeOn(mSchedulerProvider.computation())
-                .observeOn(mSchedulerProvider.ui())
+        compositeDisposable
+            .add(repository.getRecipeDetailInformation(recipeId)
+                .subscribeOn(schedulerProvider.computation())
+                .observeOn(schedulerProvider.ui())
                 .subscribe({ recipe ->
-                    mView.hideProgressBar()
+                    view.hideProgressBar()
                     mRecipe = recipe
                     if (mRecipe != null) {
-                        mView.hideEmptyStateTextView()
+                        view.hideEmptyStateTextView()
                         updateView()
                     } else {
-                        mView.renderEmptyStateTextView()
+                        view.renderEmptyStateTextView()
                     }
                 }, {
-                    mView.hideProgressBar()
+                    view.hideProgressBar()
                     if (mRecipe != null) {
-                        mView.hideEmptyStateTextView()
+                        view.hideEmptyStateTextView()
                         updateView()
                     } else {
-                        mView.renderEmptyStateTextView()
+                        view.renderEmptyStateTextView()
                     }
                 }))
     }
 
     override fun handleShareMenuClicked() {
         if (mRecipe != null && mRecipe!!.sourceStringUrl != null) {
-            mView.createShareIntent(mRecipe!!.sourceStringUrl!!, mRecipe!!.title)
+            view.createShareIntent(mRecipe!!.sourceStringUrl!!, mRecipe!!.title)
         } else {
             //todo: show toast
         }
@@ -76,7 +68,7 @@ class RecipeDetailPresenter(
 
     override fun handleWebViewMenuClicked() {
         if (mRecipe != null && mRecipe!!.sourceStringUrl != null) {
-            mView.navigateToWebViewActivity(mRecipe!!.sourceStringUrl!!)
+            view.navigateToWebViewActivity(mRecipe!!.sourceStringUrl!!)
         } else {
             //todo: show toast
         }
@@ -84,7 +76,7 @@ class RecipeDetailPresenter(
 
     private fun updateView() {
         mRecipe?.let { recipe ->
-            with(mView) {
+            with(view) {
                 showScrollContainer()
                 renderBannerFoodImage(recipe.image)
                 renderHeaderContainer(recipe.servingCount, recipe.preparationMinutes,

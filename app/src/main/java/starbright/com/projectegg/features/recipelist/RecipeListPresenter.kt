@@ -32,7 +32,6 @@ class RecipeListPresenter @Inject constructor(
             }
             it.setupView()
         }
-        view.setupView()
         getRecipesBasedIngredients(mapIngredients())
     }
 

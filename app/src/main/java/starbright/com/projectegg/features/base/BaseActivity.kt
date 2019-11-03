@@ -28,7 +28,7 @@ abstract class BaseActivity<V : BaseViewContract, P : BasePresenter<V>> : AppCom
         setContentView(getLayoutRes())
         setToolbarIfExist()
         presenter.run {
-            attachView(getActivity())
+            attachView(getView())
             onCreateScreen()
         }
     }
@@ -73,7 +73,7 @@ abstract class BaseActivity<V : BaseViewContract, P : BasePresenter<V>> : AppCom
     @LayoutRes
     protected abstract fun getLayoutRes(): Int
 
-    protected abstract fun getActivity(): V
+    protected abstract fun getView(): V
 
     protected abstract fun injectDependencies(activityComponent: ActivityComponent)
 }
