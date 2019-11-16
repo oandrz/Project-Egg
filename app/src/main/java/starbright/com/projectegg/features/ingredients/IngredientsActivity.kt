@@ -215,7 +215,7 @@ class IngredientsActivity : BaseActivity<IngredientsContract.View,
 
     override fun showItemAddedToast() {
         Toast.makeText(this, getString(R.string.ingredients_added_text),
-            Toast.LENGTH_LONG).show()
+            Toast.LENGTH_SHORT).show()
     }
 
     override fun showSuccessPutIngredientToast(ingredientName: String) {

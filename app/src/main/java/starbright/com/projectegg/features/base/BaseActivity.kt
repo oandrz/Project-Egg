@@ -43,9 +43,9 @@ abstract class BaseActivity<V : BaseViewContract, P : BasePresenter<V>> : AppCom
         toolbarBehavior?.buildToolbar()
     }
 
-    override fun onStop() {
+    override fun onDestroy() {
         presenter.onStopScreen()
-        super.onStop()
+        super.onDestroy()
     }
 
     override fun showError(res: Int?, text: String?) {

@@ -4,7 +4,6 @@
 
 package starbright.com.projectegg.features.ingredients
 
-import android.net.Uri
 import id.zelory.compressor.Compressor
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
@@ -12,8 +11,8 @@ import starbright.com.projectegg.R
 import starbright.com.projectegg.data.AppRepository
 import starbright.com.projectegg.data.model.Ingredient
 import starbright.com.projectegg.features.base.BasePresenter
-import starbright.com.projectegg.util.ClarifaiHelper
 import starbright.com.projectegg.util.Constants
+import starbright.com.projectegg.util.IngredientRecognizer
 import starbright.com.projectegg.util.NetworkHelper
 import starbright.com.projectegg.util.scheduler.SchedulerProviderContract
 import java.io.File
@@ -26,9 +25,9 @@ class IngredientsPresenter @Inject constructor(
     networkHelper: NetworkHelper,
     private val compressor: Compressor,
     private val repository: AppRepository,
-    private val clarifaiHelper: ClarifaiHelper
+    private val ingredientRecognizer: IngredientRecognizer
 ) : BasePresenter<IngredientsContract.View>(schedulerProvider, compositeDisposable, networkHelper),
-    IngredientsContract.Presenter, ClarifaiHelper.Callback {
+    IngredientsContract.Presenter {
 
     private var cart: MutableList<Ingredient> = mutableListOf()
         set(value) {
@@ -128,34 +127,30 @@ class IngredientsPresenter @Inject constructor(
 
     override fun handleCameraResult(filePath: String) {
         view.showMaterialProgressDialog()
-        clarifaiHelper.predict(Uri.fromFile(compressor.compressToFile(File(filePath))), this)
-    }
-
-    override fun onPredictionCompleted(ingredients: String) {
-        view.run {
-            if (ingredients.isEmpty()) {
-                showPredictionEmptyToast()
-            } else {
-                ingredients.split(Constants.COMMA.toRegex()).forEach { ingredient ->
-                    val isIngredientIncluded: Boolean = cart.asSequence()
-                        .map { it.name }
-                        .any { it == ingredient }
-                    if (!isIngredientIncluded) {
-                        cart.add(Ingredient(ingredient))
+        ingredientRecognizer.predict(compressor.compressToFile(File(filePath)), {
+            view.run {
+                hideMaterialProgressDialog()
+                if (it.isEmpty()) {
+                    showPredictionEmptyToast()
+                } else {
+                    it.split(Constants.COMMA.toRegex()).forEach { ingredient ->
+                        val isIngredientIncluded: Boolean = cart.asSequence()
+                            .map { it.name }
+                            .any { it == ingredient }
+                        if (!isIngredientIncluded) {
+                            cart.add(Ingredient(ingredient))
+                        }
                     }
+                    updateIngredientCount(cart.size)
+                    showItemAddedToast()
                 }
-                updateIngredientCount(cart.size)
-                showItemAddedToast()
             }
-            hideMaterialProgressDialog()
-        }
-    }
-
-    override fun onPredictionFailed() {
-        view.run {
-            hideMaterialProgressDialog()
-            showPredictionEmptyToast()
-        }
+        }, {
+            view.run {
+                hideMaterialProgressDialog()
+                showPredictionEmptyToast()
+            }
+        })
     }
 
     companion object {

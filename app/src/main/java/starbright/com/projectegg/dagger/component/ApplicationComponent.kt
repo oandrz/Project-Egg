@@ -7,6 +7,7 @@ package starbright.com.projectegg.dagger.component
 import dagger.Component
 import id.zelory.compressor.Compressor
 import io.reactivex.disposables.CompositeDisposable
+import okhttp3.OkHttpClient
 import starbright.com.projectegg.dagger.module.AppModule
 import starbright.com.projectegg.dagger.module.DataStoreModule
 import starbright.com.projectegg.dagger.module.NetworkModule
@@ -29,4 +30,5 @@ interface ApplicationComponent {
     fun getCompressor(): Compressor
     fun getNetworkHelper(): NetworkHelper
     fun getAppRepository(): AppRepository
+    fun getClient(): OkHttpClient
 }

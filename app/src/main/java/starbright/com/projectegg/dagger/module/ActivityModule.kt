@@ -6,14 +6,15 @@ package starbright.com.projectegg.dagger.module
 
 import dagger.Module
 import dagger.Provides
+import okhttp3.OkHttpClient
 import starbright.com.projectegg.features.base.BaseActivity
-import starbright.com.projectegg.util.ClarifaiHelper
+import starbright.com.projectegg.util.IngredientRecognizer
 
 @Module
 class ActivityModule(private val activity: BaseActivity<*, *>) {
 
     @Provides
-    fun providesClarifaiHelper(): ClarifaiHelper {
-        return ClarifaiHelper(activity)
+    fun providesClarifaiHelper(client: OkHttpClient): IngredientRecognizer {
+        return IngredientRecognizer(client)
     }
 }
