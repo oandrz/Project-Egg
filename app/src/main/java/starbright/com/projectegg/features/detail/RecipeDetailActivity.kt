@@ -14,6 +14,7 @@ import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
+import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import kotlinx.android.synthetic.main.fragment_recipe_detail.*
 import starbright.com.projectegg.R
@@ -45,6 +46,11 @@ class RecipeDetailActivity : BaseActivity<RecipeDetailContract.View, RecipeDetai
         ))
         super.onCreate(savedInstanceState)
         presenter.getRecipeDetailInformation(recipeId)
+    }
+
+    override fun onStop() {
+        Glide.with(this).clear(img_banner_food)
+        super.onStop()
     }
 
     override fun showProgressBar() {

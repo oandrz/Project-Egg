@@ -7,6 +7,7 @@ package starbright.com.projectegg.features.base
 import android.os.Bundle
 import android.support.annotation.LayoutRes
 import android.support.v7.app.AppCompatActivity
+import android.view.MenuItem
 import android.widget.Toast
 
 import starbright.com.projectegg.MyApp
@@ -42,9 +43,9 @@ abstract class BaseActivity<V : BaseViewContract, P : BasePresenter<V>> : AppCom
         toolbarBehavior?.buildToolbar()
     }
 
-    override fun onDestroy() {
-        presenter.onDestroyScreen()
-        super.onDestroy()
+    override fun onStop() {
+        presenter.onStopScreen()
+        super.onStop()
     }
 
     override fun showError(res: Int?, text: String?) {
@@ -58,6 +59,13 @@ abstract class BaseActivity<V : BaseViewContract, P : BasePresenter<V>> : AppCom
     override fun onBackPressed() {
         if (supportFragmentManager.backStackEntryCount > 0) supportFragmentManager.popBackStackImmediate()
         else super.onBackPressed()
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item?.itemId) {
+            android.R.id.home -> finish()
+        }
+        return true
     }
 
     override fun navigateToHome() {

@@ -13,5 +13,5 @@ interface BaseViewContract {
 
 interface BasePresenterContract {
     fun onCreateScreen()
-    fun onDestroyScreen()
+    fun onStopScreen()
 }

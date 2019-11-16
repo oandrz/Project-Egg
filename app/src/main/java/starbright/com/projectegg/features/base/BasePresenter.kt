@@ -18,7 +18,7 @@ abstract class BasePresenter<V : BaseViewContract>(
 
     protected lateinit var view: V
 
-    override fun onDestroyScreen() {
+    override fun onStopScreen() {
         unSubscribe()
     }
 

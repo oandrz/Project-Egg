@@ -27,9 +27,7 @@ class AppModule(private val application: Application) {
 
     @Provides
     @Singleton
-    fun providesSchedulerComposer(): SchedulerProviderContract {
-        return SchedulerProvider.getInstance()
-    }
+    fun providesNetworkHelper(): NetworkHelper = NetworkHelper(application)
 
     @Provides
     @Singleton
@@ -38,12 +36,12 @@ class AppModule(private val application: Application) {
     }
 
     @Provides
-    @Singleton
     fun providesCompositeDiposable(): CompositeDisposable {
         return CompositeDisposable()
     }
 
     @Provides
-    @Singleton
-    fun providesNetworkHelper(): NetworkHelper = NetworkHelper(application)
+    fun providesSchedulerComposer(): SchedulerProviderContract {
+        return SchedulerProvider.getInstance()
+    }
 }
