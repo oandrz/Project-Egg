@@ -8,7 +8,6 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
-import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
 import android.support.v4.content.FileProvider
@@ -64,11 +63,6 @@ class IngredientsActivity : BaseActivity<IngredientsContract.View,
         activityComponent.inject(this)
 
     override fun getView(): IngredientsContract.View = this
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        presenter.attachView(this)
-    }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -158,7 +152,7 @@ class IngredientsActivity : BaseActivity<IngredientsContract.View,
         startCameraIntentWithPermissionCheck()
     }
 
-    override fun showSearchSuggestion(ingredients: List<Ingredient>) {
+    override fun updateSuggestion(ingredients: List<Ingredient>) {
         rv_ingredients.visibility = View.VISIBLE
         searchSuggestionAdapter.setIngredients(ingredients)
     }

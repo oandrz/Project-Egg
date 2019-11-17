@@ -74,7 +74,7 @@ class IngredientsPresenter @Inject constructor(
     override fun handleSuggestionItemClicked(ingredient: Ingredient) {
         view.run {
             when {
-                cart.size == MAX_INGREDIENTS_IN_CART -> showItemMaxToast()
+                cart.size >= MAX_INGREDIENTS_IN_CART -> showItemMaxToast()
                 cart.contains(ingredient) -> showDuplicateItemToast()
                 else -> {
                     showSuccessPutIngredientToast(ingredient.name)
@@ -113,7 +113,7 @@ class IngredientsPresenter @Inject constructor(
                             showItemEmptyToast()
                         }
                         showActionClear()
-                        showSearchSuggestion(ingredients)
+                        updateSuggestion(ingredients)
                     }
                 }, {
                     view.run {

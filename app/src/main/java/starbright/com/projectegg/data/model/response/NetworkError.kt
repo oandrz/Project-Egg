@@ -8,13 +8,13 @@ import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
 data class NetworkError(
-        @Expose
-        @SerializedName("status")
-        val status: String = "failed",
-        @Expose
-        @SerializedName("code")
-        val statusCode: Int = -1,
-        @Expose
-        @SerializedName("message")
-        val message: String = "failed"
+    @Expose
+    @SerializedName("status")
+    val status: String = "failed",
+    @Expose
+    @SerializedName("code")
+    val statusCode: Int = -1,
+    @Expose
+    @SerializedName("message")
+    val message: String = "failed"
 )

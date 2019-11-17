@@ -16,7 +16,7 @@ class IngredientsContract {
         fun clearEtSearchQuery()
         fun openCamera()
 
-        fun showSearchSuggestion(ingredients: List<Ingredient>)
+        fun updateSuggestion(ingredients: List<Ingredient>)
         fun hideSearchSuggestion()
 
         fun showActionCamera()
