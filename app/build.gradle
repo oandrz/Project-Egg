@@ -127,10 +127,10 @@ dependencies {
     kapt "android.arch.persistence.room:compiler:$rootProject.ext.roomVersion"
 
     // Unit Test
-    testImplementation "junit:junit:$rootProject.ext.jUnitVersion"
-    androidTestImplementation 'com.android.support.test:runner:1.0.1'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:2.2.2'
-    provided 'javax.annotation:jsr250-api:1.0'
-    provided 'org.glassfish:javax.annotation:10.0-b28'
+    testImplementation "junit:junit:$junitVersion"
+    testImplementation "org.mockito:mockito-core:$mockitoVersion"
+    kaptTest "com.google.dagger:dagger-compiler:$daggerVersion"
+    testImplementation "android.arch.core:core-testing:$coreTestingVersion"
+    testImplementation "org.hamcrest:hamcrest-library:$hamcrestVersion"
 }
 apply plugin: 'com.google.gms.google-services'

@@ -57,4 +57,12 @@ ext {
     circleIVVersion = '2.2.0'
     roomVersion = '1.1.1'
     zeibatsuVersion = '2.1.0'
+
+    junitVersion = '4.12'
+    espressoVersion = '3.1.0'
+    mockitoVersion = '2.7.1'
+    coreTestingVersion = '1.1.1'
+    testRunnerVersion = '1.1.1'
+    testExtRunnerVersion = '1.1.0'
+    hamcrestVersion = '2.1'
 }
