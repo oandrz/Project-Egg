@@ -5,13 +5,13 @@
 package starbright.com.projectegg.features.recipelist
 
 import io.reactivex.disposables.CompositeDisposable
+import starbright.com.projectegg.R
 import starbright.com.projectegg.data.AppRepository
 import starbright.com.projectegg.data.model.Ingredient
 import starbright.com.projectegg.data.model.Recipe
 import starbright.com.projectegg.features.base.BasePresenter
 import starbright.com.projectegg.util.NetworkHelper
 import starbright.com.projectegg.util.scheduler.SchedulerProviderContract
-import java.util.*
 import javax.inject.Inject
 
 class RecipeListPresenter @Inject constructor(
@@ -44,14 +44,15 @@ class RecipeListPresenter @Inject constructor(
     }
 
     override fun setIngredients(ingredients: MutableList<Ingredient>) {
-        this.ingredients = ArrayList(ingredients)
+        this.ingredients = ingredients
     }
 
     private fun getRecipesBasedIngredients(ingredients: String) {
+        if (!isConnectedToInternet()) view.showError(R.string.server_connection_error)
         view.showLoadingBar()
         compositeDisposable.add(
             mRepository.getRecipes(ingredients)
-                .subscribeOn(schedulerProvider.computation())
+                .subscribeOn(schedulerProvider.io())
                 .observeOn(schedulerProvider.ui())
                 .subscribe({ recipes ->
                     this.recipes = recipes.toMutableList()
