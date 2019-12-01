@@ -4,24 +4,19 @@
 
 package starbright.com.projectegg.features.ingredients
 
-import starbright.com.projectegg.data.local.model.Ingredient
-import starbright.com.projectegg.features.base.BasePresenter
+import starbright.com.projectegg.data.model.Ingredient
+import starbright.com.projectegg.features.base.BasePresenterContract
+import starbright.com.projectegg.features.base.BaseViewContract
 
-internal class IngredientsContract {
+class IngredientsContract {
 
-    internal interface View {
-        fun setupEtSearchIngredients()
-        fun setupRvIngredientSuggestion()
-        fun setupMaterialProgressDialog()
-        fun setupBottomSheetDialogFragment()
-        fun setupImageActionButton()
-        fun setupTvCartCount()
-        fun setupMoreButton()
+    interface View : BaseViewContract {
+        fun setupView()
 
         fun clearEtSearchQuery()
         fun openCamera()
 
-        fun showSearchSuggestion(ingredients: List<Ingredient>)
+        fun updateSuggestion(ingredients: List<Ingredient>)
         fun hideSearchSuggestion()
 
         fun showActionCamera()
@@ -43,16 +38,16 @@ internal class IngredientsContract {
         fun showMaterialProgressDialog()
         fun hideMaterialProgressDialog()
 
-        fun showBottomSheetDialog()
-
-        fun setCartItem(cart: MutableList<Ingredient>)
+        fun showBottomSheetDialog(cart: MutableList<Ingredient>)
 
         fun updateIngredientCount(count: Int)
 
         fun hideSoftKeyboard()
+
+        fun navigateToRecipeList(cart: List<Ingredient>)
     }
 
-    internal interface Presenter : BasePresenter {
+    interface Presenter : BasePresenterContract {
         fun handleActionButtonClicked(query: String)
         fun handleCartTvClicked()
 
@@ -60,7 +55,9 @@ internal class IngredientsContract {
         fun handleSuggestionItemClicked(ingredient: Ingredient)
         fun handleCameraResult(filePath: String)
 
+        fun handleSubmitButtonClicked()
+        fun handleItemRemovedFromCart()
+
         fun searchIngredient(query: String)
-        fun onDestroy()
     }
 }

@@ -5,65 +5,86 @@
 package starbright.com.projectegg.dagger.module
 
 import android.content.Context
-
 import com.google.gson.FieldNamingPolicy
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-
-import javax.inject.Singleton
-
 import dagger.Module
 import dagger.Provides
 import okhttp3.Cache
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
+import okhttp3.Response
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import starbright.com.projectegg.BuildConfig
 import starbright.com.projectegg.dagger.qualifier.ApplicationContext
+import java.util.concurrent.TimeUnit
+import javax.inject.Singleton
 
 @Module
 class NetworkModule {
 
     @Provides
     @Singleton
-    internal fun provideHttpCache(@ApplicationContext context: Context): Cache {
+    fun provideHttpCache(@ApplicationContext context: Context): Cache {
         val cacheSize = 10 * 1024 * 1024
         return Cache(context.cacheDir, cacheSize.toLong())
     }
 
     @Provides
     @Singleton
-    internal fun provideGson(): Gson {
-        val gsonBuilder = GsonBuilder()
-        gsonBuilder.setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
-        return gsonBuilder.create()
-    }
+    fun provideGson(): Gson = GsonBuilder()
+        .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+        .setDateFormat("yyyy-MM-dd HH:mm:ss")
+        .create()
 
     @Provides
     @Singleton
-    internal fun provideOkhttpClient(cache: Cache): OkHttpClient {
-        val client = OkHttpClient.Builder()
-        client.addInterceptor { chain ->
-            var request = chain.request()
-            request = request.newBuilder()
-                    .addHeader("X-Mashape-Key", BuildConfig.SPOON_KEY)
-                    .addHeader("Accept", "application/json")
-                    .build()
-            chain.proceed(request)
+    fun provideHttpLogging(): HttpLoggingInterceptor = HttpLoggingInterceptor().apply {
+        level = if (BuildConfig.DEBUG) {
+            HttpLoggingInterceptor.Level.BODY
+        } else {
+            HttpLoggingInterceptor.Level.NONE
         }
-        client.cache(cache)
-        return client.build()
     }
 
     @Provides
     @Singleton
-    internal fun provideRetrofit(gson: Gson, okHttpClient: OkHttpClient): Retrofit {
-        return Retrofit.Builder()
-                .addConverterFactory(GsonConverterFactory.create(gson))
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .baseUrl(BuildConfig.BASE_URL)
-                .client(okHttpClient)
-                .build()
+    fun provideOkhttpClient(
+        cache: Cache, logInterceptor: HttpLoggingInterceptor
+    ): OkHttpClient = OkHttpClient.Builder()
+        .addInterceptor(HeaderInterceptor())
+        .addInterceptor(logInterceptor)
+        .readTimeout(60.toLong(), TimeUnit.SECONDS)
+        .writeTimeout(60.toLong(), TimeUnit.SECONDS)
+        .cache(cache)
+        .build()
+
+    @Provides
+    @Singleton
+    fun provideRetrofit(gson: Gson, okHttpClient: OkHttpClient): Retrofit =
+        Retrofit.Builder()
+            .baseUrl(BuildConfig.BASE_URL)
+            .client(okHttpClient)
+            .addConverterFactory(GsonConverterFactory.create(gson))
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .build()
+}
+
+private class HeaderInterceptor : Interceptor {
+    override fun intercept(chain: Interceptor.Chain): Response {
+        val request = chain.request()
+            .newBuilder()
+            .addHeader(ACCEPT_HEADER_KEY, "application/json")
+            .addHeader(CACHE_CONTROL_HEADER_KEY, "max-age=120")
+            .build()
+        return chain.proceed(request)
+    }
+
+    companion object {
+        private const val ACCEPT_HEADER_KEY = "Accept"
+        private const val CACHE_CONTROL_HEADER_KEY = "cache-control"
     }
 }

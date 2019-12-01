@@ -34,8 +34,7 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
         buildConfigField "String", "CLARIFAI_KEY", "\"d724362606ac43c39a3a3cee03b85657\""
-        buildConfigField "String", "BASE_URL", "\"https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/\""
-        resValue 'string', 'ADMOB_APP_ID', '\"ca-app-pub-6407679845315648~1210399614\"'
+        buildConfigField "String", "BASE_URL", "\"https://api.spoonacular.com\""
     }
 
     buildTypes {
@@ -44,8 +43,7 @@ android {
             applicationIdSuffix ".debug"
             versionNameSuffix "-debug"
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            buildConfigField 'String', 'SPOON_KEY', '\"jZGKN2hgXcmsh1b8iqQnW4NLHS3fp1wh3IEjsnVj2p24ygMF1X\"'
-            resValue 'string', 'ADMOB_UNIT_ID', '\"ca-app-pub-3940256099942544/6300978111\"'
+            buildConfigField 'String', 'SPOON_KEY', '\"c14f35c6748443ef89c645e7a09404c7\"'
             resValue 'string', 'app_name', '\"Recipescope-Debug\"'
         }
 
@@ -56,8 +54,7 @@ android {
             debuggable false
             signingConfig signingConfigs.config
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            buildConfigField 'String', 'SPOON_KEY', '\"jZGKN2hgXcmsh1b8iqQnW4NLHS3fp1wh3IEjsnVj2p24ygMF1X\"'
-            resValue 'string', 'ADMOB_UNIT_ID', '\"ca-app-pub-6407679845315648/6183183094\"'
+            buildConfigField 'String', 'SPOON_KEY', '\"c14f35c6748443ef89c645e7a09404c7\"'
             resValue 'string', 'app_name', '\"Recipescope\"'
         }
     }
@@ -80,28 +77,24 @@ dependencies {
     implementation "com.android.support:recyclerview-v7:$rootProject.ext.supportLibraryVersion"
     implementation "com.android.support:support-v4:$rootProject.ext.supportLibraryVersion"
 
-    //Butterknife
-    implementation "com.jakewharton:butterknife:$rootProject.ext.butterKnifeVersion"
-    kapt "com.jakewharton:butterknife-compiler:$rootProject.ext.butterKnifeVersion"
-
     //dagger
     implementation "com.google.dagger:dagger:$rootProject.ext.daggerVersion"
     implementation "com.google.dagger:dagger-android-support:$rootProject.ext.daggerVersion"
     kapt "com.google.dagger:dagger-compiler:$rootProject.ext.daggerVersion"
     kapt "com.google.dagger:dagger-android-processor:$rootProject.ext.daggerVersion"
 
-    // retrofit
+    //Retrofit
     implementation "com.squareup.retrofit2:retrofit:$rootProject.ext.retrofitVersion"
     implementation "com.squareup.retrofit2:converter-gson:$rootProject.ext.retrofitVersion"
     implementation "com.squareup.retrofit2:converter-scalars:$rootProject.ext.retrofitVersion"
-    implementation "com.squareup.okhttp3:okhttp:$rootProject.ext.okhttpVersion"
 
     //Android RX
     implementation "io.reactivex.rxjava2:rxjava:$rootProject.ext.rxjavaVersion"
     implementation "io.reactivex.rxjava2:rxandroid:$rootProject.ext.rxAndroidVersion"
     implementation "com.squareup.retrofit2:adapter-rxjava2:$rootProject.ext.retrofitVersion"
 
-    //Logging
+    //OkHttp
+    implementation "com.squareup.okhttp3:okhttp:$rootProject.ext.okhttpVersion"
     implementation "com.squareup.okhttp3:logging-interceptor:$rootProject.ext.okhttpVersion"
 
     //Clarifai
@@ -125,9 +118,6 @@ dependencies {
     //Circle Image View
     implementation "de.hdodenhof:circleimageview:$rootProject.ext.circleIVVersion"
 
-    //Google Play Service : Admob
-    implementation "com.google.android.gms:play-services-ads:$rootProject.ext.admobVersion"
-
     //Zeibatsu Compressor
     implementation "id.zelory:compressor:$rootProject.ext.zeibatsuVersion"
 
@@ -137,10 +127,10 @@ dependencies {
     kapt "android.arch.persistence.room:compiler:$rootProject.ext.roomVersion"
 
     // Unit Test
-    testImplementation "junit:junit:$rootProject.ext.jUnitVersion"
-    androidTestImplementation 'com.android.support.test:runner:1.0.1'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:2.2.2'
-    provided 'javax.annotation:jsr250-api:1.0'
-    provided 'org.glassfish:javax.annotation:10.0-b28'
+    testImplementation "junit:junit:$junitVersion"
+    testImplementation "org.mockito:mockito-core:$mockitoVersion"
+    kaptTest "com.google.dagger:dagger-compiler:$daggerVersion"
+    testImplementation "android.arch.core:core-testing:$coreTestingVersion"
+    testImplementation "org.hamcrest:hamcrest-library:$hamcrestVersion"
 }
 apply plugin: 'com.google.gms.google-services'

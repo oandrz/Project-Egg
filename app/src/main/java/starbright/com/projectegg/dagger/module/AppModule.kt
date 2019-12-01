@@ -6,49 +6,42 @@ package starbright.com.projectegg.dagger.module
 
 import android.app.Application
 import android.content.Context
-
-import javax.inject.Singleton
-
 import dagger.Module
 import dagger.Provides
 import id.zelory.compressor.Compressor
 import io.reactivex.disposables.CompositeDisposable
 import starbright.com.projectegg.dagger.qualifier.ApplicationContext
-import starbright.com.projectegg.util.ClarifaiHelper
-import starbright.com.projectegg.util.scheduler.BaseSchedulerProvider
+import starbright.com.projectegg.util.NetworkHelper
 import starbright.com.projectegg.util.scheduler.SchedulerProvider
+import starbright.com.projectegg.util.scheduler.SchedulerProviderContract
+import javax.inject.Singleton
 
 @Module
 class AppModule(private val application: Application) {
 
     @Provides
     @ApplicationContext
-    @Singleton
-    internal fun provideContext(): Context {
+    fun provideContext(): Context {
         return application
     }
 
     @Provides
     @Singleton
-    internal fun providesSchedulerComposer(): BaseSchedulerProvider {
-        return SchedulerProvider.getInstance()
-    }
+    fun providesNetworkHelper(): NetworkHelper = NetworkHelper(application)
 
     @Provides
     @Singleton
-    internal fun providesCompressor(@ApplicationContext context: Context): Compressor {
+    fun providesCompressor(@ApplicationContext context: Context): Compressor {
         return Compressor(context)
     }
 
     @Provides
-    @Singleton
-    internal fun providesClarifaiHelper(@ApplicationContext context: Context): ClarifaiHelper {
-        return ClarifaiHelper(context)
+    fun providesCompositeDiposable(): CompositeDisposable {
+        return CompositeDisposable()
     }
 
     @Provides
-    @Singleton
-    internal fun providesCompositeDiposable(): CompositeDisposable {
-        return CompositeDisposable()
+    fun providesSchedulerComposer(): SchedulerProviderContract {
+        return SchedulerProvider.getInstance()
     }
 }

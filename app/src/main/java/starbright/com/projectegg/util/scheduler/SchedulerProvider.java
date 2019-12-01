@@ -11,7 +11,7 @@ import io.reactivex.schedulers.Schedulers;
  * Created by Andreas on 4/14/2018.
  */
 
-public class SchedulerProvider implements BaseSchedulerProvider {
+public class SchedulerProvider implements SchedulerProviderContract {
 
     @Nullable
     private static SchedulerProvider INSTANCE;
@@ -20,7 +20,7 @@ public class SchedulerProvider implements BaseSchedulerProvider {
 
     }
 
-    public static synchronized  SchedulerProvider getInstance() {
+    public static synchronized SchedulerProvider getInstance() {
         if (INSTANCE == null) {
             INSTANCE = new SchedulerProvider();
         }

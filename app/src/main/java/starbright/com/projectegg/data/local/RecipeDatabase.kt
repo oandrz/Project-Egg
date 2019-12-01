@@ -9,8 +9,8 @@ import android.arch.persistence.room.Database
 import android.arch.persistence.room.RoomDatabase
 import android.arch.persistence.room.TypeConverters
 
-import starbright.com.projectegg.data.local.model.Converter
-import starbright.com.projectegg.data.local.model.Recipe
+import starbright.com.projectegg.data.model.Converter
+import starbright.com.projectegg.data.model.Recipe
 
 @Database(entities = [Recipe::class], version = 1, exportSchema = false)
 @TypeConverters(Converter::class)

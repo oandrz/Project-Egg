@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import io.reactivex.annotations.NonNull
 import kotlinx.android.synthetic.main.partial_bottom_sheet.*
 import starbright.com.projectegg.R
-import starbright.com.projectegg.data.local.model.Ingredient
+import starbright.com.projectegg.data.model.Ingredient
 
 class CartBottomSheetDialogFragment : BottomSheetDialogFragment() {
 
@@ -42,7 +42,7 @@ class CartBottomSheetDialogFragment : BottomSheetDialogFragment() {
         adapter = IngredientsCartAdapter(activity!!, cart).also {
             it.listener = { selectedPosition ->
                 updateView(selectedPosition)
-                sheetListener?.updateCart(cart)
+                sheetListener?.onItemRemovedFromCart()
             }
         }
 
@@ -75,7 +75,7 @@ class CartBottomSheetDialogFragment : BottomSheetDialogFragment() {
     }
 
     interface SheetListener {
-        fun updateCart(ingredients: MutableList<Ingredient>)
+        fun onItemRemovedFromCart()
         fun submitButtonClicked()
     }
 }

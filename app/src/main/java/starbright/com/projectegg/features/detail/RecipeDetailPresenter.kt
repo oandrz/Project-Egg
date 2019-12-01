@@ -2,93 +2,85 @@
  * Created by Andreas on 5/10/2019.
  */
 
-/**
- * Created by Andreas on 7/10/2018.
- */
-
 package starbright.com.projectegg.features.detail
 
 import io.reactivex.disposables.CompositeDisposable
+import starbright.com.projectegg.R
 import starbright.com.projectegg.data.AppRepository
-import starbright.com.projectegg.data.local.model.Recipe
-import starbright.com.projectegg.util.scheduler.BaseSchedulerProvider
+import starbright.com.projectegg.data.model.Recipe
+import starbright.com.projectegg.features.base.BasePresenter
+import starbright.com.projectegg.util.NetworkHelper
+import starbright.com.projectegg.util.scheduler.SchedulerProviderContract
+import javax.inject.Inject
 
-class RecipeDetailPresenter(
-        private val mRepository: AppRepository,
-        private val mView: RecipeDetailContract.View,
-        private val mSchedulerProvider: BaseSchedulerProvider
-) : RecipeDetailContract.Presenter {
-    private val mCompositeDisposable: CompositeDisposable
+class RecipeDetailPresenter @Inject constructor(
+    schedulerProvider: SchedulerProviderContract,
+    compositeDisposable: CompositeDisposable,
+    networkHelper: NetworkHelper,
+    private val repository: AppRepository
+) : BasePresenter<RecipeDetailContract.View>(schedulerProvider, compositeDisposable, networkHelper), RecipeDetailContract.Presenter {
 
-    private lateinit var mRecipeId: String
     private var mRecipe: Recipe? = null
 
-    init {
-        mView.setPresenter(this)
-        mCompositeDisposable = CompositeDisposable()
-    }
-
-    override fun start() {
-        mView.setupSwipeRefreshLayout()
-        getRecipeDetailInformation(mRecipeId)
-    }
-
-    override fun setRecipeId(recipeId: String) {
-        mRecipeId = recipeId
+    override fun onCreateScreen() {
+        view.setupSwipeRefreshLayout()
     }
 
     override fun getRecipeDetailInformation(recipeId: String) {
-        mView.apply {
+        if (!isConnectedToInternet()) view.showError(R.string.server_connection_error)
+
+        view.run {
             hideScrollContainer()
             showProgressBar()
         }
-        mCompositeDisposable
-                .add(mRepository.getRecipeDetailInformation(recipeId)
-                        .subscribeOn(mSchedulerProvider.computation())
-                        .observeOn(mSchedulerProvider.ui())
-                        .subscribe({ recipe ->
-                            mView.hideProgressBar()
-                            mRecipe = recipe
-                            if (mRecipe != null) {
-                                mView.hideEmptyStateTextView()
-                                updateView()
-                            } else {
-                                mView.renderEmptyStateTextView()
-                            }
-                        }, {
-                            mView.hideProgressBar()
-                            if (mRecipe != null) {
-                                mView.hideEmptyStateTextView()
-                                updateView()
-                            } else {
-                                mView.renderEmptyStateTextView()
-                            }
-                        }))
+        compositeDisposable
+            .add(repository.getRecipeDetailInformation(recipeId)
+                .subscribeOn(schedulerProvider.computation())
+                .observeOn(schedulerProvider.ui())
+                .subscribe({ recipe ->
+                    view.hideProgressBar()
+                    mRecipe = recipe
+                    if (mRecipe != null) {
+                        view.hideEmptyStateTextView()
+                        updateView()
+                    } else {
+                        view.renderEmptyStateTextView()
+                    }
+                }, {
+                    view.hideProgressBar()
+                    if (mRecipe != null) {
+                        view.hideEmptyStateTextView()
+                        updateView()
+                    } else {
+                        view.renderEmptyStateTextView()
+                    }
+                }))
     }
 
     override fun handleShareMenuClicked() {
-        if (mRecipe != null && mRecipe!!.sourceStringUrl != null) {
-            mView.createShareIntent(mRecipe!!.sourceStringUrl!!, mRecipe!!.title)
-        } else {
-            //todo: show toast
-        }
+        mRecipe?.let {
+            val sourceUrl = it.sourceStringUrl
+            if (sourceUrl != null) {
+                view.createShareIntent(sourceUrl, it.title)
+            } else {
+                view.showError(R.string.detail_empty_label)
+            }
+        } ?: view.showError(R.string.detail_empty_label)
     }
 
     override fun handleWebViewMenuClicked() {
-        if (mRecipe != null && mRecipe!!.sourceStringUrl != null) {
-            mView.navigateToWebViewActivity(mRecipe!!.sourceStringUrl!!)
-        } else {
-            //todo: show toast
-        }
+        mRecipe?.sourceStringUrl?.let {
+            view.navigateToWebViewActivity(it)
+        } ?: view.showError(R.string.detail_empty_label)
     }
 
     private fun updateView() {
         mRecipe?.let { recipe ->
-            with(mView) {
+            with(view) {
                 showScrollContainer()
                 renderBannerFoodImage(recipe.image)
                 renderHeaderContainer(recipe.servingCount, recipe.preparationMinutes,
-                        recipe.cookingMinutes, recipe.title)
+                    recipe.cookingMinutes, recipe.title)
                 recipe.ingredients?.let { ingredients ->
                     renderIngredientCard(ingredients)
                 }

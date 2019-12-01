@@ -11,7 +11,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import kotlinx.android.synthetic.main.item_cart.view.*
 import starbright.com.projectegg.R
-import starbright.com.projectegg.data.local.model.Ingredient
+import starbright.com.projectegg.data.model.Ingredient
 import starbright.com.projectegg.util.GlideApp
 
 class IngredientsCartAdapter(

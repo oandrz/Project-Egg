@@ -5,50 +5,38 @@
 package starbright.com.projectegg.features.recipelist
 
 import io.reactivex.disposables.CompositeDisposable
+import starbright.com.projectegg.R
 import starbright.com.projectegg.data.AppRepository
-import starbright.com.projectegg.data.local.model.Ingredient
-import starbright.com.projectegg.data.local.model.Recipe
-import starbright.com.projectegg.util.scheduler.BaseSchedulerProvider
-import java.util.*
+import starbright.com.projectegg.data.model.Ingredient
+import starbright.com.projectegg.data.model.Recipe
+import starbright.com.projectegg.features.base.BasePresenter
+import starbright.com.projectegg.util.NetworkHelper
+import starbright.com.projectegg.util.scheduler.SchedulerProviderContract
+import javax.inject.Inject
 
-internal class RecipeListPresenter(private val mRepository: AppRepository,
-                                   private val mView: RecipeListContract.View,
-                                   private val mSchedulerProvider: BaseSchedulerProvider) : RecipeListContract.Presenter {
-    private val mCompositeDisposable: CompositeDisposable
+class RecipeListPresenter @Inject constructor(
+    schedulerProvider: SchedulerProviderContract,
+    compositeDisposable: CompositeDisposable,
+    networkHelper: NetworkHelper,
+    private val mRepository: AppRepository
+) : BasePresenter<RecipeListContract.View>(schedulerProvider, compositeDisposable, networkHelper), RecipeListContract.Presenter {
 
-    private var mRecipes: List<Recipe> = listOf()
-    private var mIngredients: List<Ingredient> = listOf()
+    private var recipes: List<Recipe> = listOf()
+    private var ingredients: List<Ingredient> = listOf()
 
-    init {
-        mView.setPresenter(this)
-        mCompositeDisposable = CompositeDisposable()
-    }
-
-    override fun start() {
-        mView.setupRecyclerView()
-        mView.setupSwipeRefreshLayout()
+    override fun onCreateScreen() {
+        view.let {
+            val ingredients = it.provideIngredients()
+            if (ingredients != null) {
+                this.ingredients = ingredients
+            }
+            it.setupView()
+        }
         getRecipesBasedIngredients(mapIngredients())
     }
 
-    fun getRecipesBasedIngredients(ingredients: String) {
-        mView.showLoadingBar()
-        mCompositeDisposable.add(
-                mRepository.getRecipes(ingredients)
-                        .subscribeOn(mSchedulerProvider.computation())
-                        .observeOn(mSchedulerProvider.ui())
-                        .subscribe({ recipes ->
-                            mRecipes = recipes.toMutableList()
-                            mView.hideLoadingBar()
-                            mView.bindRecipesToList(recipes.toMutableList())
-                        }, { throwable ->
-                            mView.hideLoadingBar()
-                            mView.showErrorSnackBar(throwable.message ?: "")
-                        })
-        )
-    }
-
     override fun handleListItemClicked(position: Int) {
-        mView.showDetail(mRecipes[position].id.toString())
+        view.showDetail(recipes[position].id.toString())
     }
 
     override fun handleRefresh() {
@@ -56,13 +44,31 @@ internal class RecipeListPresenter(private val mRepository: AppRepository,
     }
 
     override fun setIngredients(ingredients: MutableList<Ingredient>) {
-        mIngredients = ArrayList(ingredients)
+        this.ingredients = ingredients
+    }
+
+    private fun getRecipesBasedIngredients(ingredients: String) {
+        if (!isConnectedToInternet()) view.showError(R.string.server_connection_error)
+        view.showLoadingBar()
+        compositeDisposable.add(
+            mRepository.getRecipes(ingredients)
+                .subscribeOn(schedulerProvider.io())
+                .observeOn(schedulerProvider.ui())
+                .subscribe({ recipes ->
+                    this.recipes = recipes.toMutableList()
+                    view.hideLoadingBar()
+                    view.bindRecipesToList(recipes.toMutableList())
+                }, { throwable ->
+                    view.hideLoadingBar()
+                    view.showErrorSnackBar(throwable.message ?: "")
+                })
+        )
     }
 
     private fun mapIngredients(): String {
         val stringBuilder = StringBuilder()
-        var ingredientSize = mIngredients.size
-        for (ingredient in mIngredients) {
+        var ingredientSize = ingredients.size
+        for (ingredient in ingredients) {
             stringBuilder.append(ingredient.name)
             ingredientSize--
             if (ingredientSize > 0) {

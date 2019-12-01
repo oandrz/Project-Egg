@@ -12,7 +12,7 @@ import android.view.ViewGroup
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import kotlinx.android.synthetic.main.item_recipe.view.*
 import starbright.com.projectegg.R
-import starbright.com.projectegg.data.local.model.Recipe
+import starbright.com.projectegg.data.model.Recipe
 import starbright.com.projectegg.util.GlideApp
 import java.util.*
 
@@ -21,7 +21,7 @@ import java.util.*
  */
 
 internal class RecipeListAdapter(private val mContext: Context) :
-        RecyclerView.Adapter<RecipeListAdapter.ViewHolder>() {
+    RecyclerView.Adapter<RecipeListAdapter.ViewHolder>() {
     private val mRecipes: MutableList<Recipe>
     var mListener: Listener? = null
 
@@ -31,7 +31,7 @@ internal class RecipeListAdapter(private val mContext: Context) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(mContext)
-                .inflate(R.layout.item_recipe, parent, false)
+            .inflate(R.layout.item_recipe, parent, false)
         val holder = ViewHolder(view)
         view.setOnClickListener { mListener!!.onItemClicked(holder.adapterPosition) }
         return holder
@@ -54,10 +54,10 @@ internal class RecipeListAdapter(private val mContext: Context) :
         fun bindView(recipe: Recipe) {
             itemView.tv_recipe_name.text = recipe.title
             GlideApp.with(mContext)
-                    .load(recipe.image)
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .centerCrop()
-                    .into(itemView.img_thumbnail)
+                .load(recipe.image)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .centerCrop()
+                .into(itemView.img_thumbnail)
         }
     }
 

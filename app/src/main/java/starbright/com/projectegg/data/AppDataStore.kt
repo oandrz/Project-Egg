@@ -5,8 +5,8 @@
 package starbright.com.projectegg.data
 
 import io.reactivex.Observable
-import starbright.com.projectegg.data.local.model.Ingredient
-import starbright.com.projectegg.data.local.model.Recipe
+import starbright.com.projectegg.data.model.Ingredient
+import starbright.com.projectegg.data.model.Recipe
 
 interface AppDataStore {
     fun getRecipes(ingredients: String): Observable<List<Recipe>>
