@@ -2,13 +2,10 @@
  * Created by Andreas on 5/10/2019.
  */
 
-/**
- * Created by Andreas on 7/10/2018.
- */
-
 package starbright.com.projectegg.features.detail
 
 import io.reactivex.disposables.CompositeDisposable
+import starbright.com.projectegg.R
 import starbright.com.projectegg.data.AppRepository
 import starbright.com.projectegg.data.model.Recipe
 import starbright.com.projectegg.features.base.BasePresenter
@@ -30,6 +27,8 @@ class RecipeDetailPresenter @Inject constructor(
     }
 
     override fun getRecipeDetailInformation(recipeId: String) {
+        if (!isConnectedToInternet()) view.showError(R.string.server_connection_error)
+
         view.run {
             hideScrollContainer()
             showProgressBar()
@@ -59,19 +58,20 @@ class RecipeDetailPresenter @Inject constructor(
     }
 
     override fun handleShareMenuClicked() {
-        if (mRecipe != null && mRecipe!!.sourceStringUrl != null) {
-            view.createShareIntent(mRecipe!!.sourceStringUrl!!, mRecipe!!.title)
-        } else {
-            //todo: show toast
-        }
+        mRecipe?.let {
+            val sourceUrl = it.sourceStringUrl
+            if (sourceUrl != null) {
+                view.createShareIntent(sourceUrl, it.title)
+            } else {
+                view.showError(R.string.detail_empty_label)
+            }
+        } ?: view.showError(R.string.detail_empty_label)
     }
 
     override fun handleWebViewMenuClicked() {
-        if (mRecipe != null && mRecipe!!.sourceStringUrl != null) {
-            view.navigateToWebViewActivity(mRecipe!!.sourceStringUrl!!)
-        } else {
-            //todo: show toast
-        }
+        mRecipe?.sourceStringUrl?.let {
+            view.navigateToWebViewActivity(it)
+        } ?: view.showError(R.string.detail_empty_label)
     }
 
     private fun updateView() {

@@ -13,4 +13,6 @@ val mockIngredients: List<Ingredient> = listOf(mockIngredient)
 
 val mockRecipe: Recipe = Recipe(0, "testing", "testing", "testing", 0, 0, 10)
 
+val mockRecipeWithoutUrl: Recipe = Recipe(0, "testing", "testing", "testing", 0, 0, 10)
+
 val mockRecipes: List<Recipe> = listOf(mockRecipe)
