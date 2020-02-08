@@ -77,7 +77,6 @@ class IngredientsActivity : BaseActivity<IngredientsContract.View,
         setupMaterialProgressDialog()
         setupImageActionButton()
         setupTvCartCount()
-        setupMoreButton()
     }
 
     private fun setupEtSearchIngredients() {
@@ -118,29 +117,6 @@ class IngredientsActivity : BaseActivity<IngredientsContract.View,
     private fun setupTvCartCount() {
         tv_cart_count.setOnClickListener {
             presenter.handleCartTvClicked()
-        }
-    }
-
-    private fun setupMoreButton() {
-        iv_more.setOnClickListener {
-            showPopupMenu(it)
-        }
-    }
-
-    private fun showPopupMenu(view: View) {
-        PopupMenu(this, view).also {
-            it.menuInflater.inflate(R.menu.search_ingredient_menu, it.menu)
-            it.setOnMenuItemClickListener { item ->
-                when (item.itemId) {
-                    R.id.menu_signout -> {
-                        FirebaseAuth.getInstance().signOut()
-                        ///todo: navigate to user account activity
-                        true
-                    }
-                    else -> false
-                }
-            }
-            it.show()
         }
     }
 

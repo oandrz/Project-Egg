@@ -34,14 +34,6 @@
                     android:text="@string/general.zero"
                     android:textColor="@color/white"
                     android:textSize="@dimen/normal_font" />
-
-                <ImageView
-                    android:id="@+id/iv_more"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/space_normal"
-                    android:background="?android:attr/selectableItemBackground"
-                    android:src="@drawable/ic_more_vert" />
             </LinearLayout>
         </FrameLayout>
 
