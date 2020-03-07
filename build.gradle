@@ -57,6 +57,7 @@ ext {
     circleIVVersion = '2.2.0'
     roomVersion = '1.1.1'
     zeibatsuVersion = '2.1.0'
+    endlessRecyclerViewVersion = '1.1.4'
 
     junitVersion = '4.12'
     espressoVersion = '3.1.0'

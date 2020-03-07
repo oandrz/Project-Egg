@@ -42,18 +42,26 @@ class RecipeListActivity : BaseActivity<RecipeListContract.View, RecipeListPrese
     override fun getView(): RecipeListContract.View = this
 
     override fun setupView() {
-        setupSwipeRefreshLayout()
         setupRecyclerView()
     }
 
     private fun setupRecyclerView() {
-        adapter = RecipeListAdapter(this)
+        adapter = RecipeListAdapter()
         adapter.mListener = this
         rv_recipe.let {
-            it.layoutManager = LinearLayoutManager(
+            it.setLayoutManager(LinearLayoutManager(
                 this, LinearLayoutManager.VERTICAL, false
-            )
+            ))
             it.adapter = adapter
+            it.setRefreshListener {
+                presenter.handleRefresh()
+            }
+            it.setRefreshingColor(
+                ContextCompat.getColor(this, R.color.red),
+                ContextCompat.getColor(this, R.color.red),
+                ContextCompat.getColor(this, R.color.red),
+                ContextCompat.getColor(this, R.color.red)
+            )
         }
     }
 
@@ -61,24 +69,23 @@ class RecipeListActivity : BaseActivity<RecipeListContract.View, RecipeListPrese
         presenter.handleListItemClicked(position)
     }
 
-    private fun setupSwipeRefreshLayout() {
-        swipe_refresh_container.let {
-            it.setColorSchemeColors(ContextCompat.getColor(this, R.color.red))
-            it.setOnRefreshListener { presenter.handleRefresh() }
+    override fun showLoadingBar() {
+        rv_recipe.apply {
+            setRefreshing(true)
+            showProgress()
         }
     }
 
-    override fun showLoadingBar() {
-        swipe_refresh_container.isRefreshing = true
-    }
-
     override fun hideLoadingBar() {
-        swipe_refresh_container.isRefreshing = false
+        rv_recipe.apply {
+            setRefreshing(false)
+            hideProgress()
+        }
     }
 
     override fun bindRecipesToList(recipes: MutableList<Recipe>) {
-        rv_recipe.visibility = View.VISIBLE
-        adapter.setRecipes(recipes)
+        adapter.addAll(recipes)
+        rv_recipe.showRecycler()
     }
 
     override fun provideIngredients(): List<Ingredient>? {

@@ -112,6 +112,9 @@ dependencies {
     implementation "com.google.firebase:firebase-core:$rootProject.ext.firebaseCoreVersion"
     implementation "com.google.firebase:firebase-auth:$rootProject.ext.firebaseAuthVersion"
 
+    //endless Recycler View
+    implementation "com.malinskiy:superrecyclerview:$rootProject.ext.endlessRecyclerViewVersion"
+
     //Material Dialog
     implementation "com.afollestad.material-dialogs:core:$rootProject.ext.materialDialogVersion"
 
