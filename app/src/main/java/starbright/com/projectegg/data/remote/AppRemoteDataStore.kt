@@ -1,8 +1,4 @@
 /**
- * Created by Andreas on 7/10/2018.
- */
-
-/**
  * Created by Andreas on 29/9/2018.
  */
 
@@ -20,6 +16,7 @@ import starbright.com.projectegg.data.model.Ingredient
 import starbright.com.projectegg.data.model.Recipe
 import starbright.com.projectegg.data.model.response.IngredientResponse
 import starbright.com.projectegg.data.model.response.RecipeDetailResponse
+import starbright.com.projectegg.data.model.response.RecipeListResponse
 import starbright.com.projectegg.data.model.response.RecipeResponse
 import starbright.com.projectegg.util.Constants
 import java.util.*
@@ -29,11 +26,12 @@ import javax.inject.Singleton
 @Singleton
 class AppRemoteDataStore @Inject constructor(private val mRetrofit: Retrofit) : AppDataStore {
 
-    override fun getRecipes(ingredients: String): Observable<List<Recipe>> {
-        return mRetrofit.create(Service::class.java).getRecipes(ingredients = ingredients, options = HashMap())
+    override fun getRecipes(ingredients: String, offset: Int): Observable<List<Recipe>> {
+        return mRetrofit.create(Service::class.java)
+            .getRecipes(ingredients = ingredients, offset = offset, options = HashMap())
             .map { responses ->
-                val recipes = ArrayList<Recipe>(responses.size)
-                for (response in responses) {
+                val recipes = ArrayList<Recipe>(responses.results.size)
+                for (response in responses.results) {
                     recipes.add(Recipe(response))
                 }
                 recipes
@@ -65,12 +63,13 @@ class AppRemoteDataStore @Inject constructor(private val mRetrofit: Retrofit) : 
     }
 
     private interface Service {
-        @GET("recipes/findByIngredients")
+        @GET("recipes/complexSearch")
         fun getRecipes(
             @Query(Constants.QUERY_API_KEY) apiKey: String? = BuildConfig.SPOON_KEY,
-            @Query("ingredients") ingredients: String,
+            @Query("includeIngredients") ingredients: String,
+            @Query("offset") offset: Int,
             @QueryMap options: Map<String, String>
-        ): Observable<List<RecipeResponse>>
+        ): Observable<RecipeListResponse>
 
         @GET("food/ingredients/autocomplete")
         fun searchAutocompleteIngredients(

@@ -19,8 +19,8 @@ class AppRepository @Inject constructor(
     @RemoteData private val appRemoteDataStore: AppDataStore
 ) : AppDataStore {
 
-    override fun getRecipes(ingredients: String): Observable<List<Recipe>> {
-        return appRemoteDataStore.getRecipes(ingredients)
+    override fun getRecipes(ingredients: String, offset: Int): Observable<List<Recipe>> {
+        return appRemoteDataStore.getRecipes(ingredients, offset)
     }
 
     override fun searchIngredient(query: String): Observable<List<Ingredient>> {

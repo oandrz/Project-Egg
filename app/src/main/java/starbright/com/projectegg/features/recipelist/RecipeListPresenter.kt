@@ -51,7 +51,7 @@ class RecipeListPresenter @Inject constructor(
         if (!isConnectedToInternet()) view.showError(R.string.server_connection_error)
         view.showLoadingBar()
         compositeDisposable.add(
-            mRepository.getRecipes(ingredients)
+            mRepository.getRecipes(ingredients, 0)
                 .subscribeOn(schedulerProvider.io())
                 .observeOn(schedulerProvider.ui())
                 .subscribe({ recipes ->

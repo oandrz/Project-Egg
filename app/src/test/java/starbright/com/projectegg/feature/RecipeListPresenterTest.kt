@@ -57,7 +57,7 @@ class RecipeListPresenterTest {
     fun givenAppLaunch_whenOnCreate_shouldSetupView() {
         doReturn(Observable.empty<Recipe>())
             .`when`(mockRepository)
-            .getRecipes("")
+            .getRecipes("", 0)
 
         presenter.onCreateScreen()
 
@@ -71,7 +71,7 @@ class RecipeListPresenterTest {
             .provideIngredients()
         doReturn(Observable.just(mockRecipes))
             .`when`(mockRepository)
-            .getRecipes(mockIngredient.name)
+            .getRecipes(mockIngredient.name, 0)
 
         presenter.onCreateScreen()
         testScheduler.triggerActions()
@@ -92,7 +92,7 @@ class RecipeListPresenterTest {
             .provideIngredients()
         doReturn(error)
             .`when`(mockRepository)
-            .getRecipes(mockIngredient.name)
+            .getRecipes(mockIngredient.name, 0)
 
         presenter.onCreateScreen()
         testScheduler.triggerActions()
