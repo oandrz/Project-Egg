@@ -21,46 +21,63 @@ class RecipeListPresenter @Inject constructor(
     private val mRepository: AppRepository
 ) : BasePresenter<RecipeListContract.View>(schedulerProvider, compositeDisposable, networkHelper), RecipeListContract.Presenter {
 
-    private var recipes: List<Recipe> = listOf()
+    private val dataSource: MutableList<Recipe> = mutableListOf()
+    private var lastOffset: Int = -1
     private var ingredients: List<Ingredient> = listOf()
 
     override fun onCreateScreen() {
         view.let {
-            val ingredients = it.provideIngredients()
-            if (ingredients != null) {
-                this.ingredients = ingredients
-            }
+            ingredients = it.provideIngredients() ?: listOf()
             it.setupView()
         }
-        getRecipesBasedIngredients(mapIngredients())
+        refresh(mapIngredients())
     }
 
     override fun handleListItemClicked(position: Int) {
-        view.showDetail(recipes[position].id.toString())
+        view.showDetail(dataSource[position].id.toString())
     }
 
     override fun handleRefresh() {
-        getRecipesBasedIngredients(mapIngredients())
+        refresh(mapIngredients())
+    }
+
+    override fun handleLoadMore() {
+        lastOffset++
+        compositeDisposable.add(
+            mRepository.getRecipes(mapIngredients(), lastOffset)
+                .subscribeOn(schedulerProvider.io())
+                .observeOn(schedulerProvider.ui())
+                .subscribe({ recipesResult ->
+                    dataSource.addAll(recipesResult)
+                    view.appendRecipes(recipesResult, recipesResult.isNotEmpty())
+                }, { throwable ->
+                    view.showErrorSnackBar(throwable.message ?: "")
+                })
+        )
     }
 
     override fun setIngredients(ingredients: MutableList<Ingredient>) {
         this.ingredients = ingredients
     }
 
-    private fun getRecipesBasedIngredients(ingredients: String) {
+    private fun refresh(ingredients: String) {
         if (!isConnectedToInternet()) view.showError(R.string.server_connection_error)
         view.showLoadingBar()
+        lastOffset = 0
         compositeDisposable.add(
-            mRepository.getRecipes(ingredients, 0)
+            mRepository.getRecipes(ingredients, lastOffset)
                 .subscribeOn(schedulerProvider.io())
                 .observeOn(schedulerProvider.ui())
-                .subscribe({ recipes ->
-                    this.recipes = recipes.toMutableList()
+                .subscribe({ recipesResult ->
+                    dataSource.clear()
+                    dataSource.addAll(recipesResult)
                     view.hideLoadingBar()
-                    view.bindRecipesToList(recipes.toMutableList())
+                    view.bindRecipesToList(recipesResult)
                 }, { throwable ->
                     view.hideLoadingBar()
-                    view.showErrorSnackBar(throwable.message ?: "")
+                    view.showErrorSnackBar(
+                        "Our services are under maintenance, please retry after some time"
+                    )
                 })
         )
     }

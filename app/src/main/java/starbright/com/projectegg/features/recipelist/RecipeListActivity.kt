@@ -61,9 +61,10 @@ class RecipeListActivity : BaseActivity<RecipeListContract.View, RecipeListPrese
                 ContextCompat.getColor(this, R.color.red),
                 ContextCompat.getColor(this, R.color.red)
             )
-//            it.setOnMoreListener { overallItemsCount, tressholdIndex, lastVisibleItemPos ->
-//
-//            }
+            it.setNumberBeforeMoreIsCalled(1)
+            it.setOnMoreListener { _, _, _ ->
+                presenter.handleLoadMore()
+            }
         }
     }
 
@@ -85,9 +86,16 @@ class RecipeListActivity : BaseActivity<RecipeListContract.View, RecipeListPrese
         }
     }
 
-    override fun bindRecipesToList(recipes: MutableList<Recipe>) {
+    override fun bindRecipesToList(recipes: List<Recipe>) {
         adapter.refreshItems(recipes)
         rv_recipe.showRecycler()
+    }
+
+    override fun appendRecipes(recipes: List<Recipe>, hasNext: Boolean) {
+        adapter.addAll(recipes)
+        if (!hasNext) {
+            rv_recipe.isLoadingMore = true
+        }
     }
 
     override fun provideIngredients(): List<Ingredient>? {

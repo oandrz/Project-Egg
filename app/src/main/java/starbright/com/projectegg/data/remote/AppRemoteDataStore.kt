@@ -27,8 +27,10 @@ import javax.inject.Singleton
 class AppRemoteDataStore @Inject constructor(private val mRetrofit: Retrofit) : AppDataStore {
 
     override fun getRecipes(ingredients: String, offset: Int): Observable<List<Recipe>> {
+        val queryMap = HashMap<String, String>()
+        queryMap[Constants.QUERY_PARAM_LIMIT_LICENSE_KEY] = true.toString()
         return mRetrofit.create(Service::class.java)
-            .getRecipes(ingredients = ingredients, offset = offset, options = HashMap())
+            .getRecipes(ingredients = ingredients, offset = offset, options =queryMap)
             .map { responses ->
                 val recipes = ArrayList<Recipe>(responses.results.size)
                 for (response in responses.results) {
