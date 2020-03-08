@@ -10,7 +10,6 @@ import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
-import android.view.View
 import kotlinx.android.synthetic.main.activity_recipe_list.*
 import starbright.com.projectegg.R
 import starbright.com.projectegg.dagger.component.ActivityComponent
@@ -47,7 +46,7 @@ class RecipeListActivity : BaseActivity<RecipeListContract.View, RecipeListPrese
 
     private fun setupRecyclerView() {
         adapter = RecipeListAdapter()
-        adapter.mListener = this
+        adapter.listener = this
         rv_recipe.let {
             it.setLayoutManager(LinearLayoutManager(
                 this, LinearLayoutManager.VERTICAL, false
@@ -62,6 +61,9 @@ class RecipeListActivity : BaseActivity<RecipeListContract.View, RecipeListPrese
                 ContextCompat.getColor(this, R.color.red),
                 ContextCompat.getColor(this, R.color.red)
             )
+//            it.setOnMoreListener { overallItemsCount, tressholdIndex, lastVisibleItemPos ->
+//
+//            }
         }
     }
 
@@ -84,7 +86,7 @@ class RecipeListActivity : BaseActivity<RecipeListContract.View, RecipeListPrese
     }
 
     override fun bindRecipesToList(recipes: MutableList<Recipe>) {
-        adapter.addAll(recipes)
+        adapter.refreshItems(recipes)
         rv_recipe.showRecycler()
     }
 

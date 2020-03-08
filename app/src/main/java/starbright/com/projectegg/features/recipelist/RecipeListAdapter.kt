@@ -4,7 +4,6 @@
 
 package starbright.com.projectegg.features.recipelist
 
-import android.R.attr.data
 import android.content.Context
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -15,7 +14,6 @@ import kotlinx.android.synthetic.main.item_recipe.view.*
 import starbright.com.projectegg.R
 import starbright.com.projectegg.data.model.Recipe
 import starbright.com.projectegg.util.GlideApp
-import java.util.*
 
 
 /**
@@ -25,12 +23,17 @@ import java.util.*
 internal class RecipeListAdapter : RecyclerView.Adapter<RecipeListAdapter.ViewHolder>() {
     private val mRecipes: MutableList<Recipe> = mutableListOf()
 
-    var mListener: Listener? = null
+    var listener: Listener? = null
+        set(value) {
+            if (field == null) {
+                field = value
+            }
+        }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_recipe, parent, false)
         val holder = ViewHolder(view, parent.context)
-        view.setOnClickListener { mListener?.onItemClicked(holder.adapterPosition) }
+        view.setOnClickListener { listener?.onItemClicked(holder.adapterPosition) }
         return holder
     }
 
@@ -64,6 +67,11 @@ internal class RecipeListAdapter : RecyclerView.Adapter<RecipeListAdapter.ViewHo
         val startIndex: Int = mRecipes.size
         mRecipes.addAll(startIndex, recipes)
         notifyItemRangeInserted(startIndex, recipes.size)
+    }
+
+    fun refreshItems(recipes: List<Recipe>) {
+        clear()
+        addAll(recipes)
     }
 
     inner class ViewHolder(
