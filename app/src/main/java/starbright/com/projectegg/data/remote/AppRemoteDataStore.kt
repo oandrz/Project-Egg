@@ -29,6 +29,8 @@ class AppRemoteDataStore @Inject constructor(private val mRetrofit: Retrofit) : 
     override fun getRecipes(ingredients: String, offset: Int): Observable<List<Recipe>> {
         val queryMap = HashMap<String, String>()
         queryMap[Constants.QUERY_PARAM_LIMIT_LICENSE_KEY] = true.toString()
+        queryMap[Constants.QUERY_PARAM_INSTRUCTION_REQUIRED_KEY] = true.toString()
+        queryMap[Constants.QUERY_PARAM_SORT_KEY] = "time"
         return mRetrofit.create(Service::class.java)
             .getRecipes(ingredients = ingredients, offset = offset, options =queryMap)
             .map { responses ->

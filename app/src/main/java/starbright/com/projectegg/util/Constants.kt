@@ -25,6 +25,8 @@ object Constants {
     const val IMAGE_INGREDIENT_URL = "https://spoonacular.com/cdn/ingredients_100x100/"
     const val QUERY_PARAM_META_INFORMATION_KEY = "metaInformation"
     const val QUERY_PARAM_LIMIT_LICENSE_KEY = "limitLicense"
+    const val QUERY_PARAM_INSTRUCTION_REQUIRED_KEY = "instructionsRequired"
+    const val QUERY_PARAM_SORT_KEY = "sort"
     const val QUERY_PARAM_NUMBER_KEY = "number"
     const val QUERY_API_KEY = "apiKey"
 

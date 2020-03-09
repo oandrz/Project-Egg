@@ -22,7 +22,6 @@ class RecipeListPresenter @Inject constructor(
 ) : BasePresenter<RecipeListContract.View>(schedulerProvider, compositeDisposable, networkHelper), RecipeListContract.Presenter {
 
     private val dataSource: MutableList<Recipe> = mutableListOf()
-    private var lastOffset: Int = -1
     private var ingredients: List<Ingredient> = listOf()
 
     override fun onCreateScreen() {
@@ -41,10 +40,9 @@ class RecipeListPresenter @Inject constructor(
         refresh(mapIngredients())
     }
 
-    override fun handleLoadMore() {
-        lastOffset++
+    override fun handleLoadMore(lastPosition: Int) {
         compositeDisposable.add(
-            mRepository.getRecipes(mapIngredients(), lastOffset)
+            mRepository.getRecipes(mapIngredients(), lastPosition + 1)
                 .subscribeOn(schedulerProvider.io())
                 .observeOn(schedulerProvider.ui())
                 .subscribe({ recipesResult ->
@@ -63,9 +61,8 @@ class RecipeListPresenter @Inject constructor(
     private fun refresh(ingredients: String) {
         if (!isConnectedToInternet()) view.showError(R.string.server_connection_error)
         view.showLoadingBar()
-        lastOffset = 0
         compositeDisposable.add(
-            mRepository.getRecipes(ingredients, lastOffset)
+            mRepository.getRecipes(ingredients, 0)
                 .subscribeOn(schedulerProvider.io())
                 .observeOn(schedulerProvider.ui())
                 .subscribe({ recipesResult ->

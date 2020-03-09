@@ -62,8 +62,8 @@ class RecipeListActivity : BaseActivity<RecipeListContract.View, RecipeListPrese
                 ContextCompat.getColor(this, R.color.red)
             )
             it.setNumberBeforeMoreIsCalled(1)
-            it.setOnMoreListener { _, _, _ ->
-                presenter.handleLoadMore()
+            it.setOnMoreListener { _, _, lastItemPos ->
+                presenter.handleLoadMore(lastItemPos)
             }
         }
     }

@@ -28,7 +28,7 @@ class RecipeListContract {
     interface Presenter : BasePresenterContract {
         fun handleListItemClicked(position: Int)
         fun handleRefresh()
-        fun handleLoadMore()
+        fun handleLoadMore(lastPosition: Int)
 
         fun setIngredients(ingredients: MutableList<Ingredient>)
     }
