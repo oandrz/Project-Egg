@@ -71,6 +71,9 @@
     <string name="detail.menu.detail.label">Open Detail in WebView</string>
     <string name="detail.intent.share">Hey, check this out ! I found delicious this recipe %s \nlink below\n%s</string>
 
+    <!--Recipe List-->
+    <string name="recipe.list.menu.filter.title">Filter</string>
+
     <!--Ads View-->
     <string name="ads.size">BANNER</string>
 </resources>

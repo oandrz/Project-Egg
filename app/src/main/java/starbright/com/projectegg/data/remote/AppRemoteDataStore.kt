@@ -30,6 +30,7 @@ class AppRemoteDataStore @Inject constructor(private val mRetrofit: Retrofit) : 
         val queryMap = HashMap<String, String>()
         queryMap[Constants.QUERY_PARAM_LIMIT_LICENSE_KEY] = true.toString()
         queryMap[Constants.QUERY_PARAM_INSTRUCTION_REQUIRED_KEY] = true.toString()
+        queryMap[Constants.QUERY_PARAM_ADD_INFORMATION] = true.toString()
         queryMap[Constants.QUERY_PARAM_SORT_KEY] = "time"
         return mRetrofit.create(Service::class.java)
             .getRecipes(ingredients = ingredients, offset = offset, options =queryMap)

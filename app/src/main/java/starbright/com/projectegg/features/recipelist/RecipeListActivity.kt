@@ -10,6 +10,8 @@ import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
+import android.view.Menu
+import android.view.MenuItem
 import kotlinx.android.synthetic.main.activity_recipe_list.*
 import starbright.com.projectegg.R
 import starbright.com.projectegg.dagger.component.ActivityComponent
@@ -20,6 +22,7 @@ import starbright.com.projectegg.features.base.NormalToolbar
 import starbright.com.projectegg.features.detail.RecipeDetailActivity
 import java.lang.ref.WeakReference
 import java.util.*
+
 
 class RecipeListActivity : BaseActivity<RecipeListContract.View, RecipeListPresenter>(),
     RecipeListContract.View, RecipeListAdapter.Listener {
@@ -37,6 +40,20 @@ class RecipeListActivity : BaseActivity<RecipeListContract.View, RecipeListPrese
 
     override fun injectDependencies(activityComponent: ActivityComponent) =
         activityComponent.inject(this)
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.recipe_list_menu, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when(item?.itemId) {
+            R.id.menu_filter -> {
+
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
 
     override fun getView(): RecipeListContract.View = this
 
