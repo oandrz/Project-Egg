@@ -5,10 +5,10 @@
 package starbright.com.projectegg.features.base
 
 import android.os.Bundle
-import android.support.annotation.LayoutRes
-import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
 import android.widget.Toast
+import androidx.annotation.LayoutRes
+import androidx.appcompat.app.AppCompatActivity
 
 import starbright.com.projectegg.MyApp
 import starbright.com.projectegg.dagger.component.ActivityComponent

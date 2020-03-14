@@ -5,20 +5,19 @@
 package starbright.com.projectegg.features.ingredients
 
 import android.content.Context
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-
 import kotlinx.android.synthetic.main.item_ingredient.view.*
+
 import starbright.com.projectegg.R
 import starbright.com.projectegg.data.model.Ingredient
 
 import starbright.com.projectegg.util.GlideApp;
 
-internal class IngredientsAdapter(private val context: Context) :
-    RecyclerView.Adapter<IngredientsAdapter.IngredientViewHolder>() {
+internal class IngredientsAdapter(private val context: Context) : RecyclerView.Adapter<IngredientsAdapter.IngredientViewHolder>() {
 
     private var dataSource: List<Ingredient> = listOf()
     var onClickListener: ((Ingredient) -> Unit)? = null

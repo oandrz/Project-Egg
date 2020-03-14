@@ -19,7 +19,7 @@
             android:layout_marginBottom="@dimen/space_large"
             android:background="@color/black" />
 
-        <android.support.v7.widget.CardView
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:cardCornerRadius="@dimen/card_corner_radius"
@@ -95,6 +95,6 @@
                     android:text="@string/register.navigation"
                     android:textColor="@color/red" />
             </LinearLayout>
-        </android.support.v7.widget.CardView>
+        </androidx.cardview.widget.CardView>
     </LinearLayout>
 </ScrollView>

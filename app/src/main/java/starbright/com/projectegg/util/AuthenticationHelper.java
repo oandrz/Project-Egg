@@ -1,6 +1,6 @@
 package starbright.com.projectegg.util;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.google.firebase.auth.FirebaseAuth;
 

@@ -4,7 +4,7 @@
 
 package starbright.com.projectegg.features.userAccount
 
-import android.support.v4.app.Fragment
+import androidx.fragment.app.Fragment
 
 class UserAccountFragment : Fragment(), UserAccountContract.View {
     override fun updateView(isLogin: Boolean) {

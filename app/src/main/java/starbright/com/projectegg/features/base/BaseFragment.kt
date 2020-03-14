@@ -5,12 +5,12 @@
 package starbright.com.projectegg.features.base
 
 import android.os.Bundle
-import android.support.annotation.LayoutRes
-import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.annotation.LayoutRes
+import androidx.fragment.app.Fragment
 import starbright.com.projectegg.MyApp
 import starbright.com.projectegg.dagger.component.DaggerFragmentComponent
 import starbright.com.projectegg.dagger.component.FragmentComponent

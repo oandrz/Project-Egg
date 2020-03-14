@@ -1,6 +1,7 @@
 package starbright.com.projectegg.util.scheduler;
 
-import android.support.annotation.NonNull;
+
+import androidx.annotation.NonNull;
 
 import io.reactivex.Scheduler;
 

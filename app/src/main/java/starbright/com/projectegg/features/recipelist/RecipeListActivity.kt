@@ -7,11 +7,11 @@ package starbright.com.projectegg.features.recipelist
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.support.design.widget.Snackbar
-import android.support.v4.content.ContextCompat
-import android.support.v7.widget.LinearLayoutManager
+import androidx.core.content.ContextCompat
 import android.view.Menu
 import android.view.MenuItem
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_recipe_list.*
 import starbright.com.projectegg.R
 import starbright.com.projectegg.dagger.component.ActivityComponent

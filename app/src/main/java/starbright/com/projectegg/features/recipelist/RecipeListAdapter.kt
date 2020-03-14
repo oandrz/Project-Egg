@@ -5,10 +5,10 @@
 package starbright.com.projectegg.features.recipelist
 
 import android.content.Context
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import kotlinx.android.synthetic.main.item_recipe.view.*
 import starbright.com.projectegg.R

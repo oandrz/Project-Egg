@@ -22,16 +22,16 @@ android {
             storePassword 'perseus'
         }
     }
-    compileSdkVersion 27
+    compileSdkVersion 29
 
     defaultConfig {
         applicationId "starbright.com.projectegg"
         minSdkVersion 19
-        targetSdkVersion 27
-        buildToolsVersion '27.0.3'
+        targetSdkVersion 29
+        buildToolsVersion '29.0.3'
         versionCode 1
         versionName "1.0"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
         buildConfigField "String", "CLARIFAI_KEY", "\"d724362606ac43c39a3a3cee03b85657\""
         buildConfigField "String", "BASE_URL", "\"https://api.spoonacular.com\""
@@ -71,11 +71,11 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
     //android support & recyclerview
-    implementation "com.android.support:appcompat-v7:$rootProject.ext.supportLibraryVersion"
-    implementation "com.android.support:cardview-v7:$rootProject.ext.supportLibraryVersion"
-    implementation "com.android.support:design:$rootProject.ext.supportLibraryVersion"
-    implementation "com.android.support:recyclerview-v7:$rootProject.ext.supportLibraryVersion"
-    implementation "com.android.support:support-v4:$rootProject.ext.supportLibraryVersion"
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.cardview:cardview:1.0.0'
+    implementation 'com.google.android.material:material:1.1.0'
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
     //dagger
     implementation "com.google.dagger:dagger:$rootProject.ext.daggerVersion"
@@ -125,15 +125,15 @@ dependencies {
     implementation "id.zelory:compressor:$rootProject.ext.zeibatsuVersion"
 
     //Room
-    implementation "android.arch.persistence.room:runtime:$rootProject.ext.roomVersion"
-    implementation "android.arch.persistence.room:rxjava2:$rootProject.ext.roomVersion"
-    kapt "android.arch.persistence.room:compiler:$rootProject.ext.roomVersion"
+    implementation "androidx.room:room-runtime:$rootProject.ext.roomVersion"
+    implementation "androidx.room:room-rxjava2:$rootProject.ext.roomVersion"
+    kapt "androidx.room:room-compiler:$rootProject.ext.roomVersion"
 
     // Unit Test
     testImplementation "junit:junit:$junitVersion"
     testImplementation "org.mockito:mockito-core:$mockitoVersion"
     kaptTest "com.google.dagger:dagger-compiler:$daggerVersion"
-    testImplementation "android.arch.core:core-testing:$coreTestingVersion"
+    testImplementation 'androidx.arch.core:core-testing:2.0.0'
     testImplementation "org.hamcrest:hamcrest-library:$hamcrestVersion"
 }
 apply plugin: 'com.google.gms.google-services'

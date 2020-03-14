@@ -7,7 +7,7 @@
     android:gravity="center"
     android:padding="@dimen/space_normal">
 
-    <android.support.design.widget.CoordinatorLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="@dimen/cart_image_container_size"
         android:layout_height="wrap_content">
 
@@ -26,7 +26,7 @@
             android:src="@drawable/ic_clear_white"
             app:layout_anchor="@id/iv_ingredient"
             app:layout_anchorGravity="right" />
-    </android.support.design.widget.CoordinatorLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     <TextView
         android:id="@+id/tv_ingredient_name"

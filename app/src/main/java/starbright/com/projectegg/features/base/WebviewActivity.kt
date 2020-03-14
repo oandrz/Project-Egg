@@ -8,14 +8,14 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
 import android.view.View
 import android.webkit.WebView
 import android.webkit.WebViewClient
-
-import junit.framework.Assert
-import kotlinx.android.synthetic.main.activity_webview.*
+import androidx.appcompat.app.AppCompatActivity
+import kotlinx.android.synthetic.main.activity_webview.progress_bar
+import kotlinx.android.synthetic.main.activity_webview.toolbar
+import kotlinx.android.synthetic.main.activity_webview.webview
 
 import starbright.com.projectegg.R
 
@@ -44,7 +44,6 @@ class WebviewActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         val actionBar = supportActionBar
         actionBar!!.setTitle(intent.getStringExtra(EXTRA_URL))
-        Assert.assertNotNull(actionBar)
         actionBar.setDisplayHomeAsUpEnabled(true)
         actionBar.setHomeButtonEnabled(true)
     }
