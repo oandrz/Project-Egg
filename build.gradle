@@ -38,10 +38,10 @@ task clean(type: Delete) {
 ext {
     // Sdk and tools
     // Support library and architecture components support minSdk 14 and above.
-    buildToolsVersion = '27.0.3'
-
     // App dependencies
-    supportLibraryVersion = '27.1.1'
+    materialDesignVersion = '1.1.0'
+    cardViewVersion = '1.0.0'
+    legacySupportVersion = '1.0.0'
     jUnitVersion = '4.12'
     clarifaiVersion = '2.4.0'
     daggerVersion = '2.26'

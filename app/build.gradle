@@ -71,11 +71,11 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
     //android support & recyclerview
-    implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'androidx.cardview:cardview:1.0.0'
-    implementation 'com.google.android.material:material:1.1.0'
-    implementation 'androidx.recyclerview:recyclerview:1.1.0'
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation "androidx.appcompat:appcompat:$rootProject.ext.materialDesignVersion"
+    implementation "androidx.cardview:cardview:$rootProject.ext.cardViewVersion"
+    implementation "com.google.android.material:material:$rootProject.ext.materialDesignVersion"
+    implementation "androidx.recyclerview:recyclerview:$rootProject.ext.materialDesignVersion"
+    implementation "androidx.legacy:legacy-support-v4:$rootProject.ext.legacySupportVersion"
 
     //dagger
     implementation "com.google.dagger:dagger:$rootProject.ext.daggerVersion"
