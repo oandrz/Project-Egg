@@ -22,6 +22,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-4345343920473004~7300286541"/>
+
         <activity
             android:name=".features.ingredients.IngredientsActivity"
             android:windowSoftInputMode="stateHidden|adjustResize"

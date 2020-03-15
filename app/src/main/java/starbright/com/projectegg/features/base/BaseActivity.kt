@@ -5,10 +5,12 @@
 package starbright.com.projectegg.features.base
 
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.gms.ads.MobileAds
 
 import starbright.com.projectegg.MyApp
 import starbright.com.projectegg.dagger.component.ActivityComponent
@@ -31,6 +33,9 @@ abstract class BaseActivity<V : BaseViewContract, P : BasePresenter<V>> : AppCom
         presenter.run {
             attachView(getView())
             onCreateScreen()
+        }
+        MobileAds.initialize(this) {
+            Log.v("Ads initialization","Success")
         }
     }
 

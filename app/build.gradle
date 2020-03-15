@@ -10,9 +10,6 @@ apply plugin: 'kotlin-kapt'
  * Created by Andreas on 7/10/2019.
  */
 
-//ButterKnife
-apply plugin: 'com.jakewharton.butterknife'
-
 android {
     signingConfigs {
         config {
@@ -123,6 +120,9 @@ dependencies {
 
     //Zeibatsu Compressor
     implementation "id.zelory:compressor:$rootProject.ext.zeibatsuVersion"
+
+    //Admobs
+    implementation "com.google.android.gms:play-services-ads:$rootProject.ext.adMobVersion"
 
     //Room
     implementation "androidx.room:room-runtime:$rootProject.ext.roomVersion"
