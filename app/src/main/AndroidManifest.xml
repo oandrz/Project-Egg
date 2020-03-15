@@ -39,7 +39,7 @@
 
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="starbright.com.projectegg.fileprovider"
+            android:authorities="${applicationId}.contentprovider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data

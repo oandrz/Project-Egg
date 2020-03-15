@@ -14,9 +14,9 @@ android {
     signingConfigs {
         config {
             keyAlias 'key0'
-            keyPassword 'perseus'
-            storeFile file('/Users/bukalapak/Desktop/key/key')
-            storePassword 'perseus'
+            keyPassword 'Per5eu$7'
+            storeFile file('/Users/ovo/StudioProjects/RecipeScopeKey')
+            storePassword 'Per5eu$7'
         }
     }
     compileSdkVersion 29
@@ -32,6 +32,7 @@ android {
         multiDexEnabled true
         buildConfigField "String", "CLARIFAI_KEY", "\"d724362606ac43c39a3a3cee03b85657\""
         buildConfigField "String", "BASE_URL", "\"https://api.spoonacular.com\""
+        signingConfig signingConfigs.config
     }
 
     buildTypes {
@@ -45,10 +46,10 @@ android {
         }
 
         release {
+            debuggable true
             minifyEnabled true
             applicationIdSuffix ".release"
             versionNameSuffix "-release"
-            debuggable false
             signingConfig signingConfigs.config
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             buildConfigField 'String', 'SPOON_KEY', '\"c14f35c6748443ef89c645e7a09404c7\"'
@@ -124,6 +125,9 @@ dependencies {
     //Admobs
     implementation "com.google.android.gms:play-services-ads:$rootProject.ext.adMobVersion"
 
+    //Preference
+    implementation "androidx.preference:preference:$rootProject.ext.preferenceVersion"
+
     //Room
     implementation "androidx.room:room-runtime:$rootProject.ext.roomVersion"
     implementation "androidx.room:room-rxjava2:$rootProject.ext.roomVersion"
@@ -133,7 +137,7 @@ dependencies {
     testImplementation "junit:junit:$junitVersion"
     testImplementation "org.mockito:mockito-core:$mockitoVersion"
     kaptTest "com.google.dagger:dagger-compiler:$daggerVersion"
-    testImplementation 'androidx.arch.core:core-testing:2.0.0'
+    testImplementation 'androidx.arch.core:core-testing:2.1.0'
     testImplementation "org.hamcrest:hamcrest-library:$hamcrestVersion"
 }
 apply plugin: 'com.google.gms.google-services'

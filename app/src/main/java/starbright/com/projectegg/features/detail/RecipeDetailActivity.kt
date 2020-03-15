@@ -16,7 +16,8 @@ import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import kotlinx.android.synthetic.main.fragment_recipe_detail.*
+import com.google.android.gms.ads.AdRequest
+import kotlinx.android.synthetic.main.activity_recipe_detail.*
 import starbright.com.projectegg.R
 import starbright.com.projectegg.dagger.component.ActivityComponent
 import starbright.com.projectegg.data.model.Ingredient
@@ -33,7 +34,7 @@ class RecipeDetailActivity : BaseActivity<RecipeDetailContract.View, RecipeDetai
         intent?.extras?.getString(RECIPE_ID_EXTRA_KEY) ?: ""
     }
 
-    override fun getLayoutRes(): Int = R.layout.fragment_recipe_detail
+    override fun getLayoutRes(): Int = R.layout.activity_recipe_detail
 
     override fun getView(): RecipeDetailContract.View = this
 
@@ -46,6 +47,7 @@ class RecipeDetailActivity : BaseActivity<RecipeDetailContract.View, RecipeDetai
         ))
         super.onCreate(savedInstanceState)
         presenter.getRecipeDetailInformation(recipeId)
+        adView.loadAd(AdRequest.Builder().build())
     }
 
     override fun onStop() {

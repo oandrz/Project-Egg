@@ -44,7 +44,7 @@ ext {
     clarifaiVersion = '2.4.0'
     daggerVersion = '2.26'
     retrofitVersion = '2.5.0'
-    okhttpVersion = '4.2.2'
+    okhttpVersion = '4.4.1'
     rxjavaVersion = '2.0.7'
     rxAndroidVersion = '2.1.1'
     hotchemiVersion = '3.1.0'
@@ -57,6 +57,7 @@ ext {
     zeibatsuVersion = '2.1.0'
     endlessRecyclerViewVersion = '1.1.4'
     adMobVersion = '19.0.0'
+    preferenceVersion = '1.1.0'
 
     junitVersion = '4.12'
     espressoVersion = '3.1.0'
