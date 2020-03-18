@@ -31,10 +31,8 @@ class AppRepository @Inject constructor(
         return Observable.mergeDelayError(
             appRemoteDataStore
                 .getRecipeDetailInformation(recipeId)
-                .doOnNext { recipe -> appLocalDataStore.saveDetailInformation(recipe) }
-                .subscribeOn(Schedulers.io()),
+                .doOnNext { recipe -> appLocalDataStore.saveDetailInformation(recipe) },
             appLocalDataStore.getRecipeDetailInformation(recipeId)
-                .subscribeOn(Schedulers.io())
         )
     }
 
