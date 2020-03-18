@@ -47,12 +47,13 @@ class RecipeListActivity : BaseActivity<RecipeListContract.View, RecipeListPrese
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when(item?.itemId) {
+        return when(item?.itemId) {
             R.id.menu_filter -> {
-
+                presenter.handleFilterActionClicked()
+                true
             }
+            else -> super.onOptionsItemSelected(item)
         }
-        return super.onOptionsItemSelected(item)
     }
 
     override fun getView(): RecipeListContract.View = this
@@ -126,6 +127,19 @@ class RecipeListActivity : BaseActivity<RecipeListContract.View, RecipeListPrese
         startActivity(RecipeDetailActivity.getIntent(this, recipeId))
     }
 
+    override fun showFilterBottomSheet(
+        cuisines: List<String>,
+        selectedCuisine: String?
+    ) {
+        RecipeFilterBottomSheetDialogFragment().also {
+            it.cuisines = cuisines
+            it.selectedCuisine = selectedCuisine
+            it.onBottomSheetDismissListener = { cuisine ->
+                presenter.handleFilterItemSelected(cuisine)
+            }
+        }.show(supportFragmentManager, "cartbot")
+    }
+
     override fun showErrorSnackBar(errorMessage: String) {
         Snackbar.make(root_layout, errorMessage, Snackbar.LENGTH_SHORT)
     }
@@ -134,9 +148,9 @@ class RecipeListActivity : BaseActivity<RecipeListContract.View, RecipeListPrese
         private const val INGREDIENT_EXTRA_KEY = "INGREDIENT_EXTRA_KEY"
 
         fun newIntent(context: Context, ingredients: List<Ingredient>): Intent {
-            val intent = Intent(context, RecipeListActivity::class.java)
-            intent.putExtra(INGREDIENT_EXTRA_KEY, ArrayList(ingredients))
-            return intent
+            return Intent(context, RecipeListActivity::class.java).also {
+                it.putExtra(INGREDIENT_EXTRA_KEY, ArrayList(ingredients))
+            }
         }
     }
 }

@@ -17,7 +17,6 @@ import starbright.com.projectegg.data.model.Recipe
 import starbright.com.projectegg.data.model.response.IngredientResponse
 import starbright.com.projectegg.data.model.response.RecipeDetailResponse
 import starbright.com.projectegg.data.model.response.RecipeListResponse
-import starbright.com.projectegg.data.model.response.RecipeResponse
 import starbright.com.projectegg.util.Constants
 import java.util.*
 import javax.inject.Inject
@@ -26,14 +25,14 @@ import javax.inject.Singleton
 @Singleton
 class AppRemoteDataStore @Inject constructor(private val mRetrofit: Retrofit) : AppDataStore {
 
-    override fun getRecipes(ingredients: String, offset: Int): Observable<List<Recipe>> {
+    override fun getRecipes(ingredients: String, cuisine: String, offset: Int): Observable<List<Recipe>> {
         val queryMap = HashMap<String, String>()
         queryMap[Constants.QUERY_PARAM_LIMIT_LICENSE_KEY] = true.toString()
         queryMap[Constants.QUERY_PARAM_INSTRUCTION_REQUIRED_KEY] = true.toString()
         queryMap[Constants.QUERY_PARAM_ADD_INFORMATION] = true.toString()
         queryMap[Constants.QUERY_PARAM_SORT_KEY] = "time"
         return mRetrofit.create(Service::class.java)
-            .getRecipes(ingredients = ingredients, offset = offset, options =queryMap)
+            .getRecipes(ingredients = ingredients, cuisine = cuisine, offset = offset, options =queryMap)
             .map { responses ->
                 val recipes = ArrayList<Recipe>(responses.results.size)
                 for (response in responses.results) {
@@ -72,6 +71,7 @@ class AppRemoteDataStore @Inject constructor(private val mRetrofit: Retrofit) : 
         fun getRecipes(
             @Query(Constants.QUERY_API_KEY) apiKey: String? = BuildConfig.SPOON_KEY,
             @Query("includeIngredients") ingredients: String,
+            @Query("cuisine") cuisine: String,
             @Query("offset") offset: Int,
             @QueryMap options: Map<String, String>
         ): Observable<RecipeListResponse>

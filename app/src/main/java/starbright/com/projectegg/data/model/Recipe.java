@@ -86,6 +86,10 @@ public class Recipe {
     @ColumnInfo(name = "instructions")
     private List<Instruction> mInstructions;
 
+    @Nullable
+    @ColumnInfo(name = "cuisines")
+    private List<String> mCuisines;
+
     public Recipe(int id,
                   String title,
                   String image,
@@ -110,6 +114,7 @@ public class Recipe {
         mUsedIngredientCount = response.getUsedIngredientCount();
         mMissedIngredientCount = response.getMissedingredientCount();
         mLikes = response.getLikes();
+        mCuisines = response.getCuisines();
     }
 
     public Recipe(RecipeDetailResponse response) {
@@ -202,6 +207,15 @@ public class Recipe {
     @Nullable
     public List<Instruction> getInstructions() {
         return mInstructions;
+    }
+
+    @Nullable
+    public List<String> getCuisines() {
+        return mCuisines;
+    }
+
+    public void setCuisines(List<String> mCuisines) {
+        this.mCuisines = mCuisines;
     }
 
     public void setUid(int uid) {

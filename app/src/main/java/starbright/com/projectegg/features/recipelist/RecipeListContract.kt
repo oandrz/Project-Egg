@@ -21,6 +21,10 @@ class RecipeListContract {
         fun bindRecipesToList(recipes: List<Recipe>)
         fun appendRecipes(recipes: List<Recipe>, hasNext: Boolean)
         fun showDetail(recipeId: String)
+        fun showFilterBottomSheet(
+            cuisines: List<String>,
+            selectedCuisine: String?
+        )
 
         fun showErrorSnackBar(errorMessage: String)
     }
@@ -29,6 +33,8 @@ class RecipeListContract {
         fun handleListItemClicked(position: Int)
         fun handleRefresh()
         fun handleLoadMore(lastPosition: Int)
+        fun handleFilterActionClicked()
+        fun handleFilterItemSelected(cuisine: String)
 
         fun setIngredients(ingredients: MutableList<Ingredient>)
     }

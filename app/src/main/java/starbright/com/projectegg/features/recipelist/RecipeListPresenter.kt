@@ -18,18 +18,20 @@ class RecipeListPresenter @Inject constructor(
     schedulerProvider: SchedulerProviderContract,
     compositeDisposable: CompositeDisposable,
     networkHelper: NetworkHelper,
-    private val mRepository: AppRepository
+    private val repository: AppRepository
 ) : BasePresenter<RecipeListContract.View>(schedulerProvider, compositeDisposable, networkHelper), RecipeListContract.Presenter {
 
     private val dataSource: MutableList<Recipe> = mutableListOf()
     private var ingredients: List<Ingredient> = listOf()
+    private var cuisinesCache: List<String>? = null
+    private var selectedCuisine: String? = null
 
     override fun onCreateScreen() {
         view.let {
             ingredients = it.provideIngredients() ?: listOf()
             it.setupView()
         }
-        refresh(mapIngredients())
+        refresh(mapIngredients(), selectedCuisine.orEmpty())
     }
 
     override fun handleListItemClicked(position: Int) {
@@ -37,12 +39,14 @@ class RecipeListPresenter @Inject constructor(
     }
 
     override fun handleRefresh() {
-        refresh(mapIngredients())
+        selectedCuisine = null
+        cuisinesCache = null
+        refresh(mapIngredients(), selectedCuisine.orEmpty())
     }
 
     override fun handleLoadMore(lastPosition: Int) {
         compositeDisposable.add(
-            mRepository.getRecipes(mapIngredients(), lastPosition + 1)
+            repository.getRecipes(mapIngredients(), selectedCuisine.orEmpty(), lastPosition + 1)
                 .subscribeOn(schedulerProvider.io())
                 .observeOn(schedulerProvider.ui())
                 .subscribe({ recipesResult ->
@@ -54,22 +58,40 @@ class RecipeListPresenter @Inject constructor(
         )
     }
 
+    override fun handleFilterActionClicked() {
+        if (cuisinesCache.isNullOrEmpty() && !isFilterCuisineSelected()) {
+            cuisinesCache = dataSource.flatMap { recipe ->
+                recipe.cuisines?.filter { it.isNotEmpty() } ?: listOf()
+            }.toSet().toList()
+        }
+        cuisinesCache?.let {
+            view.showFilterBottomSheet(it, selectedCuisine)
+        }
+    }
+
+    override fun handleFilterItemSelected(cuisine: String) {
+        selectedCuisine = cuisine
+        refresh(mapIngredients(), selectedCuisine.orEmpty())
+    }
+
     override fun setIngredients(ingredients: MutableList<Ingredient>) {
         this.ingredients = ingredients
     }
 
-    private fun refresh(ingredients: String) {
+    private fun isFilterCuisineSelected(): Boolean = !selectedCuisine.isNullOrBlank()
+
+    private fun refresh(ingredients: String, cuisine: String) {
         if (!isConnectedToInternet()) view.showError(R.string.server_connection_error)
         view.showLoadingBar()
         compositeDisposable.add(
-            mRepository.getRecipes(ingredients, 0)
+            repository.getRecipes(ingredients, cuisine, 0)
                 .subscribeOn(schedulerProvider.io())
                 .observeOn(schedulerProvider.ui())
                 .subscribe({ recipesResult ->
                     dataSource.clear()
                     dataSource.addAll(recipesResult)
-                    view.hideLoadingBar()
                     view.bindRecipesToList(recipesResult)
+                    view.hideLoadingBar()
                 }, { throwable ->
                     view.hideLoadingBar()
                     view.showErrorSnackBar(

@@ -76,4 +76,5 @@
 
     <!--Ads View-->
     <string name="ads.size">BANNER</string>
+    <string name="filter_recipe">Cuisine</string>
 </resources>
