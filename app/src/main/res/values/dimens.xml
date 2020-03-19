@@ -29,6 +29,7 @@
     <!--Font Size-->
     <dimen name="small_font">10sp</dimen>
     <dimen name="normal_font">14sp</dimen>
+    <dimen name="large">18sp</dimen>
     <dimen name="header_font">24sp</dimen>
 
     <!--Card View-->

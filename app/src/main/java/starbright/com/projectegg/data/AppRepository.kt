@@ -28,12 +28,7 @@ class AppRepository @Inject constructor(
     }
 
     override fun getRecipeDetailInformation(recipeId: String): Observable<Recipe> {
-        return Observable.mergeDelayError(
-            appRemoteDataStore
-                .getRecipeDetailInformation(recipeId)
-                .doOnNext { recipe -> appLocalDataStore.saveDetailInformation(recipe) },
-            appLocalDataStore.getRecipeDetailInformation(recipeId)
-        )
+        return appRemoteDataStore.getRecipeDetailInformation(recipeId)
     }
 
     override fun saveDetailInformation(recipe: Recipe) {

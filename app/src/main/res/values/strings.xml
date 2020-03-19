@@ -77,4 +77,6 @@
     <!--Ads View-->
     <string name="ads.size">BANNER</string>
     <string name="filter_recipe">Cuisine</string>
+    <string name="empty_desc">Do not be sad, we will improve our database so we can serve you better in the future</string>
+    <string name="empty_vew_title">Cannot generate any recipe</string>
 </resources>

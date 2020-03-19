@@ -73,6 +73,7 @@ dependencies {
     implementation "androidx.cardview:cardview:$rootProject.ext.cardViewVersion"
     implementation "com.google.android.material:material:$rootProject.ext.materialDesignVersion"
     implementation "androidx.recyclerview:recyclerview:$rootProject.ext.materialDesignVersion"
+    implementation "androidx.constraintlayout:constraintlayout:$rootProject.ext.materialDesignVersion"
     implementation "androidx.legacy:legacy-support-v4:$rootProject.ext.legacySupportVersion"
 
     //dagger
