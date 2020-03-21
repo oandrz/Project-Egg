@@ -44,16 +44,14 @@
                     android:id="@+id/img_banner_food"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/banner_image_height"
-                    android:scaleType="centerCrop"
-                    android:visibility="gone" />
+                    android:scaleType="centerCrop" />
 
                 <RelativeLayout
                     android:id="@+id/container_header"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/colorPrimary"
-                    android:padding="@dimen/space_normal"
-                    android:visibility="gone">
+                    android:padding="@dimen/space_normal">
 
                     <TextView
                         android:id="@+id/tv_recipe_title"
@@ -99,12 +97,21 @@
                             tools:text="2 people" />
                     </LinearLayout>
 
+                    <View
+                        android:id="@+id/divider_vertical"
+                        android:layout_width="@dimen/line_size"
+                        android:layout_height="@dimen/vertical_divider_height"
+                        android:layout_below="@id/divider"
+                        android:layout_centerHorizontal="true"
+                        android:background="@color/white" />
+
                     <LinearLayout
                         android:id="@+id/container_preparation_time"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/divider"
-                        android:layout_centerHorizontal="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginEnd="@dimen/space_large"
                         android:gravity="center_horizontal"
                         android:orientation="vertical">
 
@@ -124,36 +131,7 @@
                             style="@style/NormalFontWhite"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="2 people" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/container_cooking_time"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/divider"
-                        android:layout_alignParentEnd="true"
-                        android:layout_marginEnd="@dimen/space_large"
-                        android:gravity="center_horizontal"
-                        android:orientation="vertical">
-
-                        <ImageView
-                            android:layout_width="@dimen/drawable_view_icon_size"
-                            android:layout_height="@dimen/drawable_view_icon_size"
-                            android:src="@drawable/ic_access_time" />
-
-                        <TextView
-                            style="@style/SmallFontWhite"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/detail.cookingtime.label" />
-
-                        <TextView
-                            android:id="@+id/tv_cooking_time"
-                            style="@style/NormalFontWhite"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="2 people" />
+                            tools:text="2 people" />
                     </LinearLayout>
                 </RelativeLayout>
 
@@ -162,7 +140,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/space_small"
-                    android:visibility="gone"
                     app:cardCornerRadius="@dimen/card_corner_radius"
                     app:cardElevation="@dimen/card_elevation">
 

@@ -11,6 +11,8 @@ package starbright.com.projectegg.features.detail
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import androidx.core.content.ContextCompat
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -24,6 +26,7 @@ import starbright.com.projectegg.data.model.Ingredient
 import starbright.com.projectegg.data.model.Instruction
 import starbright.com.projectegg.features.base.BaseActivity
 import starbright.com.projectegg.features.base.NormalToolbar
+import starbright.com.projectegg.features.base.WebviewActivity
 import starbright.com.projectegg.util.GlideApp
 import starbright.com.projectegg.util.TextViewRecyclerAdapter
 import java.lang.ref.WeakReference
@@ -50,9 +53,23 @@ class RecipeDetailActivity : BaseActivity<RecipeDetailContract.View, RecipeDetai
         adView.loadAd(AdRequest.Builder().build())
     }
 
-    override fun onStop() {
-        Glide.with(this).clear(img_banner_food)
-        super.onStop()
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.recipe_detail_menu, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        return when(item?.itemId) {
+            R.id.menu_share -> {
+                presenter.handleShareMenuClicked()
+                true
+            }
+            R.id.menu_webview -> {
+                presenter.handleWebViewMenuClicked()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     override fun showProgressBar() {
@@ -103,7 +120,6 @@ class RecipeDetailActivity : BaseActivity<RecipeDetailContract.View, RecipeDetai
         tv_recipe_title.text = recipeName
         tv_serving_count.text = getString(R.string.detail_serving_format, serving)
         tv_preparation_time.text = getString(R.string.detail_time_format, preparationMinutes)
-        tv_cooking_time.text = getString(R.string.detail_time_format, cookingMinutes)
     }
 
     override fun renderIngredientCard(ingredients: MutableList<Ingredient>) {
@@ -160,7 +176,7 @@ class RecipeDetailActivity : BaseActivity<RecipeDetailContract.View, RecipeDetai
     }
 
     override fun navigateToWebViewActivity(url: String) {
-
+        startActivity(WebviewActivity.newIntent(this, url))
     }
 
     companion object {

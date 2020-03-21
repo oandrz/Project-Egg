@@ -60,8 +60,8 @@
     <!--Detail Page-->
     <string name="detail.title">Recipe Detail</string>
     <string name="detail.serving.label">Serving</string>
-    <string name="detail.preparationtime.label">Preparation Time</string>
-    <string name="detail.cookingtime.label">Cooking Time</string>
+    <string name="detail.preparationtime.label">Cooking Time</string>
+    <string name="detail.calory.label">Calories</string>
     <string name="detail.ingredient.label">Ingredient</string>
     <string name="detail.instruction.label">Instruction</string>
     <string name="detail.time.format">%d Minutes</string>

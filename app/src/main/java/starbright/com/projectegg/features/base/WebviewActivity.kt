@@ -42,10 +42,11 @@ class WebviewActivity : AppCompatActivity() {
 
     private fun setupToolbar() {
         setSupportActionBar(toolbar)
-        val actionBar = supportActionBar
-        actionBar!!.setTitle(intent.getStringExtra(EXTRA_URL))
-        actionBar.setDisplayHomeAsUpEnabled(true)
-        actionBar.setHomeButtonEnabled(true)
+        supportActionBar?.run {
+            title = intent.getStringExtra(EXTRA_URL)
+            setDisplayHomeAsUpEnabled(true)
+            setHomeButtonEnabled(true)
+        }
     }
 
     private fun setupWebView() {
@@ -53,13 +54,11 @@ class WebviewActivity : AppCompatActivity() {
         webSettings.javaScriptEnabled = true
         webSettings.domStorageEnabled = true
         webview.webViewClient = object : WebViewClient() {
-            override fun onPageStarted(view: WebView, url: String, favicon: Bitmap) {
-                super.onPageStarted(view, url, favicon)
+            override fun onPageStarted(view: WebView, url: String, favicon: Bitmap?) {
                 progress_bar.visibility = View.VISIBLE
             }
 
             override fun onPageFinished(view: WebView, url: String) {
-                super.onPageFinished(view, url)
                 progress_bar.visibility = View.GONE
             }
         }
