@@ -108,7 +108,6 @@ class IngredientsPresenter @Inject constructor(
                 .subscribe({ ingredients ->
                     view.run {
                         hideSuggestionProgressBar()
-                        hideSoftKeyboard()
                         if (ingredients.isEmpty()) {
                             showItemEmptyToast()
                         }

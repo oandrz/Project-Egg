@@ -219,12 +219,6 @@ class IngredientsActivity : BaseActivity<IngredientsContract.View,
         tv_cart_count.text = count.toString()
     }
 
-    override fun hideSoftKeyboard() {
-        (getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager).also {
-            it.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0)
-        }
-    }
-
     override fun navigateToRecipeList(cart: List<Ingredient>) {
         startActivity(RecipeListActivity.newIntent(this, cart))
     }

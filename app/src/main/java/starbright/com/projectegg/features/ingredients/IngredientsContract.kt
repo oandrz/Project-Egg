@@ -42,8 +42,6 @@ class IngredientsContract {
 
         fun updateIngredientCount(count: Int)
 
-        fun hideSoftKeyboard()
-
         fun navigateToRecipeList(cart: List<Ingredient>)
     }
 
