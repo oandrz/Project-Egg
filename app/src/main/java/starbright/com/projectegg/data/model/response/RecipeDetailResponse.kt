@@ -10,16 +10,13 @@ data class RecipeDetailResponse (
     val id: Int = 0,
 
     @SerializedName("title")
-    val title: String? = null,
+    val title: String,
 
     @SerializedName("image")
     val imageStringUrl: String? = null,
 
     @SerializedName("readyInMinutes")
-    val preparationMinutes: Int = 0,
-
-    @SerializedName("cookingMinutes")
-    val cookingMinutes: Int = 0,
+    val cookingTime: Int = 0,
 
     @SerializedName("sourceUrl")
     val sourceStringUrl: String? = null,
@@ -30,9 +27,18 @@ data class RecipeDetailResponse (
     @SerializedName("servings")
     val servings: Int = 0,
 
+    @SerializedName("nutrition")
+    val nutrients: NutritionResponse,
+
+    @SerializedName("dishTypes")
+    val dishTypes: List<String>,
+
+    @SerializedName("cuisines")
+    val cuisinse: List<String>,
+
     @SerializedName("analyzedInstructions")
-    val analyzedInstructions: List<InstructionResponse>? = null,
+    val analyzedInstructions: List<InstructionResponse>,
 
     @SerializedName("extendedIngredients")
-    val extendedIngredientResponse: List<ExtendedIngredientResponse>? = null
+    val extendedIngredientResponse: List<ExtendedIngredientResponse>
 )

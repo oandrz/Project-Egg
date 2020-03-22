@@ -38,7 +38,7 @@ public class Ingredient implements Parcelable {
 
     public Ingredient(ExtendedIngredientResponse response) {
         mId = response.getId();
-        mName = response.getName();
+        mName = response.getOriginalString();
         if (response.getImage() != null) {
             mImageUrl = Constants.IMAGE_INGREDIENT_URL.concat(response.getImage());
         }

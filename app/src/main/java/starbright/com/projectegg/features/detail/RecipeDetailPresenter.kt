@@ -41,18 +41,18 @@ class RecipeDetailPresenter @Inject constructor(
                     view.hideProgressBar()
                     mRecipe = recipe
                     if (mRecipe != null) {
-                        view.hideEmptyStateTextView()
+                        view.hideEmptyView()
                         updateView()
                     } else {
-                        view.renderEmptyStateTextView()
+                        view.renderEmptyView()
                     }
                 }, {
                     view.hideProgressBar()
                     if (mRecipe != null) {
-                        view.hideEmptyStateTextView()
+                        view.hideEmptyView()
                         updateView()
                     } else {
-                        view.renderEmptyStateTextView()
+                        view.renderEmptyView()
                     }
                 }))
     }
@@ -78,14 +78,19 @@ class RecipeDetailPresenter @Inject constructor(
         mRecipe?.let { recipe ->
             with(view) {
                 showScrollContainer()
-                renderBannerFoodImage(recipe.image)
-                renderHeaderContainer(recipe.servingCount, recipe.preparationMinutes,
-                    recipe.cookingMinutes, recipe.title)
+                renderBannerFoodImage(recipe.image ?: "")
+                renderHeaderContainer(
+                    recipe.servingCount ?: 0,
+                    recipe.cookingMinutes ?: 0,
+                    recipe.title,
+                    if (recipe.dishTypes?.isEmpty() == true) "" else recipe.dishTypes?.first() ?: "",
+                    recipe.calories ?: 0
+                )
                 recipe.ingredients?.let { ingredients ->
-                    renderIngredientCard(ingredients)
+                    renderIngredientsList(ingredients.toMutableList())
                 }
                 recipe.instructions?.let { instructions ->
-                    renderInstructionCard(instructions)
+                    renderInstructionsList(instructions.toMutableList())
                 }
             }
         }

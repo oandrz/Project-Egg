@@ -12,6 +12,9 @@ data class ExtendedIngredientResponse (
     @SerializedName("name")
     val name: String? = null,
 
+    @SerializedName("originalString")
+    val originalString: String,
+
     @SerializedName("amount")
     val amount: Float = 0f,
 

@@ -11,7 +11,6 @@ import androidx.room.Room
 import dagger.Module
 import dagger.Provides
 import starbright.com.projectegg.dagger.qualifier.ApplicationContext
-import starbright.com.projectegg.data.local.RecipeDatabase
 import starbright.com.projectegg.util.Constants
 import javax.inject.Singleton
 
@@ -24,10 +23,4 @@ class StorageModule {
         return PreferenceManager.getDefaultSharedPreferences(context)
     }
 
-    @Provides
-    @Singleton
-    fun provideDatabase(@ApplicationContext context: Context): RecipeDatabase {
-        return Room.databaseBuilder(context, RecipeDatabase::class.java,
-            Constants.DATABASE_NAME).build()
-    }
 }

@@ -30,6 +30,7 @@ object Constants {
     const val QUERY_PARAM_SORT_KEY = "sort"
     const val QUERY_PARAM_NUMBER_KEY = "number"
     const val QUERY_API_KEY = "apiKey"
+    const val QUERY_PARAM_INCL_NUTRITION = "includeNutrition"
 
     const val OPERATION_NOT_SUPPORTED = "Operation not supported"
 
