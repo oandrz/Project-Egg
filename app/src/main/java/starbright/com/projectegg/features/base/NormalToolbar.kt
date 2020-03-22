@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import java.lang.ref.WeakReference
 
+const val UNKNOWN_RESOURCE: Int = -1
 class NormalToolbar(
     private val activity: WeakReference<AppCompatActivity>,
     private val toolbarId: Int,
@@ -21,7 +22,11 @@ class NormalToolbar(
             activity.get()?.let { appCompatActivity ->
                 appCompatActivity.setSupportActionBar(toolbar)
                 appCompatActivity.supportActionBar?.let { supportActionBar ->
-                    supportActionBar.title = activity.get()?.resources?.getString(toolbarTitleRes)
+                    supportActionBar.title = if (toolbarTitleRes == UNKNOWN_RESOURCE) {
+                        ""
+                    } else {
+                        activity.get()?.resources?.getString(toolbarTitleRes)
+                    }
                     supportActionBar.setDisplayHomeAsUpEnabled(true)
                 }
             }

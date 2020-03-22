@@ -42,6 +42,12 @@
         <item name="android:textColor">@color/white</item>
     </style>
 
+    <style name="HeaderFontBlack">
+        <item name="android:textSize">@dimen/header_font</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
     <style name="EmptyViewFont">
         <item name="android:textSize">@dimen/large</item>
         <item name="android:textStyle">bold</item>

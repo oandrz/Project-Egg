@@ -84,15 +84,18 @@ class RecipeDetailPresenterTest {
         verify(mockView).hideScrollContainer()
         verify(mockView).showProgressBar()
         verify(mockView).hideProgressBar()
-        verify(mockView).hideEmptyStateTextView()
+        verify(mockView).hideEmptyView()
         verify(mockView).renderBannerFoodImage(mockRecipe.image)
-        verify(mockView).renderHeaderContainer(mockRecipe.servingCount, mockRecipe.preparationMinutes,
-            mockRecipe.cookingMinutes, mockRecipe.title)
+        verify(mockView).renderHeaderContainer(
+            mockRecipe.servingCount, mockRecipe.cookingMinutes,
+            mockRecipe.title,
+
+        )
         mockRecipe.ingredients?.let {
-            verify(mockView.renderIngredientCard(it))
+            verify(mockView.renderIngredientsList(it))
         }
         mockRecipe.instructions?.let {
-            verify(mockView).renderInstructionCard(it)
+            verify(mockView).renderInstructionsList(it)
         }
     }
 
@@ -111,7 +114,7 @@ class RecipeDetailPresenterTest {
         presenter.getRecipeDetailInformation(mockRecipe.id.toString())
         testScheduler.triggerActions()
 
-        verify(mockView).renderEmptyStateTextView()
+        verify(mockView).renderEmptyView()
     }
 
     @Test

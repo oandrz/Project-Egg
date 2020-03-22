@@ -56,4 +56,5 @@ public class Converter {
     public static String fromCuisines(List<String> cuisines) {
         return new Gson().toJson(cuisines);
     }
+
 }

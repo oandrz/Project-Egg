@@ -13,6 +13,7 @@ import retrofit2.http.QueryMap
 import starbright.com.projectegg.BuildConfig
 import starbright.com.projectegg.data.AppDataStore
 import starbright.com.projectegg.data.model.Ingredient
+import starbright.com.projectegg.data.model.Instruction
 import starbright.com.projectegg.data.model.Recipe
 import starbright.com.projectegg.data.model.response.IngredientResponse
 import starbright.com.projectegg.data.model.response.RecipeDetailResponse
@@ -36,7 +37,14 @@ class AppRemoteDataStore @Inject constructor(private val mRetrofit: Retrofit) : 
             .map { responses ->
                 val recipes = ArrayList<Recipe>(responses.results.size)
                 for (response in responses.results) {
-                    recipes.add(Recipe(response))
+                    recipes.add(
+                        Recipe(
+                            id = response.id,
+                            title = response.title,
+                            image = response.image,
+                            cuisines = response.cuisines
+                        )
+                    )
                 }
                 recipes
             }
@@ -58,8 +66,31 @@ class AppRemoteDataStore @Inject constructor(private val mRetrofit: Retrofit) : 
     }
 
     override fun getRecipeDetailInformation(recipeId: String): Observable<Recipe> {
-        return mRetrofit.create(Service::class.java).getRecipeDetailInformation(recipeId = recipeId)
-            .map { recipeDetailResponse -> Recipe(recipeDetailResponse) }
+        val queryMap = HashMap<String, String>().also {
+            it[Constants.QUERY_PARAM_INCL_NUTRITION] = true.toString()
+        }
+        return mRetrofit.create(Service::class.java)
+            .getRecipeDetailInformation(recipeId = recipeId, options = queryMap)
+            .map { recipeDetailResponse ->
+                Recipe(
+                    id = recipeDetailResponse.id,
+                    cookingMinutes = recipeDetailResponse.cookingTime,
+                    servingCount = recipeDetailResponse.servings,
+                    title = recipeDetailResponse.title,
+                    image = recipeDetailResponse.imageStringUrl,
+                    sourceStringUrl = recipeDetailResponse.sourceStringUrl,
+                    sourceName = recipeDetailResponse.sourceName,
+                    ingredients = recipeDetailResponse.extendedIngredientResponse.map {
+                        Ingredient(it)
+                    },
+                    instructions = recipeDetailResponse.analyzedInstructions.first().stepResponse.map {
+                        Instruction(it.number, it.step)
+                    },
+                    calories = recipeDetailResponse.nutrients.nutrients.first().amount.toInt(),
+                    dishTypes = recipeDetailResponse.dishTypes,
+                    cuisines = recipeDetailResponse.cuisinse
+                )
+            }
     }
 
     override fun saveDetailInformation(recipe: Recipe) {
@@ -86,6 +117,7 @@ class AppRemoteDataStore @Inject constructor(private val mRetrofit: Retrofit) : 
         @GET("recipes/{recipeId}/information")
         fun getRecipeDetailInformation(
             @Path("recipeId") recipeId: String,
+            @QueryMap options: Map<String, String>,
             @Query(Constants.QUERY_API_KEY) apiKey: String? = BuildConfig.SPOON_KEY
         ): Observable<RecipeDetailResponse>
     }

@@ -10,23 +10,11 @@ data class RecipeResponse (
     val id: Int = 0,
 
     @SerializedName("title")
-    val title: String? = null,
+    val title: String,
 
     @SerializedName("image")
     val image: String? = null,
 
-    @SerializedName("imageType")
-    val imageType: String? = null,
-
-    @SerializedName("usedIngredientCount")
-    val usedIngredientCount: Int = 0,
-
-    @SerializedName("missedIngredientCount")
-    val missedingredientCount: Int = 0,
-
     @SerializedName("cuisines")
-    val cuisines: List<String> = listOf(),
-
-    @SerializedName("likes")
-    val likes: Int = 0
+    val cuisines: List<String> = listOf()
 )

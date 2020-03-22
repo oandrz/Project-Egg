@@ -21,15 +21,21 @@ class RecipeDetailContract {
 
         fun hideScrollContainer()
         fun showScrollContainer()
-        fun hideEmptyStateTextView()
+        fun hideEmptyView()
 
-        fun renderErrorStateTextView(errorMessage: String)
-        fun renderEmptyStateTextView()
+        fun renderErrorView(errorMessage: String)
+        fun renderEmptyView()
         fun renderBannerFoodImage(imageURL: String)
 
-        fun renderHeaderContainer(serving: Int, preparationMinutes: Int, cookingMinutes: Int, recipeName: String)
-        fun renderIngredientCard(ingredients: MutableList<Ingredient>)
-        fun renderInstructionCard(instructions: MutableList<Instruction>)
+        fun renderHeaderContainer(
+            serving: Int,
+            cookingMinutes: Int,
+            recipeName: String,
+            dishType: String,
+            calories: Int
+        )
+        fun renderIngredientsList(ingredients: MutableList<Ingredient>)
+        fun renderInstructionsList(instructions: MutableList<Instruction>)
 
         fun setupSwipeRefreshLayout()
 

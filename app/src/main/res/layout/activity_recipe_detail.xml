@@ -207,13 +207,5 @@
                     ads:adUnitId="ca-app-pub-4345343920473004/7008001872"/>
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
-
-        <TextView
-            android:id="@+id/tv_empty_text"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:text="@string/detail.empty.label"
-            android:visibility="gone" />
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </LinearLayout>
