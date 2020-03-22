@@ -7,6 +7,7 @@ package starbright.com.projectegg.features.ingredients
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Environment
 import android.provider.MediaStore
@@ -261,5 +262,7 @@ class IngredientsActivity : BaseActivity<IngredientsContract.View,
 
     companion object {
         private const val CAMERA_REQUEST_CODE: Int = 101
+
+        fun newIntent(context: Context): Intent = Intent(context, IngredientsActivity::class.java)
     }
 }
