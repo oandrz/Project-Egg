@@ -18,7 +18,7 @@ object Constants {
         "A-Z]{2,7}$"
     const val JPG = ".jpg"
 
-    const val PROVIDER_PACKAGE_NAME = "starbright.com.projectegg.fileprovider"
+    const val PROVIDER_PACKAGE_NAME = "starbright.com.projectegg.FileProvider"
 
 
     //  Networking

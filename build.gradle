@@ -26,6 +26,7 @@ allprojects {
     repositories {
         google()
         jcenter()
+        maven { url 'http://oss.jfrog.org/artifactory/oss-snapshot-local/' }
     }
 }
 
@@ -47,7 +48,7 @@ ext {
     okhttpVersion = '4.4.1'
     rxjavaVersion = '2.0.7'
     rxAndroidVersion = '2.1.1'
-    hotchemiVersion = '3.1.0'
+    hotchemiVersion = '4.5.0'
     glideVersion = '4.11.0'
     firebaseCoreVersion = '17.2.3'
     firebaseAuthVersion = '17.0.0'
