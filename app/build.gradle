@@ -46,7 +46,7 @@ android {
         }
 
         release {
-            debuggable true
+            debuggable false
             minifyEnabled true
             applicationIdSuffix ".release"
             versionNameSuffix "-release"
