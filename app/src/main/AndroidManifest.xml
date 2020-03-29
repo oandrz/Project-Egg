@@ -15,9 +15,10 @@
         android:roundIcon="@mipmap/ic_chefnut_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <!-- Sample AdMob App ID: ca-app-pub-3940256099942544~3347511713 -->
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-4345343920473004~7300286541" />
+            android:value="ca-app-pub-9465452265341097~6785839700" />
 
         <activity
             android:name=".features.SplashScreenActivity"

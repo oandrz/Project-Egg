@@ -132,7 +132,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space_normal"
                 app:adSize="SMART_BANNER"
-                app:adUnitId="ca-app-pub-4345343920473004/7008001872"
+                app:adUnitId="ca-app-pub-9465452265341097/6594268019"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/rv_instruction" />
         </androidx.constraintlayout.widget.ConstraintLayout>
