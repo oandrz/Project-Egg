@@ -57,7 +57,6 @@ android {
     productFlavors {
         develop {
             dimension "version"
-            applicationIdSuffix ".develop"
             versionNameSuffix "-develop"
             resValue 'string', 'app_name', '\"Chefnut-Dev\"'
             buildConfigField 'String', 'SPOON_KEY', '\"c14f35c6748443ef89c645e7a09404c7\"'
@@ -66,7 +65,6 @@ android {
 
         production {
             dimension "version"
-            applicationIdSuffix ".full"
             versionNameSuffix "-full"
             resValue 'string', 'app_name', '\"Chefnut\"'
             buildConfigField 'String', 'SPOON_KEY', '\"c14f35c6748443ef89c645e7a09404c7\"'
