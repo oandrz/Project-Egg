@@ -34,7 +34,7 @@ data class RecipeDetailResponse (
     val dishTypes: List<String>,
 
     @SerializedName("cuisines")
-    val cuisinse: List<String>,
+    val cuisine: List<String>,
 
     @SerializedName("analyzedInstructions")
     val analyzedInstructions: List<InstructionResponse>,

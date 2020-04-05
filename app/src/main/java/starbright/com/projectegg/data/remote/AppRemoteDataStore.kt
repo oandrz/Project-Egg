@@ -88,7 +88,7 @@ class AppRemoteDataStore @Inject constructor(private val mRetrofit: Retrofit) : 
                     },
                     calories = recipeDetailResponse.nutrients.nutrients.first().amount.toInt(),
                     dishTypes = recipeDetailResponse.dishTypes,
-                    cuisines = recipeDetailResponse.cuisinse
+                    cuisines = recipeDetailResponse.cuisine
                 )
             }
     }
