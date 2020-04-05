@@ -41,8 +41,6 @@ android {
             applicationIdSuffix ".debug"
             versionNameSuffix "-debug"
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            buildConfigField 'String', 'SPOON_KEY', '\"c14f35c6748443ef89c645e7a09404c7\"'
-            resValue 'string', 'app_name', '\"Chefnut-Debug\"'
         }
 
         release {
@@ -52,8 +50,27 @@ android {
             versionNameSuffix "-release"
             signingConfig signingConfigs.config
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    flavorDimensions "version"
+    productFlavors {
+        develop {
+            dimension "version"
+            applicationIdSuffix ".develop"
+            versionNameSuffix "-develop"
+            resValue 'string', 'app_name', '\"Chefnut-Dev\"'
             buildConfigField 'String', 'SPOON_KEY', '\"c14f35c6748443ef89c645e7a09404c7\"'
+            resValue 'string', 'APP_ADS_UNIT_ID', '\"ca-app-pub-3940256099942544/6300978111\"'
+        }
+
+        production {
+            dimension "version"
+            applicationIdSuffix ".full"
+            versionNameSuffix "-full"
             resValue 'string', 'app_name', '\"Chefnut\"'
+            buildConfigField 'String', 'SPOON_KEY', '\"c14f35c6748443ef89c645e7a09404c7\"'
+            resValue 'string', 'APP_ADS_UNIT_ID', '\"ca-app-pub-9465452265341097/6594268019\"'
         }
     }
 }
@@ -143,4 +160,3 @@ dependencies {
     testImplementation 'androidx.arch.core:core-testing:2.1.0'
     testImplementation "org.hamcrest:hamcrest-library:$hamcrestVersion"
 }
-apply plugin: 'com.google.gms.google-services'
