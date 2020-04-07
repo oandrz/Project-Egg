@@ -18,13 +18,6 @@ import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.android.gms.ads.AdRequest
-import kotlinx.android.synthetic.main.activity_recipe_detail.adView
-import kotlinx.android.synthetic.main.activity_recipe_detail.img_banner_food
-import kotlinx.android.synthetic.main.activity_recipe_detail.rv_ingredient
-import kotlinx.android.synthetic.main.activity_recipe_detail.rv_instruction
-import kotlinx.android.synthetic.main.activity_recipe_detail.scroll_container
-import kotlinx.android.synthetic.main.activity_recipe_detail.swipe_refresh_container
-import kotlinx.android.synthetic.main.activity_recipe_detail.tv_recipe_title
 import kotlinx.android.synthetic.main.activity_recipe_detail_revamped.*
 import kotlinx.android.synthetic.main.content_recipe_detail_body.*
 import starbright.com.projectegg.R

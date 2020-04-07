@@ -14,6 +14,7 @@ import androidx.core.content.FileProvider
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
+import android.view.inputmethod.EditorInfo
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.afollestad.materialdialogs.MaterialDialog
@@ -24,6 +25,7 @@ import starbright.com.projectegg.BuildConfig
 import starbright.com.projectegg.R
 import starbright.com.projectegg.dagger.component.ActivityComponent
 import starbright.com.projectegg.data.model.Ingredient
+import starbright.com.projectegg.features.ads.AdsActivity
 import starbright.com.projectegg.features.base.BaseActivity
 import starbright.com.projectegg.features.recipelist.RecipeListActivity
 import starbright.com.projectegg.util.Constants
@@ -70,6 +72,10 @@ class IngredientsActivity : BaseActivity<IngredientsContract.View,
     }
 
     override fun setupView() {
+        et_search_ingredients.imeOptions = EditorInfo.IME_ACTION_DONE
+        tv_title.setOnClickListener {
+            presenter.handleTvTitleClicked()
+        }
         setupEtSearchIngredients()
         setupRvIngredientSuggestion()
         setupMaterialProgressDialog()
@@ -221,6 +227,10 @@ class IngredientsActivity : BaseActivity<IngredientsContract.View,
 
     override fun navigateToRecipeList(cart: List<Ingredient>) {
         startActivity(RecipeListActivity.newIntent(this, cart))
+    }
+
+    override fun navigateToIncomePage() {
+        startActivity(AdsActivity.newIntent(this))
     }
 
     @SuppressLint("NeedOnRequestPermissionsResult")

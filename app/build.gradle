@@ -26,7 +26,7 @@ android {
         minSdkVersion 19
         targetSdkVersion 29
         buildToolsVersion '29.0.3'
-        versionCode 2
+        versionCode 3
         versionName "0.0.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
@@ -60,6 +60,8 @@ android {
             versionNameSuffix "-develop"
             resValue 'string', 'app_name', '\"Chefnut-Dev\"'
             buildConfigField 'String', 'SPOON_KEY', '\"c14f35c6748443ef89c645e7a09404c7\"'
+            buildConfigField 'String', 'REWARD_ADS_ID', '\"ca-app-pub-3940256099942544/5224354917\"'
+            buildConfigField 'String', 'INTERSTITIAL_ADS_ID', '\"ca-app-pub-3940256099942544/1033173712\"'
             resValue 'string', 'APP_ADS_UNIT_ID', '\"ca-app-pub-3940256099942544/6300978111\"'
         }
 
@@ -68,6 +70,8 @@ android {
             versionNameSuffix "-full"
             resValue 'string', 'app_name', '\"Chefnut\"'
             buildConfigField 'String', 'SPOON_KEY', '\"c14f35c6748443ef89c645e7a09404c7\"'
+            buildConfigField 'String', 'REWARD_ADS_ID', '\"ca-app-pub-9465452265341097/7691435683\"'
+            buildConfigField 'String', 'INTERSTITIAL_ADS_ID', '\"ca-app-pub-9465452265341097/9375858926\"'
             resValue 'string', 'APP_ADS_UNIT_ID', '\"ca-app-pub-9465452265341097/6594268019\"'
         }
     }

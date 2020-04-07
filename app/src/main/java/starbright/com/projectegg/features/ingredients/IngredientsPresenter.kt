@@ -29,6 +29,8 @@ class IngredientsPresenter @Inject constructor(
 ) : BasePresenter<IngredientsContract.View>(schedulerProvider, compositeDisposable, networkHelper),
     IngredientsContract.Presenter {
 
+    private var counter: Int = 0
+
     private var cart: MutableList<Ingredient> = mutableListOf()
         set(value) {
             field = value
@@ -87,6 +89,13 @@ class IngredientsPresenter @Inject constructor(
 
     override fun handleItemRemovedFromCart() {
         view.updateIngredientCount(cart.size)
+    }
+
+    override fun handleTvTitleClicked() {
+        counter++
+        if (counter >= 5) {
+            view.navigateToIncomePage()
+        }
     }
 
     override fun handleSubmitButtonClicked() {
