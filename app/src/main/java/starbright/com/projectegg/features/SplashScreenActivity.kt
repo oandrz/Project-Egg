@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import starbright.com.projectegg.R
+import starbright.com.projectegg.features.home.HomeActivity
 import starbright.com.projectegg.features.ingredients.IngredientsActivity
 
 class SplashScreenActivity : AppCompatActivity() {
@@ -14,7 +15,7 @@ class SplashScreenActivity : AppCompatActivity() {
 
         Handler().postDelayed(
             {
-                startActivity(IngredientsActivity.newIntent(this))
+                startActivity(HomeActivity.newIntent(this))
                 finish()
             },
             1000

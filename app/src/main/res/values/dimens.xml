@@ -19,6 +19,8 @@
     <dimen name="line_size">1dp</dimen>
     <dimen name="banner_image_height">300dp</dimen>
 
+    <dimen name="navigation_bottom_height">56dp</dimen>
+
     <!--Spacing-->
     <dimen name="space_4dp">4dp</dimen>
     <dimen name="space_small">8dp</dimen>

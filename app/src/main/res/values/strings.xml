@@ -83,4 +83,8 @@
     <string name="empty_desc">Do not be sad, we will improve our database so we can serve you better in the future</string>
     <string name="empty_vew_title">No Match Recipe</string>
     <string name="recipe_detail_empty">Something Wrong on Our Side</string>
+
+    <!--Home-->
+    <string name="home.menu.home">Home</string>
+    <string name="home.menu.settings">Settings</string>
 </resources>
