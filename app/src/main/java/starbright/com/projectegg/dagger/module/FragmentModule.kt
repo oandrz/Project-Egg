@@ -4,16 +4,15 @@
 
 package starbright.com.projectegg.dagger.module
 
-import androidx.fragment.app.Fragment
 import dagger.Module
 import dagger.Provides
 import starbright.com.projectegg.dagger.qualifier.FragmentContext
+import starbright.com.projectegg.features.base.BaseFragment
 
 @Module
-class FragmentModule(private val fragment: Fragment) {
+class FragmentModule(private val fragment: BaseFragment<*, *>) {
 
     @FragmentContext
     @Provides
     fun provideContext() = fragment
-
 }

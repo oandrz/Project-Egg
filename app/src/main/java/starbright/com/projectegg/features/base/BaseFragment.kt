@@ -27,17 +27,20 @@ abstract class BaseFragment<V : BaseViewContract, P : BasePresenter<V>> : Fragme
         super.onCreate(savedInstanceState)
     }
 
-    private fun buildFragmentComponent(): FragmentComponent = DaggerFragmentComponent.builder()
-        .applicationComponent((context?.applicationContext as MyApp).appComponent)
-        .fragmentModule(FragmentModule(this))
-        .build()
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
         inflater.inflate(getLayoutRes(), container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupView(view)
+        presenter.run {
+            attachView(getViewContract())
+            onCreateScreen()
+        }
+    }
+
+    override fun onDestroyView() {
+        presenter.onStopScreen()
+        super.onDestroyView()
     }
 
     override fun showError(res: Int?, text: String?) {
@@ -56,9 +59,14 @@ abstract class BaseFragment<V : BaseViewContract, P : BasePresenter<V>> : Fragme
         if (activity is BaseActivity<*, *>) (activity as BaseActivity<*, *>).goBack()
     }
 
+    private fun buildFragmentComponent(): FragmentComponent = DaggerFragmentComponent.builder()
+        .applicationComponent((context?.applicationContext as MyApp).appComponent)
+        .fragmentModule(FragmentModule(this))
+        .build()
+
     @LayoutRes
     protected abstract fun getLayoutRes(): Int
 
     protected abstract fun injectDependencies(fragmentComponent: FragmentComponent)
-    protected abstract fun setupView(view: View)
+    protected abstract fun getViewContract(): V
 }

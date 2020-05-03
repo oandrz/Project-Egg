@@ -12,7 +12,7 @@ import id.zelory.compressor.Compressor
 import io.reactivex.disposables.CompositeDisposable
 import starbright.com.projectegg.dagger.qualifier.ApplicationContext
 import starbright.com.projectegg.util.NetworkHelper
-import starbright.com.projectegg.util.scheduler.SchedulerProvider
+import starbright.com.projectegg.util.scheduler.RxSchedulerProvider
 import starbright.com.projectegg.util.scheduler.SchedulerProviderContract
 import javax.inject.Singleton
 
@@ -42,6 +42,6 @@ class AppModule(private val application: Application) {
 
     @Provides
     fun providesSchedulerComposer(): SchedulerProviderContract {
-        return SchedulerProvider.getInstance()
+        return RxSchedulerProvider()
     }
 }
