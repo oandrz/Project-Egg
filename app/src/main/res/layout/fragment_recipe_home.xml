@@ -1,16 +1,14 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fitsSystemWindows="true">
+    android:layout_height="match_parent">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/app_header_height"
-        android:fitsSystemWindows="true"
-        app:elevation="0dp"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:elevation="0dp">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:id="@+id/collapsing_toolbar"
@@ -39,10 +37,10 @@
                 style="@style/HeaderFontWhite"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="What do you like to cook?"
-                android:textColor="@color/white"
                 android:layout_gravity="bottom|center_horizontal"
-                android:layout_marginBottom="@dimen/space_xlarge"/>
+                android:layout_marginBottom="@dimen/space_xlarge"
+                android:text="What do you like to cook?"
+                android:textColor="@color/white" />
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -67,11 +65,11 @@
                     android:id="@+id/rv_recipe"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
-                
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="iosfiofs\nisoidsiondso\niosdoidsfoidfshf\niosfiofs\nisoidsiondso\niosdoidsfoidfshf\niosfiofs\nisoidsiondso\niosdoidsfoidfshf\niosfiofs\nisoidsiondso\niosdoidsfoidfshf\niosfiofs\nisoidsiondso\niosdoidsfoidfshf\niosfiofs\nisoidsiondso\niosdoidsfoidfshf\niosfiofs\nisoidsiondso\niosdoidsfoidfshf\niosfiofs\nisoidsiondso\niosdoidsfoidfshf\niosfiofs\nisoidsiondso\niosdoidsfoidfshf\niosfiofs\nisoidsiondso\niosdoidsfoidfshf\niosfiofs\nisoidsiondso\niosdoidsfoidfshf\niosfiofs\nisoidsiondso\niosdoidsfoidfshf\niosfiofs\nisoidsiondso\niosdoidsfoidfshf\niosfiofs\nisoidsiondso\niosdoidsfoidfshf\niosfiofs\nisoidsiondso\niosdoidsfoidfshf\niosfiofs\nisoidsiondso\niosdoidsfoidfshf\niosfiofs\nisoidsiondso\niosdoidsfoidfshf\niosfiofs\nisoidsiondso\niosdoidsfoidfshf\niosfiofs\nisoidsiondso\niosdoidsfoidfshf\niosfiofs\nisoidsiondso\niosdoidsfoidfshf\niosfiofs\nisoidsiondso\niosdoidsfoidfshf\niosfiofs\nisoidsiondso\niosdoidsfoidfshf\niosfiofs\nisoidsiondso\niosdoidsfoidfshf\niosfiofs\nisoidsiondso\niosdoidsfoidfshf\n"/>
+                    android:text="iosfiofs\nisoidsiondso\niosdoidsfoidfshf\niosfiofs\nisoidsiondso\niosdoidsfoidfshf\niosfiofs\nisoidsiondso\niosdoidsfoidfshf\niosfiofs\nisoidsiondso\niosdoidsfoidfshf\niosfiofs\nisoidsiondso\niosdoidsfoidfshf\niosfiofs\nisoidsiondso\niosdoidsfoidfshf\niosfiofs\nisoidsiondso\niosdoidsfoidfshf\niosfiofs\nisoidsiondso\niosdoidsfoidfshf\niosfiofs\nisoidsiondso\niosdoidsfoidfshf\niosfiofs\nisoidsiondso\niosdoidsfoidfshf\niosfiofs\nisoidsiondso\niosdoidsfoidfshf\niosfiofs\nisoidsiondso\niosdoidsfoidfshf\niosfiofs\nisoidsiondso\niosdoidsfoidfshf\niosfiofs\nisoidsiondso\niosdoidsfoidfshf\niosfiofs\nisoidsiondso\niosdoidsfoidfshf\niosfiofs\nisoidsiondso\niosdoidsfoidfshf\niosfiofs\nisoidsiondso\niosdoidsfoidfshf\niosfiofs\nisoidsiondso\niosdoidsfoidfshf\niosfiofs\nisoidsiondso\niosdoidsfoidfshf\niosfiofs\nisoidsiondso\niosdoidsfoidfshf\niosfiofs\nisoidsiondso\niosdoidsfoidfshf\niosfiofs\nisoidsiondso\niosdoidsfoidfshf\niosfiofs\nisoidsiondso\niosdoidsfoidfshf\niosfiofs\nisoidsiondso\niosdoidsfoidfshf\n" />
             </FrameLayout>
         </androidx.cardview.widget.CardView>
     </androidx.core.widget.NestedScrollView>
@@ -84,6 +82,6 @@
         android:layout_marginStart="@dimen/space_normal"
         android:layout_marginEnd="@dimen/space_normal"
         app:layout_anchor="@id/appbar"
-        app:layout_behavior="starbright.com.projectegg.view.StickyHideBehaviour"
-        app:layout_anchorGravity="bottom|center_horizontal" />
+        app:layout_anchorGravity="bottom|center_horizontal"
+        app:layout_behavior="starbright.com.projectegg.view.StickyHideBehaviour" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
