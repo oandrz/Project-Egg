@@ -2,6 +2,7 @@ package starbright.com.projectegg.features.home
 
 import android.content.Context
 import android.content.Intent
+import com.jaeger.library.StatusBarUtil
 import kotlinx.android.synthetic.main.activity_home.*
 import starbright.com.projectegg.R
 import starbright.com.projectegg.dagger.component.ActivityComponent
@@ -18,6 +19,7 @@ class HomeActivity : BaseActivity<HomeContract.View, HomePresenter>(), HomeContr
         activityComponent.inject(this)
 
     override fun setupBottomSheet() {
+        StatusBarUtil.setTranslucentForImageViewInFragment(this, null)
         navigation.run {
             itemIconTintList = null
             setOnNavigationItemSelectedListener { item ->

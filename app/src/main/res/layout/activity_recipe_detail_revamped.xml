@@ -16,7 +16,6 @@
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
             app:titleEnabled="false"
-            app:contentScrim="?attr/colorPrimary"
             app:expandedTitleMarginStart="@dimen/space_normal"
             app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed">
 

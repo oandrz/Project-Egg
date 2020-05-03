@@ -155,6 +155,8 @@ dependencies {
     implementation "androidx.room:room-rxjava2:$rootProject.ext.roomVersion"
     kapt "androidx.room:room-compiler:$rootProject.ext.roomVersion"
 
+    implementation 'com.jaeger.statusbarutil:library:1.5.1'
+
     // Unit Test
     testImplementation "junit:junit:$junitVersion"
     testImplementation "org.mockito:mockito-core:$mockitoVersion"

@@ -18,6 +18,7 @@ import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.android.gms.ads.AdRequest
+import com.jaeger.library.StatusBarUtil
 import kotlinx.android.synthetic.main.activity_recipe_detail_revamped.*
 import kotlinx.android.synthetic.main.content_recipe_detail_body.*
 import starbright.com.projectegg.R
@@ -47,6 +48,7 @@ class RecipeDetailActivity : BaseActivity<RecipeDetailContract.View, RecipeDetai
         activityComponent.inject(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        StatusBarUtil.setTranslucentForImageViewInFragment(this, null)
         setToolbarBehavior(
             NormalToolbar(
                 WeakReference(this), R.id.toolbar, UNKNOWN_RESOURCE
