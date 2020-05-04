@@ -8,6 +8,7 @@ import dagger.Component
 import starbright.com.projectegg.dagger.module.FragmentModule
 import starbright.com.projectegg.dagger.scope.FragmentScope
 import starbright.com.projectegg.features.home.list.RecipeHomeFragment
+import starbright.com.projectegg.features.home.setting.SettingFragment
 
 @FragmentScope
 @Component(
@@ -16,4 +17,5 @@ import starbright.com.projectegg.features.home.list.RecipeHomeFragment
 )
 interface FragmentComponent {
     fun inject(fragment: RecipeHomeFragment)
+    fun inject(fragment: SettingFragment)
 }

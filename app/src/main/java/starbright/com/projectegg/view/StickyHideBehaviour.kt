@@ -6,6 +6,9 @@ import android.view.View
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import com.google.android.material.behavior.HideBottomViewOnScrollBehavior
 
+private const val FLING_TRESSHOLD_SLIDE_UP = -2100
+private const val FLING_TRESSHOLD_SLIDE_DOWN = 2100
+
 class StickyHideBehaviour<V : View?> : HideBottomViewOnScrollBehavior<V> {
 
     constructor() : super()
@@ -36,9 +39,9 @@ class StickyHideBehaviour<V : View?> : HideBottomViewOnScrollBehavior<V> {
         velocityY: Float,
         consumed: Boolean
     ): Boolean {
-        if (velocityY > 0) {
+        if (velocityY >= FLING_TRESSHOLD_SLIDE_DOWN) {
             slideDown(child)
-        } else if (velocityY < 0) {
+        } else if (velocityY <= FLING_TRESSHOLD_SLIDE_UP) {
             slideUp(child)
         }
         return super.onNestedFling(coordinatorLayout, child, target, velocityX, velocityY, consumed)

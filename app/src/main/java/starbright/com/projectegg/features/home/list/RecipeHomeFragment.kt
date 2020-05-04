@@ -13,6 +13,7 @@ class RecipeHomeFragment: BaseFragment<RecipeHomeContract.View, RecipeHomePresen
     override fun getViewContract(): RecipeHomeContract.View = this
 
     companion object {
+        const val TAG = "Recipe Home"
         fun newInstance(): RecipeHomeFragment {
             return RecipeHomeFragment()
         }

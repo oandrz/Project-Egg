@@ -4,6 +4,7 @@
 
 package starbright.com.projectegg.dagger.module
 
+import androidx.fragment.app.FragmentManager
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
@@ -11,10 +12,13 @@ import starbright.com.projectegg.features.base.BaseActivity
 import starbright.com.projectegg.util.IngredientRecognizer
 
 @Module
-class ActivityModule(private val activity: BaseActivity<*, *>) {
+class ActivityModule(private val supportFragmentManager: FragmentManager) {
 
     @Provides
     fun providesClarifaiHelper(client: OkHttpClient): IngredientRecognizer {
         return IngredientRecognizer(client)
     }
+
+    @Provides
+    fun provideFragmentManager(): FragmentManager = supportFragmentManager
 }
