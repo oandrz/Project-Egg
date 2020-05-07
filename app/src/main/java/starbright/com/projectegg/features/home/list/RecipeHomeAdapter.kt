@@ -8,6 +8,7 @@ import com.google.android.material.shape.CornerFamily
 import kotlinx.android.synthetic.main.layout_home_item_holder.view.*
 import starbright.com.projectegg.R
 import starbright.com.projectegg.data.model.Recipe
+import starbright.com.projectegg.util.GlideApp
 
 class RecipeHomeAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -135,6 +136,7 @@ class RecipeHomeAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                     .setTopLeftCorner(CornerFamily.ROUNDED, ivRadius)
                     .build()
 
+                tv_source_name.text = recipe.sourceName
                 tv_food_name.text = recipe.title
                 tv_serving_time.text = resources.getString(
                     R.string.home_list_format_time_shorten, recipe.cookingMinutes
@@ -142,6 +144,9 @@ class RecipeHomeAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                 tv_serving_count.text = resources.getString(
                     R.string.detail_serving_format, recipe.servingCount
                 )
+                GlideApp.with(context)
+                    .load(recipe.image)
+                    .into(iv_banner_food)
             }
         }
     }
