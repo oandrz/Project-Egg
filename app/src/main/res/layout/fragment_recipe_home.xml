@@ -45,34 +45,13 @@
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.core.widget.NestedScrollView
-        android:id="@+id/content"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_recipe"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:descendantFocusability="blocksDescendants"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/card_content"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:focusableInTouchMode="true"
-            android:focusable="false"
-            app:cardBackgroundColor="@android:color/white">
-
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/space_large">
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_recipe"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    tools:listitem="@layout/layout_home_item_holder"/>
-            </FrameLayout>
-        </androidx.cardview.widget.CardView>
-    </androidx.core.widget.NestedScrollView>
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/space_large"
+        tools:listitem="@layout/layout_home_item_holder"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
     <include
         android:id="@+id/search"

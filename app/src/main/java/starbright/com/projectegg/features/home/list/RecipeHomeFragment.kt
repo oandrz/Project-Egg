@@ -1,11 +1,20 @@
 package starbright.com.projectegg.features.home.list
 
+import android.os.Handler
+import android.util.Log
+import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.mikepenz.fastadapter.FastAdapter
+import com.mikepenz.fastadapter.GenericFastAdapter
+import com.mikepenz.fastadapter.adapters.ItemAdapter
+import com.mikepenz.fastadapter.scroll.EndlessRecyclerOnScrollListener
+import com.mikepenz.fastadapter.ui.items.ProgressItem
 import kotlinx.android.synthetic.main.fragment_recipe_home.*
 import starbright.com.projectegg.R
 import starbright.com.projectegg.dagger.component.FragmentComponent
 import starbright.com.projectegg.data.model.Recipe
 import starbright.com.projectegg.features.base.BaseFragment
+import starbright.com.projectegg.features.detail.RecipeDetailActivity
 
 class RecipeHomeFragment: BaseFragment<RecipeHomeContract.View, RecipeHomePresenter>(), RecipeHomeContract.View {
 
@@ -13,9 +22,24 @@ class RecipeHomeFragment: BaseFragment<RecipeHomeContract.View, RecipeHomePresen
         LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
     }
 
-    private val recipeListAdapter: RecipeHomeAdapter by lazy {
-        RecipeHomeAdapter()
+    private val recipeBodyAdapter: ItemAdapter<RecipeItem> by lazy {
+        ItemAdapter<RecipeItem>()
     }
+
+    private val recipeHeaderAdapter: ItemAdapter<RecipeHeader> by lazy {
+        ItemAdapter<RecipeHeader>()
+    }
+
+    private val recipeFooterAdpter: ItemAdapter<ProgressItem> by lazy {
+        ItemAdapter<ProgressItem>()
+    }
+
+    private val endlessScrollListener: EndlessRecyclerOnScrollListener =
+        object : EndlessRecyclerOnScrollListener(recipeFooterAdpter) {
+            override fun onLoadMore(currentPage: Int) {
+                presenter.handleLoadMore(currentPage)
+            }
+        }
 
     override fun getLayoutRes(): Int = R.layout.fragment_recipe_home
 
@@ -38,13 +62,52 @@ class RecipeHomeFragment: BaseFragment<RecipeHomeContract.View, RecipeHomePresen
     }
 
     override fun setupList() {
+        val fastAdapter = FastAdapter.with(
+            listOf(recipeHeaderAdapter, recipeBodyAdapter, recipeFooterAdpter)
+        ).apply {
+            onClickListener =  { view, adapter, item, position ->
+                if (view != null && item is RecipeItem) {
+                    presenter.handleItemClick(item.recipe.id.toString())
+                }
+                false
+            }
+        }
+
         rv_recipe.run {
+            itemAnimator = DefaultItemAnimator()
             layoutManager = linearLayoutManager
-            adapter = recipeListAdapter
+            adapter = fastAdapter
+            addOnScrollListener(endlessScrollListener)
+        }
+        recipeHeaderAdapter.add(listOf(RecipeHeader(getString(R.string.home_list_header))))
+    }
+
+    override fun populateList(recipe: List<Recipe>) {
+        Handler().post {
+            recipeFooterAdpter.clear()
+            recipe.map {
+                recipeBodyAdapter.add(RecipeItem(it))
+            }
         }
     }
 
-    override fun populateList(recipe: MutableList<Recipe>) {
-        recipeListAdapter.addAll(recipe)
+    override fun showFooterLoading(recipe: List<Recipe>) {
+        Handler().post {
+            recipeFooterAdpter.clear()
+            recipeFooterAdpter.add(ProgressItem())
+        }
+    }
+
+    override fun showError(error: String) {
+        Handler().post {
+            recipeFooterAdpter.clear()
+        }
+        showError(error)
+    }
+
+    override fun navigateDetailPage(recipeId: String) {
+        activity?.apply {
+            startActivity(RecipeDetailActivity.getIntent(this, recipeId))
+        }
     }
 }

@@ -130,6 +130,9 @@ dependencies {
 
     //endless Recycler View
     implementation "com.malinskiy:superrecyclerview:$rootProject.ext.endlessRecyclerViewVersion"
+    implementation "com.mikepenz:fastadapter:5.0.2"
+    implementation "com.mikepenz:fastadapter-extensions-scroll:5.0.2" // scroll helpers
+    implementation "com.mikepenz:fastadapter-extensions-ui:5.0.2"
 
     //Material Dialog
     implementation "com.afollestad.material-dialogs:core:$rootProject.ext.materialDialogVersion"

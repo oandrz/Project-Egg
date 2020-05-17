@@ -16,15 +16,15 @@ import starbright.com.projectegg.util.Constants
 import javax.inject.Inject
 import javax.inject.Singleton
 
-/**
- * Created by Andreas on 4/8/2018.
- */
-
 @Singleton
 class AppLocalDataStore @Inject constructor() : AppDataStore {
 
     override fun getRecipes(ingredients: String, cuisine: String, offset: Int): Observable<List<Recipe>> {
         System.err.print(Constants.OPERATION_NOT_SUPPORTED)
+        throw UnsupportedOperationException()
+    }
+
+    override fun getRecommendedRecipe(offSet: Int): Observable<List<Recipe>> {
         throw UnsupportedOperationException()
     }
 

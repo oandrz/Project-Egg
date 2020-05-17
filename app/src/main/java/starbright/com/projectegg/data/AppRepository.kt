@@ -5,7 +5,6 @@
 package starbright.com.projectegg.data
 
 import io.reactivex.Observable
-import io.reactivex.schedulers.Schedulers
 import starbright.com.projectegg.dagger.qualifier.LocalData
 import starbright.com.projectegg.dagger.qualifier.RemoteData
 import starbright.com.projectegg.data.model.Ingredient
@@ -21,6 +20,10 @@ class AppRepository @Inject constructor(
 
     override fun getRecipes(ingredients: String, cuisine: String, offset: Int): Observable<List<Recipe>> {
         return appRemoteDataStore.getRecipes(ingredients, cuisine, offset)
+    }
+
+    override fun getRecommendedRecipe(offSet: Int): Observable<List<Recipe>> {
+        return appRemoteDataStore.getRecommendedRecipe(offSet)
     }
 
     override fun searchIngredient(query: String): Observable<List<Ingredient>> {

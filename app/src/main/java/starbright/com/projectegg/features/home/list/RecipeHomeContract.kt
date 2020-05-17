@@ -9,10 +9,15 @@ class RecipeHomeContract {
     interface View: BaseViewContract {
         fun setupSearchView()
         fun setupList()
-        fun populateList(recipe: MutableList<Recipe>)
+        fun populateList(recipe: List<Recipe>)
+        fun showFooterLoading(recipe: List<Recipe>)
+        fun showError(error: String)
+        fun navigateDetailPage(recipeId: String)
     }
 
     interface Presenter: BasePresenterContract {
-
+        fun loadRecipe(page: Int)
+        fun handleLoadMore(currentPage: Int)
+        fun handleItemClick(selectedRecipeId: String)
     }
 }

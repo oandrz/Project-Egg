@@ -9,7 +9,6 @@ import javax.inject.Singleton
  * Created by Andreas on 4/14/2018.
  */
 
-@Singleton
 class RxSchedulerProvider : SchedulerProviderContract {
     override fun computation(): Scheduler {
         return Schedulers.computation()

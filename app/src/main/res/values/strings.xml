@@ -90,5 +90,6 @@
     <string name="home.header.searchhint">Search by dish</string>
     <string name="home.list.header">Recommendation From Us</string>
     <string name="home.list.format.time.shorten">%d Min</string>
+    <string name="home.list.format.by">By %s</string>
     <string name="divider">|</string>
 </resources>

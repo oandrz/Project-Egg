@@ -41,6 +41,7 @@ class AppModule(private val application: Application) {
     }
 
     @Provides
+    @Singleton
     fun providesSchedulerComposer(): SchedulerProviderContract {
         return RxSchedulerProvider()
     }

@@ -18,6 +18,7 @@ import starbright.com.projectegg.data.model.Recipe
 import starbright.com.projectegg.data.model.response.IngredientResponse
 import starbright.com.projectegg.data.model.response.RecipeDetailResponse
 import starbright.com.projectegg.data.model.response.RecipeListResponse
+import starbright.com.projectegg.enum.RecipeListSortType
 import starbright.com.projectegg.util.Constants
 import java.util.*
 import javax.inject.Inject
@@ -31,7 +32,7 @@ class AppRemoteDataStore @Inject constructor(private val mRetrofit: Retrofit) : 
         queryMap[Constants.QUERY_PARAM_LIMIT_LICENSE_KEY] = true.toString()
         queryMap[Constants.QUERY_PARAM_INSTRUCTION_REQUIRED_KEY] = true.toString()
         queryMap[Constants.QUERY_PARAM_ADD_INFORMATION] = true.toString()
-        queryMap[Constants.QUERY_PARAM_SORT_KEY] = "time"
+        queryMap[Constants.QUERY_PARAM_SORT_KEY] = RecipeListSortType.TIME.type
         return mRetrofit.create(Service::class.java)
             .getRecipes(ingredients = ingredients, cuisine = cuisine, offset = offset, options =queryMap)
             .map { responses ->
@@ -45,6 +46,37 @@ class AppRemoteDataStore @Inject constructor(private val mRetrofit: Retrofit) : 
                             cuisines = response.cuisines
                         )
                     )
+                }
+                recipes
+            }
+    }
+
+    override fun getRecommendedRecipe(offSet: Int): Observable<List<Recipe>> {
+        val queryMap = HashMap<String, String>()
+        queryMap[Constants.QUERY_PARAM_LIMIT_LICENSE_KEY] = true.toString()
+        queryMap[Constants.QUERY_PARAM_INSTRUCTION_REQUIRED_KEY] = true.toString()
+        queryMap[Constants.QUERY_PARAM_ADD_INFORMATION] = true.toString()
+        queryMap[Constants.QUERY_PARAM_SORT_KEY] = RecipeListSortType.RANDOM.type
+        return mRetrofit.create(Service::class.java)
+            .getRecommendedRecipes(offset = offSet, options = queryMap)
+            .map { responses ->
+                val recipes = ArrayList<Recipe>(responses.results.size)
+                for (response in responses.results) {
+                    response.apply {
+                        recipes.add(
+                            Recipe(
+                                id = id,
+                                cookingMinutes = cookingTime,
+                                servingCount = servings,
+                                title = title,
+                                image = image,
+                                sourceStringUrl = sourceStringUrl,
+                                sourceName = sourceName,
+                                dishTypes = dishTypes,
+                                cuisines = cuisines
+                            )
+                        )
+                    }
                 }
                 recipes
             }
@@ -88,7 +120,7 @@ class AppRemoteDataStore @Inject constructor(private val mRetrofit: Retrofit) : 
                     },
                     calories = recipeDetailResponse.nutrients.nutrients.first().amount.toInt(),
                     dishTypes = recipeDetailResponse.dishTypes,
-                    cuisines = recipeDetailResponse.cuisine
+                    cuisines = recipeDetailResponse.cuisines
                 )
             }
     }
@@ -103,6 +135,13 @@ class AppRemoteDataStore @Inject constructor(private val mRetrofit: Retrofit) : 
             @Query(Constants.QUERY_API_KEY) apiKey: String? = BuildConfig.SPOON_KEY,
             @Query("includeIngredients") ingredients: String,
             @Query("cuisine") cuisine: String,
+            @Query("offset") offset: Int,
+            @QueryMap options: Map<String, String>
+        ): Observable<RecipeListResponse>
+
+        @GET("recipes/complexSearch")
+        fun getRecommendedRecipes(
+            @Query(Constants.QUERY_API_KEY) apiKey: String? = BuildConfig.SPOON_KEY,
             @Query("offset") offset: Int,
             @QueryMap options: Map<String, String>
         ): Observable<RecipeListResponse>
