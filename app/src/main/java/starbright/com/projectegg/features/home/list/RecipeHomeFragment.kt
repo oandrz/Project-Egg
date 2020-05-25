@@ -15,6 +15,7 @@ import starbright.com.projectegg.dagger.component.FragmentComponent
 import starbright.com.projectegg.data.model.Recipe
 import starbright.com.projectegg.features.base.BaseFragment
 import starbright.com.projectegg.features.detail.RecipeDetailActivity
+import starbright.com.projectegg.features.search.SearchRecipeActivity
 
 class RecipeHomeFragment: BaseFragment<RecipeHomeContract.View, RecipeHomePresenter>(), RecipeHomeContract.View {
 
@@ -48,16 +49,11 @@ class RecipeHomeFragment: BaseFragment<RecipeHomeContract.View, RecipeHomePresen
 
     override fun getViewContract(): RecipeHomeContract.View = this
 
-    companion object {
-        const val TAG = "Recipe Home"
-        fun newInstance(): RecipeHomeFragment {
-            return RecipeHomeFragment()
-        }
-    }
-
     override fun setupSearchView() {
         search.setOnClickListener {
-
+            activity?.let {
+                startActivity(SearchRecipeActivity.newIntent(it))
+            }
         }
     }
 
@@ -108,6 +104,13 @@ class RecipeHomeFragment: BaseFragment<RecipeHomeContract.View, RecipeHomePresen
     override fun navigateDetailPage(recipeId: String) {
         activity?.apply {
             startActivity(RecipeDetailActivity.getIntent(this, recipeId))
+        }
+    }
+
+    companion object {
+        const val TAG = "Recipe Home"
+        fun newInstance(): RecipeHomeFragment {
+            return RecipeHomeFragment()
         }
     }
 }

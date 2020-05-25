@@ -40,7 +40,7 @@
         <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_filter_white"
+            android:src="@drawable/ic_filter"
             app:layout_constraintBottom_toBottomOf="@id/img_ic_search"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/img_ic_search"

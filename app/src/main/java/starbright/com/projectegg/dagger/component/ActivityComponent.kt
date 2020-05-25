@@ -12,6 +12,7 @@ import starbright.com.projectegg.features.detail.RecipeDetailActivity
 import starbright.com.projectegg.features.home.HomeActivity
 import starbright.com.projectegg.features.ingredients.IngredientsActivity
 import starbright.com.projectegg.features.recipelist.RecipeListActivity
+import starbright.com.projectegg.features.search.SearchRecipeActivity
 
 @ActivityScope
 @Component(
@@ -23,4 +24,5 @@ interface ActivityComponent {
     fun inject(activity: IngredientsActivity)
     fun inject(activity: RecipeDetailActivity)
     fun inject(activity: HomeActivity)
+    fun inject(activity: SearchRecipeActivity)
 }

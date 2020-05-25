@@ -15,7 +15,8 @@
         android:roundIcon="@mipmap/ic_chefnut_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".features.home.HomeActivity"></activity>
+        <activity android:name=".features.search.SearchRecipeActivity"></activity>
+        <activity android:name=".features.home.HomeActivity" />
         <activity android:name=".features.ads.AdsActivity" /> <!-- Sample AdMob App ID: ca-app-pub-3940256099942544~3347511713 -->
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
