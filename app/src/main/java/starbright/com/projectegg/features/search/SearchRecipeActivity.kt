@@ -4,18 +4,20 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
+import android.view.MenuItem
 import androidx.appcompat.widget.SearchView
 import starbright.com.projectegg.R
 import starbright.com.projectegg.dagger.component.ActivityComponent
 import starbright.com.projectegg.features.base.BaseActivity
 import starbright.com.projectegg.features.base.NormalToolbar
+import starbright.com.projectegg.features.recipelist.RecipeListActivity
 import java.lang.ref.WeakReference
 
 class SearchRecipeActivity : BaseActivity<SearchRecipeContract.View, SearchRecipePresenter>(), SearchRecipeContract.View {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setToolbarBehavior(
-            NormalToolbar(WeakReference(this), R.id.toolbar, R.string.recipelist_title, false)
+            NormalToolbar(WeakReference(this), R.id.toolbar, R.string.recipelist_title)
         )
         super.onCreate(savedInstanceState)
     }
@@ -34,6 +36,7 @@ class SearchRecipeActivity : BaseActivity<SearchRecipeContract.View, SearchRecip
             isIconified = false
             setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                 override fun onQueryTextSubmit(query: String?): Boolean {
+                    startActivity(RecipeListActivity.newIntent(this@SearchRecipeActivity, query = query))
                     return true
                 }
 

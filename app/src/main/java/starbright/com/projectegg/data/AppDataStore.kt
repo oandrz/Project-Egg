@@ -9,7 +9,7 @@ import starbright.com.projectegg.data.model.Ingredient
 import starbright.com.projectegg.data.model.Recipe
 
 interface AppDataStore {
-    fun getRecipes(ingredients: String, cuisine: String, offset: Int): Observable<List<Recipe>>
+    fun getRecipes(config: RecipeConfig, offset: Int): Observable<List<Recipe>>
     fun getRecommendedRecipe(offSet: Int): Observable<List<Recipe>>
     fun searchIngredient(query: String): Observable<List<Ingredient>>
 

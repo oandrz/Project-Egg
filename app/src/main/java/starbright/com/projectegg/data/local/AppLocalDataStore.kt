@@ -10,6 +10,7 @@ package starbright.com.projectegg.data.local
 
 import io.reactivex.Observable
 import starbright.com.projectegg.data.AppDataStore
+import starbright.com.projectegg.data.RecipeConfig
 import starbright.com.projectegg.data.model.Ingredient
 import starbright.com.projectegg.data.model.Recipe
 import starbright.com.projectegg.util.Constants
@@ -19,7 +20,7 @@ import javax.inject.Singleton
 @Singleton
 class AppLocalDataStore @Inject constructor() : AppDataStore {
 
-    override fun getRecipes(ingredients: String, cuisine: String, offset: Int): Observable<List<Recipe>> {
+    override fun getRecipes(config: RecipeConfig, offset: Int): Observable<List<Recipe>> {
         System.err.print(Constants.OPERATION_NOT_SUPPORTED)
         throw UnsupportedOperationException()
     }

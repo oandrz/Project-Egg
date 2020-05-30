@@ -7,31 +7,56 @@ package starbright.com.projectegg.features.recipelist
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import androidx.core.content.ContextCompat
+import android.os.Handler
 import android.view.Menu
 import android.view.MenuItem
+import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
+import com.mikepenz.fastadapter.FastAdapter
+import com.mikepenz.fastadapter.adapters.ItemAdapter
+import com.mikepenz.fastadapter.scroll.EndlessRecyclerOnScrollListener
+import com.mikepenz.fastadapter.ui.items.ProgressItem
 import kotlinx.android.synthetic.main.activity_recipe_list.*
 import starbright.com.projectegg.R
 import starbright.com.projectegg.dagger.component.ActivityComponent
+import starbright.com.projectegg.data.RecipeConfig
 import starbright.com.projectegg.data.model.Ingredient
 import starbright.com.projectegg.data.model.Recipe
 import starbright.com.projectegg.features.base.BaseActivity
 import starbright.com.projectegg.features.base.NormalToolbar
+import starbright.com.projectegg.features.base.UNKNOWN_RESOURCE
 import starbright.com.projectegg.features.detail.RecipeDetailActivity
+import starbright.com.projectegg.features.home.list.RecipeItem
 import java.lang.ref.WeakReference
 import java.util.*
 
-
 class RecipeListActivity : BaseActivity<RecipeListContract.View, RecipeListPresenter>(),
-    RecipeListContract.View, RecipeListAdapter.Listener {
+    RecipeListContract.View {
 
-    private lateinit var adapter: RecipeListAdapter
+    private val recipeBodyAdapter: ItemAdapter<RecipeItem> by lazy {
+        ItemAdapter<RecipeItem>()
+    }
+
+    private val recipeFooterAdapter: ItemAdapter<ProgressItem> by lazy {
+        ItemAdapter<ProgressItem>()
+    }
+
+    private val endlessScrollListener: EndlessRecyclerOnScrollListener =
+        object : EndlessRecyclerOnScrollListener(recipeFooterAdapter) {
+            override fun onLoadMore(currentPage: Int) {
+                presenter.handleLoadMore(recipeBodyAdapter.adapterItemCount)
+            }
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setToolbarBehavior(NormalToolbar(
-            WeakReference(this), R.id.toolbar, R.string.recipelist_title
+            WeakReference(this), R.id.toolbar,
+            if (intent.extras?.getString(QUERY_EXTRA_KEY) == null) {
+                UNKNOWN_RESOURCE
+            } else {
+                R.string.recipelist_title
+            }
         ))
         super.onCreate(savedInstanceState)
     }
@@ -62,65 +87,30 @@ class RecipeListActivity : BaseActivity<RecipeListContract.View, RecipeListPrese
         setupRecyclerView()
     }
 
-    private fun setupRecyclerView() {
-        adapter = RecipeListAdapter()
-        adapter.listener = this
-        rv_recipe.let {
-            it.setLayoutManager(LinearLayoutManager(
-                this, LinearLayoutManager.VERTICAL, false
-            ))
-            it.adapter = adapter
-            it.setRefreshListener {
-                presenter.handleRefresh()
-            }
-            it.setRefreshingColor(
-                ContextCompat.getColor(this, R.color.red),
-                ContextCompat.getColor(this, R.color.red),
-                ContextCompat.getColor(this, R.color.red),
-                ContextCompat.getColor(this, R.color.red)
-            )
-            it.setNumberBeforeMoreIsCalled(1)
-            it.setOnMoreListener { _, _, lastItemPos ->
-                presenter.handleLoadMore(lastItemPos)
+    override fun showFooter() {
+        Handler().post {
+            recipeFooterAdapter.apply {
+                clear()
+                add(ProgressItem())
             }
         }
     }
 
-    override fun onItemClicked(position: Int) {
-        presenter.handleListItemClicked(position)
-    }
-
-    override fun showLoadingBar() {
-        rv_recipe.apply {
-            setRefreshing(true)
-            showProgress()
+    override fun appendRecipes(recipes: List<Recipe>) {
+        Handler().post {
+            recipeFooterAdapter.clear()
+            recipes.map {
+                recipeBodyAdapter.add(RecipeItem(it))
+            }
         }
     }
 
-    override fun hideLoadingBar() {
-        rv_recipe.apply {
-            setRefreshing(false)
-            hideProgress()
-        }
-    }
-
-    override fun bindRecipesToList(recipes: List<Recipe>) {
-        adapter.refreshItems(recipes)
-        rv_recipe.showRecycler()
-    }
-
-    override fun appendRecipes(recipes: List<Recipe>, hasNext: Boolean) {
-        adapter.addAll(recipes)
-        if (!hasNext) {
-            rv_recipe.isLoadingMore = true
-        }
-    }
-
-    override fun provideIngredients(): List<Ingredient>? {
-        intent.extras?.getParcelableArrayList<Ingredient>(INGREDIENT_EXTRA_KEY)?.let {
-            return it
-        }
-        return null
+    override fun provideSearchConfig(): RecipeConfig {
+        return RecipeConfig(
+            intent.extras?.getString(QUERY_EXTRA_KEY),
+            null,
+            intent.extras?.getParcelableArrayList<Ingredient>(INGREDIENT_EXTRA_KEY)
+        )
     }
 
     override fun showDetail(recipeId: String) {
@@ -144,12 +134,36 @@ class RecipeListActivity : BaseActivity<RecipeListContract.View, RecipeListPrese
         Snackbar.make(root_layout, errorMessage, Snackbar.LENGTH_SHORT)
     }
 
+    private fun setupRecyclerView() {
+        val fastAdapter = FastAdapter.with(listOf(recipeBodyAdapter, recipeFooterAdapter)).apply {
+            onClickListener =  { view, _, item, position ->
+                if (view != null && item is RecipeItem) {
+                    presenter.handleListItemClicked(item.recipe.id.toString())
+                }
+                false
+            }
+        }
+
+        rv_recipe.run {
+            layoutManager = LinearLayoutManager(
+                this@RecipeListActivity, LinearLayoutManager.VERTICAL, false
+            )
+            itemAnimator = DefaultItemAnimator()
+            adapter = fastAdapter
+            addOnScrollListener(endlessScrollListener)
+        }
+    }
+
     companion object {
         private const val INGREDIENT_EXTRA_KEY = "INGREDIENT_EXTRA_KEY"
+        private const val QUERY_EXTRA_KEY = "QUERY_EXTRA_KEY"
 
-        fun newIntent(context: Context, ingredients: List<Ingredient>): Intent {
+        fun newIntent(context: Context, ingredients: List<Ingredient>? = null, query: String? = null): Intent {
             return Intent(context, RecipeListActivity::class.java).also {
-                it.putExtra(INGREDIENT_EXTRA_KEY, ArrayList(ingredients))
+                ingredients?.let { ingredients ->
+                    it.putExtra(INGREDIENT_EXTRA_KEY, ArrayList(ingredients))
+                }
+                it.putExtra(QUERY_EXTRA_KEY, query)
             }
         }
     }

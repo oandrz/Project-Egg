@@ -68,7 +68,7 @@ class RecipeListPresenterTest {
     fun givenResponse200_whenGetRecipe_shouldRenderView() {
         doReturn(mockIngredients)
             .`when`(mockView)
-            .provideIngredients()
+            .provideSearchConfig()
         doReturn(Observable.just(mockRecipes))
             .`when`(mockRepository)
             .getRecipes(mockIngredient.name, 0)
@@ -89,7 +89,7 @@ class RecipeListPresenterTest {
             .isConnectedWithNetwork()
         doReturn(mockIngredients)
             .`when`(mockView)
-            .provideIngredients()
+            .provideSearchConfig()
         doReturn(error)
             .`when`(mockRepository)
             .getRecipes(mockIngredient.name, 0)

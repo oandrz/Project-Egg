@@ -46,8 +46,9 @@ ext {
     rxAndroidVersion = '2.1.1'
     hotchemiVersion = '4.5.0'
     glideVersion = '4.11.0'
-    firebaseCoreVersion = '17.4.0'
+    firebaseCoreVersion = '17.4.2'
     firebaseAuthVersion = '19.3.1'
+    firebaseAnalytic = '17.4.2'
     materialDialogVersion = '0.9.6.0'
     circleIVVersion = '2.2.0'
     roomVersion = '2.2.5'
@@ -55,6 +56,7 @@ ext {
     endlessRecyclerViewVersion = '1.1.4'
     adMobVersion = '19.1.0'
     preferenceVersion = '1.1.1'
+    fastAdapterVersion = '5.0.2'
 
     junitVersion = '4.12'
     espressoVersion = '3.1.0'

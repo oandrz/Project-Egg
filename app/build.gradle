@@ -1,10 +1,8 @@
 apply plugin: 'com.android.application'
-
 apply plugin: 'kotlin-android'
-
 apply plugin: 'kotlin-android-extensions'
-
 apply plugin: 'kotlin-kapt'
+apply plugin: 'com.google.gms.google-services'
 
 /**
  * Created by Andreas on 7/10/2019.
@@ -127,12 +125,13 @@ dependencies {
     //Firebase
     implementation "com.google.firebase:firebase-core:$rootProject.ext.firebaseCoreVersion"
     implementation "com.google.firebase:firebase-auth:$rootProject.ext.firebaseAuthVersion"
+    implementation "com.google.firebase:firebase-analytics:$rootProject.ext.firebaseCoreVersion"
 
     //endless Recycler View
     implementation "com.malinskiy:superrecyclerview:$rootProject.ext.endlessRecyclerViewVersion"
-    implementation "com.mikepenz:fastadapter:5.0.2"
-    implementation "com.mikepenz:fastadapter-extensions-scroll:5.0.2" // scroll helpers
-    implementation "com.mikepenz:fastadapter-extensions-ui:5.0.2"
+    implementation "com.mikepenz:fastadapter:$rootProject.ext.fastAdapterVersion"
+    implementation "com.mikepenz:fastadapter-extensions-scroll:$rootProject.ext.fastAdapterVersion" // scroll helpers
+    implementation "com.mikepenz:fastadapter-extensions-ui:$rootProject.ext.fastAdapterVersion"
 
     //Material Dialog
     implementation "com.afollestad.material-dialogs:core:$rootProject.ext.materialDialogVersion"
@@ -154,6 +153,7 @@ dependencies {
     implementation "androidx.room:room-rxjava2:$rootProject.ext.roomVersion"
     kapt "androidx.room:room-compiler:$rootProject.ext.roomVersion"
 
+    //Status Bar
     implementation 'com.jaeger.statusbarutil:library:1.5.1'
 
     // Unit Test

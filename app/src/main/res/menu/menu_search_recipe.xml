@@ -8,10 +8,4 @@
         android:icon="@drawable/ic_search"
         app:showAsAction="always"
         app:actionViewClass="androidx.appcompat.widget.SearchView" />
-
-    <item
-        android:id="@+id/menu_filter"
-        android:title="@string/recipe.list.menu.filter.title"
-        android:icon="@drawable/ic_filter"
-        app:showAsAction="always" />
 </menu>
