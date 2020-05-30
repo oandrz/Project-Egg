@@ -58,6 +58,9 @@
     <string name="recipelist.title">Recipe List</string>
     <string name="recipelist.ingredients.title">Ingredients</string>
     <string name="recipelist.instructions.title">Instructions</string>
+    <string name="recipelist.sortfilter.sort.title">Sort</string>
+    <string name="recipelist.sortfilter.filter.title">Filter</string>
+    <string name="recipelist.sortfilter.divider">|</string>
 
     <!--Detail Page-->
     <string name="detail.title">Recipe Detail</string>

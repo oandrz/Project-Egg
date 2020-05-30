@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="@dimen/sort_filter_card_radius"
+    app:cardElevation="@dimen/card_elevation"
+    app:cardUseCompatPadding="true">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="@dimen/space_normal"
+        android:paddingTop="@dimen/space_small"
+        android:paddingEnd="@dimen/space_normal"
+        android:paddingBottom="@dimen/space_small">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_sort"
+            style="@style/NormalFont"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/ic_sort"
+            android:drawablePadding="@dimen/space_small"
+            android:text="@string/recipelist.sortfilter.sort.title" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_normal"
+            android:layout_marginEnd="@dimen/space_normal"
+            android:text="@string/divider"
+            tools:text="|" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_filter"
+            style="@style/NormalFont"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/ic_filter"
+            android:drawablePadding="@dimen/space_small"
+            android:text="@string/recipe.list.menu.filter.title"
+            app:drawableTint="@color/black" />
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

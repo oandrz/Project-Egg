@@ -5,7 +5,6 @@
 package starbright.com.projectegg.features.recipelist
 
 import starbright.com.projectegg.data.RecipeConfig
-import starbright.com.projectegg.data.model.Ingredient
 import starbright.com.projectegg.data.model.Recipe
 import starbright.com.projectegg.features.base.BasePresenterContract
 import starbright.com.projectegg.features.base.BaseViewContract
@@ -23,7 +22,7 @@ class RecipeListContract {
             selectedCuisine: String?
         )
 
-        fun showErrorSnackBar(errorMessage: String)
+        fun hideFooterLoading()
     }
 
     interface Presenter : BasePresenterContract {

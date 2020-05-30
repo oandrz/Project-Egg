@@ -8,16 +8,16 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
-import android.view.Menu
-import android.view.MenuItem
+import android.view.View
+import android.widget.Toast
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.snackbar.Snackbar
 import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.adapters.ItemAdapter
 import com.mikepenz.fastadapter.scroll.EndlessRecyclerOnScrollListener
 import com.mikepenz.fastadapter.ui.items.ProgressItem
 import kotlinx.android.synthetic.main.activity_recipe_list.*
+import kotlinx.android.synthetic.main.widget_floating_filter_sort.*
 import starbright.com.projectegg.R
 import starbright.com.projectegg.dagger.component.ActivityComponent
 import starbright.com.projectegg.data.RecipeConfig
@@ -27,7 +27,7 @@ import starbright.com.projectegg.features.base.BaseActivity
 import starbright.com.projectegg.features.base.NormalToolbar
 import starbright.com.projectegg.features.base.UNKNOWN_RESOURCE
 import starbright.com.projectegg.features.detail.RecipeDetailActivity
-import starbright.com.projectegg.features.home.list.RecipeItem
+import starbright.com.projectegg.view.RecipeItem
 import java.lang.ref.WeakReference
 import java.util.*
 
@@ -66,25 +66,17 @@ class RecipeListActivity : BaseActivity<RecipeListContract.View, RecipeListPrese
     override fun injectDependencies(activityComponent: ActivityComponent) =
         activityComponent.inject(this)
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.recipe_list_menu, menu)
-        return super.onCreateOptionsMenu(menu)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        return when(item?.itemId) {
-            R.id.menu_filter -> {
-                presenter.handleFilterActionClicked()
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
-        }
-    }
-
     override fun getView(): RecipeListContract.View = this
 
     override fun setupView() {
         setupRecyclerView()
+        tv_sort.setOnClickListener {
+            Toast.makeText(this, "sort", Toast.LENGTH_SHORT).show()
+        }
+
+        tv_filter.setOnClickListener {
+            Toast.makeText(this, "filter", Toast.LENGTH_SHORT).show()
+        }
     }
 
     override fun showFooter() {
@@ -98,6 +90,7 @@ class RecipeListActivity : BaseActivity<RecipeListContract.View, RecipeListPrese
 
     override fun appendRecipes(recipes: List<Recipe>) {
         Handler().post {
+            fab_sort_filter.visibility = View.VISIBLE
             recipeFooterAdapter.clear()
             recipes.map {
                 recipeBodyAdapter.add(RecipeItem(it))
@@ -130,8 +123,10 @@ class RecipeListActivity : BaseActivity<RecipeListContract.View, RecipeListPrese
         }.show(supportFragmentManager, "cartbot")
     }
 
-    override fun showErrorSnackBar(errorMessage: String) {
-        Snackbar.make(root_layout, errorMessage, Snackbar.LENGTH_SHORT)
+    override fun hideFooterLoading() {
+        Handler().post {
+            recipeFooterAdapter.clear()
+        }
     }
 
     private fun setupRecyclerView() {

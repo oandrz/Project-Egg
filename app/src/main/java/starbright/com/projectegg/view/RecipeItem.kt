@@ -1,4 +1,4 @@
-package starbright.com.projectegg.features.home.list
+package starbright.com.projectegg.view
 
 import android.view.View
 import com.google.android.material.shape.CornerFamily

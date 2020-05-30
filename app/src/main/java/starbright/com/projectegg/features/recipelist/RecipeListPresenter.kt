@@ -72,9 +72,10 @@ class RecipeListPresenter @Inject constructor(
                 .subscribe({ recipesResult ->
                     view.appendRecipes(recipesResult)
                 }, { _ ->
-                    view.showErrorSnackBar(
-                        "Our services are under maintenance, please retry after some time"
-                    )
+                    view.run {
+                        hideFooterLoading()
+                        showError(text = "Our services are under maintenance, please retry after some time")
+                    }
                 })
         )
     }

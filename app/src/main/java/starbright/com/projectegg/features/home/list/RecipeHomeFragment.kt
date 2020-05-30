@@ -1,11 +1,9 @@
 package starbright.com.projectegg.features.home.list
 
 import android.os.Handler
-import android.util.Log
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mikepenz.fastadapter.FastAdapter
-import com.mikepenz.fastadapter.GenericFastAdapter
 import com.mikepenz.fastadapter.adapters.ItemAdapter
 import com.mikepenz.fastadapter.scroll.EndlessRecyclerOnScrollListener
 import com.mikepenz.fastadapter.ui.items.ProgressItem
@@ -16,6 +14,8 @@ import starbright.com.projectegg.data.model.Recipe
 import starbright.com.projectegg.features.base.BaseFragment
 import starbright.com.projectegg.features.detail.RecipeDetailActivity
 import starbright.com.projectegg.features.search.SearchRecipeActivity
+import starbright.com.projectegg.view.RecipeHeader
+import starbright.com.projectegg.view.RecipeItem
 
 class RecipeHomeFragment: BaseFragment<RecipeHomeContract.View, RecipeHomePresenter>(), RecipeHomeContract.View {
 

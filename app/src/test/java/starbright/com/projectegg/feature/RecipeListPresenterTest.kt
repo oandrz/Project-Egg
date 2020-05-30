@@ -97,7 +97,6 @@ class RecipeListPresenterTest {
         presenter.onCreateScreen()
         testScheduler.triggerActions()
 
-        verify(mockView).hideLoadingBar()
-        verify(mockView).showErrorSnackBar("s")
+        verify(mockView).hideFooterLoading()
     }
 }
