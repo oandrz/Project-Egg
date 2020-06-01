@@ -61,7 +61,7 @@ class RecipeHomeFragment: BaseFragment<RecipeHomeContract.View, RecipeHomePresen
         val fastAdapter = FastAdapter.with(
             listOf(recipeHeaderAdapter, recipeBodyAdapter, recipeFooterAdpter)
         ).apply {
-            onClickListener =  { view, adapter, item, position ->
+            onClickListener =  { view, _, item, _ ->
                 if (view != null && item is RecipeItem) {
                     presenter.handleItemClick(item.recipe.id.toString())
                 }

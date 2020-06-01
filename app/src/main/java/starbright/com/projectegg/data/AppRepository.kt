@@ -16,7 +16,7 @@ import javax.inject.Singleton
 class AppRepository @Inject constructor(
     @LocalData private val appLocalDataStore: AppDataStore,
     @RemoteData private val appRemoteDataStore: AppDataStore
-) : AppDataStore {
+) : RecipeRepository {
 
     override fun getRecipes(config: RecipeConfig, offset: Int): Observable<List<Recipe>> {
         return appRemoteDataStore.getRecipes(config, offset)

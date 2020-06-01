@@ -26,7 +26,9 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class AppRemoteDataStore @Inject constructor(private val mRetrofit: Retrofit) : AppDataStore {
+class AppRemoteDataStore @Inject constructor(
+    private val mRetrofit: Retrofit
+) : AppDataStore {
 
     override fun getRecipes(config: RecipeConfig, offset: Int): Observable<List<Recipe>> {
         val queryMap = HashMap<String, String>().apply {

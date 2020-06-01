@@ -92,7 +92,6 @@ dependencies {
     //dagger
     implementation "com.google.dagger:dagger:$rootProject.ext.daggerVersion"
     implementation "com.google.dagger:dagger-android-support:$rootProject.ext.daggerVersion"
-    implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     kapt "com.google.dagger:dagger-compiler:$rootProject.ext.daggerVersion"
     kapt "com.google.dagger:dagger-android-processor:$rootProject.ext.daggerVersion"
@@ -100,12 +99,11 @@ dependencies {
     //Retrofit
     implementation "com.squareup.retrofit2:retrofit:$rootProject.ext.retrofitVersion"
     implementation "com.squareup.retrofit2:converter-gson:$rootProject.ext.retrofitVersion"
-    implementation "com.squareup.retrofit2:converter-scalars:$rootProject.ext.retrofitVersion"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$rootProject.ext.retrofitVersion"
 
     //Android RX
     implementation "io.reactivex.rxjava2:rxjava:$rootProject.ext.rxjavaVersion"
     implementation "io.reactivex.rxjava2:rxandroid:$rootProject.ext.rxAndroidVersion"
-    implementation "com.squareup.retrofit2:adapter-rxjava2:$rootProject.ext.retrofitVersion"
 
     //OkHttp
     implementation "com.squareup.okhttp3:okhttp:$rootProject.ext.okhttpVersion"
@@ -126,9 +124,9 @@ dependencies {
     implementation "com.google.firebase:firebase-core:$rootProject.ext.firebaseCoreVersion"
     implementation "com.google.firebase:firebase-auth:$rootProject.ext.firebaseAuthVersion"
     implementation "com.google.firebase:firebase-analytics:$rootProject.ext.firebaseCoreVersion"
+    implementation "com.google.firebase:firebase-firestore-ktx:$rootProject.ext.firebaseCloudStoreVersion"
 
     //endless Recycler View
-    implementation "com.malinskiy:superrecyclerview:$rootProject.ext.endlessRecyclerViewVersion"
     implementation "com.mikepenz:fastadapter:$rootProject.ext.fastAdapterVersion"
     implementation "com.mikepenz:fastadapter-extensions-scroll:$rootProject.ext.fastAdapterVersion" // scroll helpers
     implementation "com.mikepenz:fastadapter-extensions-ui:$rootProject.ext.fastAdapterVersion"

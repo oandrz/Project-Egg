@@ -61,7 +61,6 @@ abstract class BaseFragment<V : BaseViewContract, P : BasePresenter<V>> : Fragme
 
     private fun buildFragmentComponent(): FragmentComponent = DaggerFragmentComponent.builder()
         .applicationComponent((context?.applicationContext as MyApp).appComponent)
-        .fragmentModule(FragmentModule(this))
         .build()
 
     @LayoutRes

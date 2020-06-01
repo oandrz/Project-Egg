@@ -20,6 +20,7 @@ class RecipeListPresenter @Inject constructor(
     private val repository: AppRepository
 ) : BasePresenter<RecipeListContract.View>(schedulerProvider, compositeDisposable, networkHelper), RecipeListContract.Presenter {
 
+    private var cuisines: MutableSet<String> = mutableSetOf()
     private lateinit var firstVersionConfig: RecipeConfig
     private lateinit var config: RecipeConfig
 
@@ -46,15 +47,16 @@ class RecipeListPresenter @Inject constructor(
         loadRecipe(lastPosition)
     }
 
+    override fun handleSortActionClicked() {
+
+    }
+
+    override fun handleSortItemSelected(sortType: String) {
+        TODO("Not yet implemented")
+    }
+
     override fun handleFilterActionClicked() {
-//        if (cuisinesCache.isNullOrEmpty() && !isFilterCuisineSelected()) {
-//            cuisinesCache = dataSource.flatMap { recipe ->
-//                recipe.cuisines?.filter { it.isNotEmpty() } ?: listOf()
-//            }.toSet().toList()
-//        }
-//        cuisinesCache?.let {
-//            view.showFilterBottomSheet(it, selectedCuisine)
-//        }
+        view.showFilterBottomSheet(cuisines.toList(), config.cuisine)
     }
 
     override fun handleFilterItemSelected(cuisine: String) {
@@ -70,6 +72,7 @@ class RecipeListPresenter @Inject constructor(
                 .subscribeOn(schedulerProvider.io())
                 .observeOn(schedulerProvider.ui())
                 .subscribe({ recipesResult ->
+                    recipesResult.forEach { it.cuisines?.mapTo(cuisines) { cuisine -> cuisine } }
                     view.appendRecipes(recipesResult)
                 }, { _ ->
                     view.run {

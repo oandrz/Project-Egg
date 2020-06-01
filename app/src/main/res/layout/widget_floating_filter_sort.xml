@@ -25,6 +25,7 @@
             android:layout_height="wrap_content"
             android:drawableStart="@drawable/ic_sort"
             android:drawablePadding="@dimen/space_small"
+            android:gravity="center"
             android:text="@string/recipelist.sortfilter.sort.title" />
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -32,8 +33,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/space_normal"
             android:layout_marginEnd="@dimen/space_normal"
-            android:text="@string/divider"
-            tools:text="|" />
+            android:text="@string/divider" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_filter"
@@ -42,6 +42,7 @@
             android:layout_height="wrap_content"
             android:drawableStart="@drawable/ic_filter"
             android:drawablePadding="@dimen/space_small"
+            android:gravity="center"
             android:text="@string/recipe.list.menu.filter.title"
             app:drawableTint="@color/black" />
     </LinearLayout>

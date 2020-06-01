@@ -1,4 +1,4 @@
-package starbright.com.projectegg.features.recipelist
+package starbright.com.projectegg.features.recipelist.recipefilter
 
 import android.os.Bundle
 import android.view.ContextThemeWrapper
@@ -10,7 +10,7 @@ import com.google.android.material.chip.Chip
 import kotlinx.android.synthetic.main.sheet_filter_recipe.*
 import starbright.com.projectegg.R
 
-class RecipeFilterBottomSheetDialogFragment: BottomSheetDialogFragment() {
+class RecipeFilterBottomSheetFragment: BottomSheetDialogFragment() {
 
     var selectedCuisine: String? = null
     var cuisines: List<String> = listOf()
@@ -39,7 +39,7 @@ class RecipeFilterBottomSheetDialogFragment: BottomSheetDialogFragment() {
             counter++
         }
 
-        group_filter.setOnCheckedChangeListener { group, checkedId ->
+        group_filter.setOnCheckedChangeListener { _, checkedId ->
             if (checkedId > View.NO_ID) {
                 onBottomSheetDismissListener?.invoke(cuisines[checkedId - 1])
             } else {

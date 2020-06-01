@@ -27,6 +27,7 @@ import starbright.com.projectegg.features.base.BaseActivity
 import starbright.com.projectegg.features.base.NormalToolbar
 import starbright.com.projectegg.features.base.UNKNOWN_RESOURCE
 import starbright.com.projectegg.features.detail.RecipeDetailActivity
+import starbright.com.projectegg.features.recipelist.recipefilter.RecipeFilterBottomSheetFragment
 import starbright.com.projectegg.view.RecipeItem
 import java.lang.ref.WeakReference
 import java.util.*
@@ -75,7 +76,7 @@ class RecipeListActivity : BaseActivity<RecipeListContract.View, RecipeListPrese
         }
 
         tv_filter.setOnClickListener {
-            Toast.makeText(this, "filter", Toast.LENGTH_SHORT).show()
+            presenter.handleFilterActionClicked()
         }
     }
 
@@ -114,7 +115,8 @@ class RecipeListActivity : BaseActivity<RecipeListContract.View, RecipeListPrese
         cuisines: List<String>,
         selectedCuisine: String?
     ) {
-        RecipeFilterBottomSheetDialogFragment().also {
+        RecipeFilterBottomSheetFragment()
+            .also {
             it.cuisines = cuisines
             it.selectedCuisine = selectedCuisine
             it.onBottomSheetDismissListener = { cuisine ->
@@ -131,7 +133,7 @@ class RecipeListActivity : BaseActivity<RecipeListContract.View, RecipeListPrese
 
     private fun setupRecyclerView() {
         val fastAdapter = FastAdapter.with(listOf(recipeBodyAdapter, recipeFooterAdapter)).apply {
-            onClickListener =  { view, _, item, position ->
+            onClickListener =  { view, _, item, _ ->
                 if (view != null && item is RecipeItem) {
                     presenter.handleListItemClicked(item.recipe.id.toString())
                 }

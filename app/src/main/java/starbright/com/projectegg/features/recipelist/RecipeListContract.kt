@@ -29,6 +29,8 @@ class RecipeListContract {
         fun handleListItemClicked(selectedRecipeId: String)
         fun handleRefresh()
         fun handleLoadMore(lastPosition: Int)
+        fun handleSortActionClicked()
+        fun handleSortItemSelected(sortType: String)
         fun handleFilterActionClicked()
         fun handleFilterItemSelected(cuisine: String)
     }
