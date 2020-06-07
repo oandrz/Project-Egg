@@ -61,7 +61,9 @@
     <string name="recipelist.sortfilter.sort.title">Sort</string>
     <string name="recipelist.sortfilter.filter.title">Filter</string>
     <string name="recipelist.sortfilter.divider">|</string>
-
+    <string name="recipelist.sort.sheet.title">Sort By</string>
+    <string name="recipe.list.menu.filter.title">Filter</string>
+    <string name="recipe.list.calories.title">%d Cal</string>
     <!--Detail Page-->
     <string name="detail.title">Recipe Detail</string>
     <string name="detail.serving.label">Serving</string>
@@ -75,10 +77,6 @@
     <string name="detail.menu.share.label">Share</string>
     <string name="detail.menu.detail.label">Open Detail in WebView</string>
     <string name="detail.intent.share">Hey, check this out ! I found delicious this recipe %s \nlink below\n%s</string>
-
-    <!--Recipe List-->
-    <string name="recipe.list.menu.filter.title">Filter</string>
-    <string name="recipe.list.calories.title">%d Cal</string>
 
     <!--Ads View-->
     <string name="ads.size">BANNER</string>

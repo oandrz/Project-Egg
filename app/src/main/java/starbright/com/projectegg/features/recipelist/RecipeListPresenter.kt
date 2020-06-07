@@ -4,15 +4,22 @@
 
 package starbright.com.projectegg.features.recipelist
 
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import io.reactivex.disposables.CompositeDisposable
 import starbright.com.projectegg.R
 import starbright.com.projectegg.data.AppRepository
 import starbright.com.projectegg.data.RecipeConfig
+import starbright.com.projectegg.data.model.SortOption
+import starbright.com.projectegg.enum.RecipeSortCategory
 import starbright.com.projectegg.features.base.BasePresenter
 import starbright.com.projectegg.util.NetworkHelper
 import starbright.com.projectegg.util.scheduler.SchedulerProviderContract
 import javax.inject.Inject
 
+private const val FIRESTORE_NAME_KEY = "name"
+private const val FIRESTORE_DOCUMENT_KEY = "sortOption"
+private const val FIRESTORE_IMAGE_URL_KEY = "imageUrl"
 class RecipeListPresenter @Inject constructor(
     schedulerProvider: SchedulerProviderContract,
     compositeDisposable: CompositeDisposable,
@@ -21,6 +28,8 @@ class RecipeListPresenter @Inject constructor(
 ) : BasePresenter<RecipeListContract.View>(schedulerProvider, compositeDisposable, networkHelper), RecipeListContract.Presenter {
 
     private var cuisines: MutableSet<String> = mutableSetOf()
+
+    private lateinit var sortOption: List<SortOption>
     private lateinit var firstVersionConfig: RecipeConfig
     private lateinit var config: RecipeConfig
 
@@ -28,8 +37,9 @@ class RecipeListPresenter @Inject constructor(
         view.run {
             config = provideSearchConfig()
             setupView()
-            showFooter()
+            showFooterLoading()
         }
+        loadSortOption()
         loadRecipe(0)
     }
 
@@ -38,21 +48,23 @@ class RecipeListPresenter @Inject constructor(
     }
 
     override fun handleRefresh() {
+        resetList()
         config = firstVersionConfig
         loadRecipe(0)
     }
 
     override fun handleLoadMore(lastPosition: Int) {
-        view.showFooter()
+        view.showFooterLoading()
         loadRecipe(lastPosition)
     }
 
     override fun handleSortActionClicked() {
-
+        view.showSortBottomSheet(ArrayList(sortOption), config.sortCategory.type)
     }
 
-    override fun handleSortItemSelected(sortType: String) {
-        TODO("Not yet implemented")
+    override fun handleSortItemSelected(sortType: RecipeSortCategory) {
+        config.sortCategory = sortType
+        resetList()
     }
 
     override fun handleFilterActionClicked() {
@@ -65,8 +77,26 @@ class RecipeListPresenter @Inject constructor(
         loadRecipe(0)
     }
 
+    private fun loadSortOption() {
+        Firebase.firestore.collection(FIRESTORE_DOCUMENT_KEY)
+            .get()
+            .addOnSuccessListener { snapshot ->
+                sortOption = snapshot
+                    .map {
+                        SortOption(
+                            it.get(FIRESTORE_NAME_KEY).toString(),
+                            it.get(FIRESTORE_IMAGE_URL_KEY).toString()
+                        )
+                    }
+            }
+            .addOnFailureListener {
+
+            }
+    }
+
     private fun loadRecipe(pos: Int) {
         if (!isConnectedToInternet()) view.showError(R.string.server_connection_error)
+
         compositeDisposable.add(
             repository.getRecipes(config, pos)
                 .subscribeOn(schedulerProvider.io())
@@ -81,5 +111,12 @@ class RecipeListPresenter @Inject constructor(
                     }
                 })
         )
+    }
+
+    private fun resetList() {
+        view.run {
+            clearRecipe()
+            showFooterLoading()
+        }
     }
 }

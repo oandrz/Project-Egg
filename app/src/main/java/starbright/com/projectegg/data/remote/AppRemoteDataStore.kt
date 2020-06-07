@@ -19,7 +19,7 @@ import starbright.com.projectegg.data.model.Recipe
 import starbright.com.projectegg.data.model.response.IngredientResponse
 import starbright.com.projectegg.data.model.response.RecipeDetailResponse
 import starbright.com.projectegg.data.model.response.RecipeListResponse
-import starbright.com.projectegg.enum.RecipeListSortType
+import starbright.com.projectegg.enum.RecipeSortCategory
 import starbright.com.projectegg.util.Constants
 import java.util.*
 import javax.inject.Inject
@@ -35,7 +35,7 @@ class AppRemoteDataStore @Inject constructor(
             this[Constants.QUERY_PARAM_LIMIT_LICENSE_KEY] = true.toString()
             this[Constants.QUERY_PARAM_INSTRUCTION_REQUIRED_KEY] = true.toString()
             this[Constants.QUERY_PARAM_ADD_INFORMATION] = true.toString()
-            this[Constants.QUERY_PARAM_SORT_KEY] = RecipeListSortType.TIME.type
+            this[Constants.QUERY_PARAM_SORT_KEY] = config.sortCategory.type.toLowerCase(Locale.getDefault())
         }
 
         val ingredientsAsParam = StringBuilder()
@@ -64,7 +64,9 @@ class AppRemoteDataStore @Inject constructor(
                             id = response.id,
                             title = response.title,
                             image = response.image,
-                            cuisines = response.cuisines
+                            cuisines = response.cuisines,
+                            cookingMinutes = response.cookingTime,
+                            servingCount = response.servings
                         )
                     )
                 }
@@ -77,7 +79,7 @@ class AppRemoteDataStore @Inject constructor(
         queryMap[Constants.QUERY_PARAM_LIMIT_LICENSE_KEY] = true.toString()
         queryMap[Constants.QUERY_PARAM_INSTRUCTION_REQUIRED_KEY] = true.toString()
         queryMap[Constants.QUERY_PARAM_ADD_INFORMATION] = true.toString()
-        queryMap[Constants.QUERY_PARAM_SORT_KEY] = RecipeListSortType.RANDOM.type
+        queryMap[Constants.QUERY_PARAM_SORT_KEY] = RecipeSortCategory.RANDOM.type.toLowerCase()
         return mRetrofit.create(Service::class.java)
             .getRecommendedRecipes(offset = offSet, options = queryMap)
             .map { responses ->

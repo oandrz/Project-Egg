@@ -9,7 +9,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.view.View
-import android.widget.Toast
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mikepenz.fastadapter.FastAdapter
@@ -23,14 +22,17 @@ import starbright.com.projectegg.dagger.component.ActivityComponent
 import starbright.com.projectegg.data.RecipeConfig
 import starbright.com.projectegg.data.model.Ingredient
 import starbright.com.projectegg.data.model.Recipe
+import starbright.com.projectegg.data.model.SortOption
+import starbright.com.projectegg.enum.RecipeSortCategory
 import starbright.com.projectegg.features.base.BaseActivity
 import starbright.com.projectegg.features.base.NormalToolbar
 import starbright.com.projectegg.features.base.UNKNOWN_RESOURCE
 import starbright.com.projectegg.features.detail.RecipeDetailActivity
 import starbright.com.projectegg.features.recipelist.recipefilter.RecipeFilterBottomSheetFragment
+import starbright.com.projectegg.features.recipelist.recipesort.RecipeSortBottomSheetFragment
 import starbright.com.projectegg.view.RecipeItem
 import java.lang.ref.WeakReference
-import java.util.*
+import kotlin.collections.ArrayList
 
 class RecipeListActivity : BaseActivity<RecipeListContract.View, RecipeListPresenter>(),
     RecipeListContract.View {
@@ -72,7 +74,7 @@ class RecipeListActivity : BaseActivity<RecipeListContract.View, RecipeListPrese
     override fun setupView() {
         setupRecyclerView()
         tv_sort.setOnClickListener {
-            Toast.makeText(this, "sort", Toast.LENGTH_SHORT).show()
+            presenter.handleSortActionClicked()
         }
 
         tv_filter.setOnClickListener {
@@ -80,7 +82,7 @@ class RecipeListActivity : BaseActivity<RecipeListContract.View, RecipeListPrese
         }
     }
 
-    override fun showFooter() {
+    override fun showFooterLoading() {
         Handler().post {
             recipeFooterAdapter.apply {
                 clear()
@@ -103,7 +105,7 @@ class RecipeListActivity : BaseActivity<RecipeListContract.View, RecipeListPrese
         return RecipeConfig(
             intent.extras?.getString(QUERY_EXTRA_KEY),
             null,
-            intent.extras?.getParcelableArrayList<Ingredient>(INGREDIENT_EXTRA_KEY)
+            ingredients = intent.extras?.getParcelableArrayList<Ingredient>(INGREDIENT_EXTRA_KEY)
         )
     }
 
@@ -123,6 +125,23 @@ class RecipeListActivity : BaseActivity<RecipeListContract.View, RecipeListPrese
                 presenter.handleFilterItemSelected(cuisine)
             }
         }.show(supportFragmentManager, "cartbot")
+    }
+
+    override fun showSortBottomSheet(sortOption: ArrayList<SortOption>, selectedSortOption: String) {
+        RecipeSortBottomSheetFragment.newInstance(sortOption, selectedSortOption).apply {
+            listener = { selectedSort ->
+                presenter.handleSortItemSelected(
+                    RecipeSortCategory.values().first { selectedSort == it.type }
+                )
+            }
+        }.show(supportFragmentManager, "sort")
+
+    }
+
+    override fun clearRecipe() {
+        recipeBodyAdapter.clear()
+        recipeFooterAdapter.clear()
+        endlessScrollListener.resetPageCount()
     }
 
     override fun hideFooterLoading() {

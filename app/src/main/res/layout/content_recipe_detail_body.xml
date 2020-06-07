@@ -20,13 +20,14 @@
             <TextView
                 android:id="@+id/tv_recipe_title"
                 style="@style/HeaderFontBlack"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space_large"
                 android:layout_marginStart="@dimen/space_large"
                 android:layout_marginEnd="@dimen/space_large"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 tools:text="Fruity Pancakes" />
 
             <TextView

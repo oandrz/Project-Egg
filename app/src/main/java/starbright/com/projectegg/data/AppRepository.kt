@@ -9,6 +9,7 @@ import starbright.com.projectegg.dagger.qualifier.LocalData
 import starbright.com.projectegg.dagger.qualifier.RemoteData
 import starbright.com.projectegg.data.model.Ingredient
 import starbright.com.projectegg.data.model.Recipe
+import starbright.com.projectegg.enum.RecipeSortCategory
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -42,5 +43,6 @@ class AppRepository @Inject constructor(
 data class RecipeConfig(
     var query: String?,
     var cuisine: String?,
+    var sortCategory: RecipeSortCategory = RecipeSortCategory.TIME,
     var ingredients: List<Ingredient>?
 )

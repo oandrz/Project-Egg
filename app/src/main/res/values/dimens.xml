@@ -55,4 +55,5 @@
     <!--Home Item-->
     <dimen name="height_banner_image">200dp</dimen>
     <dimen name="sort_filter_card_radius">20dp</dimen>
+    <dimen name="item_selector_icon_size">24dp</dimen>
 </resources>

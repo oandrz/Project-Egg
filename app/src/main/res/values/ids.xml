@@ -2,4 +2,5 @@
 <resources>
     <item type="id" name="recipeBodyItem" />
     <item type="id" name="recipeHeaderItem" />
+    <item type="id" name="singleLineItem" />
 </resources>

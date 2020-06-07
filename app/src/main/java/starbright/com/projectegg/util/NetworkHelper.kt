@@ -33,7 +33,7 @@ class NetworkHelper constructor(private val context: Context) {
             val error = GsonBuilder()
                     .excludeFieldsWithoutExposeAnnotation()
                     .create()
-                    .fromJson(throwable.response().errorBody()?.string(), NetworkError::class.java)
+                    .fromJson(throwable.response()?.errorBody()?.string(), NetworkError::class.java)
             return NetworkError(error.status, throwable.code(), error.message)
         } catch (e: IOException) {
             Log.e(TAG, e.toString())
