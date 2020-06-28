@@ -12,6 +12,7 @@ import com.mikepenz.fastadapter.adapters.ItemAdapter
 import kotlinx.android.synthetic.main.sheet_sort_recipe.*
 import starbright.com.projectegg.R
 import starbright.com.projectegg.data.model.SortOption
+import starbright.com.projectegg.view.BottomSheetHeader
 import starbright.com.projectegg.view.RecipeHeader
 import starbright.com.projectegg.view.SelectorItem
 
@@ -21,8 +22,8 @@ class RecipeSortBottomSheetFragment: BottomSheetDialogFragment() {
         LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
     }
 
-    private val headerItemAdapter: ItemAdapter<RecipeHeader> by lazy {
-        ItemAdapter<RecipeHeader>()
+    private val headerItemAdapter: ItemAdapter<BottomSheetHeader> by lazy {
+        ItemAdapter<BottomSheetHeader>()
     }
 
     private val sortItemAdapter: ItemAdapter<SelectorItem> by lazy {
@@ -65,7 +66,7 @@ class RecipeSortBottomSheetFragment: BottomSheetDialogFragment() {
             layoutManager = linearLayoutManager
             adapter = fastAdapter
         }
-        headerItemAdapter.add(RecipeHeader(getString(R.string.recipelist_sort_sheet_title)))
+        headerItemAdapter.add(BottomSheetHeader(getString(R.string.recipelist_sort_sheet_title)))
         sortOptions.map {
             sortItemAdapter.add(
                 SelectorItem(it.id, it.imageUrl, it.id.equals(selectedSortOption, true))

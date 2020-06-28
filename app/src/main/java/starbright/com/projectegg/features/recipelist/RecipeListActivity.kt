@@ -135,7 +135,6 @@ class RecipeListActivity : BaseActivity<RecipeListContract.View, RecipeListPrese
                 )
             }
         }.show(supportFragmentManager, "sort")
-
     }
 
     override fun clearRecipe() {

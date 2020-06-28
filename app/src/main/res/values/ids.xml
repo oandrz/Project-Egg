@@ -3,4 +3,9 @@
     <item type="id" name="recipeBodyItem" />
     <item type="id" name="recipeHeaderItem" />
     <item type="id" name="singleLineItem" />
+    <item type="id" name="filterItem" />
+
+    <!--Bottom Sheet Id-->
+    <item type="id" name="sheetHeaderItem" />
+    <item type="id" name="footerSubmitButton" />
 </resources>

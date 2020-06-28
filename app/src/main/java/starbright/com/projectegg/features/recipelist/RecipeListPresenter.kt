@@ -39,6 +39,7 @@ class RecipeListPresenter @Inject constructor(
             setupView()
             showFooterLoading()
         }
+        firstVersionConfig = config
         loadSortOption()
         loadRecipe(0)
     }
@@ -48,9 +49,8 @@ class RecipeListPresenter @Inject constructor(
     }
 
     override fun handleRefresh() {
-        resetList()
         config = firstVersionConfig
-        loadRecipe(0)
+        resetList()
     }
 
     override fun handleLoadMore(lastPosition: Int) {
@@ -72,9 +72,8 @@ class RecipeListPresenter @Inject constructor(
     }
 
     override fun handleFilterItemSelected(cuisine: String) {
-        config = firstVersionConfig
         config.cuisine = cuisine
-        loadRecipe(0)
+        resetList()
     }
 
     private fun loadSortOption() {
@@ -89,9 +88,7 @@ class RecipeListPresenter @Inject constructor(
                         )
                     }
             }
-            .addOnFailureListener {
-
-            }
+            .addOnFailureListener { }
     }
 
     private fun loadRecipe(pos: Int) {

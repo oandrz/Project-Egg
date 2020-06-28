@@ -6,15 +6,15 @@ import com.mikepenz.fastadapter.items.AbstractItem
 import kotlinx.android.synthetic.main.layout_home_header_holder.view.*
 import starbright.com.projectegg.R
 
-class RecipeHeader(private var title: String) : AbstractItem<RecipeHeader.ViewHolder>() {
+class BottomSheetHeader(private var title: String) : AbstractItem<BottomSheetHeader.ViewHolder>() {
 
     /** The layout for the given item */
     override val layoutRes: Int
-        get() = R.layout.layout_home_header_holder
+        get() = R.layout.item_sheet_header
 
     /** The type of the Item. Can be a hardcoded INT, but preferred is a defined id */
     override val type: Int
-        get() = R.id.recipeHeaderItem
+        get() = R.id.sheetHeaderItem
 
     /**
      * This method returns the ViewHolder for our item, using the provided View.
@@ -23,12 +23,12 @@ class RecipeHeader(private var title: String) : AbstractItem<RecipeHeader.ViewHo
      */
     override fun getViewHolder(v: View): ViewHolder = ViewHolder(v)
 
-    inner class ViewHolder(itemVIew: View) : FastAdapter.ViewHolder<RecipeHeader>(itemVIew) {
-        override fun bindView(item: RecipeHeader, payloads: List<Any>) {
+    inner class ViewHolder(itemVIew: View) : FastAdapter.ViewHolder<BottomSheetHeader>(itemVIew) {
+        override fun bindView(item: BottomSheetHeader, payloads: List<Any>) {
             itemView.tv_header.text = item.title
         }
 
-        override fun unbindView(item: RecipeHeader) {
+        override fun unbindView(item: BottomSheetHeader) {
             itemView.tv_header.text = null
         }
     }

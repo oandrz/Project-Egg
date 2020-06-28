@@ -61,9 +61,12 @@
     <string name="recipelist.sortfilter.sort.title">Sort</string>
     <string name="recipelist.sortfilter.filter.title">Filter</string>
     <string name="recipelist.sortfilter.divider">|</string>
+    <string name="recipelist.filter.sheet.cuisine.title">Cuisine</string>
+    <string name="recipelist.filter.sheet.submit">Submit</string>
     <string name="recipelist.sort.sheet.title">Sort By</string>
     <string name="recipe.list.menu.filter.title">Filter</string>
     <string name="recipe.list.calories.title">%d Cal</string>
+
     <!--Detail Page-->
     <string name="detail.title">Recipe Detail</string>
     <string name="detail.serving.label">Serving</string>
