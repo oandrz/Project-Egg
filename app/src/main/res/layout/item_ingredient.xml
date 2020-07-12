@@ -10,7 +10,8 @@
     <ImageView
         android:id="@+id/iv_ingredient"
         android:layout_width="@dimen/iv_ingredient_size"
-        android:layout_height="@dimen/iv_ingredient_size"/>
+        android:layout_height="@dimen/iv_ingredient_size"
+        android:scaleType="centerCrop"/>
 
     <TextView
         android:id="@+id/tv_ingredient"

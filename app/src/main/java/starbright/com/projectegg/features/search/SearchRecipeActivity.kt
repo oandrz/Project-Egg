@@ -6,10 +6,12 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.widget.SearchView
+import kotlinx.android.synthetic.main.activity_search_recipe.*
 import starbright.com.projectegg.R
 import starbright.com.projectegg.dagger.component.ActivityComponent
 import starbright.com.projectegg.features.base.BaseActivity
 import starbright.com.projectegg.features.base.NormalToolbar
+import starbright.com.projectegg.features.ingredients.IngredientsActivity
 import starbright.com.projectegg.features.recipelist.RecipeListActivity
 import java.lang.ref.WeakReference
 
@@ -44,6 +46,12 @@ class SearchRecipeActivity : BaseActivity<SearchRecipeContract.View, SearchRecip
             })
         }
         return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun setupSearchByIngredientFab() {
+        fab_search_ingredient.setOnClickListener {
+            startActivity(IngredientsActivity.newIntent(this))
+        }
     }
 
     companion object {

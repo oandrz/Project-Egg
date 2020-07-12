@@ -44,9 +44,10 @@
     <string name="ingredients.search.hint">Search ingredients here</string>
     <string name="ingredients.search.empty">The Item you\'re looking for is not available</string>
     <string name="ingredients.cart.included.format">I\'ve put %s into your cart</string>
+    <string name="ingredients.cart.label.format">%d Item</string>
     <string name="ingredients.dialog.progress.title">Working on it now</string>
     <string name="ingredients.dialog.progress.content">Please give me a bit time to recognize the image</string>
-    <string name="ingredients.cart.total.label">Total</string>
+    <string name="ingredients.cart.ingredients.label">Ingredients</string>
     <string name="ingredients.cart.empty">I\'m so empty right now…</string>
     <string name="ingredients.cart.error.duplicate">You already have that ingredient, remember?</string>
     <string name="ingredients.cart.error.max">I\'m sorry, but you can\'t bring ingredient anymore</string>
@@ -96,4 +97,7 @@
     <string name="home.list.format.time.shorten">%d Min</string>
     <string name="home.list.format.by">By %s</string>
     <string name="divider">|</string>
+
+    <!--Search-->
+    <string name="search.fab.ingredient.label">Search By Ingredient</string>
 </resources>

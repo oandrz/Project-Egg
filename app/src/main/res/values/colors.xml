@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">@color/white</color>
-    <color name="colorPrimaryDark">#9a0007</color>
-    <color name="colorAccent">#ff6659</color>
+    <color name="colorPrimaryDark">@color/darkRed</color>
+    <color name="colorAccent">@color/lightRed</color>
 
     <!--Basic Color-->
     <color name="black">#212121</color>
     <color name="white">#FFFFFF</color>
-    <color name="red">#d32f2f</color>
+    <color name="red">#e6333e</color>
 
     <!--Red-->
     <color name="lightRed">#ff6659</color>

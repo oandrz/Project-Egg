@@ -5,7 +5,6 @@
 package starbright.com.projectegg.features.ingredients
 
 import android.Manifest
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Environment
@@ -18,7 +17,8 @@ import android.view.inputmethod.EditorInfo
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.afollestad.materialdialogs.MaterialDialog
-import kotlinx.android.synthetic.main.fragment_ingredients.*
+import kotlinx.android.synthetic.main.activity_ingredients.*
+import kotlinx.android.synthetic.main.layout_ingredient_search_view.*
 import permissions.dispatcher.NeedsPermission
 import permissions.dispatcher.RuntimePermissions
 import starbright.com.projectegg.BuildConfig
@@ -57,7 +57,7 @@ class IngredientsActivity : BaseActivity<IngredientsContract.View,
         }
     }
 
-    override fun getLayoutRes(): Int = R.layout.fragment_ingredients
+    override fun getLayoutRes(): Int = R.layout.activity_ingredients
 
     override fun injectDependencies(activityComponent: ActivityComponent) =
         activityComponent.inject(this)
@@ -67,7 +67,9 @@ class IngredientsActivity : BaseActivity<IngredientsContract.View,
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == RESULT_OK && requestCode == CAMERA_REQUEST_CODE) {
-            presenter.handleCameraResult(currentPhotoPath!!)
+            currentPhotoPath?.let {
+                presenter.handleCameraResult(it)
+            }
         }
     }
 
@@ -75,6 +77,9 @@ class IngredientsActivity : BaseActivity<IngredientsContract.View,
         et_search_ingredients.imeOptions = EditorInfo.IME_ACTION_DONE
         tv_title.setOnClickListener {
             presenter.handleTvTitleClicked()
+        }
+        iv_back.setOnClickListener {
+            finish()
         }
         setupEtSearchIngredients()
         setupRvIngredientSuggestion()
@@ -119,7 +124,7 @@ class IngredientsActivity : BaseActivity<IngredientsContract.View,
     }
 
     private fun setupTvCartCount() {
-        tv_cart_count.setOnClickListener {
+        chip_basket.setOnClickListener {
             presenter.handleCartTvClicked()
         }
     }
@@ -168,33 +173,47 @@ class IngredientsActivity : BaseActivity<IngredientsContract.View,
     }
 
     override fun showItemEmptyToast() {
-        Toast.makeText(this, getString(R.string.ingredients_search_empty),
-            Toast.LENGTH_SHORT).show()
+        Toast.makeText(
+            this, getString(R.string.ingredients_search_empty),
+            Toast.LENGTH_SHORT
+        ).show()
     }
 
     override fun showItemMaxToast() {
-        Toast.makeText(this, getString(R.string.ingredients_cart_error_max),
-            Toast.LENGTH_SHORT).show()
+        Toast.makeText(
+            this, getString(R.string.ingredients_cart_error_max),
+            Toast.LENGTH_SHORT
+        ).show()
     }
 
     override fun showDuplicateItemToast() {
-        Toast.makeText(this, getString(R.string.ingredients_cart_error_duplicate),
-            Toast.LENGTH_SHORT).show()
+        Toast.makeText(
+            this, getString(R.string.ingredients_cart_error_duplicate),
+            Toast.LENGTH_SHORT
+        ).show()
     }
 
     override fun showPredictionEmptyToast() {
-        Toast.makeText(this, getString(R.string.ingredients_prediction_empty),
-            Toast.LENGTH_SHORT).show()
+        Toast.makeText(
+            this, getString(R.string.ingredients_prediction_empty),
+            Toast.LENGTH_SHORT
+        ).show()
     }
 
     override fun showItemAddedToast() {
-        Toast.makeText(this, getString(R.string.ingredients_added_text),
-            Toast.LENGTH_SHORT).show()
+        Toast.makeText(
+            this, getString(R.string.ingredients_added_text),
+            Toast.LENGTH_SHORT
+        ).show()
     }
 
     override fun showSuccessPutIngredientToast(ingredientName: String) {
-        Toast.makeText(this, getString(R.string.ingredients_cart_included_format,
-            ingredientName), Toast.LENGTH_SHORT).show()
+        Toast.makeText(
+            this, getString(
+                R.string.ingredients_cart_included_format,
+                ingredientName
+            ), Toast.LENGTH_SHORT
+        ).show()
     }
 
     override fun showMaterialProgressDialog() {
@@ -218,11 +237,19 @@ class IngredientsActivity : BaseActivity<IngredientsContract.View,
             }
             it.cart = cart
         }
-        cartBottomSheetDialogFragment.show(supportFragmentManager, cartBottomSheetDialogFragment.tag)
+        cartBottomSheetDialogFragment.show(
+            supportFragmentManager,
+            cartBottomSheetDialogFragment.tag
+        )
     }
 
     override fun updateIngredientCount(count: Int) {
-        tv_cart_count.text = count.toString()
+        chip_basket.visibility = if (count > 0) {
+            View.VISIBLE
+        } else {
+            View.GONE
+        }
+        chip_basket.text = String.format(getString(R.string.ingredients_cart_label_format), count)
     }
 
     override fun navigateToRecipeList(cart: List<Ingredient>) {
@@ -233,8 +260,11 @@ class IngredientsActivity : BaseActivity<IngredientsContract.View,
         startActivity(AdsActivity.newIntent(this))
     }
 
-    @SuppressLint("NeedOnRequestPermissionsResult")
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         onRequestPermissionsResult(requestCode, grantResults)
     }
@@ -252,7 +282,8 @@ class IngredientsActivity : BaseActivity<IngredientsContract.View,
             val photoURI = FileProvider.getUriForFile(
                 this,
                 "${BuildConfig.APPLICATION_ID}.FileProvider",
-                photoFile)
+                photoFile
+            )
             val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
             intent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
             startActivityForResult(intent, CAMERA_REQUEST_CODE)

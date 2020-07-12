@@ -40,7 +40,9 @@ class IngredientsPresenter @Inject constructor(
     override fun onCreateScreen() {
         view.run {
             setupView()
-            if (cart.isNotEmpty()) updateIngredientCount(cart.size)
+            if (cart.isNotEmpty()) {
+                updateIngredientCount(cart.size)
+            }
         }
     }
 

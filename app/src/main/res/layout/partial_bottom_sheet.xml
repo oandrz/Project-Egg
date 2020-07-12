@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/card_bottom"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
@@ -12,26 +11,12 @@
         android:orientation="vertical"
         android:padding="@dimen/space_normal">
 
-        <FrameLayout
-            android:layout_width="match_parent"
+        <TextView
+            style="@style/HeaderFontBlack"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                style="@style/NormalFont"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start"
-                android:text="@string/ingredients.cart.total.label" />
-
-            <TextView
-                android:id="@+id/tv_total_ingredient"
-                style="@style/NormalFont"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                tools:text="20" />
-        </FrameLayout>
+            android:layout_gravity="start"
+            android:text="@string/ingredients.cart.ingredients.label" />
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -53,7 +38,7 @@
                 android:visibility="gone" />
         </FrameLayout>
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_submit"
             style="@style/FillButton"
             android:layout_width="match_parent"

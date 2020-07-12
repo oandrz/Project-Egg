@@ -15,7 +15,8 @@ class SearchRecipePresenter @Inject constructor(
 ) : BasePresenter<SearchRecipeContract.View>(
     schedulerProvider, compositeDisposable, networkHelper
 ), SearchRecipeContract.Presenter {
-    override fun onCreateScreen() {
 
+    override fun onCreateScreen() {
+        view.setupSearchByIngredientFab()
     }
 }

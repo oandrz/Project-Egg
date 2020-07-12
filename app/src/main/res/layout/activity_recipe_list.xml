@@ -28,7 +28,6 @@
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
         tools:listitem="@layout/layout_home_item_holder" />
 
-
     <include
         android:id="@+id/fab_sort_filter"
         layout="@layout/widget_floating_filter_sort"

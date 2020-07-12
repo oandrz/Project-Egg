@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:orientation="horizontal"
+        android:background="@color/red"
         android:paddingStart="@dimen/space_normal"
         android:paddingTop="@dimen/space_small"
         android:paddingEnd="@dimen/space_normal"
@@ -19,16 +20,18 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_sort"
-            style="@style/NormalFont"
+            style="@style/NormalFontWhiteBold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawableStart="@drawable/ic_sort"
             android:drawablePadding="@dimen/space_small"
             android:gravity="center"
+            android:drawableTint="@color/white"
             android:text="@string/recipelist.sortfilter.sort.title" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="wrap_content"
+            style="@style/NormalFontWhiteBold"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/space_normal"
             android:layout_marginEnd="@dimen/space_normal"
@@ -36,13 +39,13 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_filter"
-            style="@style/NormalFont"
+            style="@style/NormalFontWhiteBold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawableStart="@drawable/ic_filter"
             android:drawablePadding="@dimen/space_small"
             android:gravity="center"
             android:text="@string/recipe.list.menu.filter.title"
-            app:drawableTint="@color/black" />
+            app:drawableTint="@color/white" />
     </LinearLayout>
 </androidx.cardview.widget.CardView>

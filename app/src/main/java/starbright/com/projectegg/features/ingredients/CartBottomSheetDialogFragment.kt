@@ -1,21 +1,23 @@
 package starbright.com.projectegg.features.ingredients
 
 import android.os.Bundle
+import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import io.reactivex.annotations.NonNull
 import kotlinx.android.synthetic.main.partial_bottom_sheet.*
 import starbright.com.projectegg.R
 import starbright.com.projectegg.data.model.Ingredient
 
+private const val ITEM_WIDTH = 120F
 class CartBottomSheetDialogFragment : BottomSheetDialogFragment() {
 
+    private lateinit var adapter: IngredientsCartAdapter
     var cart: MutableList<Ingredient> = mutableListOf()
     var sheetListener: SheetListener? = null
-    private lateinit var adapter: IngredientsCartAdapter
 
     override fun onCreateView(@NonNull inflater: LayoutInflater,
                               @NonNull container: ViewGroup?,
@@ -28,7 +30,6 @@ class CartBottomSheetDialogFragment : BottomSheetDialogFragment() {
         btn_submit.setOnClickListener {
             sheetListener?.submitButtonClicked()
         }
-        updateCartCountView()
         setupRvIngredientCart()
         updateButtonView()
     }
@@ -39,24 +40,31 @@ class CartBottomSheetDialogFragment : BottomSheetDialogFragment() {
     }
 
     private fun setupRvIngredientCart() {
-        adapter = IngredientsCartAdapter(activity!!, cart).also {
-            it.listener = { selectedPosition ->
-                updateView(selectedPosition)
-                sheetListener?.onItemRemovedFromCart()
+        activity?.let {
+            adapter = IngredientsCartAdapter(it, cart).also {
+                it.listener = { selectedPosition ->
+                    updateView(selectedPosition)
+                    sheetListener?.onItemRemovedFromCart()
+                }
             }
         }
 
         rv_ingredients_cart.let {
-            it.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+            it.layoutManager = GridLayoutManager(activity, calculateColumns())
             it.adapter = adapter
         }
 
         tv_empty.visibility = if (cart.isEmpty()) View.VISIBLE else View.GONE
     }
 
+    private fun calculateColumns(): Int {
+        val displayMetrics: DisplayMetrics = context?.resources?.displayMetrics ?: DisplayMetrics()
+        val screenWidthDp = displayMetrics.widthPixels / displayMetrics.density
+        return (screenWidthDp / ITEM_WIDTH + 0.5).toInt()
+    }
+
     private fun updateView(position: Int) {
         cart.removeAt(position)
-        updateCartCountView()
         updateList()
         updateButtonView()
     }
@@ -68,10 +76,6 @@ class CartBottomSheetDialogFragment : BottomSheetDialogFragment() {
 
     private fun updateButtonView() {
         btn_submit.isEnabled = cart.isNotEmpty()
-    }
-
-    private fun updateCartCountView() {
-        tv_total_ingredient.text = cart.size.toString()
     }
 
     interface SheetListener {

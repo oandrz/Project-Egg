@@ -6,10 +6,9 @@ import starbright.com.projectegg.features.base.BaseViewContract
 class SearchRecipeContract {
 
     interface View : BaseViewContract {
-
+        fun setupSearchByIngredientFab()
     }
 
     interface Presenter : BasePresenterContract {
-
     }
 }
