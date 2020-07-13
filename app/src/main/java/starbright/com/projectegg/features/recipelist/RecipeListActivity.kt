@@ -9,6 +9,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mikepenz.fastadapter.FastAdapter
@@ -93,7 +94,7 @@ class RecipeListActivity : BaseActivity<RecipeListContract.View, RecipeListPrese
 
     override fun appendRecipes(recipes: List<Recipe>) {
         Handler().post {
-            fab_sort_filter.visibility = View.VISIBLE
+            rv_recipe.visibility = View.VISIBLE
             recipeFooterAdapter.clear()
             recipes.map {
                 recipeBodyAdapter.add(RecipeItem(it))
@@ -141,6 +142,29 @@ class RecipeListActivity : BaseActivity<RecipeListContract.View, RecipeListPrese
         recipeBodyAdapter.clear()
         recipeFooterAdapter.clear()
         endlessScrollListener.resetPageCount()
+    }
+
+    override fun hideFilterButton() {
+        fab_sort_filter.visibility = View.GONE
+    }
+
+    override fun showFilterButton() {
+        fab_sort_filter.visibility = View.VISIBLE
+    }
+
+    override fun showResultEmptyState() {
+        rv_recipe.visibility = View.GONE
+        layout_fail_state.visibility = View.VISIBLE
+        iv_fail_image.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_empty))
+        tv_fail_title.text = getString(R.string.recipe_list_empty_title)
+    }
+
+    override fun showErrorState() {
+        TODO("Not yet implemented")
+    }
+
+    override fun showNoInternetState() {
+        TODO("Not yet implemented")
     }
 
     override fun hideFooterLoading() {

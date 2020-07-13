@@ -29,6 +29,11 @@ class RecipeListContract {
             selectedSortOption: String
         )
         fun clearRecipe()
+        fun hideFilterButton()
+        fun showFilterButton()
+        fun showResultEmptyState()
+        fun showErrorState()
+        fun showNoInternetState()
     }
 
     interface Presenter : BasePresenterContract {

@@ -67,6 +67,7 @@
     <string name="recipelist.sort.sheet.title">Sort By</string>
     <string name="recipe.list.menu.filter.title">Filter</string>
     <string name="recipe.list.calories.title">%d Cal</string>
+    <string name="recipe.list.empty.title">We\'re really Sorry, there is no recipe found from our system</string>
 
     <!--Detail Page-->
     <string name="detail.title">Recipe Detail</string>

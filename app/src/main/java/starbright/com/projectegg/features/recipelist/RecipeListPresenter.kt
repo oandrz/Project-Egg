@@ -92,7 +92,12 @@ class RecipeListPresenter @Inject constructor(
     }
 
     private fun loadRecipe(pos: Int) {
-        if (!isConnectedToInternet()) view.showError(R.string.server_connection_error)
+        if (!isConnectedToInternet()) {
+            with(view) {
+                showError(R.string.server_connection_error)
+                showNoInternetState()
+            }
+        }
 
         compositeDisposable.add(
             repository.getRecipes(config, pos)
@@ -100,11 +105,20 @@ class RecipeListPresenter @Inject constructor(
                 .observeOn(schedulerProvider.ui())
                 .subscribe({ recipesResult ->
                     recipesResult.forEach { it.cuisines?.mapTo(cuisines) { cuisine -> cuisine } }
-                    view.appendRecipes(recipesResult)
-                }, { _ ->
-                    view.run {
+                    with(view) {
                         hideFooterLoading()
-                        showError(text = "Our services are under maintenance, please retry after some time")
+                        if (recipesResult.isEmpty()) {
+                            hideFilterButton()
+                            showResultEmptyState()
+                        } else {
+                            showFilterButton()
+                            appendRecipes(recipesResult)
+                        }
+                    }
+                }, { _ ->
+                    with(view) {
+                        hideFooterLoading()
+                        showErrorState()
                     }
                 })
         )
