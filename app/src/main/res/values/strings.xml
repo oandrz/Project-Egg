@@ -1,3 +1,8 @@
+<!--
+  ~ Copyright (c) by Andreas (oentoro.andreas@gmail.com)
+  ~ created at 25 - 7 - 2020.
+  -->
+
 <!--~
   ~ Created by Andreas on 22/9/2018.
   -->
@@ -92,7 +97,7 @@
 
     <!--Home-->
     <string name="home.menu.home">Home</string>
-    <string name="home.menu.settings">Settings</string>
+    <string name="home.menu.favourite">Favourite</string>
     <string name="home.header.searchhint">Search by dish</string>
     <string name="home.list.header">Recommendation From Us</string>
     <string name="home.list.format.time.shorten">%d Min</string>
@@ -101,4 +106,8 @@
 
     <!--Search-->
     <string name="search.fab.ingredient.label">Search By Ingredient</string>
+
+    <!--Favourite-->
+    <string name="favourite.text.title.toolbar">Favourite Recipe</string>
+    <string name="home_text_label_header">What do you like to cook?</string>
 </resources>

@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) by Andreas (oentoro.andreas@gmail.com)
+ * created at 25 - 7 - 2020.
+ */
+
 /**
  * Created by Andreas on 26/11/2019.
  */
@@ -90,7 +95,7 @@ class RecipeDetailPresenterTest {
             mockRecipe.servingCount, mockRecipe.cookingMinutes,
             mockRecipe.title,
 
-        )
+            )
         mockRecipe.ingredients?.let {
             verify(mockView.renderIngredientsList(it))
         }

@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) by Andreas (oentoro.andreas@gmail.com)
+ * created at 25 - 7 - 2020.
+ */
+
 /**
  * Created by Andreas on 19/8/2018.
  */
@@ -20,8 +25,7 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.item_text_only.view.*
 import starbright.com.projectegg.R
 
-class TextViewRecyclerAdapter(private val mContext: Context, private val mDataSource: List<String>)
-    : RecyclerView.Adapter<TextViewRecyclerAdapter.ViewHolder>() {
+class TextViewRecyclerAdapter(private val mContext: Context, private val mDataSource: List<String>) : RecyclerView.Adapter<TextViewRecyclerAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(mContext)

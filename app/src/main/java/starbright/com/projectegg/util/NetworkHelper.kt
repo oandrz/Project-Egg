@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) by Andreas (oentoro.andreas@gmail.com)
+ * created at 25 - 7 - 2020.
+ */
+
 /**
  * Created by Andreas on 13/10/2019.
  */
@@ -31,9 +36,9 @@ class NetworkHelper constructor(private val context: Context) {
             if (throwable is ConnectException) return NetworkError(statusCode = 0)
             if (throwable !is HttpException) return defaultNetworkError
             val error = GsonBuilder()
-                    .excludeFieldsWithoutExposeAnnotation()
-                    .create()
-                    .fromJson(throwable.response()?.errorBody()?.string(), NetworkError::class.java)
+                .excludeFieldsWithoutExposeAnnotation()
+                .create()
+                .fromJson(throwable.response()?.errorBody()?.string(), NetworkError::class.java)
             return NetworkError(error.status, throwable.code(), error.message)
         } catch (e: IOException) {
             Log.e(TAG, e.toString())

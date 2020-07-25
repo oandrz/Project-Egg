@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) by Andreas (oentoro.andreas@gmail.com)
+ * created at 25 - 7 - 2020.
+ */
+
 package starbright.com.projectegg.features.recipelist.recipesort
 
 import android.os.Bundle
@@ -13,7 +18,6 @@ import kotlinx.android.synthetic.main.sheet_sort_recipe.*
 import starbright.com.projectegg.R
 import starbright.com.projectegg.data.model.SortOption
 import starbright.com.projectegg.view.BottomSheetHeader
-import starbright.com.projectegg.view.RecipeHeader
 import starbright.com.projectegg.view.SelectorItem
 
 class RecipeSortBottomSheetFragment: BottomSheetDialogFragment() {

@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) by Andreas (oentoro.andreas@gmail.com)
+ * created at 25 - 7 - 2020.
+ */
+
 package starbright.com.projectegg.features.home.list
 
 import android.os.Handler
@@ -50,6 +55,7 @@ class RecipeHomeFragment: BaseFragment<RecipeHomeContract.View, RecipeHomePresen
     override fun getViewContract(): RecipeHomeContract.View = this
 
     override fun setupSearchView() {
+//        StatusBarUtil.setTranslucentForImageViewInFragment(activity, null)
         search.setOnClickListener {
             activity?.let {
                 startActivity(SearchRecipeActivity.newIntent(it))

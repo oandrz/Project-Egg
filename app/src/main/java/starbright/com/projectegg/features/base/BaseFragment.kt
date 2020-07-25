@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) by Andreas (oentoro.andreas@gmail.com)
+ * created at 25 - 7 - 2020.
+ */
+
 /**
  * Created by Andreas on 14/10/2019.
  */
@@ -14,7 +19,6 @@ import androidx.fragment.app.Fragment
 import starbright.com.projectegg.MyApp
 import starbright.com.projectegg.dagger.component.DaggerFragmentComponent
 import starbright.com.projectegg.dagger.component.FragmentComponent
-import starbright.com.projectegg.dagger.module.FragmentModule
 import javax.inject.Inject
 
 abstract class BaseFragment<V : BaseViewContract, P : BasePresenter<V>> : Fragment(), BaseViewContract {
@@ -22,12 +26,18 @@ abstract class BaseFragment<V : BaseViewContract, P : BasePresenter<V>> : Fragme
     @Inject
     lateinit var presenter: P
 
+    private var toolbarBehavior: ToolbarBehavior? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         injectDependencies(buildFragmentComponent())
         super.onCreate(savedInstanceState)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? =
         inflater.inflate(getLayoutRes(), container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -53,6 +63,10 @@ abstract class BaseFragment<V : BaseViewContract, P : BasePresenter<V>> : Fragme
 
     override fun navigateToHome() {
         if (activity is BaseActivity<*, *>) (activity as BaseActivity<*, *>).navigateToHome()
+    }
+
+    protected fun setToolbarBehavior(behavior: ToolbarBehavior) {
+        toolbarBehavior = behavior
     }
 
     fun goBack() {

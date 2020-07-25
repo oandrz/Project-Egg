@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) by Andreas (oentoro.andreas@gmail.com)
+ * created at 25 - 7 - 2020.
+ */
+
 /**
  * Created by Andreas on 7/10/2018.
  */
@@ -37,6 +42,17 @@ class AppRepository @Inject constructor(
 
     override fun saveDetailInformation(recipe: Recipe) {
         appLocalDataStore.saveDetailInformation(recipe)
+    }
+
+    override fun removeFavouriteRecipe(id: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun saveFavouriteRecipe(recipe: Recipe) {
+
+    }
+
+    override fun getFavouriteRecipe() {
     }
 }
 

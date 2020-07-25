@@ -1,11 +1,15 @@
+/*
+ * Copyright (c) by Andreas (oentoro.andreas@gmail.com)
+ * created at 25 - 7 - 2020.
+ */
+
 package starbright.com.projectegg.features
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
+import androidx.appcompat.app.AppCompatActivity
 import starbright.com.projectegg.R
 import starbright.com.projectegg.features.home.HomeActivity
-import starbright.com.projectegg.features.ingredients.IngredientsActivity
 
 class SplashScreenActivity : AppCompatActivity() {
 

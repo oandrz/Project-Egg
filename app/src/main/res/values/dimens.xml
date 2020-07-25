@@ -1,4 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) by Andreas (oentoro.andreas@gmail.com)
+  ~ created at 25 - 7 - 2020.
+  -->
+
 <!--~
   ~ Created by Andreas on 22/9/2018.
   -->
@@ -18,8 +22,7 @@
     <dimen name="cart_image_container_size">64dp</dimen>
     <dimen name="line_size">1dp</dimen>
     <dimen name="banner_image_height">300dp</dimen>
-    <color name="ic_chefnut_background">#FF0B0E</color>
-
+    <dimen name="statusbar_view_height">25dp</dimen>
     <dimen name="navigation_bottom_height">56dp</dimen>
 
     <!--Spacing-->

@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) by Andreas (oentoro.andreas@gmail.com)
+ * created at 25 - 7 - 2020.
+ */
+
 /**
  * Created by Andreas on 7/10/2019.
  */
@@ -8,7 +13,6 @@ import androidx.fragment.app.FragmentManager
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
-import starbright.com.projectegg.features.base.BaseActivity
 import starbright.com.projectegg.util.IngredientRecognizer
 
 @Module

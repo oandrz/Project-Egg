@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) by Andreas (oentoro.andreas@gmail.com)
+ * created at 25 - 7 - 2020.
+ */
+
 package starbright.com.projectegg.data.model.response
 
 import com.google.gson.annotations.SerializedName
@@ -6,7 +11,7 @@ import com.google.gson.annotations.SerializedName
  * Created by Andreas on 4/8/2018.
  */
 
-data class RecipeResponse (
+data class RecipeResponse(
     @SerializedName("id")
     val id: Int = 0,
 

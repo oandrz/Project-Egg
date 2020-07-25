@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) by Andreas (oentoro.andreas@gmail.com)
+ * created at 25 - 7 - 2020.
+ */
+
 /**
  * Created by Andreas on 5/10/2019.
  */
@@ -33,7 +38,6 @@ import starbright.com.projectegg.features.recipelist.recipefilter.RecipeFilterBo
 import starbright.com.projectegg.features.recipelist.recipesort.RecipeSortBottomSheetFragment
 import starbright.com.projectegg.view.RecipeItem
 import java.lang.ref.WeakReference
-import kotlin.collections.ArrayList
 
 class RecipeListActivity : BaseActivity<RecipeListContract.View, RecipeListPresenter>(),
     RecipeListContract.View {
@@ -120,12 +124,12 @@ class RecipeListActivity : BaseActivity<RecipeListContract.View, RecipeListPrese
     ) {
         RecipeFilterBottomSheetFragment()
             .also {
-            it.cuisines = cuisines
-            it.selectedCuisine = selectedCuisine
-            it.onBottomSheetDismissListener = { cuisine ->
-                presenter.handleFilterItemSelected(cuisine)
-            }
-        }.show(supportFragmentManager, "cartbot")
+                it.cuisines = cuisines
+                it.selectedCuisine = selectedCuisine
+                it.onBottomSheetDismissListener = { cuisine ->
+                    presenter.handleFilterItemSelected(cuisine)
+                }
+            }.show(supportFragmentManager, "cartbot")
     }
 
     override fun showSortBottomSheet(sortOption: ArrayList<SortOption>, selectedSortOption: String) {

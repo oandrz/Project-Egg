@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) by Andreas (oentoro.andreas@gmail.com)
+ * created at 25 - 7 - 2020.
+ */
+
 /**
  * Created by Andreas on 22/9/2018.
  */
@@ -24,10 +29,12 @@ class RecipeListContract {
             cuisines: List<String>,
             selectedCuisine: String?
         )
+
         fun showSortBottomSheet(
             sortOption: ArrayList<SortOption>,
             selectedSortOption: String
         )
+
         fun clearRecipe()
         fun hideFilterButton()
         fun showFilterButton()

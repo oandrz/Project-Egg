@@ -1,9 +1,15 @@
+/*
+ * Copyright (c) by Andreas (oentoro.andreas@gmail.com)
+ * created at 25 - 7 - 2020.
+ */
+
 /**
  * Created by Andreas on 29/9/2018.
  */
 
 package starbright.com.projectegg.data.remote
 
+import io.reactivex.Completable
 import io.reactivex.Observable
 import retrofit2.Retrofit
 import retrofit2.http.GET
@@ -16,6 +22,7 @@ import starbright.com.projectegg.data.RecipeConfig
 import starbright.com.projectegg.data.model.Ingredient
 import starbright.com.projectegg.data.model.Instruction
 import starbright.com.projectegg.data.model.Recipe
+import starbright.com.projectegg.data.model.local.FavouriteRecipe
 import starbright.com.projectegg.data.model.response.IngredientResponse
 import starbright.com.projectegg.data.model.response.RecipeDetailResponse
 import starbright.com.projectegg.data.model.response.RecipeListResponse
@@ -149,6 +156,19 @@ class AppRemoteDataStore @Inject constructor(
     }
 
     override fun saveDetailInformation(recipe: Recipe) {
+        throw UnsupportedOperationException()
+    }
+
+    override fun removeFavouriteRecipe(recipe: FavouriteRecipe): Completable {
+        throw UnsupportedOperationException()
+
+    }
+
+    override fun saveFavouriteRecipe(recipe: FavouriteRecipe): Completable {
+        throw UnsupportedOperationException()
+    }
+
+    override fun getFavouriteRecipe(): Observable<List<FavouriteRecipe>> {
         throw UnsupportedOperationException()
     }
 

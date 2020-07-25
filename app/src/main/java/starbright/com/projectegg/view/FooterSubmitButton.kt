@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) by Andreas (oentoro.andreas@gmail.com)
+ * created at 25 - 7 - 2020.
+ */
+
 package starbright.com.projectegg.view
 
 import android.view.View
@@ -46,6 +51,7 @@ class FooterSubmitButton(
                 viewHolder.itemView.btn_submit
             } else super.onBind(viewHolder)
         }
+
         override fun onClick(
             v: View,
             position: Int,

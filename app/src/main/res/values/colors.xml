@@ -1,4 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) by Andreas (oentoro.andreas@gmail.com)
+  ~ created at 25 - 7 - 2020.
+  -->
+
 <resources>
     <color name="colorPrimary">@color/white</color>
     <color name="colorPrimaryDark">@color/darkRed</color>
@@ -15,4 +19,6 @@
 
     <!--Gray-->
     <color name="gray">#808080</color>
+
+    <color name="ic_chefnut_background">#FF0B0E</color>
 </resources>
