@@ -1,6 +1,6 @@
 <!--
   ~ Copyright (c) by Andreas (oentoro.andreas@gmail.com)
-  ~ created at 25 - 7 - 2020.
+  ~ created at 31 - 7 - 2020.
   -->
 
 <!--~
@@ -86,6 +86,10 @@
     <string name="detail.empty.label">I\'m sorry I still don\'t have the data of item that you want</string>
     <string name="detail.menu.share.label">Share</string>
     <string name="detail.menu.detail.label">Open Detail in WebView</string>
+    <string name="detail.menu.favourite.label">Bookmark Recipe</string>
+    <string name="detail.menu.unfavourite.label">Remove Bookmark</string>
+    <string name="detail.message.favourite.add">We have added the recipe to your bookmark list</string>
+    <string name="detail.message.favourite.remove">We have removed from your bookmark list</string>
     <string name="detail.intent.share">Hey, check this out ! I found delicious this recipe %s \nlink below\n%s</string>
 
     <!--Ads View-->

@@ -1,6 +1,6 @@
 /*
  * Copyright (c) by Andreas (oentoro.andreas@gmail.com)
- * created at 25 - 7 - 2020.
+ * created at 31 - 7 - 2020.
  */
 
 package starbright.com.projectegg.data.model.local
@@ -11,7 +11,7 @@ import androidx.room.PrimaryKey
 
 @Entity
 data class FavouriteRecipe(
-    @PrimaryKey(autoGenerate = true) val id: Int,
+    @PrimaryKey(autoGenerate = true) val id: Int? = null,
     @ColumnInfo(name = ROW_RECIPE_ID) val recipeId: Int,
     @ColumnInfo(name = ROW_RECIPE_TITLE) val recipeTitle: String,
     @ColumnInfo(name = ROW_RECIPE_COOK_TIME) val cookingTimeInMinutes: Int,

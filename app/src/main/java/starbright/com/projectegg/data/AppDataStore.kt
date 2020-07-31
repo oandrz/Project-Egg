@@ -1,6 +1,6 @@
 /*
  * Copyright (c) by Andreas (oentoro.andreas@gmail.com)
- * created at 25 - 7 - 2020.
+ * created at 31 - 7 - 2020.
  */
 
 package starbright.com.projectegg.data
@@ -20,7 +20,8 @@ interface AppDataStore {
 
     fun saveDetailInformation(recipe: Recipe)
 
-    fun removeFavouriteRecipe(recipe: FavouriteRecipe): Completable
+    fun removeFavouriteRecipe(recipeId: Int): Completable
     fun saveFavouriteRecipe(recipe: FavouriteRecipe): Completable
-    fun getFavouriteRecipe(): Observable<List<FavouriteRecipe>>
+    fun getFavouriteRecipeWith(): Observable<List<FavouriteRecipe>>
+    fun getFavouriteRecipeWith(recipeId: Int): Observable<FavouriteRecipe?>
 }

@@ -1,6 +1,6 @@
 /*
  * Copyright (c) by Andreas (oentoro.andreas@gmail.com)
- * created at 25 - 7 - 2020.
+ * created at 31 - 7 - 2020.
  */
 
 package starbright.com.projectegg.features.ads
@@ -18,7 +18,6 @@ import com.google.android.gms.ads.rewarded.RewardedAd
 import com.google.android.gms.ads.rewarded.RewardedAdCallback
 import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
 import kotlinx.android.synthetic.main.activity_ads.*
-import kotlinx.android.synthetic.main.content_recipe_detail_body.adView
 import starbright.com.projectegg.BuildConfig
 import starbright.com.projectegg.R
 

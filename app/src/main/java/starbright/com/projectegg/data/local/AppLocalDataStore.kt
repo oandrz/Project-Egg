@@ -42,15 +42,19 @@ class AppLocalDataStore @Inject constructor(
         throw UnsupportedOperationException(Constants.OPERATION_NOT_SUPPORTED)
     }
 
-    override fun removeFavouriteRecipe(recipe: FavouriteRecipe): Completable {
-        return database.favoriteRecipeDao().removeFavouriteRecipe(recipe)
+    override fun removeFavouriteRecipe(recipeId: Int): Completable {
+        return database.favoriteRecipeDao().removeFavouriteRecipe(recipeId)
     }
 
     override fun saveFavouriteRecipe(recipe: FavouriteRecipe): Completable {
         return database.favoriteRecipeDao().addFavouriteRecipe(recipe)
     }
 
-    override fun getFavouriteRecipe(): Observable<List<FavouriteRecipe>> {
+    override fun getFavouriteRecipeWith(): Observable<List<FavouriteRecipe>> {
         return database.favoriteRecipeDao().getFavouriteRecipe()
+    }
+
+    override fun getFavouriteRecipeWith(recipeId: Int): Observable<FavouriteRecipe?> {
+        return database.favoriteRecipeDao().getFavouriteRecipeWith(recipeId)
     }
 }

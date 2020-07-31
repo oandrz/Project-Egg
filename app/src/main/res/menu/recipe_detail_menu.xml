@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) by Andreas (oentoro.andreas@gmail.com)
-  ~ created at 25 - 7 - 2020.
+  ~ created at 31 - 7 - 2020.
   -->
 
 <!--~
@@ -16,5 +16,9 @@
     <item
         android:id="@+id/menu_webview"
         android:title="@string/detail.menu.detail.label"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/menu_favorite"
+        android:title="@string/detail.menu.favourite.label"
         app:showAsAction="never" />
 </menu>

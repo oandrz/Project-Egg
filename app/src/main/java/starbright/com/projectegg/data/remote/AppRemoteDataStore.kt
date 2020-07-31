@@ -155,16 +155,19 @@ class AppRemoteDataStore @Inject constructor(
         throw UnsupportedOperationException()
     }
 
-    override fun removeFavouriteRecipe(recipe: FavouriteRecipe): Completable {
+    override fun removeFavouriteRecipe(recipeId: Int): Completable {
         throw UnsupportedOperationException()
-
     }
 
     override fun saveFavouriteRecipe(recipe: FavouriteRecipe): Completable {
         throw UnsupportedOperationException()
     }
 
-    override fun getFavouriteRecipe(): Observable<List<FavouriteRecipe>> {
+    override fun getFavouriteRecipeWith(): Observable<List<FavouriteRecipe>> {
+        throw UnsupportedOperationException()
+    }
+
+    override fun getFavouriteRecipeWith(recipeId: Int): Observable<FavouriteRecipe?> {
         throw UnsupportedOperationException()
     }
 

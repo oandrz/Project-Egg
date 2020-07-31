@@ -1,15 +1,8 @@
 /*
  * Copyright (c) by Andreas (oentoro.andreas@gmail.com)
- * created at 25 - 7 - 2020.
+ * created at 31 - 7 - 2020.
  */
 
-/**
- * Created by Andreas on 5/10/2019.
- */
-
-/**
- * Created by Andreas on 10/9/2018.
- */
 
 package starbright.com.projectegg.features.detail
 
@@ -22,7 +15,7 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.google.android.gms.ads.AdRequest
+import com.google.android.material.snackbar.Snackbar
 import com.jaeger.library.StatusBarUtil
 import kotlinx.android.synthetic.main.activity_recipe_detail_revamped.*
 import kotlinx.android.synthetic.main.content_recipe_detail_body.*
@@ -45,6 +38,8 @@ class RecipeDetailActivity : BaseActivity<RecipeDetailContract.View, RecipeDetai
         intent?.extras?.getString(RECIPE_ID_EXTRA_KEY) ?: ""
     }
 
+    private var isBookmarked: Boolean = false
+
     override fun getLayoutRes(): Int = R.layout.activity_recipe_detail_revamped
 
     override fun getView(): RecipeDetailContract.View = this
@@ -61,11 +56,17 @@ class RecipeDetailActivity : BaseActivity<RecipeDetailContract.View, RecipeDetai
         )
         super.onCreate(savedInstanceState)
         presenter.getRecipeDetailInformation(recipeId)
-        adView.loadAd(AdRequest.Builder().build())
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.recipe_detail_menu, menu)
+        menu?.findItem(R.id.menu_favorite)?.apply {
+            if (isBookmarked) {
+                setTitle(R.string.detail_menu_unfavourite_label)
+            } else {
+                setTitle(R.string.detail_menu_favourite_label)
+            }
+        }
         return super.onCreateOptionsMenu(menu)
     }
 
@@ -77,6 +78,10 @@ class RecipeDetailActivity : BaseActivity<RecipeDetailContract.View, RecipeDetai
             }
             R.id.menu_webview -> {
                 presenter.handleWebViewMenuClicked()
+                true
+            }
+            R.id.menu_favorite -> {
+                presenter.handleBookmarkRecipeMenuClicked()
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -192,6 +197,15 @@ class RecipeDetailActivity : BaseActivity<RecipeDetailContract.View, RecipeDetai
 
     override fun navigateToWebViewActivity(url: String) {
         startActivity(WebviewActivity.newIntent(this, url))
+    }
+
+    override fun showSnackbar(text: Int) {
+        Snackbar.make(root_layout, text, Snackbar.LENGTH_SHORT).show()
+    }
+
+    override fun updateMenu(bookmarked: Boolean) {
+        isBookmarked = bookmarked
+        invalidateOptionsMenu()
     }
 
     companion object {

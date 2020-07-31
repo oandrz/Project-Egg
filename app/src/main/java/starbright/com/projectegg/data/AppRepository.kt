@@ -1,6 +1,6 @@
 /*
  * Copyright (c) by Andreas (oentoro.andreas@gmail.com)
- * created at 25 - 7 - 2020.
+ * created at 31 - 7 - 2020.
  */
 
 /**
@@ -9,11 +9,13 @@
 
 package starbright.com.projectegg.data
 
+import io.reactivex.Completable
 import io.reactivex.Observable
 import starbright.com.projectegg.dagger.qualifier.LocalData
 import starbright.com.projectegg.dagger.qualifier.RemoteData
 import starbright.com.projectegg.data.model.Ingredient
 import starbright.com.projectegg.data.model.Recipe
+import starbright.com.projectegg.data.model.local.FavouriteRecipe
 import starbright.com.projectegg.enum.RecipeSortCategory
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -44,15 +46,29 @@ class AppRepository @Inject constructor(
         appLocalDataStore.saveDetailInformation(recipe)
     }
 
-    override fun removeFavouriteRecipe(id: String) {
-        TODO("Not yet implemented")
+    override fun removeFavouriteRecipe(recipeId: Int): Completable {
+        return appLocalDataStore.removeFavouriteRecipe(recipeId)
     }
 
-    override fun saveFavouriteRecipe(recipe: Recipe) {
-
+    override fun saveFavouriteRecipe(recipe: Recipe): Completable {
+        return recipe.let {
+            appLocalDataStore.saveFavouriteRecipe(
+                FavouriteRecipe(
+                    recipeId = it.id,
+                    recipeTitle = it.title,
+                    cookingTimeInMinutes = it.cookingMinutes ?: 0,
+                    servingCount = it.servingCount ?: 0
+                )
+            )
+        }
     }
 
-    override fun getFavouriteRecipe() {
+    override fun getFavouriteRecipe(): Observable<List<FavouriteRecipe>> {
+        return appLocalDataStore.getFavouriteRecipeWith()
+    }
+
+    override fun isRecipeSavedBefore(recipeId: Int): Observable<FavouriteRecipe?> {
+        return appLocalDataStore.getFavouriteRecipeWith(recipeId)
     }
 }
 

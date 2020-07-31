@@ -1,10 +1,6 @@
 /*
  * Copyright (c) by Andreas (oentoro.andreas@gmail.com)
- * created at 25 - 7 - 2020.
- */
-
-/**
- * Created by Andreas on 5/10/2019.
+ * created at 31 - 7 - 2020.
  */
 
 package starbright.com.projectegg.features.detail
@@ -25,27 +21,29 @@ class RecipeDetailPresenter @Inject constructor(
     private val repository: AppRepository
 ) : BasePresenter<RecipeDetailContract.View>(schedulerProvider, compositeDisposable, networkHelper), RecipeDetailContract.Presenter {
 
-    private var mRecipe: Recipe? = null
+    private var isBookmarked: Boolean = false
+    private var recipe: Recipe? = null
 
     override fun onCreateScreen() {
         view.setupSwipeRefreshLayout()
     }
 
     override fun getRecipeDetailInformation(recipeId: String) {
+        isRecipeBookmarked(recipeId)
         if (!isConnectedToInternet()) view.showError(R.string.server_connection_error)
 
         view.run {
             hideScrollContainer()
             showProgressBar()
         }
-        compositeDisposable
-            .add(repository.getRecipeDetailInformation(recipeId)
-                .subscribeOn(schedulerProvider.computation())
+        compositeDisposable.add(
+            repository.getRecipeDetailInformation(recipeId)
+                .subscribeOn(schedulerProvider.io())
                 .observeOn(schedulerProvider.ui())
                 .subscribe({ recipe ->
                     view.hideProgressBar()
-                    mRecipe = recipe
-                    if (mRecipe != null) {
+                    this.recipe = recipe
+                    if (this.recipe != null) {
                         view.hideEmptyView()
                         updateView()
                     } else {
@@ -53,17 +51,18 @@ class RecipeDetailPresenter @Inject constructor(
                     }
                 }, {
                     view.hideProgressBar()
-                    if (mRecipe != null) {
+                    if (recipe != null) {
                         view.hideEmptyView()
                         updateView()
                     } else {
                         view.renderEmptyView()
                     }
-                }))
+                })
+        )
     }
 
     override fun handleShareMenuClicked() {
-        mRecipe?.let {
+        recipe?.let {
             val sourceUrl = it.sourceStringUrl
             if (sourceUrl != null) {
                 view.createShareIntent(sourceUrl, it.title)
@@ -74,13 +73,21 @@ class RecipeDetailPresenter @Inject constructor(
     }
 
     override fun handleWebViewMenuClicked() {
-        mRecipe?.sourceStringUrl?.let {
+        recipe?.sourceStringUrl?.let {
             view.navigateToWebViewActivity(it)
         } ?: view.showError(R.string.detail_empty_label)
     }
 
+    override fun handleBookmarkRecipeMenuClicked() {
+        if (isBookmarked) {
+            removeRecipeBookmark()
+        } else {
+            bookmarkRecipe()
+        }
+    }
+
     private fun updateView() {
-        mRecipe?.let { recipe ->
+        recipe?.let { recipe ->
             with(view) {
                 showScrollContainer()
                 renderBannerFoodImage(recipe.image ?: "")
@@ -88,7 +95,8 @@ class RecipeDetailPresenter @Inject constructor(
                     recipe.servingCount ?: 0,
                     recipe.cookingMinutes ?: 0,
                     recipe.title,
-                    if (recipe.dishTypes?.isEmpty() == true) "" else recipe.dishTypes?.first() ?: "",
+                    if (recipe.dishTypes?.isEmpty() == true) "" else recipe.dishTypes?.first()
+                        ?: "",
                     recipe.calories ?: 0
                 )
                 recipe.ingredients?.let { ingredients ->
@@ -99,5 +107,47 @@ class RecipeDetailPresenter @Inject constructor(
                 }
             }
         }
+    }
+
+    private fun bookmarkRecipe() {
+        recipe?.let {
+            compositeDisposable.add(
+                repository.saveFavouriteRecipe(it)
+                    .subscribeOn(schedulerProvider.io())
+                    .observeOn(schedulerProvider.ui())
+                    .subscribe {
+                        isBookmarked = true
+                        view.showSnackbar(R.string.detail_message_favourite_add)
+                        view.updateMenu(isBookmarked)
+                    }
+            )
+        }
+    }
+
+    private fun removeRecipeBookmark() {
+        recipe?.let {
+            compositeDisposable.add(
+                repository.removeFavouriteRecipe(it.id)
+                    .subscribeOn(schedulerProvider.io())
+                    .observeOn(schedulerProvider.ui())
+                    .subscribe {
+                        isBookmarked = false
+                        view.showSnackbar(R.string.detail_message_favourite_remove)
+                        view.updateMenu(isBookmarked)
+                    }
+            )
+        }
+    }
+
+    private fun isRecipeBookmarked(recipeId: String) {
+        compositeDisposable.add(
+            repository.isRecipeSavedBefore(recipeId.toInt())
+                .subscribeOn(schedulerProvider.io())
+                .observeOn(schedulerProvider.ui())
+                .subscribe {
+                    isBookmarked = it != null
+                    view.updateMenu(isBookmarked)
+                }
+        )
     }
 }
