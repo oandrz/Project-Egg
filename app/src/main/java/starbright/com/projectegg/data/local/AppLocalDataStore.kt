@@ -1,6 +1,6 @@
 /*
  * Copyright (c) by Andreas (oentoro.andreas@gmail.com)
- * created at 25 - 7 - 2020.
+ * created at 31 - 7 - 2020.
  */
 
 package starbright.com.projectegg.data.local
@@ -23,25 +23,23 @@ class AppLocalDataStore @Inject constructor(
 ) : AppDataStore {
 
     override fun getRecipes(config: RecipeConfig, offset: Int): Observable<List<Recipe>> {
-        System.err.print(Constants.OPERATION_NOT_SUPPORTED)
-        throw UnsupportedOperationException()
+        throw UnsupportedOperationException(Constants.OPERATION_NOT_SUPPORTED)
     }
 
     override fun getRecommendedRecipe(offSet: Int): Observable<List<Recipe>> {
-        throw UnsupportedOperationException()
+        throw UnsupportedOperationException(Constants.OPERATION_NOT_SUPPORTED)
     }
 
     override fun searchIngredient(query: String): Observable<List<Ingredient>> {
-        System.err.println(Constants.OPERATION_NOT_SUPPORTED)
-        throw UnsupportedOperationException()
+        throw UnsupportedOperationException(Constants.OPERATION_NOT_SUPPORTED)
     }
 
     override fun getRecipeDetailInformation(recipeId: String): Observable<Recipe> {
-        throw UnsupportedOperationException()
+        throw UnsupportedOperationException(Constants.OPERATION_NOT_SUPPORTED)
     }
 
     override fun saveDetailInformation(recipe: Recipe) {
-        throw UnsupportedOperationException()
+        throw UnsupportedOperationException(Constants.OPERATION_NOT_SUPPORTED)
     }
 
     override fun removeFavouriteRecipe(recipe: FavouriteRecipe): Completable {

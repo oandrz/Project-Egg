@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) by Andreas (oentoro.andreas@gmail.com)
-  ~ created at 25 - 7 - 2020.
+  ~ created at 31 - 7 - 2020.
   -->
 
 <resources>
     <color name="colorPrimary">@color/white</color>
-    <color name="colorPrimaryDark">@color/darkRed</color>
+    <color name="colorPrimaryDark">@color/transluscent</color>
     <color name="colorAccent">@color/lightRed</color>
 
     <!--Basic Color-->
     <color name="black">#212121</color>
     <color name="white">#FFFFFF</color>
     <color name="red">#e6333e</color>
+
+    <color name="transluscent">#29000000</color>
 
     <!--Red-->
     <color name="lightRed">#ff6659</color>

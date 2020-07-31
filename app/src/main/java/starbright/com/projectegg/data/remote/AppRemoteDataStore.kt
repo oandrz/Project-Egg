@@ -1,10 +1,6 @@
 /*
  * Copyright (c) by Andreas (oentoro.andreas@gmail.com)
- * created at 25 - 7 - 2020.
- */
-
-/**
- * Created by Andreas on 29/9/2018.
+ * created at 31 - 7 - 2020.
  */
 
 package starbright.com.projectegg.data.remote
