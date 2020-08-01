@@ -1,6 +1,6 @@
 <!--
   ~ Copyright (c) by Andreas (oentoro.andreas@gmail.com)
-  ~ created at 31 - 7 - 2020.
+  ~ created at 1 - 8 - 2020.
   -->
 
 <!--~
@@ -106,6 +106,7 @@
     <string name="home.list.header">Recommendation From Us</string>
     <string name="home.list.format.time.shorten">%d Min</string>
     <string name="home.list.format.by">By %s</string>
+    <string name="home.text.label.header">What do you like to cook?</string>
     <string name="divider">|</string>
 
     <!--Search-->
@@ -113,5 +114,5 @@
 
     <!--Favourite-->
     <string name="favourite.text.title.toolbar">Favourite Recipe</string>
-    <string name="home_text_label_header">What do you like to cook?</string>
+    <string name="favourite.text.title.error.favourite.empty">You Don\'t Have Bookmarked \nRecipe Yet</string>
 </resources>

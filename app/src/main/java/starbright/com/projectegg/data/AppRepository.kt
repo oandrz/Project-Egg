@@ -1,6 +1,6 @@
 /*
  * Copyright (c) by Andreas (oentoro.andreas@gmail.com)
- * created at 31 - 7 - 2020.
+ * created at 1 - 8 - 2020.
  */
 
 /**
@@ -56,8 +56,10 @@ class AppRepository @Inject constructor(
                 FavouriteRecipe(
                     recipeId = it.id,
                     recipeTitle = it.title,
+                    recipeImageUrl = it.image.orEmpty(),
                     cookingTimeInMinutes = it.cookingMinutes ?: 0,
-                    servingCount = it.servingCount ?: 0
+                    servingCount = it.servingCount ?: 0,
+                    source = it.sourceName.orEmpty()
                 )
             )
         }
