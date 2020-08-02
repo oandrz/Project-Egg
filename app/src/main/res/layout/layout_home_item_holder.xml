@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) by Andreas (oentoro.andreas@gmail.com)
+  ~ created at 25 - 7 - 2020.
+  -->
+
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="@dimen/card_corner_radius_12dp"
+    app:cardElevation="@dimen/card_elevation"
+    app:cardUseCompatPadding="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/iv_banner_food"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/height_banner_image"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop"
+            android:src="@color/gray"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_food_name"
+            style="@style/TitleFont"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_normal"
+            android:layout_marginTop="@dimen/space_small"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/iv_banner_food"
+            tools:text="Salmon, Salad with Cream Sauce" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_source_name"
+            style="@style/SmallFontBlack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_normal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_food_name"
+            tools:text="By Source Name" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_serving_time"
+            style="@style/SmallFontBlack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_normal"
+            android:layout_marginTop="@dimen/space_small"
+            android:layout_marginBottom="@dimen/space_normal"
+            android:drawableStart="@drawable/ic_time_small"
+            android:drawablePadding="@dimen/space_small"
+            android:gravity="center_vertical"
+            android:textColor="@color/gray"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_source_name"
+            tools:text="30 min" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_divider"
+            style="@style/SmallFontBlack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_4dp"
+            android:text="@string/divider"
+            android:textColor="@color/gray"
+            app:layout_constraintBottom_toBottomOf="@id/tv_serving_time"
+            app:layout_constraintStart_toEndOf="@id/tv_serving_time"
+            app:layout_constraintTop_toTopOf="@id/tv_serving_time" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_serving_count"
+            style="@style/SmallFontBlack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_4dp"
+            android:drawableStart="@drawable/ic_serving_small"
+            android:drawablePadding="@dimen/space_small"
+            android:gravity="center_vertical"
+            android:textColor="@color/gray"
+            app:layout_constraintBottom_toBottomOf="@id/tv_serving_time"
+            app:layout_constraintStart_toEndOf="@id/tv_divider"
+            app:layout_constraintTop_toTopOf="@id/tv_serving_time"
+            tools:text="30 Servings" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) by Andreas (oentoro.andreas@gmail.com)
+  ~ created at 25 - 7 - 2020.
+  -->
+
+<androidx.appcompat.widget.AppCompatTextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/tv_header"
+    style="@style/TitleFont"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/space_normal"
+    android:text="@string/home.list.header" />

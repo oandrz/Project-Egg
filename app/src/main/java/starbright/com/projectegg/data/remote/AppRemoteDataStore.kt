@@ -1,9 +1,11 @@
-/**
- * Created by Andreas on 29/9/2018.
+/*
+ * Copyright (c) by Andreas (oentoro.andreas@gmail.com)
+ * created at 31 - 7 - 2020.
  */
 
 package starbright.com.projectegg.data.remote
 
+import io.reactivex.Completable
 import io.reactivex.Observable
 import retrofit2.Retrofit
 import retrofit2.http.GET
@@ -12,28 +14,51 @@ import retrofit2.http.Query
 import retrofit2.http.QueryMap
 import starbright.com.projectegg.BuildConfig
 import starbright.com.projectegg.data.AppDataStore
+import starbright.com.projectegg.data.RecipeConfig
 import starbright.com.projectegg.data.model.Ingredient
 import starbright.com.projectegg.data.model.Instruction
 import starbright.com.projectegg.data.model.Recipe
+import starbright.com.projectegg.data.model.local.FavouriteRecipe
 import starbright.com.projectegg.data.model.response.IngredientResponse
 import starbright.com.projectegg.data.model.response.RecipeDetailResponse
 import starbright.com.projectegg.data.model.response.RecipeListResponse
+import starbright.com.projectegg.enum.RecipeSortCategory
 import starbright.com.projectegg.util.Constants
 import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class AppRemoteDataStore @Inject constructor(private val mRetrofit: Retrofit) : AppDataStore {
+class AppRemoteDataStore @Inject constructor(
+    private val mRetrofit: Retrofit
+) : AppDataStore {
 
-    override fun getRecipes(ingredients: String, cuisine: String, offset: Int): Observable<List<Recipe>> {
-        val queryMap = HashMap<String, String>()
-        queryMap[Constants.QUERY_PARAM_LIMIT_LICENSE_KEY] = true.toString()
-        queryMap[Constants.QUERY_PARAM_INSTRUCTION_REQUIRED_KEY] = true.toString()
-        queryMap[Constants.QUERY_PARAM_ADD_INFORMATION] = true.toString()
-        queryMap[Constants.QUERY_PARAM_SORT_KEY] = "time"
+    override fun getRecipes(config: RecipeConfig, offset: Int): Observable<List<Recipe>> {
+        val queryMap = HashMap<String, String>().apply {
+            this[Constants.QUERY_PARAM_LIMIT_LICENSE_KEY] = true.toString()
+            this[Constants.QUERY_PARAM_INSTRUCTION_REQUIRED_KEY] = true.toString()
+            this[Constants.QUERY_PARAM_ADD_INFORMATION] = true.toString()
+            this[Constants.QUERY_PARAM_SORT_KEY] = config.sortCategory.type.toLowerCase(Locale.getDefault())
+        }
+
+        val ingredientsAsParam = StringBuilder()
+        config.ingredients?.let {
+            it.mapIndexed { index, ingredient ->
+                ingredientsAsParam.append(ingredient.name)
+                if (index < it.size - 1) {
+                    ingredientsAsParam.append(", ")
+                }
+            }
+        }
+
         return mRetrofit.create(Service::class.java)
-            .getRecipes(ingredients = ingredients, cuisine = cuisine, offset = offset, options =queryMap)
+            .getRecipes(
+                query = config.query,
+                ingredients = ingredientsAsParam.toString(),
+                cuisine = config.cuisine.orEmpty(),
+                offset = offset,
+                options = queryMap
+            )
             .map { responses ->
                 val recipes = ArrayList<Recipe>(responses.results.size)
                 for (response in responses.results) {
@@ -42,9 +67,42 @@ class AppRemoteDataStore @Inject constructor(private val mRetrofit: Retrofit) : 
                             id = response.id,
                             title = response.title,
                             image = response.image,
-                            cuisines = response.cuisines
+                            cuisines = response.cuisines,
+                            cookingMinutes = response.cookingTime,
+                            servingCount = response.servings
                         )
                     )
+                }
+                recipes
+            }
+    }
+
+    override fun getRecommendedRecipe(offSet: Int): Observable<List<Recipe>> {
+        val queryMap = HashMap<String, String>()
+        queryMap[Constants.QUERY_PARAM_LIMIT_LICENSE_KEY] = true.toString()
+        queryMap[Constants.QUERY_PARAM_INSTRUCTION_REQUIRED_KEY] = true.toString()
+        queryMap[Constants.QUERY_PARAM_ADD_INFORMATION] = true.toString()
+        queryMap[Constants.QUERY_PARAM_SORT_KEY] = RecipeSortCategory.RANDOM.type.toLowerCase()
+        return mRetrofit.create(Service::class.java)
+            .getRecommendedRecipes(offset = offSet, options = queryMap)
+            .map { responses ->
+                val recipes = ArrayList<Recipe>(responses.results.size)
+                for (response in responses.results) {
+                    response.apply {
+                        recipes.add(
+                            Recipe(
+                                id = id,
+                                cookingMinutes = cookingTime,
+                                servingCount = servings,
+                                title = title,
+                                image = image,
+                                sourceStringUrl = sourceStringUrl,
+                                sourceName = sourceName,
+                                dishTypes = dishTypes,
+                                cuisines = cuisines
+                            )
+                        )
+                    }
                 }
                 recipes
             }
@@ -88,7 +146,7 @@ class AppRemoteDataStore @Inject constructor(private val mRetrofit: Retrofit) : 
                     },
                     calories = recipeDetailResponse.nutrients.nutrients.first().amount.toInt(),
                     dishTypes = recipeDetailResponse.dishTypes,
-                    cuisines = recipeDetailResponse.cuisine
+                    cuisines = recipeDetailResponse.cuisines
                 )
             }
     }
@@ -97,12 +155,36 @@ class AppRemoteDataStore @Inject constructor(private val mRetrofit: Retrofit) : 
         throw UnsupportedOperationException()
     }
 
+    override fun removeFavouriteRecipe(recipeId: Int): Completable {
+        throw UnsupportedOperationException()
+    }
+
+    override fun saveFavouriteRecipe(recipe: FavouriteRecipe): Completable {
+        throw UnsupportedOperationException()
+    }
+
+    override fun getFavouriteRecipeWith(): Observable<List<FavouriteRecipe>> {
+        throw UnsupportedOperationException()
+    }
+
+    override fun getFavouriteRecipeWith(recipeId: Int): Observable<FavouriteRecipe?> {
+        throw UnsupportedOperationException()
+    }
+
     private interface Service {
         @GET("recipes/complexSearch")
         fun getRecipes(
             @Query(Constants.QUERY_API_KEY) apiKey: String? = BuildConfig.SPOON_KEY,
+            @Query("query") query: String?,
             @Query("includeIngredients") ingredients: String,
             @Query("cuisine") cuisine: String,
+            @Query("offset") offset: Int,
+            @QueryMap options: Map<String, String>
+        ): Observable<RecipeListResponse>
+
+        @GET("recipes/complexSearch")
+        fun getRecommendedRecipes(
+            @Query(Constants.QUERY_API_KEY) apiKey: String? = BuildConfig.SPOON_KEY,
             @Query("offset") offset: Int,
             @QueryMap options: Map<String, String>
         ): Observable<RecipeListResponse>

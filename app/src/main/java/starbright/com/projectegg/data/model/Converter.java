@@ -1,4 +1,11 @@
+/*
+ * Copyright (c) by Andreas (oentoro.andreas@gmail.com)
+ * created at 25 - 7 - 2020.
+ */
+
 /**
+ * Created by Andreas on 29/9/2018.
+ * <p>
  * Created by Andreas on 29/9/2018.
  * <p>
  * Created by Andreas on 29/9/2018.

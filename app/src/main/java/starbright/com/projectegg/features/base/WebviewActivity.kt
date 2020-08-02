@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) by Andreas (oentoro.andreas@gmail.com)
+ * created at 25 - 7 - 2020.
+ */
+
 /**
  * Created by Andreas on 27/8/2018.
  */
@@ -13,10 +18,7 @@ import android.view.View
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.appcompat.app.AppCompatActivity
-import kotlinx.android.synthetic.main.activity_webview.progress_bar
-import kotlinx.android.synthetic.main.activity_webview.toolbar
-import kotlinx.android.synthetic.main.activity_webview.webview
-
+import kotlinx.android.synthetic.main.activity_webview.*
 import starbright.com.projectegg.R
 
 class WebviewActivity : AppCompatActivity() {

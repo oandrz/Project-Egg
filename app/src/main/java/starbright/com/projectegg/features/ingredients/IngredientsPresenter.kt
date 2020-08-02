@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) by Andreas (oentoro.andreas@gmail.com)
+ * created at 25 - 7 - 2020.
+ */
+
 /**
  * Created by Andreas on 9/9/2018.
  */
@@ -40,7 +45,9 @@ class IngredientsPresenter @Inject constructor(
     override fun onCreateScreen() {
         view.run {
             setupView()
-            if (cart.isNotEmpty()) updateIngredientCount(cart.size)
+            if (cart.isNotEmpty()) {
+                updateIngredientCount(cart.size)
+            }
         }
     }
 

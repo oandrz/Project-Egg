@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) by Andreas (oentoro.andreas@gmail.com)
+ * created at 25 - 7 - 2020.
+ */
+
 /**
  * Created by Andreas on 15/8/2018.
  */
@@ -5,7 +10,7 @@ package starbright.com.projectegg.data.model.response
 
 import com.google.gson.annotations.SerializedName
 
-data class RecipeDetailResponse (
+data class RecipeDetailResponse(
     @SerializedName("id")
     val id: Int = 0,
 
@@ -34,7 +39,7 @@ data class RecipeDetailResponse (
     val dishTypes: List<String>,
 
     @SerializedName("cuisines")
-    val cuisine: List<String>,
+    val cuisines: List<String>,
 
     @SerializedName("analyzedInstructions")
     val analyzedInstructions: List<InstructionResponse>,

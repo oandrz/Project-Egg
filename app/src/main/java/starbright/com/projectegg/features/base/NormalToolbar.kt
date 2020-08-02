@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) by Andreas (oentoro.andreas@gmail.com)
+ * created at 25 - 7 - 2020.
+ */
+
 /**
  * Created by Andreas on 2/11/2019.
  */
@@ -13,7 +18,8 @@ const val UNKNOWN_RESOURCE: Int = -1
 class NormalToolbar(
     private val activity: WeakReference<AppCompatActivity>,
     private val toolbarId: Int,
-    @StringRes private val toolbarTitleRes: Int
+    @StringRes private val toolbarTitleRes: Int,
+    private val isShowBackButton: Boolean = true
 ) : ToolbarBehavior {
 
     override fun buildToolbar() {
@@ -27,7 +33,7 @@ class NormalToolbar(
                     } else {
                         activity.get()?.resources?.getString(toolbarTitleRes)
                     }
-                    supportActionBar.setDisplayHomeAsUpEnabled(true)
+                    supportActionBar.setDisplayHomeAsUpEnabled(isShowBackButton)
                 }
             }
         } else {

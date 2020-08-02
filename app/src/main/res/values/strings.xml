@@ -1,3 +1,8 @@
+<!--
+  ~ Copyright (c) by Andreas (oentoro.andreas@gmail.com)
+  ~ created at 1 - 8 - 2020.
+  -->
+
 <!--~
   ~ Created by Andreas on 22/9/2018.
   -->
@@ -44,9 +49,10 @@
     <string name="ingredients.search.hint">Search ingredients here</string>
     <string name="ingredients.search.empty">The Item you\'re looking for is not available</string>
     <string name="ingredients.cart.included.format">I\'ve put %s into your cart</string>
+    <string name="ingredients.cart.label.format">%d Item</string>
     <string name="ingredients.dialog.progress.title">Working on it now</string>
     <string name="ingredients.dialog.progress.content">Please give me a bit time to recognize the image</string>
-    <string name="ingredients.cart.total.label">Total</string>
+    <string name="ingredients.cart.ingredients.label">Ingredients</string>
     <string name="ingredients.cart.empty">I\'m so empty right now…</string>
     <string name="ingredients.cart.error.duplicate">You already have that ingredient, remember?</string>
     <string name="ingredients.cart.error.max">I\'m sorry, but you can\'t bring ingredient anymore</string>
@@ -58,6 +64,15 @@
     <string name="recipelist.title">Recipe List</string>
     <string name="recipelist.ingredients.title">Ingredients</string>
     <string name="recipelist.instructions.title">Instructions</string>
+    <string name="recipelist.sortfilter.sort.title">Sort</string>
+    <string name="recipelist.sortfilter.filter.title">Filter</string>
+    <string name="recipelist.sortfilter.divider">|</string>
+    <string name="recipelist.filter.sheet.cuisine.title">Cuisine</string>
+    <string name="recipelist.filter.sheet.submit">Submit</string>
+    <string name="recipelist.sort.sheet.title">Sort By</string>
+    <string name="recipe.list.menu.filter.title">Filter</string>
+    <string name="recipe.list.calories.title">%d Cal</string>
+    <string name="recipe.list.empty.title">We\'re really Sorry, there is no recipe found from our system</string>
 
     <!--Detail Page-->
     <string name="detail.title">Recipe Detail</string>
@@ -71,11 +86,11 @@
     <string name="detail.empty.label">I\'m sorry I still don\'t have the data of item that you want</string>
     <string name="detail.menu.share.label">Share</string>
     <string name="detail.menu.detail.label">Open Detail in WebView</string>
+    <string name="detail.menu.favourite.label">Bookmark Recipe</string>
+    <string name="detail.menu.unfavourite.label">Remove Bookmark</string>
+    <string name="detail.message.favourite.add">We have added the recipe to your bookmark list</string>
+    <string name="detail.message.favourite.remove">We have removed from your bookmark list</string>
     <string name="detail.intent.share">Hey, check this out ! I found delicious this recipe %s \nlink below\n%s</string>
-
-    <!--Recipe List-->
-    <string name="recipe.list.menu.filter.title">Filter</string>
-    <string name="recipe.list.calories.title">%d Cal</string>
 
     <!--Ads View-->
     <string name="ads.size">BANNER</string>
@@ -83,4 +98,21 @@
     <string name="empty_desc">Do not be sad, we will improve our database so we can serve you better in the future</string>
     <string name="empty_vew_title">No Match Recipe</string>
     <string name="recipe_detail_empty">Something Wrong on Our Side</string>
+
+    <!--Home-->
+    <string name="home.menu.home">Home</string>
+    <string name="home.menu.favourite">Favourite</string>
+    <string name="home.header.searchhint">Search by dish</string>
+    <string name="home.list.header">Recommendation From Us</string>
+    <string name="home.list.format.time.shorten">%d Min</string>
+    <string name="home.list.format.by">By %s</string>
+    <string name="home.text.label.header">What do you like to cook?</string>
+    <string name="divider">|</string>
+
+    <!--Search-->
+    <string name="search.fab.ingredient.label">Search By Ingredient</string>
+
+    <!--Favourite-->
+    <string name="favourite.text.title.toolbar">Favourite Recipe</string>
+    <string name="favourite.text.title.error.favourite.empty">You Don\'t Have Bookmarked \nRecipe Yet</string>
 </resources>

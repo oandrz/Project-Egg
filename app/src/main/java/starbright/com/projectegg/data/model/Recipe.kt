@@ -1,17 +1,6 @@
-/**
- * Created by Andreas on 7/10/2018.
- *
- *
- * Created by Andreas on 29/9/2018.
- *
- *
- * Created by Andreas on 29/9/2018.
- *
- *
- * Created by Andreas on 29/9/2018.
- *
- *
- * Created by Andreas on 29/9/2018.
+/*
+ * Copyright (c) by Andreas (oentoro.andreas@gmail.com)
+ * created at 1 - 8 - 2020.
  */
 
 package starbright.com.projectegg.data.model

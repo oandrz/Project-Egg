@@ -1,10 +1,15 @@
+/*
+ * Copyright (c) by Andreas (oentoro.andreas@gmail.com)
+ * created at 25 - 7 - 2020.
+ */
+
 package starbright.com.projectegg.features
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
+import androidx.appcompat.app.AppCompatActivity
 import starbright.com.projectegg.R
-import starbright.com.projectegg.features.ingredients.IngredientsActivity
+import starbright.com.projectegg.features.home.HomeActivity
 
 class SplashScreenActivity : AppCompatActivity() {
 
@@ -14,7 +19,7 @@ class SplashScreenActivity : AppCompatActivity() {
 
         Handler().postDelayed(
             {
-                startActivity(IngredientsActivity.newIntent(this))
+                startActivity(HomeActivity.newIntent(this))
                 finish()
             },
             1000
