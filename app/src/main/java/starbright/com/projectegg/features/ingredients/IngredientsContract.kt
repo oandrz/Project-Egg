@@ -42,9 +42,9 @@ class IngredientsContract {
 
         fun updateIngredientCount(count: Int)
 
-        fun hideSoftKeyboard()
-
         fun navigateToRecipeList(cart: List<Ingredient>)
+
+        fun navigateToIncomePage()
     }
 
     interface Presenter : BasePresenterContract {
@@ -57,6 +57,7 @@ class IngredientsContract {
 
         fun handleSubmitButtonClicked()
         fun handleItemRemovedFromCart()
+        fun handleTvTitleClicked()
 
         fun searchIngredient(query: String)
     }

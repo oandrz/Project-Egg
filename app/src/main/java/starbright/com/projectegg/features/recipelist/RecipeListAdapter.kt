@@ -5,35 +5,35 @@
 package starbright.com.projectegg.features.recipelist
 
 import android.content.Context
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import kotlinx.android.synthetic.main.item_recipe.view.*
 import starbright.com.projectegg.R
 import starbright.com.projectegg.data.model.Recipe
 import starbright.com.projectegg.util.GlideApp
-import java.util.*
+
 
 /**
  * Created by Andreas on 4/15/2018.
  */
 
-internal class RecipeListAdapter(private val mContext: Context) :
-    RecyclerView.Adapter<RecipeListAdapter.ViewHolder>() {
-    private val mRecipes: MutableList<Recipe>
-    var mListener: Listener? = null
+internal class RecipeListAdapter : RecyclerView.Adapter<RecipeListAdapter.ViewHolder>() {
+    private val mRecipes: MutableList<Recipe> = mutableListOf()
 
-    init {
-        mRecipes = ArrayList()
-    }
+    var listener: Listener? = null
+        set(value) {
+            if (field == null) {
+                field = value
+            }
+        }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(mContext)
-            .inflate(R.layout.item_recipe, parent, false)
-        val holder = ViewHolder(view)
-        view.setOnClickListener { mListener!!.onItemClicked(holder.adapterPosition) }
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_recipe, parent, false)
+        val holder = ViewHolder(view, parent.context)
+        view.setOnClickListener { listener?.onItemClicked(holder.adapterPosition) }
         return holder
     }
 
@@ -43,17 +43,45 @@ internal class RecipeListAdapter(private val mContext: Context) :
 
     override fun getItemCount(): Int = mRecipes.size
 
-    fun setRecipes(recipes: List<Recipe>) {
-        mRecipes.clear()
-        mRecipes.addAll(recipes)
-        notifyDataSetChanged()
+    fun add(recipe: Recipe) {
+        insert(recipe, mRecipes.size)
     }
 
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    fun insert(recipe: Recipe, position: Int) {
+        mRecipes.add(position, recipe)
+        notifyItemInserted(position)
+    }
+
+    fun remove(position: Int) {
+        mRecipes.removeAt(position)
+        notifyItemRemoved(position)
+    }
+
+    fun clear() {
+        val size: Int = mRecipes.size
+        mRecipes.clear()
+        notifyItemRangeRemoved(0, size)
+    }
+
+    fun addAll(recipes: List<Recipe>) {
+        val startIndex: Int = mRecipes.size
+        mRecipes.addAll(startIndex, recipes)
+        notifyItemRangeInserted(startIndex, recipes.size)
+    }
+
+    fun refreshItems(recipes: List<Recipe>) {
+        clear()
+        addAll(recipes)
+    }
+
+    inner class ViewHolder(
+        itemView: View,
+        private val context: Context
+    ) : RecyclerView.ViewHolder(itemView) {
 
         fun bindView(recipe: Recipe) {
             itemView.tv_recipe_name.text = recipe.title
-            GlideApp.with(mContext)
+            GlideApp.with(context)
                 .load(recipe.image)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .centerCrop()

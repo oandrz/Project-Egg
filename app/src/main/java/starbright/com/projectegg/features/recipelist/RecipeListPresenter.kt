@@ -18,49 +18,85 @@ class RecipeListPresenter @Inject constructor(
     schedulerProvider: SchedulerProviderContract,
     compositeDisposable: CompositeDisposable,
     networkHelper: NetworkHelper,
-    private val mRepository: AppRepository
+    private val repository: AppRepository
 ) : BasePresenter<RecipeListContract.View>(schedulerProvider, compositeDisposable, networkHelper), RecipeListContract.Presenter {
 
-    private var recipes: List<Recipe> = listOf()
+    private val dataSource: MutableList<Recipe> = mutableListOf()
     private var ingredients: List<Ingredient> = listOf()
+    private var cuisinesCache: List<String>? = null
+    private var selectedCuisine: String? = null
 
     override fun onCreateScreen() {
         view.let {
-            val ingredients = it.provideIngredients()
-            if (ingredients != null) {
-                this.ingredients = ingredients
-            }
+            ingredients = it.provideIngredients() ?: listOf()
             it.setupView()
         }
-        getRecipesBasedIngredients(mapIngredients())
+        refresh(mapIngredients(), selectedCuisine.orEmpty())
     }
 
     override fun handleListItemClicked(position: Int) {
-        view.showDetail(recipes[position].id.toString())
+        view.showDetail(dataSource[position].id.toString())
     }
 
     override fun handleRefresh() {
-        getRecipesBasedIngredients(mapIngredients())
+        selectedCuisine = null
+        cuisinesCache = null
+        refresh(mapIngredients(), selectedCuisine.orEmpty())
+    }
+
+    override fun handleLoadMore(lastPosition: Int) {
+        compositeDisposable.add(
+            repository.getRecipes(mapIngredients(), selectedCuisine.orEmpty(), lastPosition + 1)
+                .subscribeOn(schedulerProvider.io())
+                .observeOn(schedulerProvider.ui())
+                .subscribe({ recipesResult ->
+                    dataSource.addAll(recipesResult)
+                    view.appendRecipes(recipesResult, recipesResult.isNotEmpty())
+                }, { throwable ->
+                    view.showErrorSnackBar(throwable.message ?: "")
+                })
+        )
+    }
+
+    override fun handleFilterActionClicked() {
+        if (cuisinesCache.isNullOrEmpty() && !isFilterCuisineSelected()) {
+            cuisinesCache = dataSource.flatMap { recipe ->
+                recipe.cuisines?.filter { it.isNotEmpty() } ?: listOf()
+            }.toSet().toList()
+        }
+        cuisinesCache?.let {
+            view.showFilterBottomSheet(it, selectedCuisine)
+        }
+    }
+
+    override fun handleFilterItemSelected(cuisine: String) {
+        selectedCuisine = cuisine
+        refresh(mapIngredients(), selectedCuisine.orEmpty())
     }
 
     override fun setIngredients(ingredients: MutableList<Ingredient>) {
         this.ingredients = ingredients
     }
 
-    private fun getRecipesBasedIngredients(ingredients: String) {
+    private fun isFilterCuisineSelected(): Boolean = !selectedCuisine.isNullOrBlank()
+
+    private fun refresh(ingredients: String, cuisine: String) {
         if (!isConnectedToInternet()) view.showError(R.string.server_connection_error)
         view.showLoadingBar()
         compositeDisposable.add(
-            mRepository.getRecipes(ingredients, 0)
+            repository.getRecipes(ingredients, cuisine, 0)
                 .subscribeOn(schedulerProvider.io())
                 .observeOn(schedulerProvider.ui())
-                .subscribe({ recipes ->
-                    this.recipes = recipes.toMutableList()
+                .subscribe({ recipesResult ->
+                    dataSource.clear()
+                    dataSource.addAll(recipesResult)
+                    view.bindRecipesToList(recipesResult)
                     view.hideLoadingBar()
-                    view.bindRecipesToList(recipes.toMutableList())
                 }, { throwable ->
                     view.hideLoadingBar()
-                    view.showErrorSnackBar(throwable.message ?: "")
+                    view.showErrorSnackBar(
+                        "Our services are under maintenance, please retry after some time"
+                    )
                 })
         )
     }

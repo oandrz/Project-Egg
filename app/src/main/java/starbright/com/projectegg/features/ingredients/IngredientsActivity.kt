@@ -6,26 +6,26 @@ package starbright.com.projectegg.features.ingredients
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Environment
 import android.provider.MediaStore
-import android.support.v4.content.FileProvider
-import android.support.v7.widget.LinearLayoutManager
+import androidx.core.content.FileProvider
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
-import android.view.inputmethod.InputMethodManager
-import android.widget.PopupMenu
+import android.view.inputmethod.EditorInfo
 import android.widget.Toast
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.afollestad.materialdialogs.MaterialDialog
-import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.fragment_ingredients.*
 import permissions.dispatcher.NeedsPermission
 import permissions.dispatcher.RuntimePermissions
+import starbright.com.projectegg.BuildConfig
 import starbright.com.projectegg.R
 import starbright.com.projectegg.dagger.component.ActivityComponent
 import starbright.com.projectegg.data.model.Ingredient
+import starbright.com.projectegg.features.ads.AdsActivity
 import starbright.com.projectegg.features.base.BaseActivity
 import starbright.com.projectegg.features.recipelist.RecipeListActivity
 import starbright.com.projectegg.util.Constants
@@ -72,6 +72,10 @@ class IngredientsActivity : BaseActivity<IngredientsContract.View,
     }
 
     override fun setupView() {
+        et_search_ingredients.imeOptions = EditorInfo.IME_ACTION_DONE
+        tv_title.setOnClickListener {
+            presenter.handleTvTitleClicked()
+        }
         setupEtSearchIngredients()
         setupRvIngredientSuggestion()
         setupMaterialProgressDialog()
@@ -221,14 +225,12 @@ class IngredientsActivity : BaseActivity<IngredientsContract.View,
         tv_cart_count.text = count.toString()
     }
 
-    override fun hideSoftKeyboard() {
-        (getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager).also {
-            it.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0)
-        }
-    }
-
     override fun navigateToRecipeList(cart: List<Ingredient>) {
         startActivity(RecipeListActivity.newIntent(this, cart))
+    }
+
+    override fun navigateToIncomePage() {
+        startActivity(AdsActivity.newIntent(this))
     }
 
     @SuppressLint("NeedOnRequestPermissionsResult")
@@ -249,7 +251,7 @@ class IngredientsActivity : BaseActivity<IngredientsContract.View,
         if (photoFile != null) {
             val photoURI = FileProvider.getUriForFile(
                 this,
-                Constants.PROVIDER_PACKAGE_NAME,
+                "${BuildConfig.APPLICATION_ID}.FileProvider",
                 photoFile)
             val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
             intent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
@@ -269,5 +271,7 @@ class IngredientsActivity : BaseActivity<IngredientsContract.View,
 
     companion object {
         private const val CAMERA_REQUEST_CODE: Int = 101
+
+        fun newIntent(context: Context): Intent = Intent(context, IngredientsActivity::class.java)
     }
 }

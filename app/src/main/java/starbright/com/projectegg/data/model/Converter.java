@@ -10,7 +10,7 @@
 
 package starbright.com.projectegg.data.model;
 
-import android.arch.persistence.room.TypeConverter;
+import androidx.room.TypeConverter;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -43,4 +43,18 @@ public class Converter {
     public static String fromInstructions(List<Instruction> instructions) {
         return new Gson().toJson(instructions);
     }
+
+
+    @TypeConverter
+    public static List<String> fromStringIntoCuisines(String value) {
+        Type listType = new TypeToken<List<String>>() {
+        }.getType();
+        return new Gson().fromJson(value, listType);
+    }
+
+    @TypeConverter
+    public static String fromCuisines(List<String> cuisines) {
+        return new Gson().toJson(cuisines);
+    }
+
 }

@@ -11,29 +11,35 @@ package starbright.com.projectegg.features.detail
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.support.v4.content.ContextCompat
-import android.support.v7.widget.LinearLayoutManager
+import android.view.Menu
+import android.view.MenuItem
+import androidx.core.content.ContextCompat
 import android.view.View
-import com.bumptech.glide.Glide
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import kotlinx.android.synthetic.main.fragment_recipe_detail.*
+import com.google.android.gms.ads.AdRequest
+import kotlinx.android.synthetic.main.activity_recipe_detail_revamped.*
+import kotlinx.android.synthetic.main.content_recipe_detail_body.*
 import starbright.com.projectegg.R
 import starbright.com.projectegg.dagger.component.ActivityComponent
 import starbright.com.projectegg.data.model.Ingredient
 import starbright.com.projectegg.data.model.Instruction
 import starbright.com.projectegg.features.base.BaseActivity
 import starbright.com.projectegg.features.base.NormalToolbar
+import starbright.com.projectegg.features.base.UNKNOWN_RESOURCE
+import starbright.com.projectegg.features.base.WebviewActivity
 import starbright.com.projectegg.util.GlideApp
 import starbright.com.projectegg.util.TextViewRecyclerAdapter
 import java.lang.ref.WeakReference
 
-class RecipeDetailActivity : BaseActivity<RecipeDetailContract.View, RecipeDetailPresenter>(), RecipeDetailContract.View {
+class RecipeDetailActivity : BaseActivity<RecipeDetailContract.View, RecipeDetailPresenter>(),
+    RecipeDetailContract.View {
 
     private val recipeId: String by lazy {
         intent?.extras?.getString(RECIPE_ID_EXTRA_KEY) ?: ""
     }
 
-    override fun getLayoutRes(): Int = R.layout.fragment_recipe_detail
+    override fun getLayoutRes(): Int = R.layout.activity_recipe_detail_revamped
 
     override fun getView(): RecipeDetailContract.View = this
 
@@ -41,16 +47,33 @@ class RecipeDetailActivity : BaseActivity<RecipeDetailContract.View, RecipeDetai
         activityComponent.inject(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        setToolbarBehavior(NormalToolbar(
-            WeakReference(this), R.id.toolbar, R.string.detail_title
-        ))
+        setToolbarBehavior(
+            NormalToolbar(
+                WeakReference(this), R.id.toolbar, UNKNOWN_RESOURCE
+            )
+        )
         super.onCreate(savedInstanceState)
         presenter.getRecipeDetailInformation(recipeId)
+        adView.loadAd(AdRequest.Builder().build())
     }
 
-    override fun onStop() {
-        Glide.with(this).clear(img_banner_food)
-        super.onStop()
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.recipe_detail_menu, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        return when (item?.itemId) {
+            R.id.menu_share -> {
+                presenter.handleShareMenuClicked()
+                true
+            }
+            R.id.menu_webview -> {
+                presenter.handleWebViewMenuClicked()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     override fun showProgressBar() {
@@ -69,22 +92,16 @@ class RecipeDetailActivity : BaseActivity<RecipeDetailContract.View, RecipeDetai
         scroll_container.visibility = View.VISIBLE
     }
 
-    override fun hideEmptyStateTextView() {
-        tv_empty_text.visibility = View.GONE
+    override fun hideEmptyView() {
+        layout_empty.visibility = View.GONE
     }
 
-    override fun renderErrorStateTextView(errorMessage: String) {
-        tv_empty_text.run {
-            visibility = View.VISIBLE
-            text = errorMessage
-        }
+    override fun renderErrorView(errorMessage: String) {
+        layout_empty.visibility = View.VISIBLE
     }
 
-    override fun renderEmptyStateTextView() {
-        tv_empty_text.run {
-            visibility = View.VISIBLE
-            text = getString(R.string.detail_empty_label)
-        }
+    override fun renderEmptyView() {
+        layout_empty.visibility = View.VISIBLE
     }
 
     override fun renderBannerFoodImage(imageURL: String) {
@@ -96,46 +113,55 @@ class RecipeDetailActivity : BaseActivity<RecipeDetailContract.View, RecipeDetai
             .into(img_banner_food)
     }
 
-    override fun renderHeaderContainer(serving: Int, preparationMinutes: Int, cookingMinutes: Int, recipeName: String) {
-        container_header.visibility = View.VISIBLE
+    override fun renderHeaderContainer(
+        serving: Int,
+        cookingMinutes: Int,
+        recipeName: String,
+        dishType: String,
+        calories: Int
+    ) {
+        tv_calories.text = getString(R.string.recipe_list_calories_title, calories)
+        tv_dish.text = dishType
         tv_recipe_title.text = recipeName
-        tv_serving_count.text = getString(R.string.detail_serving_format, serving)
-        tv_preparation_time.text = getString(R.string.detail_time_format, preparationMinutes)
-        tv_cooking_time.text = getString(R.string.detail_time_format, cookingMinutes)
+        tv_plater.text = getString(R.string.detail_serving_format, serving)
+        tv_cook_time.text = getString(R.string.detail_time_format, cookingMinutes)
     }
 
-    override fun renderIngredientCard(ingredients: MutableList<Ingredient>) {
-        val formattedInstructions = ArrayList<String>(ingredients.size)
-        var number = 1
-        for (ingredient in ingredients) {
-            formattedInstructions.add(getString(R.string.general_number_text_unit_format,
-                number, ingredient.name, ingredient.amount, ingredient.unit))
-            number++
-        }
-        card_ingredient.visibility = View.VISIBLE
-        val adapter = TextViewRecyclerAdapter(this,
-            formattedInstructions)
+    override fun renderIngredientsList(ingredients: MutableList<Ingredient>) {
+        val adapter = TextViewRecyclerAdapter(
+            this,
+            ingredients.map { it.name }
+        )
         rv_ingredient.let {
             it.isNestedScrollingEnabled = false
-            it.layoutManager = LinearLayoutManager(this,
-                LinearLayoutManager.VERTICAL, false)
+            it.layoutManager = LinearLayoutManager(
+                this,
+                LinearLayoutManager.VERTICAL, false
+            )
             it.adapter = adapter
         }
     }
 
-    override fun renderInstructionCard(instructions: MutableList<Instruction>) {
+    override fun renderInstructionsList(instructions: MutableList<Instruction>) {
         val formattedInstructions = ArrayList<String>(instructions.size)
         for (instruction in instructions) {
-            formattedInstructions.add(getString(R.string.general_number_text_format,
-                instruction.number, instruction.step))
+            formattedInstructions.add(
+                getString(
+                    R.string.general_number_text_format,
+                    instruction.number, instruction.step
+                )
+            )
         }
-        card_instruction.visibility = View.VISIBLE
-        val adapter = TextViewRecyclerAdapter(this,
-            formattedInstructions)
+        val adapter = TextViewRecyclerAdapter(
+            this,
+            formattedInstructions
+        )
         rv_instruction?.let {
             it.isNestedScrollingEnabled = false
-            it.layoutManager = LinearLayoutManager(this,
-                LinearLayoutManager.VERTICAL, false)
+            it.layoutManager = LinearLayoutManager(
+                this,
+                LinearLayoutManager.VERTICAL, false
+            )
             it.adapter = adapter
         }
     }
@@ -158,7 +184,7 @@ class RecipeDetailActivity : BaseActivity<RecipeDetailContract.View, RecipeDetai
     }
 
     override fun navigateToWebViewActivity(url: String) {
-
+        startActivity(WebviewActivity.newIntent(this, url))
     }
 
     companion object {

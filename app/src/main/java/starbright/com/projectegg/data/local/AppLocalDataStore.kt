@@ -21,9 +21,9 @@ import javax.inject.Singleton
  */
 
 @Singleton
-class AppLocalDataStore @Inject constructor(private val mDb: RecipeDatabase) : AppDataStore {
+class AppLocalDataStore @Inject constructor() : AppDataStore {
 
-    override fun getRecipes(ingredients: String, offset: Int): Observable<List<Recipe>> {
+    override fun getRecipes(ingredients: String, cuisine: String, offset: Int): Observable<List<Recipe>> {
         System.err.print(Constants.OPERATION_NOT_SUPPORTED)
         throw UnsupportedOperationException()
     }
@@ -34,10 +34,10 @@ class AppLocalDataStore @Inject constructor(private val mDb: RecipeDatabase) : A
     }
 
     override fun getRecipeDetailInformation(recipeId: String): Observable<Recipe> {
-        return mDb.daoAccess().getRecipe(Integer.parseInt(recipeId)).toObservable()
+        throw UnsupportedOperationException()
     }
 
     override fun saveDetailInformation(recipe: Recipe) {
-        mDb.daoAccess().insertRecipe(recipe)
+        throw UnsupportedOperationException()
     }
 }

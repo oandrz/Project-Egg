@@ -7,10 +7,11 @@ package starbright.com.projectegg.features.recipelist
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.support.design.widget.Snackbar
-import android.support.v4.content.ContextCompat
-import android.support.v7.widget.LinearLayoutManager
-import android.view.View
+import androidx.core.content.ContextCompat
+import android.view.Menu
+import android.view.MenuItem
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_recipe_list.*
 import starbright.com.projectegg.R
 import starbright.com.projectegg.dagger.component.ActivityComponent
@@ -21,6 +22,7 @@ import starbright.com.projectegg.features.base.NormalToolbar
 import starbright.com.projectegg.features.detail.RecipeDetailActivity
 import java.lang.ref.WeakReference
 import java.util.*
+
 
 class RecipeListActivity : BaseActivity<RecipeListContract.View, RecipeListPresenter>(),
     RecipeListContract.View, RecipeListAdapter.Listener {
@@ -39,21 +41,48 @@ class RecipeListActivity : BaseActivity<RecipeListContract.View, RecipeListPrese
     override fun injectDependencies(activityComponent: ActivityComponent) =
         activityComponent.inject(this)
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.recipe_list_menu, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        return when(item?.itemId) {
+            R.id.menu_filter -> {
+                presenter.handleFilterActionClicked()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
     override fun getView(): RecipeListContract.View = this
 
     override fun setupView() {
-        setupSwipeRefreshLayout()
         setupRecyclerView()
     }
 
     private fun setupRecyclerView() {
-        adapter = RecipeListAdapter(this)
-        adapter.mListener = this
+        adapter = RecipeListAdapter()
+        adapter.listener = this
         rv_recipe.let {
-            it.layoutManager = LinearLayoutManager(
+            it.setLayoutManager(LinearLayoutManager(
                 this, LinearLayoutManager.VERTICAL, false
-            )
+            ))
             it.adapter = adapter
+            it.setRefreshListener {
+                presenter.handleRefresh()
+            }
+            it.setRefreshingColor(
+                ContextCompat.getColor(this, R.color.red),
+                ContextCompat.getColor(this, R.color.red),
+                ContextCompat.getColor(this, R.color.red),
+                ContextCompat.getColor(this, R.color.red)
+            )
+            it.setNumberBeforeMoreIsCalled(1)
+            it.setOnMoreListener { _, _, lastItemPos ->
+                presenter.handleLoadMore(lastItemPos)
+            }
         }
     }
 
@@ -61,24 +90,30 @@ class RecipeListActivity : BaseActivity<RecipeListContract.View, RecipeListPrese
         presenter.handleListItemClicked(position)
     }
 
-    private fun setupSwipeRefreshLayout() {
-        swipe_refresh_container.let {
-            it.setColorSchemeColors(ContextCompat.getColor(this, R.color.red))
-            it.setOnRefreshListener { presenter.handleRefresh() }
+    override fun showLoadingBar() {
+        rv_recipe.apply {
+            setRefreshing(true)
+            showProgress()
         }
     }
 
-    override fun showLoadingBar() {
-        swipe_refresh_container.isRefreshing = true
-    }
-
     override fun hideLoadingBar() {
-        swipe_refresh_container.isRefreshing = false
+        rv_recipe.apply {
+            setRefreshing(false)
+            hideProgress()
+        }
     }
 
-    override fun bindRecipesToList(recipes: MutableList<Recipe>) {
-        rv_recipe.visibility = View.VISIBLE
-        adapter.setRecipes(recipes)
+    override fun bindRecipesToList(recipes: List<Recipe>) {
+        adapter.refreshItems(recipes)
+        rv_recipe.showRecycler()
+    }
+
+    override fun appendRecipes(recipes: List<Recipe>, hasNext: Boolean) {
+        adapter.addAll(recipes)
+        if (!hasNext) {
+            rv_recipe.isLoadingMore = true
+        }
     }
 
     override fun provideIngredients(): List<Ingredient>? {
@@ -92,6 +127,19 @@ class RecipeListActivity : BaseActivity<RecipeListContract.View, RecipeListPrese
         startActivity(RecipeDetailActivity.getIntent(this, recipeId))
     }
 
+    override fun showFilterBottomSheet(
+        cuisines: List<String>,
+        selectedCuisine: String?
+    ) {
+        RecipeFilterBottomSheetDialogFragment().also {
+            it.cuisines = cuisines
+            it.selectedCuisine = selectedCuisine
+            it.onBottomSheetDismissListener = { cuisine ->
+                presenter.handleFilterItemSelected(cuisine)
+            }
+        }.show(supportFragmentManager, "cartbot")
+    }
+
     override fun showErrorSnackBar(errorMessage: String) {
         Snackbar.make(root_layout, errorMessage, Snackbar.LENGTH_SHORT)
     }
@@ -100,9 +148,9 @@ class RecipeListActivity : BaseActivity<RecipeListContract.View, RecipeListPrese
         private const val INGREDIENT_EXTRA_KEY = "INGREDIENT_EXTRA_KEY"
 
         fun newIntent(context: Context, ingredients: List<Ingredient>): Intent {
-            val intent = Intent(context, RecipeListActivity::class.java)
-            intent.putExtra(INGREDIENT_EXTRA_KEY, ArrayList(ingredients))
-            return intent
+            return Intent(context, RecipeListActivity::class.java).also {
+                it.putExtra(INGREDIENT_EXTRA_KEY, ArrayList(ingredients))
+            }
         }
     }
 }

@@ -25,3 +25,14 @@
 -keep class okhttp3.internal.** { *; }
 -dontwarn org.codehaus.mojo.animal_sniffer.**
 -keep class org.codehaus.mojo.animal_sniffer.** { *; }
+# Models
+-keepclassmembers class starbright.com.projectegg.data.model.** {*;}
+
+# GSON
+-keepattributes Signature
+-keepattributes *Annotation*
+-dontwarn sun.misc.**
+-keep class com.google.gson.examples.android.model.** { *; }
+-keep class * implements com.google.gson.TypeAdapterFactory
+-keep class * implements com.google.gson.JsonSerializer
+-keep class * implements com.google.gson.JsonDeserializer

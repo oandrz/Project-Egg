@@ -1,11 +1,11 @@
 package starbright.com.projectegg.features.ingredients
 
 import android.os.Bundle
-import android.support.design.widget.BottomSheetDialogFragment
-import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import io.reactivex.annotations.NonNull
 import kotlinx.android.synthetic.main.partial_bottom_sheet.*
 import starbright.com.projectegg.R

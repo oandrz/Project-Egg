@@ -4,8 +4,8 @@
 
 package starbright.com.projectegg.dagger.module
 
+import dagger.Binds
 import dagger.Module
-import dagger.Provides
 import starbright.com.projectegg.dagger.qualifier.LocalData
 import starbright.com.projectegg.dagger.qualifier.RemoteData
 import starbright.com.projectegg.data.AppDataStore
@@ -13,17 +13,13 @@ import starbright.com.projectegg.data.local.AppLocalDataStore
 import starbright.com.projectegg.data.remote.AppRemoteDataStore
 
 @Module
-class DataStoreModule {
+abstract class DataStoreModule {
 
-    @Provides
+    @Binds
     @LocalData
-    fun provideLocalDataStore(dataStore: AppLocalDataStore): AppDataStore {
-        return dataStore
-    }
+    abstract fun provideLocalDataStore(dataStore: AppLocalDataStore): AppDataStore
 
-    @Provides
+    @Binds
     @RemoteData
-    fun provideRemoteDataStore(dataStore: AppRemoteDataStore): AppDataStore {
-        return dataStore
-    }
+    abstract fun provideRemoteDataStore(dataStore: AppRemoteDataStore): AppDataStore
 }

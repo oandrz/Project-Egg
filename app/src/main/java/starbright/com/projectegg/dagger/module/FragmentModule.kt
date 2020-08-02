@@ -4,15 +4,10 @@
 
 package starbright.com.projectegg.dagger.module
 
-import android.support.v4.app.Fragment
+import androidx.fragment.app.Fragment
 import dagger.Module
 import dagger.Provides
-import io.reactivex.disposables.CompositeDisposable
 import starbright.com.projectegg.dagger.qualifier.FragmentContext
-import starbright.com.projectegg.data.AppRepository
-import starbright.com.projectegg.features.recipelist.RecipeListPresenter
-import starbright.com.projectegg.util.NetworkHelper
-import starbright.com.projectegg.util.scheduler.SchedulerProviderContract
 
 @Module
 class FragmentModule(private val fragment: Fragment) {

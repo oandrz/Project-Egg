@@ -4,7 +4,7 @@
 
 package starbright.com.projectegg.feature
 
-import android.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import id.zelory.compressor.Compressor
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
@@ -160,7 +160,6 @@ class IngredientsPresenterTest {
         presenter.searchIngredient(query)
         testScheduler.triggerActions()
         verify(mockView).hideSuggestionProgressBar()
-        verify(mockView).hideSoftKeyboard()
         verify(mockView).showActionClear()
         verify(mockView).updateSuggestion(mockIngredients)
     }
@@ -173,7 +172,6 @@ class IngredientsPresenterTest {
         presenter.searchIngredient(query)
         testScheduler.triggerActions()
         verify(mockView).hideSuggestionProgressBar()
-        verify(mockView).hideSoftKeyboard()
         verify(mockView).showActionClear()
         verify(mockView).showItemEmptyToast()
         verify(mockView).updateSuggestion(listOf())

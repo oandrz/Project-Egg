@@ -19,8 +19,8 @@ class AppRepository @Inject constructor(
     @RemoteData private val appRemoteDataStore: AppDataStore
 ) : AppDataStore {
 
-    override fun getRecipes(ingredients: String, offset: Int): Observable<List<Recipe>> {
-        return appRemoteDataStore.getRecipes(ingredients, offset)
+    override fun getRecipes(ingredients: String, cuisine: String, offset: Int): Observable<List<Recipe>> {
+        return appRemoteDataStore.getRecipes(ingredients, cuisine, offset)
     }
 
     override fun searchIngredient(query: String): Observable<List<Ingredient>> {
@@ -28,14 +28,7 @@ class AppRepository @Inject constructor(
     }
 
     override fun getRecipeDetailInformation(recipeId: String): Observable<Recipe> {
-        return Observable.mergeDelayError(
-            appRemoteDataStore
-                .getRecipeDetailInformation(recipeId)
-                .doOnNext { recipe -> appLocalDataStore.saveDetailInformation(recipe) }
-                .subscribeOn(Schedulers.io()),
-            appLocalDataStore.getRecipeDetailInformation(recipeId)
-                .subscribeOn(Schedulers.io())
-        )
+        return appRemoteDataStore.getRecipeDetailInformation(recipeId)
     }
 
     override fun saveDetailInformation(recipe: Recipe) {
