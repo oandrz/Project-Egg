@@ -1,15 +1,22 @@
+/*
+ * Copyright (c) by Andreas (oentoro.andreas@gmail.com)
+ * created at 1 - 8 - 2020.
+ */
+
 /**
  * Created by Andreas on 7/10/2018.
  */
 
 package starbright.com.projectegg.data
 
+import io.reactivex.Completable
 import io.reactivex.Observable
-import io.reactivex.schedulers.Schedulers
 import starbright.com.projectegg.dagger.qualifier.LocalData
 import starbright.com.projectegg.dagger.qualifier.RemoteData
 import starbright.com.projectegg.data.model.Ingredient
 import starbright.com.projectegg.data.model.Recipe
+import starbright.com.projectegg.data.model.local.FavouriteRecipe
+import starbright.com.projectegg.enum.RecipeSortCategory
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -17,10 +24,14 @@ import javax.inject.Singleton
 class AppRepository @Inject constructor(
     @LocalData private val appLocalDataStore: AppDataStore,
     @RemoteData private val appRemoteDataStore: AppDataStore
-) : AppDataStore {
+) : RecipeRepository {
 
-    override fun getRecipes(ingredients: String, cuisine: String, offset: Int): Observable<List<Recipe>> {
-        return appRemoteDataStore.getRecipes(ingredients, cuisine, offset)
+    override fun getRecipes(config: RecipeConfig, offset: Int): Observable<List<Recipe>> {
+        return appRemoteDataStore.getRecipes(config, offset)
+    }
+
+    override fun getRecommendedRecipe(offSet: Int): Observable<List<Recipe>> {
+        return appRemoteDataStore.getRecommendedRecipe(offSet)
     }
 
     override fun searchIngredient(query: String): Observable<List<Ingredient>> {
@@ -34,4 +45,38 @@ class AppRepository @Inject constructor(
     override fun saveDetailInformation(recipe: Recipe) {
         appLocalDataStore.saveDetailInformation(recipe)
     }
+
+    override fun removeFavouriteRecipe(recipeId: Int): Completable {
+        return appLocalDataStore.removeFavouriteRecipe(recipeId)
+    }
+
+    override fun saveFavouriteRecipe(recipe: Recipe): Completable {
+        return recipe.let {
+            appLocalDataStore.saveFavouriteRecipe(
+                FavouriteRecipe(
+                    recipeId = it.id,
+                    recipeTitle = it.title,
+                    recipeImageUrl = it.image.orEmpty(),
+                    cookingTimeInMinutes = it.cookingMinutes ?: 0,
+                    servingCount = it.servingCount ?: 0,
+                    source = it.sourceName.orEmpty()
+                )
+            )
+        }
+    }
+
+    override fun getFavouriteRecipe(): Observable<List<FavouriteRecipe>> {
+        return appLocalDataStore.getFavouriteRecipeWith()
+    }
+
+    override fun isRecipeSavedBefore(recipeId: Int): Observable<FavouriteRecipe?> {
+        return appLocalDataStore.getFavouriteRecipeWith(recipeId)
+    }
 }
+
+data class RecipeConfig(
+    var query: String?,
+    var cuisine: String?,
+    var sortCategory: RecipeSortCategory = RecipeSortCategory.TIME,
+    var ingredients: List<Ingredient>?
+)

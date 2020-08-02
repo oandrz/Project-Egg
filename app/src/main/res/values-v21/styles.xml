@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 
+<!--
+  ~ Copyright (c) by Andreas (oentoro.andreas@gmail.com)
+  ~ created at 25 - 7 - 2020.
+  -->
+
 <resources>
     <style name="AppTheme" parent="Base.AppTheme" />
 
     <style name="AppTheme.OverlapSystemBar" parent="Base.AppTheme">
-        <item name="android:windowDrawsSystemBarBackgrounds">false</item>
-        <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowTranslucentStatus">true</item>
-        <item name="android:fitsSystemWindows">true</item>
     </style>
 </resources>

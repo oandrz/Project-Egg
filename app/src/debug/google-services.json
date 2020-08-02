@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1022890334055",
+    "firebase_url": "https://chefnut-afd25.firebaseio.com",
+    "project_id": "chefnut-afd25",
+    "storage_bucket": "chefnut-afd25.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1022890334055:android:2c8d28366a782ed89341c2",
+        "android_client_info": {
+          "package_name": "starbright.com.projectegg.debug"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1022890334055-14eiu7q1ickhsl4atvhfi48v12550r3b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBaA0bS-O0SeRZbKJm6c_kxvQSeSpZiTbo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1022890334055-14eiu7q1ickhsl4atvhfi48v12550r3b.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

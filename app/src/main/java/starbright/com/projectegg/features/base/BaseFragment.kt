@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) by Andreas (oentoro.andreas@gmail.com)
+ * created at 25 - 7 - 2020.
+ */
+
 /**
  * Created by Andreas on 14/10/2019.
  */
@@ -14,7 +19,6 @@ import androidx.fragment.app.Fragment
 import starbright.com.projectegg.MyApp
 import starbright.com.projectegg.dagger.component.DaggerFragmentComponent
 import starbright.com.projectegg.dagger.component.FragmentComponent
-import starbright.com.projectegg.dagger.module.FragmentModule
 import javax.inject.Inject
 
 abstract class BaseFragment<V : BaseViewContract, P : BasePresenter<V>> : Fragment(), BaseViewContract {
@@ -22,22 +26,31 @@ abstract class BaseFragment<V : BaseViewContract, P : BasePresenter<V>> : Fragme
     @Inject
     lateinit var presenter: P
 
+    private var toolbarBehavior: ToolbarBehavior? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         injectDependencies(buildFragmentComponent())
         super.onCreate(savedInstanceState)
     }
 
-    private fun buildFragmentComponent(): FragmentComponent = DaggerFragmentComponent.builder()
-        .applicationComponent((context?.applicationContext as MyApp).appComponent)
-        .fragmentModule(FragmentModule(this))
-        .build()
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? =
         inflater.inflate(getLayoutRes(), container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupView(view)
+        presenter.run {
+            attachView(getViewContract())
+            onCreateScreen()
+        }
+    }
+
+    override fun onDestroyView() {
+        presenter.onStopScreen()
+        super.onDestroyView()
     }
 
     override fun showError(res: Int?, text: String?) {
@@ -52,13 +65,21 @@ abstract class BaseFragment<V : BaseViewContract, P : BasePresenter<V>> : Fragme
         if (activity is BaseActivity<*, *>) (activity as BaseActivity<*, *>).navigateToHome()
     }
 
+    protected fun setToolbarBehavior(behavior: ToolbarBehavior) {
+        toolbarBehavior = behavior
+    }
+
     fun goBack() {
         if (activity is BaseActivity<*, *>) (activity as BaseActivity<*, *>).goBack()
     }
+
+    private fun buildFragmentComponent(): FragmentComponent = DaggerFragmentComponent.builder()
+        .applicationComponent((context?.applicationContext as MyApp).appComponent)
+        .build()
 
     @LayoutRes
     protected abstract fun getLayoutRes(): Int
 
     protected abstract fun injectDependencies(fragmentComponent: FragmentComponent)
-    protected abstract fun setupView(view: View)
+    protected abstract fun getViewContract(): V
 }

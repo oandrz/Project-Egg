@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) by Andreas (oentoro.andreas@gmail.com)
+ * created at 25 - 7 - 2020.
+ */
+
 /**
  * Created by Andreas on 7/10/2019.
  */
@@ -5,8 +10,8 @@
 package starbright.com.projectegg.features.userAccount
 
 class UserAccountPresenter(
-        private val mView: UserAccountContract.View,
-        isLogin: Boolean
+    private val mView: UserAccountContract.View,
+    isLogin: Boolean
 ) : UserAccountContract.Presenter {
     override fun handleAuthenticationButtonClicked(email: String, password: String) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.

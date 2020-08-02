@@ -1,5 +1,11 @@
+<!--
+  ~ Copyright (c) by Andreas (oentoro.andreas@gmail.com)
+  ~ created at 31 - 7 - 2020.
+  -->
+
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/root_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
@@ -16,7 +22,6 @@
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
             app:titleEnabled="false"
-            app:contentScrim="?attr/colorPrimary"
             app:expandedTitleMarginStart="@dimen/space_normal"
             app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed">
 

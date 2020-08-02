@@ -1,19 +1,30 @@
+/*
+ * Copyright (c) by Andreas (oentoro.andreas@gmail.com)
+ * created at 25 - 7 - 2020.
+ */
+
 /**
  * Created by Andreas on 22/9/2018.
  */
 
 package starbright.com.projectegg.features.recipelist
 
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import io.reactivex.disposables.CompositeDisposable
 import starbright.com.projectegg.R
 import starbright.com.projectegg.data.AppRepository
-import starbright.com.projectegg.data.model.Ingredient
-import starbright.com.projectegg.data.model.Recipe
+import starbright.com.projectegg.data.RecipeConfig
+import starbright.com.projectegg.data.model.SortOption
+import starbright.com.projectegg.enum.RecipeSortCategory
 import starbright.com.projectegg.features.base.BasePresenter
 import starbright.com.projectegg.util.NetworkHelper
 import starbright.com.projectegg.util.scheduler.SchedulerProviderContract
 import javax.inject.Inject
 
+private const val FIRESTORE_NAME_KEY = "name"
+private const val FIRESTORE_DOCUMENT_KEY = "sortOption"
+private const val FIRESTORE_IMAGE_URL_KEY = "imageUrl"
 class RecipeListPresenter @Inject constructor(
     schedulerProvider: SchedulerProviderContract,
     compositeDisposable: CompositeDisposable,
@@ -21,96 +32,107 @@ class RecipeListPresenter @Inject constructor(
     private val repository: AppRepository
 ) : BasePresenter<RecipeListContract.View>(schedulerProvider, compositeDisposable, networkHelper), RecipeListContract.Presenter {
 
-    private val dataSource: MutableList<Recipe> = mutableListOf()
-    private var ingredients: List<Ingredient> = listOf()
-    private var cuisinesCache: List<String>? = null
-    private var selectedCuisine: String? = null
+    private var cuisines: MutableSet<String> = mutableSetOf()
+
+    private lateinit var sortOption: List<SortOption>
+    private lateinit var firstVersionConfig: RecipeConfig
+    private lateinit var config: RecipeConfig
 
     override fun onCreateScreen() {
-        view.let {
-            ingredients = it.provideIngredients() ?: listOf()
-            it.setupView()
+        view.run {
+            config = provideSearchConfig()
+            setupView()
+            showFooterLoading()
         }
-        refresh(mapIngredients(), selectedCuisine.orEmpty())
+        firstVersionConfig = config
+        loadSortOption()
+        loadRecipe(0)
     }
 
-    override fun handleListItemClicked(position: Int) {
-        view.showDetail(dataSource[position].id.toString())
+    override fun handleListItemClicked(selectedRecipeId: String) {
+        view.showDetail(selectedRecipeId)
     }
 
     override fun handleRefresh() {
-        selectedCuisine = null
-        cuisinesCache = null
-        refresh(mapIngredients(), selectedCuisine.orEmpty())
+        config = firstVersionConfig
+        resetList()
     }
 
     override fun handleLoadMore(lastPosition: Int) {
-        compositeDisposable.add(
-            repository.getRecipes(mapIngredients(), selectedCuisine.orEmpty(), lastPosition + 1)
-                .subscribeOn(schedulerProvider.io())
-                .observeOn(schedulerProvider.ui())
-                .subscribe({ recipesResult ->
-                    dataSource.addAll(recipesResult)
-                    view.appendRecipes(recipesResult, recipesResult.isNotEmpty())
-                }, { throwable ->
-                    view.showErrorSnackBar(throwable.message ?: "")
-                })
-        )
+        view.showFooterLoading()
+        loadRecipe(lastPosition)
+    }
+
+    override fun handleSortActionClicked() {
+        view.showSortBottomSheet(ArrayList(sortOption), config.sortCategory.type)
+    }
+
+    override fun handleSortItemSelected(sortType: RecipeSortCategory) {
+        config.sortCategory = sortType
+        resetList()
     }
 
     override fun handleFilterActionClicked() {
-        if (cuisinesCache.isNullOrEmpty() && !isFilterCuisineSelected()) {
-            cuisinesCache = dataSource.flatMap { recipe ->
-                recipe.cuisines?.filter { it.isNotEmpty() } ?: listOf()
-            }.toSet().toList()
-        }
-        cuisinesCache?.let {
-            view.showFilterBottomSheet(it, selectedCuisine)
-        }
+        view.showFilterBottomSheet(cuisines.toList(), config.cuisine)
     }
 
     override fun handleFilterItemSelected(cuisine: String) {
-        selectedCuisine = cuisine
-        refresh(mapIngredients(), selectedCuisine.orEmpty())
+        config.cuisine = cuisine
+        resetList()
     }
 
-    override fun setIngredients(ingredients: MutableList<Ingredient>) {
-        this.ingredients = ingredients
+    private fun loadSortOption() {
+        Firebase.firestore.collection(FIRESTORE_DOCUMENT_KEY)
+            .get()
+            .addOnSuccessListener { snapshot ->
+                sortOption = snapshot
+                    .map {
+                        SortOption(
+                            it.get(FIRESTORE_NAME_KEY).toString(),
+                            it.get(FIRESTORE_IMAGE_URL_KEY).toString()
+                        )
+                    }
+            }
+            .addOnFailureListener { }
     }
 
-    private fun isFilterCuisineSelected(): Boolean = !selectedCuisine.isNullOrBlank()
+    private fun loadRecipe(pos: Int) {
+        if (!isConnectedToInternet()) {
+            with(view) {
+                showError(R.string.server_connection_error)
+                showNoInternetState()
+            }
+        }
 
-    private fun refresh(ingredients: String, cuisine: String) {
-        if (!isConnectedToInternet()) view.showError(R.string.server_connection_error)
-        view.showLoadingBar()
         compositeDisposable.add(
-            repository.getRecipes(ingredients, cuisine, 0)
+            repository.getRecipes(config, pos)
                 .subscribeOn(schedulerProvider.io())
                 .observeOn(schedulerProvider.ui())
                 .subscribe({ recipesResult ->
-                    dataSource.clear()
-                    dataSource.addAll(recipesResult)
-                    view.bindRecipesToList(recipesResult)
-                    view.hideLoadingBar()
-                }, { throwable ->
-                    view.hideLoadingBar()
-                    view.showErrorSnackBar(
-                        "Our services are under maintenance, please retry after some time"
-                    )
+                    recipesResult.forEach { it.cuisines?.mapTo(cuisines) { cuisine -> cuisine } }
+                    with(view) {
+                        hideFooterLoading()
+                        if (recipesResult.isEmpty()) {
+                            hideFilterButton()
+                            showResultEmptyState()
+                        } else {
+                            showFilterButton()
+                            appendRecipes(recipesResult)
+                        }
+                    }
+                }, { _ ->
+                    with(view) {
+                        hideFooterLoading()
+                        showErrorState()
+                    }
                 })
         )
     }
 
-    private fun mapIngredients(): String {
-        val stringBuilder = StringBuilder()
-        var ingredientSize = ingredients.size
-        for (ingredient in ingredients) {
-            stringBuilder.append(ingredient.name)
-            ingredientSize--
-            if (ingredientSize > 0) {
-                stringBuilder.append(", ")
-            }
+    private fun resetList() {
+        view.run {
+            clearRecipe()
+            showFooterLoading()
         }
-        return stringBuilder.toString()
     }
 }

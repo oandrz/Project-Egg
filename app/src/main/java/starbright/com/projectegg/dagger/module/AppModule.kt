@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) by Andreas (oentoro.andreas@gmail.com)
+ * created at 25 - 7 - 2020.
+ */
+
 /**
  * Created by Andreas on 4/8/2018.
  */
@@ -12,7 +17,7 @@ import id.zelory.compressor.Compressor
 import io.reactivex.disposables.CompositeDisposable
 import starbright.com.projectegg.dagger.qualifier.ApplicationContext
 import starbright.com.projectegg.util.NetworkHelper
-import starbright.com.projectegg.util.scheduler.SchedulerProvider
+import starbright.com.projectegg.util.scheduler.RxSchedulerProvider
 import starbright.com.projectegg.util.scheduler.SchedulerProviderContract
 import javax.inject.Singleton
 
@@ -41,7 +46,8 @@ class AppModule(private val application: Application) {
     }
 
     @Provides
+    @Singleton
     fun providesSchedulerComposer(): SchedulerProviderContract {
-        return SchedulerProvider.getInstance()
+        return RxSchedulerProvider()
     }
 }

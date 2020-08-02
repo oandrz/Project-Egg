@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) by Andreas (oentoro.andreas@gmail.com)
+ * created at 25 - 7 - 2020.
+ */
+
 /**
  * Created by Andreas on 22/9/2018.
  */
@@ -41,7 +46,7 @@ abstract class BaseActivity<V : BaseViewContract, P : BasePresenter<V>> : AppCom
 
     private fun buildComponent(): ActivityComponent = DaggerActivityComponent.builder()
         .applicationComponent((application as MyApp).appComponent)
-        .activityModule(ActivityModule(this))
+        .activityModule(ActivityModule(supportFragmentManager))
         .build()
 
     private fun setToolbarIfExist() {
