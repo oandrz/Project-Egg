@@ -1,6 +1,6 @@
 <!--
   ~ Copyright (c) by Andreas (oentoro.andreas@gmail.com)
-  ~ created at 1 - 8 - 2020.
+  ~ created at 8 - 8 - 2020.
   -->
 
 <!--~
@@ -72,7 +72,6 @@
     <string name="recipelist.sort.sheet.title">Sort By</string>
     <string name="recipe.list.menu.filter.title">Filter</string>
     <string name="recipe.list.calories.title">%d Cal</string>
-    <string name="recipe.list.empty.title">We\'re really Sorry, there is no recipe found from our system</string>
 
     <!--Detail Page-->
     <string name="detail.title">Recipe Detail</string>
@@ -115,4 +114,12 @@
     <!--Favourite-->
     <string name="favourite.text.title.toolbar">Favourite Recipe</string>
     <string name="favourite.text.title.error.favourite.empty">You Don\'t Have Bookmarked \nRecipe Yet</string>
+
+    <!--Error-->
+    <string name="error.title.system">Oops, Something Wrong on Our Side</string>
+    <string name="error.desc.system">Sorry for the inconvenience,\nbut don\'t worry we will be back as soon as possible</string>
+    <string name="error.title.empty_recipe">We Couldn\'t Find The Recipe</string>
+    <string name="error.desc.empty_recipe">We will make sure to serve it to you in the future\nplease looking forward to it</string>
+    <string name="error.title.empty_favorite">No Recipe Bookmarked Yet</string>
+    <string name="error.desc.empty_favorite">Don\'t forget to bookmark your favorite recipe</string>
 </resources>

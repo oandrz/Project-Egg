@@ -1,6 +1,6 @@
 <!--
   ~ Copyright (c) by Andreas (oentoro.andreas@gmail.com)
-  ~ created at 1 - 8 - 2020.
+  ~ created at 8 - 8 - 2020.
   -->
 
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -57,6 +57,14 @@
         android:layout_marginTop="@dimen/space_large"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:listitem="@layout/layout_home_item_holder" />
+
+    <include
+        android:id="@+id/layout_error"
+        layout="@layout/layout_error_state"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/error_state_height_home"
+        android:visibility="gone"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
     <include
         android:id="@+id/search"

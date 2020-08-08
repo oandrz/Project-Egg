@@ -1,10 +1,6 @@
 /*
  * Copyright (c) by Andreas (oentoro.andreas@gmail.com)
- * created at 25 - 7 - 2020.
- */
-
-/**
- * Created by Andreas on 22/9/2018.
+ * created at 8 - 8 - 2020.
  */
 
 package starbright.com.projectegg.features.base

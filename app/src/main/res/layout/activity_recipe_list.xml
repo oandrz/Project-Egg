@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) by Andreas (oentoro.andreas@gmail.com)
-  ~ created at 25 - 7 - 2020.
+  ~ created at 8 - 8 - 2020.
   -->
 
 <!--~
@@ -33,36 +33,10 @@
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
         tools:listitem="@layout/layout_home_item_holder" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/layout_fail_state"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/white"
-        android:visibility="gone"
-        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/iv_fail_image"
-            android:layout_width="@dimen/fail_state_image_width"
-            android:layout_height="@dimen/fail_state_image_height"
-            android:src="@drawable/ic_empty"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/tv_fail_title"
-            style="@style/TitleFont"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/space_large"
-            android:gravity="center"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/iv_fail_image"
-            tools:text="Your Recipe is Empty" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    <include
+        android:id="@+id/layout_error"
+        layout="@layout/layout_error_state"
+        android:visibility="gone" />
 
     <include
         android:id="@+id/fab_sort_filter"

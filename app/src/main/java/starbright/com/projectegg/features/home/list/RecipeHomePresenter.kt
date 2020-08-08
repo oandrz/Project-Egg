@@ -1,6 +1,6 @@
 /*
  * Copyright (c) by Andreas (oentoro.andreas@gmail.com)
- * created at 25 - 7 - 2020.
+ * created at 8 - 8 - 2020.
  */
 
 package starbright.com.projectegg.features.home.list
@@ -32,7 +32,12 @@ class RecipeHomePresenter @Inject constructor(
     }
 
     override fun loadRecipe(page: Int) {
-        if (!isConnectedToInternet()) view.showError(R.string.server_connection_error)
+        if (!isConnectedToInternet()) {
+            view.run {
+                showErrorState()
+                showError(R.string.server_connection_error)
+            }
+        }
         compositeDisposable.add(
             repository.getRecommendedRecipe(page)
                 .subscribeOn(schedulerProvider.io())
@@ -40,7 +45,7 @@ class RecipeHomePresenter @Inject constructor(
                 .subscribe({ recipeList ->
                     view.populateList(recipeList)
                 }, {
-                    view.showError(it.toString())
+                    view.showErrorState()
                 })
         )
     }
