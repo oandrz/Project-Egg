@@ -1,6 +1,6 @@
 /*
  * Copyright (c) by Andreas (oentoro.andreas@gmail.com)
- * created at 1 - 8 - 2020.
+ * created at 9 - 8 - 2020.
  */
 
 package starbright.com.projectegg.data.model
@@ -17,5 +17,6 @@ data class Recipe(
     var ingredients: List<Ingredient>? = null,
     var instructions: List<Instruction>? = null,
     var dishTypes: List<String>? = null,
-    var cuisines: List<String>? = null
+    var cuisines: List<String>? = null,
+    var totalRecipe: Int = 0
 )

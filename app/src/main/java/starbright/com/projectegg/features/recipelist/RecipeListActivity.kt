@@ -1,6 +1,6 @@
 /*
  * Copyright (c) by Andreas (oentoro.andreas@gmail.com)
- * created at 8 - 8 - 2020.
+ * created at 9 - 8 - 2020.
  */
 
 package starbright.com.projectegg.features.recipelist
@@ -169,6 +169,10 @@ class RecipeListActivity : BaseActivity<RecipeListContract.View, RecipeListPrese
         tv_fail_description.text = getString(R.string.error_desc_system)
     }
 
+    override fun disableLoadMore() {
+        rv_recipe.clearOnScrollListeners()
+    }
+
     override fun hideFooterLoading() {
         Handler().post {
             recipeFooterAdapter.clear()
@@ -177,7 +181,7 @@ class RecipeListActivity : BaseActivity<RecipeListContract.View, RecipeListPrese
 
     private fun setupRecyclerView() {
         val fastAdapter = FastAdapter.with(listOf(recipeBodyAdapter, recipeFooterAdapter)).apply {
-            onClickListener =  { view, _, item, _ ->
+            onClickListener = { view, _, item, _ ->
                 if (view != null && item is RecipeItem) {
                     presenter.handleListItemClicked(item.recipe.id.toString())
                 }

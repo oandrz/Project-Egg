@@ -1,6 +1,6 @@
 /*
  * Copyright (c) by Andreas (oentoro.andreas@gmail.com)
- * created at 31 - 7 - 2020.
+ * created at 9 - 8 - 2020.
  */
 
 package starbright.com.projectegg.data.remote
@@ -69,7 +69,8 @@ class AppRemoteDataStore @Inject constructor(
                             image = response.image,
                             cuisines = response.cuisines,
                             cookingMinutes = response.cookingTime,
-                            servingCount = response.servings
+                            servingCount = response.servings,
+                            totalRecipe = responses.totalResults
                         )
                     )
                 }

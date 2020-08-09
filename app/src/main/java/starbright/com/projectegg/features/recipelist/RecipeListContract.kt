@@ -1,6 +1,6 @@
 /*
  * Copyright (c) by Andreas (oentoro.andreas@gmail.com)
- * created at 8 - 8 - 2020.
+ * created at 9 - 8 - 2020.
  */
 
 /**
@@ -40,6 +40,7 @@ class RecipeListContract {
         fun showFilterButton()
         fun showResultEmptyState()
         fun showErrorState()
+        fun disableLoadMore()
     }
 
     interface Presenter : BasePresenterContract {

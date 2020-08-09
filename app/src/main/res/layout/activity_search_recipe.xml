@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) by Andreas (oentoro.andreas@gmail.com)
-  ~ created at 25 - 7 - 2020.
+  ~ created at 9 - 8 - 2020.
   -->
 
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -28,7 +28,7 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_category"
+        android:id="@+id/rv_search_history"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
@@ -50,7 +50,7 @@
         app:icon="@drawable/ic_ingredients"
         app:iconSize="@dimen/item_selector_icon_size"
         app:iconTint="@color/white"
-        app:layout_anchor="@id/rv_category"
+        app:layout_anchor="@id/rv_search_history"
         app:layout_anchorGravity="center|bottom"
         app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
