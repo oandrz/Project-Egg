@@ -1,6 +1,6 @@
 /*
  * Copyright (c) by Andreas (oentoro.andreas@gmail.com)
- * created at 25 - 7 - 2020.
+ * created at 17 - 8 - 2020.
  */
 
 /**
@@ -114,12 +114,9 @@ class IngredientsActivity : BaseActivity<IngredientsContract.View,
     }
 
     private fun setupMaterialProgressDialog() {
-        dialog = MaterialDialog.Builder(this)
+        dialog = MaterialDialog(this)
             .title(R.string.ingredients_dialog_progress_title)
-            .content(R.string.ingredients_dialog_progress_content)
-            .progress(true, 0)
-            .canceledOnTouchOutside(false)
-            .build()
+            .message(R.string.ingredients_dialog_progress_content)
     }
 
     private fun setupImageActionButton() {

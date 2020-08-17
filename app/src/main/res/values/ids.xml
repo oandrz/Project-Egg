@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) by Andreas (oentoro.andreas@gmail.com)
-  ~ created at 25 - 7 - 2020.
+  ~ created at 17 - 8 - 2020.
   -->
 
 <resources>
     <item type="id" name="recipeBodyItem" />
     <item type="id" name="recipeHeaderItem" />
     <item type="id" name="singleLineItem" />
+    <item type="id" name="singleTextItem" />
     <item type="id" name="filterItem" />
+    <item type="id" name="searchSuggestionItem" />
 
     <!--Bottom Sheet Id-->
     <item type="id" name="sheetHeaderItem" />

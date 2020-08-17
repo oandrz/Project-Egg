@@ -1,6 +1,6 @@
 /*
  * Copyright (c) by Andreas (oentoro.andreas@gmail.com)
- * created at 25 - 7 - 2020.
+ * created at 17 - 8 - 2020.
  */
 
 /**
@@ -15,7 +15,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import kotlinx.android.synthetic.main.item_ingredient.view.*
+import kotlinx.android.synthetic.main.item_single_with_image.view.*
 
 import starbright.com.projectegg.R
 import starbright.com.projectegg.data.model.Ingredient
@@ -33,7 +33,8 @@ internal class IngredientsAdapter(private val context: Context) : RecyclerView.A
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): IngredientViewHolder {
-        val view = LayoutInflater.from(context).inflate(R.layout.item_ingredient, parent, false)
+        val view =
+            LayoutInflater.from(context).inflate(R.layout.item_single_with_image, parent, false)
         val viewHolder = IngredientViewHolder(view)
         view.setOnClickListener {
             dataSource[viewHolder.adapterPosition].let { ingredient ->

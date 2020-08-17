@@ -1,6 +1,6 @@
 /*
  * Copyright (c) by Andreas (oentoro.andreas@gmail.com)
- * created at 1 - 8 - 2020.
+ * created at 17 - 8 - 2020.
  */
 
 /**
@@ -16,6 +16,7 @@ import starbright.com.projectegg.dagger.qualifier.RemoteData
 import starbright.com.projectegg.data.model.Ingredient
 import starbright.com.projectegg.data.model.Recipe
 import starbright.com.projectegg.data.model.local.FavouriteRecipe
+import starbright.com.projectegg.data.model.local.SearchHistory
 import starbright.com.projectegg.enum.RecipeSortCategory
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -72,11 +73,20 @@ class AppRepository @Inject constructor(
     override fun isRecipeSavedBefore(recipeId: Int): Observable<FavouriteRecipe?> {
         return appLocalDataStore.getFavouriteRecipeWith(recipeId)
     }
+
+    override fun getSearchHistory(): Observable<List<SearchHistory>> {
+        return appLocalDataStore.getSearchHistory()
+    }
+
+    override fun addSearchHistory(query: SearchHistory): Completable {
+        return appLocalDataStore.saveSearchHistory(query)
+    }
 }
 
 data class RecipeConfig(
     var query: String?,
     var cuisine: String?,
     var sortCategory: RecipeSortCategory = RecipeSortCategory.TIME,
-    var ingredients: List<Ingredient>?
+    var ingredients: List<Ingredient>?,
+    var responseLimit: Int = 10
 )

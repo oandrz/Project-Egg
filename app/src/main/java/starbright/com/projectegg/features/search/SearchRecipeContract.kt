@@ -1,19 +1,33 @@
 /*
  * Copyright (c) by Andreas (oentoro.andreas@gmail.com)
- * created at 25 - 7 - 2020.
+ * created at 17 - 8 - 2020.
  */
 
 package starbright.com.projectegg.features.search
 
+import starbright.com.projectegg.data.model.Recipe
 import starbright.com.projectegg.features.base.BasePresenterContract
 import starbright.com.projectegg.features.base.BaseViewContract
 
 class SearchRecipeContract {
 
     interface View : BaseViewContract {
-        fun setupSearchByIngredientFab()
+        fun setupView()
+
+        fun showLoading()
+        fun hideLoading()
+
+        fun renderRecipeSuggestion(recipes: List<Recipe>)
+        fun renderSearchHistory(searchQueries: List<String>)
+
+        fun navigateRecipeList(query: String)
+        fun navigateRecipeDetail(recipeId: String)
     }
 
     interface Presenter : BasePresenterContract {
+        fun handleUserTypeInEditText(query: String?)
+        fun handleUserSearch(query: String?)
+        fun handleSuggestionItemClicked(recipeId: String)
+        fun handleRecentSearchItemClicked(query: String)
     }
 }

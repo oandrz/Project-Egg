@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) by Andreas (oentoro.andreas@gmail.com)
-  ~ created at 25 - 7 - 2020.
+  ~ created at 17 - 8 - 2020.
   -->
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
@@ -21,7 +21,8 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".features.search.SearchRecipeActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".features.home.HomeActivity"
             android:screenOrientation="portrait" />

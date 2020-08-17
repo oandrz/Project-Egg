@@ -1,6 +1,6 @@
 <!--
   ~ Copyright (c) by Andreas (oentoro.andreas@gmail.com)
-  ~ created at 8 - 8 - 2020.
+  ~ created at 17 - 8 - 2020.
   -->
 
 <!--~
@@ -110,6 +110,7 @@
 
     <!--Search-->
     <string name="search.fab.ingredient.label">Search By Ingredient</string>
+    <string name="search.header.history.label">Recent Search</string>
 
     <!--Favourite-->
     <string name="favourite.text.title.toolbar">Favourite Recipe</string>

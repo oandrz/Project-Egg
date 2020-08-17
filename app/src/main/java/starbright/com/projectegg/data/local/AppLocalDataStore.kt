@@ -1,6 +1,6 @@
 /*
  * Copyright (c) by Andreas (oentoro.andreas@gmail.com)
- * created at 31 - 7 - 2020.
+ * created at 17 - 8 - 2020.
  */
 
 package starbright.com.projectegg.data.local
@@ -13,6 +13,7 @@ import starbright.com.projectegg.data.local.database.ApplicationDatabase
 import starbright.com.projectegg.data.model.Ingredient
 import starbright.com.projectegg.data.model.Recipe
 import starbright.com.projectegg.data.model.local.FavouriteRecipe
+import starbright.com.projectegg.data.model.local.SearchHistory
 import starbright.com.projectegg.util.Constants
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -56,5 +57,13 @@ class AppLocalDataStore @Inject constructor(
 
     override fun getFavouriteRecipeWith(recipeId: Int): Observable<FavouriteRecipe?> {
         return database.favoriteRecipeDao().getFavouriteRecipeWith(recipeId)
+    }
+
+    override fun getSearchHistory(): Observable<List<SearchHistory>> {
+        return database.searchHistoryDao().getSearchHistory()
+    }
+
+    override fun saveSearchHistory(history: SearchHistory): Completable {
+        return database.searchHistoryDao().addSearchHistory(history)
     }
 }
