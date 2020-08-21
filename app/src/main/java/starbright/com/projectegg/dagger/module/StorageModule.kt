@@ -1,10 +1,6 @@
 /*
  * Copyright (c) by Andreas (oentoro.andreas@gmail.com)
- * created at 17 - 8 - 2020.
- */
-
-/**
- * Created by Andreas on 5/5/2019.
+ * created at 21 - 8 - 2020.
  */
 
 package starbright.com.projectegg.dagger.module

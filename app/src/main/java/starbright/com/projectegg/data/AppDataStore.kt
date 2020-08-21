@@ -1,6 +1,6 @@
 /*
  * Copyright (c) by Andreas (oentoro.andreas@gmail.com)
- * created at 17 - 8 - 2020.
+ * created at 21 - 8 - 2020.
  */
 
 package starbright.com.projectegg.data
@@ -28,4 +28,5 @@ interface AppDataStore {
 
     fun getSearchHistory(): Observable<List<SearchHistory>>
     fun saveSearchHistory(history: SearchHistory): Completable
+    fun removeSearchHistory(query: String): Completable
 }

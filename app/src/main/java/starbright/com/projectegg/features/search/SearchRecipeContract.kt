@@ -1,6 +1,6 @@
 /*
  * Copyright (c) by Andreas (oentoro.andreas@gmail.com)
- * created at 17 - 8 - 2020.
+ * created at 21 - 8 - 2020.
  */
 
 package starbright.com.projectegg.features.search
@@ -22,6 +22,8 @@ class SearchRecipeContract {
 
         fun navigateRecipeList(query: String)
         fun navigateRecipeDetail(recipeId: String)
+
+        fun removeSelectedSearchQuery(position: Int)
     }
 
     interface Presenter : BasePresenterContract {
@@ -29,5 +31,6 @@ class SearchRecipeContract {
         fun handleUserSearch(query: String?)
         fun handleSuggestionItemClicked(recipeId: String)
         fun handleRecentSearchItemClicked(query: String)
+        fun handleRemoveSearchHistory(query: String, position: Int)
     }
 }

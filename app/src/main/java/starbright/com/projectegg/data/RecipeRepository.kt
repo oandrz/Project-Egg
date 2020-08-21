@@ -1,6 +1,6 @@
 /*
  * Copyright (c) by Andreas (oentoro.andreas@gmail.com)
- * created at 17 - 8 - 2020.
+ * created at 21 - 8 - 2020.
  */
 
 package starbright.com.projectegg.data
@@ -27,5 +27,6 @@ interface RecipeRepository {
     fun isRecipeSavedBefore(recipeId: Int): Observable<FavouriteRecipe?>
 
     fun getSearchHistory(): Observable<List<SearchHistory>>
-    fun addSearchHistory(query: SearchHistory): Completable
+    fun addSearchHistory(history: SearchHistory): Completable
+    fun removeSearchHistory(query: String): Completable
 }

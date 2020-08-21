@@ -1,6 +1,6 @@
 /*
  * Copyright (c) by Andreas (oentoro.andreas@gmail.com)
- * created at 17 - 8 - 2020.
+ * created at 21 - 8 - 2020.
  */
 
 package starbright.com.projectegg.features.search
@@ -56,7 +56,18 @@ class SearchRecipePresenter @Inject constructor(
     }
 
     override fun handleRecentSearchItemClicked(query: String) {
+        view.navigateRecipeList(query)
+    }
 
+    override fun handleRemoveSearchHistory(query: String, position: Int) {
+        compositeDisposable.add(
+            repository.removeSearchHistory(query)
+                .subscribeOn(schedulerProvider.io())
+                .observeOn(schedulerProvider.ui())
+                .subscribe {
+                    view.removeSelectedSearchQuery(position)
+                }
+        )
     }
 
     private fun fetchSuggestedRecipe() {
@@ -70,8 +81,7 @@ class SearchRecipePresenter @Inject constructor(
                 .switchMap {
                     repository.getRecipes(
                         RecipeConfig(it, "", responseLimit = 5, ingredients = null), 0
-                    )
-                        .subscribeOn(schedulerProvider.io())
+                    ).subscribeOn(schedulerProvider.io())
                 }
                 .observeOn(schedulerProvider.ui())
                 .subscribe({ recipes ->

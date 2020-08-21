@@ -1,6 +1,6 @@
 /*
  * Copyright (c) by Andreas (oentoro.andreas@gmail.com)
- * created at 17 - 8 - 2020.
+ * created at 21 - 8 - 2020.
  */
 
 package starbright.com.projectegg.data.local.database
@@ -19,4 +19,7 @@ interface SearchHistoryDao {
 
     @Query("SELECT * FROM SearchHistory ORDER BY created_at DESC LIMIT 5")
     fun getSearchHistory(): Observable<List<SearchHistory>>
+
+    @Query("DELETE FROM SearchHistory WHERE search_query = :query")
+    fun removeSearchHistory(query: String): Completable
 }

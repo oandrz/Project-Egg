@@ -1,6 +1,6 @@
 /*
  * Copyright (c) by Andreas (oentoro.andreas@gmail.com)
- * created at 17 - 8 - 2020.
+ * created at 21 - 8 - 2020.
  */
 
 /**
@@ -78,8 +78,12 @@ class AppRepository @Inject constructor(
         return appLocalDataStore.getSearchHistory()
     }
 
-    override fun addSearchHistory(query: SearchHistory): Completable {
-        return appLocalDataStore.saveSearchHistory(query)
+    override fun addSearchHistory(history: SearchHistory): Completable {
+        return appLocalDataStore.saveSearchHistory(history)
+    }
+
+    override fun removeSearchHistory(query: String): Completable {
+        return appLocalDataStore.removeSearchHistory(query)
     }
 }
 

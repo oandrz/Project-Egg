@@ -1,6 +1,6 @@
 /*
  * Copyright (c) by Andreas (oentoro.andreas@gmail.com)
- * created at 17 - 8 - 2020.
+ * created at 21 - 8 - 2020.
  */
 
 package starbright.com.projectegg.data.local
@@ -65,5 +65,9 @@ class AppLocalDataStore @Inject constructor(
 
     override fun saveSearchHistory(history: SearchHistory): Completable {
         return database.searchHistoryDao().addSearchHistory(history)
+    }
+
+    override fun removeSearchHistory(query: String): Completable {
+        return database.searchHistoryDao().removeSearchHistory(query)
     }
 }

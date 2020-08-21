@@ -1,6 +1,6 @@
 /*
  * Copyright (c) by Andreas (oentoro.andreas@gmail.com)
- * created at 17 - 8 - 2020.
+ * created at 21 - 8 - 2020.
  */
 
 package starbright.com.projectegg.features.search
@@ -115,12 +115,14 @@ class SearchRecipeActivity : BaseActivity<SearchRecipeContract.View, SearchRecip
         Handler().post {
             historySearchHeader.clear()
             recipeSuggestionItem.clear()
-            historySearchItem.clear()
             if (searchQueries.isNotEmpty()) {
                 historySearchHeader.add(RecipeHeader(getString(R.string.search_header_history_label)))
-                searchQueries.map {
-                    historySearchItem.add(RecentSearchItem(it))
+                val items = searchQueries.map { query ->
+                    RecentSearchItem(query) { selectedQuery, position ->
+                        presenter.handleRemoveSearchHistory(selectedQuery, position)
+                    }
                 }
+                historySearchItem.set(items)
             }
         }
     }
@@ -141,6 +143,10 @@ class SearchRecipeActivity : BaseActivity<SearchRecipeContract.View, SearchRecip
                 recipeId
             )
         )
+    }
+
+    override fun removeSelectedSearchQuery(position: Int) {
+        historySearchItem.remove(position)
     }
 
     private fun setupList() {
