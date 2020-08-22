@@ -1,6 +1,6 @@
 /*
  * Copyright (c) by Andreas (oentoro.andreas@gmail.com)
- * created at 21 - 8 - 2020.
+ * created at 22 - 8 - 2020.
  */
 
 package starbright.com.projectegg.features.search
@@ -54,6 +54,11 @@ class SearchRecipeActivity : BaseActivity<SearchRecipeContract.View, SearchRecip
             NormalToolbar(WeakReference(this), R.id.toolbar, R.string.recipelist_title)
         )
         super.onCreate(savedInstanceState)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        presenter.loadSearchHistory()
     }
 
     override fun getLayoutRes(): Int = R.layout.activity_search_recipe
@@ -147,6 +152,9 @@ class SearchRecipeActivity : BaseActivity<SearchRecipeContract.View, SearchRecip
 
     override fun removeSelectedSearchQuery(position: Int) {
         historySearchItem.remove(position)
+        if (historySearchItem.adapterItemCount == 0) {
+            historySearchHeader.clear()
+        }
     }
 
     private fun setupList() {

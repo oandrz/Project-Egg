@@ -1,11 +1,12 @@
 /*
  * Copyright (c) by Andreas (oentoro.andreas@gmail.com)
- * created at 21 - 8 - 2020.
+ * created at 22 - 8 - 2020.
  */
 
 package starbright.com.projectegg.data
 
 import io.reactivex.Completable
+import io.reactivex.Maybe
 import io.reactivex.Observable
 import starbright.com.projectegg.data.model.Ingredient
 import starbright.com.projectegg.data.model.Recipe
@@ -26,7 +27,9 @@ interface AppDataStore {
     fun getFavouriteRecipeWith(): Observable<List<FavouriteRecipe>>
     fun getFavouriteRecipeWith(recipeId: Int): Observable<FavouriteRecipe?>
 
-    fun getSearchHistory(): Observable<List<SearchHistory>>
+    fun getSearchHistory(): Maybe<List<SearchHistory>>
+    fun checkQueryExistence(query: String): Maybe<List<SearchHistory>>
+    fun updateExistingHistoryTimestamp(query: String, millis: Long): Completable
     fun saveSearchHistory(history: SearchHistory): Completable
     fun removeSearchHistory(query: String): Completable
 }

@@ -1,11 +1,12 @@
 /*
  * Copyright (c) by Andreas (oentoro.andreas@gmail.com)
- * created at 21 - 8 - 2020.
+ * created at 22 - 8 - 2020.
  */
 
 package starbright.com.projectegg.data.remote
 
 import io.reactivex.Completable
+import io.reactivex.Maybe
 import io.reactivex.Observable
 import retrofit2.Retrofit
 import retrofit2.http.GET
@@ -176,7 +177,15 @@ class AppRemoteDataStore @Inject constructor(
         throw UnsupportedOperationException()
     }
 
-    override fun getSearchHistory(): Observable<List<SearchHistory>> {
+    override fun getSearchHistory(): Maybe<List<SearchHistory>> {
+        throw UnsupportedOperationException()
+    }
+
+    override fun checkQueryExistence(query: String): Maybe<List<SearchHistory>> {
+        throw UnsupportedOperationException()
+    }
+
+    override fun updateExistingHistoryTimestamp(query: String, millis: Long): Completable {
         throw UnsupportedOperationException()
     }
 

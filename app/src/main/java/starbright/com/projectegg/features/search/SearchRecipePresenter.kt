@@ -1,6 +1,6 @@
 /*
  * Copyright (c) by Andreas (oentoro.andreas@gmail.com)
- * created at 21 - 8 - 2020.
+ * created at 22 - 8 - 2020.
  */
 
 package starbright.com.projectegg.features.search
@@ -32,7 +32,6 @@ class SearchRecipePresenter @Inject constructor(
 
     override fun onCreateScreen() {
         view.setupView()
-        loadSearchHistory()
         fetchSuggestedRecipe()
     }
 
@@ -47,7 +46,7 @@ class SearchRecipePresenter @Inject constructor(
 
     override fun handleUserSearch(query: String?) {
         query?.let {
-            addSearchQuery(it)
+            searchQueryExistence(query)
         }
     }
 
@@ -89,33 +88,60 @@ class SearchRecipePresenter @Inject constructor(
                         view.renderRecipeSuggestion(recipes)
                     }
                 }, {
-
+                    view.showError(R.string.error_title_system)
                 })
         )
     }
 
-    private fun loadSearchHistory() {
+    override fun loadSearchHistory() {
         compositeDisposable.add(
             repository.getSearchHistory()
                 .subscribeOn(schedulerProvider.io())
                 .observeOn(schedulerProvider.ui())
-                .subscribe({ histories ->
+                .subscribe { histories ->
                     view.renderSearchHistory(histories.map { it.query })
-                }, {
-
-                })
+                }
         )
     }
 
     private fun addSearchQuery(query: String) {
         compositeDisposable.add(
             repository.addSearchHistory(
-                SearchHistory(query = query, createdAt = System.currentTimeMillis())
+                SearchHistory(
+                    query = query,
+                    createdAt = System.currentTimeMillis()
+                )
             )
                 .subscribeOn(schedulerProvider.io())
                 .observeOn(schedulerProvider.ui())
                 .subscribe {
                     view.navigateRecipeList(query)
+                }
+        )
+    }
+
+    private fun updateSearchQueryTimestamp(query: String) {
+        compositeDisposable.add(
+            repository.updateExistingHistoryTimestamp(query, System.currentTimeMillis())
+                .subscribeOn(schedulerProvider.io())
+                .observeOn(schedulerProvider.ui())
+                .subscribe {
+                    view.navigateRecipeList(query)
+                }
+        )
+    }
+
+    private fun searchQueryExistence(query: String) {
+        compositeDisposable.add(
+            repository.checkQueryExistence(query)
+                .subscribeOn(schedulerProvider.io())
+                .observeOn(schedulerProvider.ui())
+                .subscribe { histories ->
+                    if (histories == null || histories.isEmpty()) {
+                        addSearchQuery(query)
+                    } else {
+                        updateSearchQueryTimestamp(query)
+                    }
                 }
         )
     }

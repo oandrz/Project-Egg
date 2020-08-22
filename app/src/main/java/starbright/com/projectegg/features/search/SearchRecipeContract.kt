@@ -1,6 +1,6 @@
 /*
  * Copyright (c) by Andreas (oentoro.andreas@gmail.com)
- * created at 21 - 8 - 2020.
+ * created at 22 - 8 - 2020.
  */
 
 package starbright.com.projectegg.features.search
@@ -32,5 +32,6 @@ class SearchRecipeContract {
         fun handleSuggestionItemClicked(recipeId: String)
         fun handleRecentSearchItemClicked(query: String)
         fun handleRemoveSearchHistory(query: String, position: Int)
+        fun loadSearchHistory()
     }
 }

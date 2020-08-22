@@ -1,11 +1,12 @@
 /*
  * Copyright (c) by Andreas (oentoro.andreas@gmail.com)
- * created at 21 - 8 - 2020.
+ * created at 22 - 8 - 2020.
  */
 
 package starbright.com.projectegg.data.local
 
 import io.reactivex.Completable
+import io.reactivex.Maybe
 import io.reactivex.Observable
 import starbright.com.projectegg.data.AppDataStore
 import starbright.com.projectegg.data.RecipeConfig
@@ -59,8 +60,19 @@ class AppLocalDataStore @Inject constructor(
         return database.favoriteRecipeDao().getFavouriteRecipeWith(recipeId)
     }
 
-    override fun getSearchHistory(): Observable<List<SearchHistory>> {
+    override fun getSearchHistory(): Maybe<List<SearchHistory>> {
         return database.searchHistoryDao().getSearchHistory()
+    }
+
+    override fun checkQueryExistence(query: String): Maybe<List<SearchHistory>> {
+        return database.searchHistoryDao().getRecentSearchByQuery(query)
+    }
+
+    override fun updateExistingHistoryTimestamp(
+        query: String,
+        millis: Long
+    ): Completable {
+        return database.searchHistoryDao().updateExistingQueryTimestamp(query, millis)
     }
 
     override fun saveSearchHistory(history: SearchHistory): Completable {
