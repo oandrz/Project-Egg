@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) by Andreas (oentoro.andreas@gmail.com)
-  ~ created at 1 - 8 - 2020.
+  ~ created at 8 - 8 - 2020.
   -->
 
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -34,39 +34,15 @@
             android:layout_height="match_parent" />
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/layout_empty"
+    <include
+        android:id="@+id/layout_error"
+        layout="@layout/layout_error_state"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="@color/white"
-        android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@id/toolbar_layout"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent">
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/iv_fail_image"
-            android:layout_width="@dimen/fail_state_image_width"
-            android:layout_height="@dimen/fail_state_image_height"
-            android:src="@drawable/ic_empty_box"
-            android:layout_margin="@dimen/space_large"
-            app:layout_constraintBottom_toTopOf="@id/tv_fail_title"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <TextView
-            android:id="@+id/tv_fail_title"
-            style="@style/TitleFont"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="@string/favourite.text.title.error.favourite.empty"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_favourite"

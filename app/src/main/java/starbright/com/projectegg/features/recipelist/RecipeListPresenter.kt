@@ -1,6 +1,6 @@
 /*
  * Copyright (c) by Andreas (oentoro.andreas@gmail.com)
- * created at 25 - 7 - 2020.
+ * created at 9 - 8 - 2020.
  */
 
 /**
@@ -100,7 +100,7 @@ class RecipeListPresenter @Inject constructor(
         if (!isConnectedToInternet()) {
             with(view) {
                 showError(R.string.server_connection_error)
-                showNoInternetState()
+                showErrorState()
             }
         }
 
@@ -116,6 +116,9 @@ class RecipeListPresenter @Inject constructor(
                             hideFilterButton()
                             showResultEmptyState()
                         } else {
+                            if (recipesResult.first().totalRecipe < 11) {
+                                disableLoadMore()
+                            }
                             showFilterButton()
                             appendRecipes(recipesResult)
                         }

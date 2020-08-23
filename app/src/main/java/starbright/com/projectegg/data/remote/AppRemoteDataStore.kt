@@ -1,11 +1,12 @@
 /*
  * Copyright (c) by Andreas (oentoro.andreas@gmail.com)
- * created at 31 - 7 - 2020.
+ * created at 22 - 8 - 2020.
  */
 
 package starbright.com.projectegg.data.remote
 
 import io.reactivex.Completable
+import io.reactivex.Maybe
 import io.reactivex.Observable
 import retrofit2.Retrofit
 import retrofit2.http.GET
@@ -19,6 +20,7 @@ import starbright.com.projectegg.data.model.Ingredient
 import starbright.com.projectegg.data.model.Instruction
 import starbright.com.projectegg.data.model.Recipe
 import starbright.com.projectegg.data.model.local.FavouriteRecipe
+import starbright.com.projectegg.data.model.local.SearchHistory
 import starbright.com.projectegg.data.model.response.IngredientResponse
 import starbright.com.projectegg.data.model.response.RecipeDetailResponse
 import starbright.com.projectegg.data.model.response.RecipeListResponse
@@ -30,7 +32,7 @@ import javax.inject.Singleton
 
 @Singleton
 class AppRemoteDataStore @Inject constructor(
-    private val mRetrofit: Retrofit
+    private val retrofit: Retrofit
 ) : AppDataStore {
 
     override fun getRecipes(config: RecipeConfig, offset: Int): Observable<List<Recipe>> {
@@ -38,7 +40,9 @@ class AppRemoteDataStore @Inject constructor(
             this[Constants.QUERY_PARAM_LIMIT_LICENSE_KEY] = true.toString()
             this[Constants.QUERY_PARAM_INSTRUCTION_REQUIRED_KEY] = true.toString()
             this[Constants.QUERY_PARAM_ADD_INFORMATION] = true.toString()
-            this[Constants.QUERY_PARAM_SORT_KEY] = config.sortCategory.type.toLowerCase(Locale.getDefault())
+            this[Constants.QUERY_PARAM_SORT_KEY] =
+                config.sortCategory.type.toLowerCase(Locale.getDefault())
+            this[Constants.QUERY_PARAM_NUMBER_KEY] = config.responseLimit.toString()
         }
 
         val ingredientsAsParam = StringBuilder()
@@ -51,7 +55,7 @@ class AppRemoteDataStore @Inject constructor(
             }
         }
 
-        return mRetrofit.create(Service::class.java)
+        return retrofit.create(Service::class.java)
             .getRecipes(
                 query = config.query,
                 ingredients = ingredientsAsParam.toString(),
@@ -69,7 +73,8 @@ class AppRemoteDataStore @Inject constructor(
                             image = response.image,
                             cuisines = response.cuisines,
                             cookingMinutes = response.cookingTime,
-                            servingCount = response.servings
+                            servingCount = response.servings,
+                            totalRecipe = responses.totalResults
                         )
                     )
                 }
@@ -83,7 +88,7 @@ class AppRemoteDataStore @Inject constructor(
         queryMap[Constants.QUERY_PARAM_INSTRUCTION_REQUIRED_KEY] = true.toString()
         queryMap[Constants.QUERY_PARAM_ADD_INFORMATION] = true.toString()
         queryMap[Constants.QUERY_PARAM_SORT_KEY] = RecipeSortCategory.RANDOM.type.toLowerCase()
-        return mRetrofit.create(Service::class.java)
+        return retrofit.create(Service::class.java)
             .getRecommendedRecipes(offset = offSet, options = queryMap)
             .map { responses ->
                 val recipes = ArrayList<Recipe>(responses.results.size)
@@ -113,7 +118,8 @@ class AppRemoteDataStore @Inject constructor(
         val queryMap = HashMap<String, String>()
         queryMap[Constants.QUERY_PARAM_META_INFORMATION_KEY] = true.toString()
         queryMap[Constants.QUERY_PARAM_NUMBER_KEY] = numberOfIngredient.toString()
-        return mRetrofit.create(Service::class.java).searchAutocompleteIngredients(query = query, options = queryMap)
+        return retrofit.create(Service::class.java)
+            .searchAutocompleteIngredients(query = query, options = queryMap)
             .map { responses ->
                 val ingredients = ArrayList<Ingredient>(responses.size)
                 for (response in responses) {
@@ -127,7 +133,7 @@ class AppRemoteDataStore @Inject constructor(
         val queryMap = HashMap<String, String>().also {
             it[Constants.QUERY_PARAM_INCL_NUTRITION] = true.toString()
         }
-        return mRetrofit.create(Service::class.java)
+        return retrofit.create(Service::class.java)
             .getRecipeDetailInformation(recipeId = recipeId, options = queryMap)
             .map { recipeDetailResponse ->
                 Recipe(
@@ -168,6 +174,26 @@ class AppRemoteDataStore @Inject constructor(
     }
 
     override fun getFavouriteRecipeWith(recipeId: Int): Observable<FavouriteRecipe?> {
+        throw UnsupportedOperationException()
+    }
+
+    override fun getSearchHistory(): Maybe<List<SearchHistory>> {
+        throw UnsupportedOperationException()
+    }
+
+    override fun checkQueryExistence(query: String): Maybe<List<SearchHistory>> {
+        throw UnsupportedOperationException()
+    }
+
+    override fun updateExistingHistoryTimestamp(query: String, millis: Long): Completable {
+        throw UnsupportedOperationException()
+    }
+
+    override fun saveSearchHistory(history: SearchHistory): Completable {
+        throw UnsupportedOperationException()
+    }
+
+    override fun removeSearchHistory(query: String): Completable {
         throw UnsupportedOperationException()
     }
 

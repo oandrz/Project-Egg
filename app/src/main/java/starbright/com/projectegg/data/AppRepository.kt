@@ -1,6 +1,6 @@
 /*
  * Copyright (c) by Andreas (oentoro.andreas@gmail.com)
- * created at 1 - 8 - 2020.
+ * created at 22 - 8 - 2020.
  */
 
 /**
@@ -10,12 +10,14 @@
 package starbright.com.projectegg.data
 
 import io.reactivex.Completable
+import io.reactivex.Maybe
 import io.reactivex.Observable
 import starbright.com.projectegg.dagger.qualifier.LocalData
 import starbright.com.projectegg.dagger.qualifier.RemoteData
 import starbright.com.projectegg.data.model.Ingredient
 import starbright.com.projectegg.data.model.Recipe
 import starbright.com.projectegg.data.model.local.FavouriteRecipe
+import starbright.com.projectegg.data.model.local.SearchHistory
 import starbright.com.projectegg.enum.RecipeSortCategory
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -72,11 +74,32 @@ class AppRepository @Inject constructor(
     override fun isRecipeSavedBefore(recipeId: Int): Observable<FavouriteRecipe?> {
         return appLocalDataStore.getFavouriteRecipeWith(recipeId)
     }
+
+    override fun getSearchHistory(): Maybe<List<SearchHistory>> {
+        return appLocalDataStore.getSearchHistory()
+    }
+
+    override fun checkQueryExistence(query: String): Maybe<List<SearchHistory>> {
+        return appLocalDataStore.checkQueryExistence(query)
+    }
+
+    override fun updateExistingHistoryTimestamp(query: String, millis: Long): Completable {
+        return appLocalDataStore.updateExistingHistoryTimestamp(query, millis)
+    }
+
+    override fun addSearchHistory(history: SearchHistory): Completable {
+        return appLocalDataStore.saveSearchHistory(history)
+    }
+
+    override fun removeSearchHistory(query: String): Completable {
+        return appLocalDataStore.removeSearchHistory(query)
+    }
 }
 
 data class RecipeConfig(
     var query: String?,
     var cuisine: String?,
     var sortCategory: RecipeSortCategory = RecipeSortCategory.TIME,
-    var ingredients: List<Ingredient>?
+    var ingredients: List<Ingredient>?,
+    var responseLimit: Int = 10
 )

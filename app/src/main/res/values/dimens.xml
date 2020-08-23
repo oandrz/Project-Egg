@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) by Andreas (oentoro.andreas@gmail.com)
-  ~ created at 25 - 7 - 2020.
+  ~ created at 8 - 8 - 2020.
   -->
 
 <!--~
@@ -61,4 +61,5 @@
     <dimen name="item_selector_icon_size">24dp</dimen>
     <dimen name="fail_state_image_height">162dp</dimen>
     <dimen name="fail_state_image_width">288dp</dimen>
+    <dimen name="error_state_height_home">500dp</dimen>
 </resources>

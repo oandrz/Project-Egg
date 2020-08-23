@@ -1,10 +1,6 @@
 /*
  * Copyright (c) by Andreas (oentoro.andreas@gmail.com)
- * created at 25 - 7 - 2020.
- */
-
-/**
- * Created by Andreas on 5/10/2019.
+ * created at 9 - 8 - 2020.
  */
 
 package starbright.com.projectegg.features.recipelist
@@ -22,6 +18,7 @@ import com.mikepenz.fastadapter.adapters.ItemAdapter
 import com.mikepenz.fastadapter.scroll.EndlessRecyclerOnScrollListener
 import com.mikepenz.fastadapter.ui.items.ProgressItem
 import kotlinx.android.synthetic.main.activity_recipe_list.*
+import kotlinx.android.synthetic.main.layout_error_state.*
 import kotlinx.android.synthetic.main.widget_floating_filter_sort.*
 import starbright.com.projectegg.R
 import starbright.com.projectegg.dagger.component.ActivityComponent
@@ -158,17 +155,22 @@ class RecipeListActivity : BaseActivity<RecipeListContract.View, RecipeListPrese
 
     override fun showResultEmptyState() {
         rv_recipe.visibility = View.GONE
-        layout_fail_state.visibility = View.VISIBLE
-        iv_fail_image.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_empty))
-        tv_fail_title.text = getString(R.string.recipe_list_empty_title)
+        layout_error.visibility = View.VISIBLE
+        iv_fail_image.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_empty_box))
+        tv_fail_title.text = getString(R.string.error_title_empty_recipe)
+        tv_fail_description.text = getString(R.string.error_desc_empty_recipe)
     }
 
     override fun showErrorState() {
-        TODO("Not yet implemented")
+        rv_recipe.visibility = View.GONE
+        layout_error.visibility = View.VISIBLE
+        iv_fail_image.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_error))
+        tv_fail_title.text = getString(R.string.error_title_system)
+        tv_fail_description.text = getString(R.string.error_desc_system)
     }
 
-    override fun showNoInternetState() {
-        TODO("Not yet implemented")
+    override fun disableLoadMore() {
+        rv_recipe.clearOnScrollListeners()
     }
 
     override fun hideFooterLoading() {
@@ -179,7 +181,7 @@ class RecipeListActivity : BaseActivity<RecipeListContract.View, RecipeListPrese
 
     private fun setupRecyclerView() {
         val fastAdapter = FastAdapter.with(listOf(recipeBodyAdapter, recipeFooterAdapter)).apply {
-            onClickListener =  { view, _, item, _ ->
+            onClickListener = { view, _, item, _ ->
                 if (view != null && item is RecipeItem) {
                     presenter.handleListItemClicked(item.recipe.id.toString())
                 }

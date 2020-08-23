@@ -1,10 +1,6 @@
 /*
  * Copyright (c) by Andreas (oentoro.andreas@gmail.com)
- * created at 25 - 7 - 2020.
- */
-
-/**
- * Created by Andreas on 5/5/2019.
+ * created at 21 - 8 - 2020.
  */
 
 package starbright.com.projectegg.dagger.module
@@ -13,6 +9,8 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.preference.PreferenceManager
 import androidx.room.Room
+import androidx.room.migration.Migration
+import androidx.sqlite.db.SupportSQLiteDatabase
 import dagger.Module
 import dagger.Provides
 import starbright.com.projectegg.dagger.qualifier.ApplicationContext
@@ -34,5 +32,23 @@ class StorageModule {
             context.applicationContext,
             ApplicationDatabase::class.java,
             "database"
-        ).build()
+        )
+            .addMigrations(MIGRATION_1_2)
+            .build()
+
+    companion object {
+        val MIGRATION_1_2 = object : Migration(1, 2) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL(
+                    """
+                CREATE TABLE SearchHistory (
+                    id INTEGER PRIMARY KEY,
+                    search_query TEXT NOT NULL.
+                    created_at INTEGER NOT NULL
+                )
+                """.trimIndent()
+                )
+            }
+        }
+    }
 }
