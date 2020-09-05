@@ -1,6 +1,6 @@
 /*
  * Copyright (c) by Andreas (oentoro.andreas@gmail.com)
- * created at 25 - 7 - 2020.
+ * created at 5 - 9 - 2020.
  */
 
 /**
@@ -9,7 +9,7 @@
 
 package starbright.com.projectegg.feature
 
-import android.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.TestScheduler
@@ -22,6 +22,7 @@ import org.mockito.Mockito.doReturn
 import org.mockito.Mockito.verify
 import org.mockito.junit.MockitoJUnitRunner
 import starbright.com.projectegg.data.AppRepository
+import starbright.com.projectegg.data.RecipeConfig
 import starbright.com.projectegg.data.model.Recipe
 import starbright.com.projectegg.data.model.response.NetworkError
 import starbright.com.projectegg.features.recipelist.RecipeListContract
@@ -62,7 +63,7 @@ class RecipeListPresenterTest {
     fun givenAppLaunch_whenOnCreate_shouldSetupView() {
         doReturn(Observable.empty<Recipe>())
             .`when`(mockRepository)
-            .getRecipes("", 0)
+            .getRecipes(RecipeConfig("", "", ingredients = emptyList()), 0)
 
         presenter.onCreateScreen()
 
@@ -76,13 +77,13 @@ class RecipeListPresenterTest {
             .provideSearchConfig()
         doReturn(Observable.just(mockRecipes))
             .`when`(mockRepository)
-            .getRecipes(mockIngredient.name, 0)
+            .getRecipes(RecipeConfig(mockIngredient.name, "", ingredients = emptyList()), 0)
 
         presenter.onCreateScreen()
         testScheduler.triggerActions()
 
-        verify(mockView).hideLoadingBar()
-        verify(mockView).bindRecipesToList(mockRecipes.toMutableList())
+        verify(mockView).hideFooterLoading()
+        verify(mockView).appendRecipes(mockRecipes.toMutableList())
     }
 
     @Test
@@ -97,7 +98,7 @@ class RecipeListPresenterTest {
             .provideSearchConfig()
         doReturn(error)
             .`when`(mockRepository)
-            .getRecipes(mockIngredient.name, 0)
+            .getRecipes(RecipeConfig(mockIngredient.name, "", ingredients = emptyList()), 0)
 
         presenter.onCreateScreen()
         testScheduler.triggerActions()

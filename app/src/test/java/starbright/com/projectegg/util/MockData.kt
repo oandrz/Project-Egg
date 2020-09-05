@@ -1,6 +1,6 @@
 /*
  * Copyright (c) by Andreas (oentoro.andreas@gmail.com)
- * created at 25 - 7 - 2020.
+ * created at 5 - 9 - 2020.
  */
 
 /**
@@ -16,8 +16,16 @@ val mockIngredient: Ingredient = Ingredient("apple")
 
 val mockIngredients: List<Ingredient> = listOf(mockIngredient)
 
-val mockRecipe: Recipe = Recipe(0, "testing", "testing", "testing", 0, 0, 10)
+val mockRecipe: Recipe = Recipe(
+    0, 0, 0, "testing",
+    "testing", 0, "testing", "",
+    totalRecipe = 10
+)
 
-val mockRecipeWithoutUrl: Recipe = Recipe(0, "testing", "testing", "testing", 0, 0, 10)
+val mockRecipeWithoutUrl: Recipe = Recipe(
+    0, 0, 0, "testing",
+    "testing", 0,
+    totalRecipe = 10
+)
 
 val mockRecipes: List<Recipe> = listOf(mockRecipe)

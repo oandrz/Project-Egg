@@ -1,6 +1,6 @@
 /*
  * Copyright (c) by Andreas (oentoro.andreas@gmail.com)
- * created at 21 - 8 - 2020.
+ * created at 5 - 9 - 2020.
  */
 
 package starbright.com.projectegg.dagger.module
@@ -41,11 +41,7 @@ class StorageModule {
             override fun migrate(database: SupportSQLiteDatabase) {
                 database.execSQL(
                     """
-                CREATE TABLE SearchHistory (
-                    id INTEGER PRIMARY KEY,
-                    search_query TEXT NOT NULL.
-                    created_at INTEGER NOT NULL
-                )
+                    ALTER TABLE SearchHistory ADD COLUMN created_at INTEGER NOT NULL DEFAULT 0
                 """.trimIndent()
                 )
             }

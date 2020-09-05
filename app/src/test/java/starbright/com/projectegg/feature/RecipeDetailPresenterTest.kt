@@ -1,6 +1,6 @@
 /*
  * Copyright (c) by Andreas (oentoro.andreas@gmail.com)
- * created at 25 - 7 - 2020.
+ * created at 5 - 9 - 2020.
  */
 
 /**
@@ -9,7 +9,7 @@
 
 package starbright.com.projectegg.feature
 
-import android.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.TestScheduler
@@ -90,17 +90,16 @@ class RecipeDetailPresenterTest {
         verify(mockView).showProgressBar()
         verify(mockView).hideProgressBar()
         verify(mockView).hideEmptyView()
-        verify(mockView).renderBannerFoodImage(mockRecipe.image)
+        verify(mockView).renderBannerFoodImage(mockRecipe.image.orEmpty())
         verify(mockView).renderHeaderContainer(
-            mockRecipe.servingCount, mockRecipe.cookingMinutes,
-            mockRecipe.title,
-
-            )
+            mockRecipe.servingCount ?: 0, mockRecipe.cookingMinutes ?: 0,
+            mockRecipe.title, "", 10
+        )
         mockRecipe.ingredients?.let {
-            verify(mockView.renderIngredientsList(it))
+            verify(mockView.renderIngredientsList(it.toMutableList()))
         }
         mockRecipe.instructions?.let {
-            verify(mockView).renderInstructionsList(it)
+            verify(mockView).renderInstructionsList(it.toMutableList())
         }
     }
 
