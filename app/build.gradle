@@ -6,7 +6,7 @@ apply plugin: 'com.google.gms.google-services'
 
 /*
  * Copyright (c) by Andreas (oentoro.andreas@gmail.com)
- * created at 5 - 9 - 2020.
+ * created at 6 - 9 - 2020.
  */
 
 android {
@@ -37,8 +37,8 @@ android {
         minSdkVersion 19
         targetSdkVersion 29
         buildToolsVersion '29.0.3'
-        versionCode 7
-        versionName "0.1.2.1"
+        versionCode 8
+        versionName "0.1.2.2"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
         buildConfigField "String", "CLARIFAI_KEY", "\"d724362606ac43c39a3a3cee03b85657\""

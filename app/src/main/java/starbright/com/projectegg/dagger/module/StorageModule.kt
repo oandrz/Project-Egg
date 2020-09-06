@@ -1,6 +1,6 @@
 /*
  * Copyright (c) by Andreas (oentoro.andreas@gmail.com)
- * created at 5 - 9 - 2020.
+ * created at 6 - 9 - 2020.
  */
 
 package starbright.com.projectegg.dagger.module
@@ -39,11 +39,7 @@ class StorageModule {
     companion object {
         val MIGRATION_1_2 = object : Migration(1, 2) {
             override fun migrate(database: SupportSQLiteDatabase) {
-                database.execSQL(
-                    """
-                    ALTER TABLE SearchHistory ADD COLUMN created_at INTEGER NOT NULL DEFAULT 0
-                """.trimIndent()
-                )
+                database.execSQL("CREATE TABLE IF NOT EXISTS `SearchHistory` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `search_query` TEXT NOT NULL, `created_at` INTEGER NOT NULL)")
             }
         }
     }

@@ -1,12 +1,10 @@
 /*
  * Copyright (c) by Andreas (oentoro.andreas@gmail.com)
- * created at 5 - 9 - 2020.
+ * created at 6 - 9 - 2020.
  */
 
 package starbright.com.projectegg
 
-import android.content.ContentValues
-import android.database.sqlite.SQLiteDatabase
 import android.os.Build
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.room.testing.MigrationTestHelper
@@ -40,18 +38,9 @@ class MigrationTest {
     @Throws(IOException::class)
     fun migrationFrom1To2_containsCorrectData() {
         val db: SupportSQLiteDatabase = migrationHelper.createDatabase("database", 1)
-        insert(1, "apple", db)
         db.close()
-
         migrationHelper.runMigrationsAndValidate(
             "database", 2, true, MIGRATION_1_2
         )
-    }
-
-    private fun insert(id: Int, query: String, db: SupportSQLiteDatabase) {
-        val value = ContentValues()
-        value.put("id", id)
-        value.put("search_query", query)
-        db.insert("SearchHistory", SQLiteDatabase.CONFLICT_REPLACE, value)
     }
 }
