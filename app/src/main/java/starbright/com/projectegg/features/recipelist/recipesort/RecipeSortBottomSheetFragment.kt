@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.adapters.ItemAdapter
-import kotlinx.android.synthetic.main.sheet_sort_recipe.*
 import starbright.com.projectegg.R
 import starbright.com.projectegg.data.model.SortOption
 import starbright.com.projectegg.view.BottomSheetHeader
@@ -65,11 +64,11 @@ class RecipeSortBottomSheetFragment: BottomSheetDialogFragment() {
                 false
             }
         }
-        rv_sort.run {
-            itemAnimator = DefaultItemAnimator()
-            layoutManager = linearLayoutManager
-            adapter = fastAdapter
-        }
+//        rv_sort.run {
+//            itemAnimator = DefaultItemAnimator()
+//            layoutManager = linearLayoutManager
+//            adapter = fastAdapter
+//        }
         headerItemAdapter.add(BottomSheetHeader(getString(R.string.recipelist_sort_sheet_title)))
         sortOptions.map {
             sortItemAdapter.add(

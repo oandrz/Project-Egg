@@ -22,7 +22,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.item_text_only.view.*
 import starbright.com.projectegg.R
 
 class TextViewRecyclerAdapter(private val mContext: Context, private val mDataSource: List<String>) : RecyclerView.Adapter<TextViewRecyclerAdapter.ViewHolder>() {
@@ -34,7 +33,7 @@ class TextViewRecyclerAdapter(private val mContext: Context, private val mDataSo
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.itemView.tv_text.text = mDataSource[position]
+//        holder.itemView.tv_text.text = mDataSource[position]
     }
 
     override fun getItemCount(): Int {

@@ -35,12 +35,6 @@ class AppModule(private val application: Application) {
     fun providesNetworkHelper(): NetworkHelper = NetworkHelper(application)
 
     @Provides
-    @Singleton
-    fun providesCompressor(@ApplicationContext context: Context): Compressor {
-        return Compressor(context)
-    }
-
-    @Provides
     fun providesCompositeDiposable(): CompositeDisposable {
         return CompositeDisposable()
     }

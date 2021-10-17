@@ -16,9 +16,6 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.android.material.snackbar.Snackbar
-import com.jaeger.library.StatusBarUtil
-import kotlinx.android.synthetic.main.activity_recipe_detail_revamped.*
-import kotlinx.android.synthetic.main.content_recipe_detail_body.*
 import starbright.com.projectegg.R
 import starbright.com.projectegg.dagger.component.ActivityComponent
 import starbright.com.projectegg.data.model.Ingredient
@@ -48,7 +45,6 @@ class RecipeDetailActivity : BaseActivity<RecipeDetailContract.View, RecipeDetai
         activityComponent.inject(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        StatusBarUtil.setTranslucentForImageViewInFragment(this, null)
         setToolbarBehavior(
             NormalToolbar(
                 WeakReference(this), R.id.toolbar, UNKNOWN_RESOURCE
@@ -58,7 +54,7 @@ class RecipeDetailActivity : BaseActivity<RecipeDetailContract.View, RecipeDetai
         presenter.getRecipeDetailInformation(recipeId)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.recipe_detail_menu, menu)
         menu?.findItem(R.id.menu_favorite)?.apply {
             if (isBookmarked) {
@@ -70,8 +66,8 @@ class RecipeDetailActivity : BaseActivity<RecipeDetailContract.View, RecipeDetai
         return super.onCreateOptionsMenu(menu)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        return when (item?.itemId) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
             R.id.menu_share -> {
                 presenter.handleShareMenuClicked()
                 true
@@ -89,40 +85,40 @@ class RecipeDetailActivity : BaseActivity<RecipeDetailContract.View, RecipeDetai
     }
 
     override fun showProgressBar() {
-        swipe_refresh_container.isRefreshing = true
+//        swipe_refresh_container.isRefreshing = true
     }
 
     override fun hideProgressBar() {
-        swipe_refresh_container.isRefreshing = false
+//        swipe_refresh_container.isRefreshing = false
     }
 
     override fun hideScrollContainer() {
-        scroll_container.visibility = View.GONE
+//        scroll_container.visibility = View.GONE
     }
 
     override fun showScrollContainer() {
-        scroll_container.visibility = View.VISIBLE
+//        scroll_container.visibility = View.VISIBLE
     }
 
     override fun hideEmptyView() {
-        layout_empty.visibility = View.GONE
+//        layout_empty.visibility = View.GONE
     }
 
     override fun renderErrorView(errorMessage: String) {
-        layout_empty.visibility = View.VISIBLE
+//        layout_empty.visibility = View.VISIBLE
     }
 
     override fun renderEmptyView() {
-        layout_empty.visibility = View.VISIBLE
+//        layout_empty.visibility = View.VISIBLE
     }
 
     override fun renderBannerFoodImage(imageURL: String) {
-        img_banner_food.visibility = View.VISIBLE
-        GlideApp.with(this)
-            .load(imageURL)
-            .diskCacheStrategy(DiskCacheStrategy.ALL)
-            .centerCrop()
-            .into(img_banner_food)
+//        img_banner_food.visibility = View.VISIBLE
+//        GlideApp.with(this)
+//            .load(imageURL)
+//            .diskCacheStrategy(DiskCacheStrategy.ALL)
+//            .centerCrop()
+//            .into(img_banner_food)
     }
 
     override fun renderHeaderContainer(
@@ -132,11 +128,11 @@ class RecipeDetailActivity : BaseActivity<RecipeDetailContract.View, RecipeDetai
         dishType: String,
         calories: Int
     ) {
-        tv_calories.text = getString(R.string.recipe_list_calories_title, calories)
-        tv_dish.text = dishType
-        tv_recipe_title.text = recipeName
-        tv_plater.text = getString(R.string.detail_serving_format, serving)
-        tv_cook_time.text = getString(R.string.detail_time_format, cookingMinutes)
+//        tv_calories.text = getString(R.string.recipe_list_calories_title, calories)
+//        tv_dish.text = dishType
+//        tv_recipe_title.text = recipeName
+//        tv_plater.text = getString(R.string.detail_serving_format, serving)
+//        tv_cook_time.text = getString(R.string.detail_time_format, cookingMinutes)
     }
 
     override fun renderIngredientsList(ingredients: MutableList<Ingredient>) {
@@ -144,14 +140,14 @@ class RecipeDetailActivity : BaseActivity<RecipeDetailContract.View, RecipeDetai
             this,
             ingredients.map { it.name }
         )
-        rv_ingredient.let {
-            it.isNestedScrollingEnabled = false
-            it.layoutManager = LinearLayoutManager(
-                this,
-                LinearLayoutManager.VERTICAL, false
-            )
-            it.adapter = adapter
-        }
+//        rv_ingredient.let {
+//            it.isNestedScrollingEnabled = false
+//            it.layoutManager = LinearLayoutManager(
+//                this,
+//                LinearLayoutManager.VERTICAL, false
+//            )
+//            it.adapter = adapter
+//        }
     }
 
     override fun renderInstructionsList(instructions: MutableList<Instruction>) {
@@ -168,23 +164,23 @@ class RecipeDetailActivity : BaseActivity<RecipeDetailContract.View, RecipeDetai
             this,
             formattedInstructions
         )
-        rv_instruction?.let {
-            it.isNestedScrollingEnabled = false
-            it.layoutManager = LinearLayoutManager(
-                this,
-                LinearLayoutManager.VERTICAL, false
-            )
-            it.adapter = adapter
-        }
+//        rv_instruction?.let {
+//            it.isNestedScrollingEnabled = false
+//            it.layoutManager = LinearLayoutManager(
+//                this,
+//                LinearLayoutManager.VERTICAL, false
+//            )
+//            it.adapter = adapter
+//        }
     }
 
     override fun setupSwipeRefreshLayout() {
-        swipe_refresh_container.let {
-            it.setColorSchemeColors(ContextCompat.getColor(this, R.color.red))
-            it.setOnRefreshListener {
-                presenter.getRecipeDetailInformation(recipeId)
-            }
-        }
+//        swipe_refresh_container.let {
+//            it.setColorSchemeColors(ContextCompat.getColor(this, R.color.red))
+//            it.setOnRefreshListener {
+//                presenter.getRecipeDetailInformation(recipeId)
+//            }
+//        }
     }
 
     override fun createShareIntent(url: String, recipeName: String) {
@@ -200,7 +196,7 @@ class RecipeDetailActivity : BaseActivity<RecipeDetailContract.View, RecipeDetai
     }
 
     override fun showSnackbar(text: Int) {
-        Snackbar.make(root_layout, text, Snackbar.LENGTH_SHORT).show()
+//        Snackbar.make(root_layout, text, Snackbar.LENGTH_SHORT).show()
     }
 
     override fun updateMenu(bookmarked: Boolean) {
@@ -216,5 +212,9 @@ class RecipeDetailActivity : BaseActivity<RecipeDetailContract.View, RecipeDetai
                 it.putExtra(RECIPE_ID_EXTRA_KEY, recipeId)
             }
         }
+    }
+
+    override fun bindActivity() {
+        TODO("Not yet implemented")
     }
 }

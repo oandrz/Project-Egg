@@ -28,7 +28,6 @@ class IngredientsPresenter @Inject constructor(
     schedulerProvider: SchedulerProviderContract,
     compositeDisposable: CompositeDisposable,
     networkHelper: NetworkHelper,
-    private val compressor: Compressor,
     private val repository: AppRepository,
     private val ingredientRecognizer: IngredientRecognizer
 ) : BasePresenter<IngredientsContract.View>(schedulerProvider, compositeDisposable, networkHelper),
@@ -142,30 +141,30 @@ class IngredientsPresenter @Inject constructor(
 
     override fun handleCameraResult(filePath: String) {
         view.showMaterialProgressDialog()
-        ingredientRecognizer.predict(compressor.compressToFile(File(filePath)), {
-            view.run {
-                hideMaterialProgressDialog()
-                if (it.isEmpty()) {
-                    showPredictionEmptyToast()
-                } else {
-                    it.split(Constants.COMMA.toRegex()).forEach { ingredient ->
-                        val isIngredientIncluded: Boolean = cart.asSequence()
-                            .map { it.name }
-                            .any { it == ingredient }
-                        if (!isIngredientIncluded) {
-                            cart.add(Ingredient(ingredient))
-                        }
-                    }
-                    updateIngredientCount(cart.size)
-                    showItemAddedToast()
-                }
-            }
-        }, {
-            view.run {
-                hideMaterialProgressDialog()
-                showPredictionEmptyToast()
-            }
-        })
+//        ingredientRecognizer.predict(Compressor.compress(File(filePath)), {
+//            view.run {
+//                hideMaterialProgressDialog()
+//                if (it.isEmpty()) {
+//                    showPredictionEmptyToast()
+//                } else {
+//                    it.split(Constants.COMMA.toRegex()).forEach { ingredient ->
+//                        val isIngredientIncluded: Boolean = cart.asSequence()
+//                            .map { it.name }
+//                            .any { it == ingredient }
+//                        if (!isIngredientIncluded) {
+//                            cart.add(Ingredient(ingredient))
+//                        }
+//                    }
+//                    updateIngredientCount(cart.size)
+//                    showItemAddedToast()
+//                }
+//            }
+//        }, {
+//            view.run {
+//                hideMaterialProgressDialog()
+//                showPredictionEmptyToast()
+//            }
+//        })
     }
 
     companion object {

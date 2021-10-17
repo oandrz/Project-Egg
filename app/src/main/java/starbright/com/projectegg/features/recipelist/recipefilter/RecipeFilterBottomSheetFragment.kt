@@ -10,13 +10,11 @@ import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.chip.Chip
 import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.adapters.ItemAdapter
-import kotlinx.android.synthetic.main.sheet_filter_recipe.*
 import starbright.com.projectegg.R
 import starbright.com.projectegg.view.BottomSheetHeader
 import starbright.com.projectegg.view.FooterSubmitButton
@@ -62,11 +60,11 @@ class RecipeFilterBottomSheetFragment: BottomSheetDialogFragment() {
                 dismiss()
             })
         }
-        rv_filter.run {
-            itemAnimator = DefaultItemAnimator()
-            layoutManager = linearLayoutManager
-            adapter = fastAdapter
-        }
+//        rv_filter.run {
+//            itemAnimator = DefaultItemAnimator()
+//            layoutManager = linearLayoutManager
+//            adapter = fastAdapter
+//        }
         headerItemAdapter.add(BottomSheetHeader(getString(R.string.recipelist_sortfilter_filter_title)))
 
         bodyItemAdapter.add(

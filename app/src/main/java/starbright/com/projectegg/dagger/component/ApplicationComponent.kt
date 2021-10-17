@@ -33,7 +33,6 @@ import javax.inject.Singleton
 interface ApplicationComponent {
     fun getSchedulerProvider(): SchedulerProviderContract
     fun getCompositeDiposable(): CompositeDisposable
-    fun getCompressor(): Compressor
     fun getNetworkHelper(): NetworkHelper
     fun getAppRepository(): AppRepository
     fun getClient(): OkHttpClient

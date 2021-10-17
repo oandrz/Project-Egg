@@ -5,13 +5,23 @@
 
 package starbright.com.projectegg.view
 
+import android.content.Context
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.items.AbstractItem
-import kotlinx.android.synthetic.main.layout_home_header_holder.view.*
 import starbright.com.projectegg.R
+import starbright.com.projectegg.databinding.LayoutHomeHeaderHolderBinding
 
 class RecipeHeader(private var title: String) : AbstractItem<RecipeHeader.ViewHolder>() {
+
+    private var binding: LayoutHomeHeaderHolderBinding? = null
+
+    override fun createView(ctx: Context, parent: ViewGroup?): View {
+        binding = LayoutHomeHeaderHolderBinding.inflate(LayoutInflater.from(ctx), parent, false)
+        return binding!!.root
+    }
 
     /** The layout for the given item */
     override val layoutRes: Int
@@ -26,15 +36,15 @@ class RecipeHeader(private var title: String) : AbstractItem<RecipeHeader.ViewHo
      *
      * @return the ViewHolder for this Item
      */
-    override fun getViewHolder(v: View): ViewHolder = ViewHolder(v)
+    override fun getViewHolder(v: View): ViewHolder = ViewHolder(binding!!)
 
-    inner class ViewHolder(itemVIew: View) : FastAdapter.ViewHolder<RecipeHeader>(itemVIew) {
+    inner class ViewHolder(binding: LayoutHomeHeaderHolderBinding) : FastAdapter.ViewHolder<RecipeHeader>(binding.root) {
         override fun bindView(item: RecipeHeader, payloads: List<Any>) {
-            itemView.tv_header.text = item.title
+            binding?.tvHeader?.text = item.title
         }
 
         override fun unbindView(item: RecipeHeader) {
-            itemView.tv_header.text = null
+            binding?.tvHeader?.text = null
         }
     }
 }

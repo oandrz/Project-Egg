@@ -13,7 +13,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import io.reactivex.annotations.NonNull
-import kotlinx.android.synthetic.main.partial_bottom_sheet.*
 import starbright.com.projectegg.R
 import starbright.com.projectegg.data.model.Ingredient
 
@@ -32,9 +31,9 @@ class CartBottomSheetDialogFragment : BottomSheetDialogFragment() {
 
     override fun onViewCreated(@NonNull view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        btn_submit.setOnClickListener {
-            sheetListener?.submitButtonClicked()
-        }
+//        btn_submit.setOnClickListener {
+//            sheetListener?.submitButtonClicked()
+//        }
         setupRvIngredientCart()
         updateButtonView()
     }
@@ -54,12 +53,12 @@ class CartBottomSheetDialogFragment : BottomSheetDialogFragment() {
             }
         }
 
-        rv_ingredients_cart.let {
-            it.layoutManager = GridLayoutManager(activity, calculateColumns())
-            it.adapter = adapter
-        }
-
-        tv_empty.visibility = if (cart.isEmpty()) View.VISIBLE else View.GONE
+//        rv_ingredients_cart.let {
+//            it.layoutManager = GridLayoutManager(activity, calculateColumns())
+//            it.adapter = adapter
+//        }
+//
+//        tv_empty.visibility = if (cart.isEmpty()) View.VISIBLE else View.GONE
     }
 
     private fun calculateColumns(): Int {
@@ -76,11 +75,11 @@ class CartBottomSheetDialogFragment : BottomSheetDialogFragment() {
 
     private fun updateList() {
         adapter.notifyDataSetChanged()
-        tv_empty.visibility = if (cart.isEmpty()) View.VISIBLE else View.GONE
+//        tv_empty.visibility = if (cart.isEmpty()) View.VISIBLE else View.GONE
     }
 
     private fun updateButtonView() {
-        btn_submit.isEnabled = cart.isNotEmpty()
+//        btn_submit.isEnabled = cart.isNotEmpty()
     }
 
     interface SheetListener {

@@ -22,15 +22,12 @@ import android.widget.Toast
 import androidx.core.content.FileProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.afollestad.materialdialogs.MaterialDialog
-import kotlinx.android.synthetic.main.activity_ingredients.*
-import kotlinx.android.synthetic.main.layout_ingredient_search_view.*
 import permissions.dispatcher.NeedsPermission
 import permissions.dispatcher.RuntimePermissions
 import starbright.com.projectegg.BuildConfig
 import starbright.com.projectegg.R
 import starbright.com.projectegg.dagger.component.ActivityComponent
 import starbright.com.projectegg.data.model.Ingredient
-import starbright.com.projectegg.features.ads.AdsActivity
 import starbright.com.projectegg.features.base.BaseActivity
 import starbright.com.projectegg.features.recipelist.RecipeListActivity
 import starbright.com.projectegg.util.Constants
@@ -79,13 +76,13 @@ class IngredientsActivity : BaseActivity<IngredientsContract.View,
     }
 
     override fun setupView() {
-        et_search_ingredients.imeOptions = EditorInfo.IME_ACTION_DONE
-        tv_title.setOnClickListener {
-            presenter.handleTvTitleClicked()
-        }
-        iv_back.setOnClickListener {
-            finish()
-        }
+//        et_search_ingredients.imeOptions = EditorInfo.IME_ACTION_DONE
+//        tv_title.setOnClickListener {
+//            presenter.handleTvTitleClicked()
+//        }
+//        iv_back.setOnClickListener {
+//            finish()
+//        }
         setupEtSearchIngredients()
         setupRvIngredientSuggestion()
         setupMaterialProgressDialog()
@@ -94,15 +91,15 @@ class IngredientsActivity : BaseActivity<IngredientsContract.View,
     }
 
     private fun setupEtSearchIngredients() {
-        et_search_ingredients.addTextChangedListener(mIngredientsTextWatcher)
+//        et_search_ingredients.addTextChangedListener(mIngredientsTextWatcher)
     }
 
     private fun setupRvIngredientSuggestion() {
         setupIngredientsRecyclerAdapter()
-        rv_ingredients.let {
-            it.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-            it.adapter = searchSuggestionAdapter
-        }
+//        rv_ingredients.let {
+//            it.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+//            it.adapter = searchSuggestionAdapter
+//        }
     }
 
     private fun setupIngredientsRecyclerAdapter() {
@@ -120,19 +117,19 @@ class IngredientsActivity : BaseActivity<IngredientsContract.View,
     }
 
     private fun setupImageActionButton() {
-        img_action_button.setOnClickListener {
-            presenter.handleActionButtonClicked(et_search_ingredients.text.toString())
-        }
+//        img_action_button.setOnClickListener {
+//            presenter.handleActionButtonClicked(et_search_ingredients.text.toString())
+//        }
     }
 
     private fun setupTvCartCount() {
-        chip_basket.setOnClickListener {
-            presenter.handleCartTvClicked()
-        }
+//        chip_basket.setOnClickListener {
+//            presenter.handleCartTvClicked()
+//        }
     }
 
     override fun clearEtSearchQuery() {
-        et_search_ingredients.setText("")
+//        et_search_ingredients.setText("")
     }
 
     override fun openCamera() {
@@ -140,38 +137,38 @@ class IngredientsActivity : BaseActivity<IngredientsContract.View,
     }
 
     override fun updateSuggestion(ingredients: List<Ingredient>) {
-        rv_ingredients.visibility = View.VISIBLE
+//        rv_ingredients.visibility = View.VISIBLE
         searchSuggestionAdapter.setIngredients(ingredients)
     }
 
     override fun hideSearchSuggestion() {
-        rv_ingredients.visibility = View.GONE
+//        rv_ingredients.visibility = View.GONE
     }
 
     override fun showActionCamera() {
-        img_action_button.apply {
-            visibility = View.VISIBLE
-            setImageResource(R.drawable.ic_camera)
-        }
+//        img_action_button.apply {
+//            visibility = View.VISIBLE
+//            setImageResource(R.drawable.ic_camera)
+//        }
     }
 
     override fun showActionClear() {
-        img_action_button.apply {
-            visibility = View.VISIBLE
-            setImageResource(R.drawable.ic_clear)
-        }
+//        img_action_button.apply {
+//            visibility = View.VISIBLE
+//            setImageResource(R.drawable.ic_clear)
+//        }
     }
 
     override fun hideActionButton() {
-        img_action_button.visibility = View.GONE
+//        img_action_button.visibility = View.GONE
     }
 
     override fun showSuggestionProgressBar() {
-        suggestion_progress_bar.visibility = View.VISIBLE
+//        suggestion_progress_bar.visibility = View.VISIBLE
     }
 
     override fun hideSuggestionProgressBar() {
-        suggestion_progress_bar.visibility = View.GONE
+//        suggestion_progress_bar.visibility = View.GONE
     }
 
     override fun showItemEmptyToast() {
@@ -246,12 +243,12 @@ class IngredientsActivity : BaseActivity<IngredientsContract.View,
     }
 
     override fun updateIngredientCount(count: Int) {
-        chip_basket.visibility = if (count > 0) {
-            View.VISIBLE
-        } else {
-            View.GONE
-        }
-        chip_basket.text = String.format(getString(R.string.ingredients_cart_label_format), count)
+//        chip_basket.visibility = if (count > 0) {
+//            View.VISIBLE
+//        } else {
+//            View.GONE
+//        }
+//        chip_basket.text = String.format(getString(R.string.ingredients_cart_label_format), count)
     }
 
     override fun navigateToRecipeList(cart: List<Ingredient>) {
@@ -259,7 +256,7 @@ class IngredientsActivity : BaseActivity<IngredientsContract.View,
     }
 
     override fun navigateToIncomePage() {
-        startActivity(AdsActivity.newIntent(this))
+//        startActivity(AdsActivity.newIntent(this))
     }
 
     override fun onRequestPermissionsResult(
@@ -306,5 +303,9 @@ class IngredientsActivity : BaseActivity<IngredientsContract.View,
         private const val CAMERA_REQUEST_CODE: Int = 101
 
         fun newIntent(context: Context): Intent = Intent(context, IngredientsActivity::class.java)
+    }
+
+    override fun bindActivity() {
+        TODO("Not yet implemented")
     }
 }

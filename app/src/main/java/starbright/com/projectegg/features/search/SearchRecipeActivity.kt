@@ -16,7 +16,6 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.adapters.ItemAdapter
-import kotlinx.android.synthetic.main.activity_search_recipe.*
 import starbright.com.projectegg.R
 import starbright.com.projectegg.dagger.component.ActivityComponent
 import starbright.com.projectegg.data.model.Recipe
@@ -90,19 +89,19 @@ class SearchRecipeActivity : BaseActivity<SearchRecipeContract.View, SearchRecip
     }
 
     override fun setupView() {
-        fab_search_ingredient.setOnClickListener {
-            startActivity(IngredientsActivity.newIntent(this))
-        }
+//        fab_search_ingredient.setOnClickListener {
+//            startActivity(IngredientsActivity.newIntent(this))
+//        }
         setupList()
     }
 
     override fun showLoading() {
-        view_loading.visibility = View.VISIBLE
-        rv_search_history.visibility = View.GONE
+//        view_loading.visibility = View.VISIBLE
+//        rv_search_history.visibility = View.GONE
     }
 
     override fun hideLoading() {
-        view_loading.visibility = View.GONE
+//        view_loading.visibility = View.GONE
     }
 
     override fun renderRecipeSuggestion(recipes: List<Recipe>) {
@@ -170,14 +169,18 @@ class SearchRecipeActivity : BaseActivity<SearchRecipeContract.View, SearchRecip
                 true
             }
         }
-        rv_search_history?.run {
-            itemAnimator = DefaultItemAnimator()
-            layoutManager = linearLayoutManager
-            adapter = fastAdapter
-        }
+//        rv_search_history?.run {
+//            itemAnimator = DefaultItemAnimator()
+//            layoutManager = linearLayoutManager
+//            adapter = fastAdapter
+//        }
     }
 
     companion object {
         fun newIntent(context: Context) = Intent(context, SearchRecipeActivity::class.java)
+    }
+
+    override fun bindActivity() {
+        TODO("Not yet implemented")
     }
 }

@@ -9,7 +9,6 @@ import android.view.View
 import com.google.android.material.chip.Chip
 import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.items.AbstractItem
-import kotlinx.android.synthetic.main.item_header_with_chip.view.*
 import starbright.com.projectegg.R
 
 class HeaderWithChipsItem(
@@ -37,19 +36,19 @@ class HeaderWithChipsItem(
         /** Binds the data of this item onto the viewHolder */
         override fun bindView(item: HeaderWithChipsItem, payloads: List<Any>) {
             itemView.run {
-                tv_title.text = item.title
-                item.collection.forEachIndexed { index, chip ->
-                    group_filter.addView(chip)
-                }
+//                tv_title.text = item.title
+//                item.collection.forEachIndexed { index, chip ->
+//                    group_filter.addView(chip)
+//                }
             }
         }
 
         /** View needs to release resources when its recycled */
         override fun unbindView(item: HeaderWithChipsItem) {
-            itemView.run {
-                tv_title.text = null
-                group_filter.removeAllViews()
-            }
+//            itemView.run {
+//                tv_title.text = null
+//                group_filter.removeAllViews()
+//            }
         }
     }
 }

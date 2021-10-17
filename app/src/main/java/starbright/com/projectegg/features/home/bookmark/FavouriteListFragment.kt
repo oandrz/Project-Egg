@@ -13,8 +13,6 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.adapters.ItemAdapter
-import kotlinx.android.synthetic.main.fragment_favourite.*
-import kotlinx.android.synthetic.main.layout_error_state.*
 import starbright.com.projectegg.R
 import starbright.com.projectegg.dagger.component.FragmentComponent
 import starbright.com.projectegg.data.model.Recipe
@@ -57,28 +55,28 @@ class FavouriteListFragment : BaseFragment<FavouriteListContract.View, Favourite
     }
 
     override fun renderList(favouriteRecipes: List<Recipe>) {
-        Handler().post {
-            rv_favourite.visibility = View.VISIBLE
-            layout_error.visibility = View.GONE
-            recipeBodyAdapter.setNewList(favouriteRecipes.map {
-                RecipeItem(it)
-            })
-        }
+//        Handler().post {
+//            rv_favourite.visibility = View.VISIBLE
+//            layout_error.visibility = View.GONE
+//            recipeBodyAdapter.setNewList(favouriteRecipes.map {
+//                RecipeItem(it)
+//            })
+//        }
     }
 
     override fun renderEmptyView() {
-        rv_favourite.visibility = View.GONE
-        layout_error.visibility = View.VISIBLE
-        activity?.let {
-            iv_fail_image.setImageDrawable(ContextCompat.getDrawable(it, R.drawable.ic_empty_box))
-        }
-        tv_fail_title.text = getString(R.string.error_title_empty_favorite)
-        tv_fail_description.text = getString(R.string.error_desc_empty_favorite)
+//        rv_favourite.visibility = View.GONE
+//        layout_error.visibility = View.VISIBLE
+//        activity?.let {
+//            iv_fail_image.setImageDrawable(ContextCompat.getDrawable(it, R.drawable.ic_empty_box))
+//        }
+//        tv_fail_title.text = getString(R.string.error_title_empty_favorite)
+//        tv_fail_description.text = getString(R.string.error_desc_empty_favorite)
     }
 
     private fun setupToolbar() {
         with((activity as AppCompatActivity)) {
-            setSupportActionBar(toolbar)
+//            setSupportActionBar(toolbar)
             supportActionBar?.title = resources.getString(R.string.favourite_text_title_toolbar)
         }
     }
@@ -92,11 +90,11 @@ class FavouriteListFragment : BaseFragment<FavouriteListContract.View, Favourite
                 false
             }
         }
-        rv_favourite.apply {
-            itemAnimator = DefaultItemAnimator()
-            layoutManager = linearLayoutManager
-            adapter = fastAdapter
-        }
+//        rv_favourite.apply {
+//            itemAnimator = DefaultItemAnimator()
+//            layoutManager = linearLayoutManager
+//            adapter = fastAdapter
+//        }
     }
 
     companion object {

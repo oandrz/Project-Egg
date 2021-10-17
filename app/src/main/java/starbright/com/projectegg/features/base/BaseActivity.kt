@@ -8,10 +8,10 @@ package starbright.com.projectegg.features.base
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
-import com.google.android.gms.ads.MobileAds
 
 import starbright.com.projectegg.MyApp
 import starbright.com.projectegg.dagger.component.ActivityComponent
@@ -29,14 +29,11 @@ abstract class BaseActivity<V : BaseViewContract, P : BasePresenter<V>> : AppCom
     override fun onCreate(savedInstanceState: Bundle?) {
         injectDependencies(buildComponent())
         super.onCreate(savedInstanceState)
-        setContentView(getLayoutRes())
+        bindActivity()
         setToolbarIfExist()
         presenter.run {
             attachView(getView())
             onCreateScreen()
-        }
-        MobileAds.initialize(this) {
-            Log.v("Ads initialization","Success")
         }
     }
 
@@ -67,8 +64,8 @@ abstract class BaseActivity<V : BaseViewContract, P : BasePresenter<V>> : AppCom
         else super.onBackPressed()
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when (item?.itemId) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
             android.R.id.home -> finish()
         }
         return true
@@ -88,6 +85,8 @@ abstract class BaseActivity<V : BaseViewContract, P : BasePresenter<V>> : AppCom
     protected abstract fun getLayoutRes(): Int
 
     protected abstract fun getView(): V
+
+    protected abstract fun bindActivity()
 
     protected abstract fun injectDependencies(activityComponent: ActivityComponent)
 }

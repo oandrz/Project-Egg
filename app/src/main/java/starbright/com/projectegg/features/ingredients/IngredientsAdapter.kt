@@ -15,7 +15,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import kotlinx.android.synthetic.main.item_single_with_image.view.*
 
 import starbright.com.projectegg.R
 import starbright.com.projectegg.data.model.Ingredient
@@ -52,12 +51,12 @@ internal class IngredientsAdapter(private val context: Context) : RecyclerView.A
     internal inner class IngredientViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         fun bind(ingredient: Ingredient) {
-            itemView.tv_ingredient.text = ingredient.name
-            GlideApp.with(context)
-                .load(ingredient.imageUrl)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .centerCrop()
-                .into(itemView.iv_ingredient)
+//            itemView.tv_ingredient.text = ingredient.name
+//            GlideApp.with(context)
+//                .load(ingredient.imageUrl)
+//                .diskCacheStrategy(DiskCacheStrategy.ALL)
+//                .centerCrop()
+//                .into(itemView.iv_ingredient)
         }
     }
 }

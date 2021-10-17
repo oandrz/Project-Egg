@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.items.AbstractItem
 import com.mikepenz.fastadapter.listeners.ClickEventHook
-import kotlinx.android.synthetic.main.item_footer_submit_button.view.*
 import starbright.com.projectegg.R
 
 class FooterSubmitButton(
@@ -35,7 +34,7 @@ class FooterSubmitButton(
     inner class ViewHolder(itemView: View) : FastAdapter.ViewHolder<FooterSubmitButton>(itemView) {
         /** Binds the data of this item onto the viewHolder */
         override fun bindView(item: FooterSubmitButton, payloads: List<Any>) {
-            itemView.btn_submit.text = item.title
+//            itemView.btn_submit.text = item.title
         }
 
         /** View needs to release resources when its recycled */
@@ -48,7 +47,7 @@ class FooterSubmitButton(
     ): ClickEventHook<FooterSubmitButton>() {
         override fun onBind(viewHolder: RecyclerView.ViewHolder): View? {
             return if (viewHolder is ViewHolder) {
-                viewHolder.itemView.btn_submit
+                viewHolder.itemView
             } else super.onBind(viewHolder)
         }
 

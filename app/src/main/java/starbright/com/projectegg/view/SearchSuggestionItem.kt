@@ -9,7 +9,6 @@ import android.view.View
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.items.AbstractItem
-import kotlinx.android.synthetic.main.item_single_with_image.view.*
 import starbright.com.projectegg.R
 import starbright.com.projectegg.data.model.Recipe
 import starbright.com.projectegg.util.GlideApp
@@ -38,20 +37,20 @@ class SearchSuggestionItem(val recipe: Recipe) : AbstractItem<SearchSuggestionIt
         /** Binds the data of this item onto the viewHolder */
         override fun bindView(item: SearchSuggestionItem, payloads: List<Any>) {
             itemView.apply {
-                tv_ingredient.text = item.recipe.title
-                GlideApp.with(context)
-                    .load(item.recipe.image)
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .centerCrop()
-                    .into(iv_ingredient)
+//                tv_ingredient.text = item.recipe.title
+//                GlideApp.with(context)
+//                    .load(item.recipe.image)
+//                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+//                    .centerCrop()
+//                    .into(iv_ingredient)
             }
         }
 
         /** View needs to release resources when its recycled */
         override fun unbindView(item: SearchSuggestionItem) {
             itemView.apply {
-                tv_ingredient.text = null
-                iv_ingredient.setImageDrawable(null)
+//                tv_ingredient.text = null
+//                iv_ingredient.setImageDrawable(null)
             }
         }
     }

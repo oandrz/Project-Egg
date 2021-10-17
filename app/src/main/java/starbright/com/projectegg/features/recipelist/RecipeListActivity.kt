@@ -10,6 +10,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.view.View
+import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,15 +18,13 @@ import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.adapters.ItemAdapter
 import com.mikepenz.fastadapter.scroll.EndlessRecyclerOnScrollListener
 import com.mikepenz.fastadapter.ui.items.ProgressItem
-import kotlinx.android.synthetic.main.activity_recipe_list.*
-import kotlinx.android.synthetic.main.layout_error_state.*
-import kotlinx.android.synthetic.main.widget_floating_filter_sort.*
 import starbright.com.projectegg.R
 import starbright.com.projectegg.dagger.component.ActivityComponent
 import starbright.com.projectegg.data.RecipeConfig
 import starbright.com.projectegg.data.model.Ingredient
 import starbright.com.projectegg.data.model.Recipe
 import starbright.com.projectegg.data.model.SortOption
+import starbright.com.projectegg.databinding.ActivityRecipeListBinding
 import starbright.com.projectegg.enum.RecipeSortCategory
 import starbright.com.projectegg.features.base.BaseActivity
 import starbright.com.projectegg.features.base.NormalToolbar
@@ -38,6 +37,8 @@ import java.lang.ref.WeakReference
 
 class RecipeListActivity : BaseActivity<RecipeListContract.View, RecipeListPresenter>(),
     RecipeListContract.View {
+
+    private lateinit var binding: ActivityRecipeListBinding
 
     private val recipeBodyAdapter: ItemAdapter<RecipeItem> by lazy {
         ItemAdapter<RecipeItem>()
@@ -66,8 +67,6 @@ class RecipeListActivity : BaseActivity<RecipeListContract.View, RecipeListPrese
         super.onCreate(savedInstanceState)
     }
 
-    override fun getLayoutRes(): Int = R.layout.activity_recipe_list
-
     override fun injectDependencies(activityComponent: ActivityComponent) =
         activityComponent.inject(this)
 
@@ -75,12 +74,14 @@ class RecipeListActivity : BaseActivity<RecipeListContract.View, RecipeListPrese
 
     override fun setupView() {
         setupRecyclerView()
-        tv_sort.setOnClickListener {
-            presenter.handleSortActionClicked()
-        }
+        binding.fabSortFilter.run {
+            tvSort.setOnClickListener {
+                presenter.handleSortActionClicked()
+            }
 
-        tv_filter.setOnClickListener {
-            presenter.handleFilterActionClicked()
+            tvFilter.setOnClickListener {
+                presenter.handleFilterActionClicked()
+            }
         }
     }
 
@@ -95,7 +96,7 @@ class RecipeListActivity : BaseActivity<RecipeListContract.View, RecipeListPrese
 
     override fun appendRecipes(recipes: List<Recipe>) {
         Handler().post {
-            rv_recipe.visibility = View.VISIBLE
+            binding.rvRecipe.visibility = View.VISIBLE
             recipeFooterAdapter.clear()
             recipes.map {
                 recipeBodyAdapter.add(RecipeItem(it))
@@ -146,31 +147,35 @@ class RecipeListActivity : BaseActivity<RecipeListContract.View, RecipeListPrese
     }
 
     override fun hideFilterButton() {
-        fab_sort_filter.visibility = View.GONE
+        binding.fabSortFilter.root.visibility = View.GONE
     }
 
     override fun showFilterButton() {
-        fab_sort_filter.visibility = View.VISIBLE
+        binding.fabSortFilter.root.visibility = View.VISIBLE
     }
 
     override fun showResultEmptyState() {
-        rv_recipe.visibility = View.GONE
-        layout_error.visibility = View.VISIBLE
-        iv_fail_image.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_empty_box))
-        tv_fail_title.text = getString(R.string.error_title_empty_recipe)
-        tv_fail_description.text = getString(R.string.error_desc_empty_recipe)
+        binding.rvRecipe.visibility = View.GONE
+        binding.layoutError.run {
+            root.visibility = View.VISIBLE
+            ivFailImage.setImageDrawable(ContextCompat.getDrawable(this@RecipeListActivity, R.drawable.ic_empty_box))
+            tvFailTitle.text = getString(R.string.error_title_empty_recipe)
+            tvFailDescription.text = getString(R.string.error_desc_empty_recipe)
+        }
     }
 
     override fun showErrorState() {
-        rv_recipe.visibility = View.GONE
-        layout_error.visibility = View.VISIBLE
-        iv_fail_image.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_error))
-        tv_fail_title.text = getString(R.string.error_title_system)
-        tv_fail_description.text = getString(R.string.error_desc_system)
+        binding.rvRecipe.visibility = View.GONE
+        binding.layoutError.run {
+            root.visibility = View.VISIBLE
+            ivFailImage.setImageDrawable(ContextCompat.getDrawable(this@RecipeListActivity, R.drawable.ic_error))
+            tvFailTitle.text = getString(R.string.error_title_system)
+            tvFailDescription.text = getString(R.string.error_desc_system)
+        }
     }
 
     override fun disableLoadMore() {
-        rv_recipe.clearOnScrollListeners()
+        binding.rvRecipe.clearOnScrollListeners()
     }
 
     override fun hideFooterLoading() {
@@ -189,7 +194,7 @@ class RecipeListActivity : BaseActivity<RecipeListContract.View, RecipeListPrese
             }
         }
 
-        rv_recipe.run {
+        binding.rvRecipe.run {
             layoutManager = LinearLayoutManager(
                 this@RecipeListActivity, LinearLayoutManager.VERTICAL, false
             )
@@ -211,5 +216,12 @@ class RecipeListActivity : BaseActivity<RecipeListContract.View, RecipeListPrese
                 it.putExtra(QUERY_EXTRA_KEY, query)
             }
         }
+    }
+
+    override fun getLayoutRes(): Int  = -1
+
+    override fun bindActivity() {
+        binding = ActivityRecipeListBinding.inflate(layoutInflater)
+        setContentView(binding.root)
     }
 }
