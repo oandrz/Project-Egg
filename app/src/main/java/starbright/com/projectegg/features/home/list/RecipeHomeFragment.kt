@@ -6,11 +6,10 @@
 package starbright.com.projectegg.features.home.list
 
 import android.os.Bundle
-import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mikepenz.fastadapter.FastAdapter
@@ -21,13 +20,22 @@ import starbright.com.projectegg.R
 import starbright.com.projectegg.dagger.component.FragmentComponent
 import starbright.com.projectegg.data.model.Recipe
 import starbright.com.projectegg.databinding.FragmentRecipeHomeBinding
-import starbright.com.projectegg.features.base.BaseFragment
+import starbright.com.projectegg.features.base.BaseFragmentRevamped
 import starbright.com.projectegg.features.detail.RecipeDetailActivity
+import starbright.com.projectegg.features.home.list.RecipeHomeViewModel.RecipeHomeFragmentState.*
 import starbright.com.projectegg.features.search.SearchRecipeActivity
 import starbright.com.projectegg.view.RecipeHeader
 import starbright.com.projectegg.view.RecipeItem
+import javax.inject.Inject
 
-class RecipeHomeFragment: BaseFragment<RecipeHomeContract.View, RecipeHomePresenter>(), RecipeHomeContract.View {
+class RecipeHomeFragment: BaseFragmentRevamped() {
+
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+
+    private val viewModel: RecipeHomeViewModel by lazy {
+        ViewModelProvider(this, viewModelFactory).get(RecipeHomeViewModel::class.java)
+    }
 
     private var binding: FragmentRecipeHomeBinding? = null
 
@@ -43,13 +51,28 @@ class RecipeHomeFragment: BaseFragment<RecipeHomeContract.View, RecipeHomePresen
         ItemAdapter<RecipeHeader>()
     }
 
-    private val recipeFooterAdpter: ItemAdapter<ProgressItem> by lazy {
+    private val recipeFooterAdapter: ItemAdapter<ProgressItem> by lazy {
         ItemAdapter<ProgressItem>()
     }
+
+    private val endlessScrollListener: EndlessRecyclerOnScrollListener =
+        object : EndlessRecyclerOnScrollListener(recipeFooterAdapter) {
+            override fun onLoadMore(currentPage: Int) {
+                viewModel.handleLoadMore(currentPage)
+            }
+        }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentRecipeHomeBinding.inflate(inflater, container, false)
         return binding?.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setupList()
+        setupSearchView()
+        setupObserver()
+        viewModel.refresh()
     }
 
     override fun onDestroyView() {
@@ -57,21 +80,21 @@ class RecipeHomeFragment: BaseFragment<RecipeHomeContract.View, RecipeHomePresen
         super.onDestroyView()
     }
 
-    private val endlessScrollListener: EndlessRecyclerOnScrollListener =
-        object : EndlessRecyclerOnScrollListener(recipeFooterAdpter) {
-            override fun onLoadMore(currentPage: Int) {
-                presenter.handleLoadMore(currentPage)
-            }
-        }
-
-    override fun getLayoutRes(): Int = R.layout.fragment_recipe_home
-
     override fun injectDependencies(fragmentComponent: FragmentComponent) =
         fragmentComponent.inject(this)
 
-    override fun getViewContract(): RecipeHomeContract.View = this
+    private fun setupObserver() {
+        viewModel.viewStateLive.observe(viewLifecycleOwner) {
+            when(it) {
+                is RenderList -> { populateList(it.recipe) }
+                is ErrorState -> { showErrorState() }
+                is RenderFooterLoad -> { showFooterLoading() }
+                is NavigateDetailPage -> { navigateDetailPage(it.selectedRecipeId) }
+            }
+        }
+    }
 
-    override fun setupSearchView() {
+    private fun setupSearchView() {
         binding?.search?.root?.setOnClickListener {
             activity?.let {
                 startActivity(SearchRecipeActivity.newIntent(it))
@@ -79,13 +102,13 @@ class RecipeHomeFragment: BaseFragment<RecipeHomeContract.View, RecipeHomePresen
         }
     }
 
-    override fun setupList() {
+    private fun setupList() {
         val fastAdapter = FastAdapter.with(
-            listOf(recipeHeaderAdapter, recipeBodyAdapter, recipeFooterAdpter)
+            listOf(recipeHeaderAdapter, recipeBodyAdapter, recipeFooterAdapter)
         ).apply {
             onClickListener =  { view, _, item, _ ->
                 if (view != null && item is RecipeItem) {
-                    presenter.handleItemClick(item.recipe.id.toString())
+                    viewModel.handleItemClick(item.recipe.id.toString())
                 }
                 false
             }
@@ -100,32 +123,28 @@ class RecipeHomeFragment: BaseFragment<RecipeHomeContract.View, RecipeHomePresen
         recipeHeaderAdapter.add(listOf(RecipeHeader(getString(R.string.home_list_header))))
     }
 
-    override fun populateList(recipe: List<Recipe>) {
-        Handler().post {
-            binding?.rvRecipe?.visibility = View.VISIBLE
-            recipeFooterAdpter.clear()
-            recipe.map {
-                recipeBodyAdapter.add(RecipeItem(it))
-            }
+    private fun populateList(recipe: List<Recipe>) {
+        binding?.rvRecipe?.visibility = View.VISIBLE
+        recipeFooterAdapter.clear()
+        recipe.map {
+            recipeBodyAdapter.add(RecipeItem(it))
         }
     }
 
-    override fun showFooterLoading(recipe: List<Recipe>) {
-        Handler().post {
-            recipeFooterAdpter.clear()
-            recipeFooterAdpter.add(ProgressItem())
+    private fun showFooterLoading() {
+        if (!recipeFooterAdapter.itemList.isEmpty) {
+            recipeFooterAdapter.clear()
         }
+        recipeFooterAdapter.add(ProgressItem())
     }
 
-    override fun showErrorState() {
-        Handler().post {
-            recipeFooterAdpter.clear()
-            binding?.layoutError?.root?.visibility = View.VISIBLE
-            binding?.rvRecipe?.visibility = View.GONE
-        }
+    private fun showErrorState() {
+        recipeFooterAdapter.clear()
+        binding?.layoutError?.root?.visibility = View.VISIBLE
+        binding?.rvRecipe?.visibility = View.GONE
     }
 
-    override fun navigateDetailPage(recipeId: String) {
+    private fun navigateDetailPage(recipeId: String) {
         activity?.apply {
             startActivity(RecipeDetailActivity.getIntent(this, recipeId))
         }

@@ -15,7 +15,7 @@ import com.google.gson.annotations.SerializedName
 data class NetworkError(
     @Expose
     @SerializedName("status")
-    val status: String = "failed",
+    var status: String = "failed",
     @Expose
     @SerializedName("code")
     val statusCode: Int = -1,

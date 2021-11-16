@@ -8,6 +8,9 @@ package starbright.com.projectegg.data.remote
 import io.reactivex.Completable
 import io.reactivex.Maybe
 import io.reactivex.Observable
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
 import retrofit2.Retrofit
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -82,35 +85,31 @@ class AppRemoteDataStore @Inject constructor(
             }
     }
 
-    override fun getRecommendedRecipe(offSet: Int): Observable<List<Recipe>> {
+    override suspend fun getRecommendedRecipe(offSet: Int): Flow<List<Recipe>> {
         val queryMap = HashMap<String, String>()
         queryMap[Constants.QUERY_PARAM_LIMIT_LICENSE_KEY] = true.toString()
         queryMap[Constants.QUERY_PARAM_INSTRUCTION_REQUIRED_KEY] = true.toString()
         queryMap[Constants.QUERY_PARAM_ADD_INFORMATION] = true.toString()
         queryMap[Constants.QUERY_PARAM_SORT_KEY] = RecipeSortCategory.RANDOM.type.toLowerCase()
-        return retrofit.create(Service::class.java)
-            .getRecommendedRecipes(offset = offSet, options = queryMap)
-            .map { responses ->
-                val recipes = ArrayList<Recipe>(responses.results.size)
-                for (response in responses.results) {
-                    response.apply {
-                        recipes.add(
-                            Recipe(
-                                id = id,
-                                cookingMinutes = cookingTime,
-                                servingCount = servings,
-                                title = title,
-                                image = image,
-                                sourceStringUrl = sourceStringUrl,
-                                sourceName = sourceName,
-                                dishTypes = dishTypes,
-                                cuisines = cuisines
-                            )
+        return flow {
+            emit(
+                retrofit.create(Service::class.java)
+                    .getRecommendedRecipes(offset = offSet, options = queryMap).results
+                    .map {
+                        Recipe(
+                            id = it.id,
+                            cookingMinutes = it.cookingTime,
+                            servingCount = it.servings,
+                            title = it.title,
+                            image = it.image,
+                            sourceStringUrl = it.sourceStringUrl,
+                            sourceName = it.sourceName,
+                            dishTypes = it.dishTypes,
+                            cuisines = it.cuisines
                         )
                     }
-                }
-                recipes
-            }
+            )
+        }
     }
 
     override fun searchIngredient(query: String): Observable<List<Ingredient>> {
@@ -169,7 +168,7 @@ class AppRemoteDataStore @Inject constructor(
         throw UnsupportedOperationException()
     }
 
-    override fun getFavouriteRecipeWith(): Observable<List<FavouriteRecipe>> {
+    override suspend fun getFavouriteRecipeWith(): Flow<List<FavouriteRecipe>> {
         throw UnsupportedOperationException()
     }
 
@@ -209,11 +208,11 @@ class AppRemoteDataStore @Inject constructor(
         ): Observable<RecipeListResponse>
 
         @GET("recipes/complexSearch")
-        fun getRecommendedRecipes(
+        suspend fun getRecommendedRecipes(
             @Query(Constants.QUERY_API_KEY) apiKey: String? = BuildConfig.SPOON_KEY,
             @Query("offset") offset: Int,
             @QueryMap options: Map<String, String>
-        ): Observable<RecipeListResponse>
+        ): RecipeListResponse
 
         @GET("food/ingredients/autocomplete")
         fun searchAutocompleteIngredients(

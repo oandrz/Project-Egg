@@ -26,13 +26,10 @@
         <activity
             android:name=".features.home.HomeActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".features.ads.AdsActivity" /> <!-- Sample AdMob App ID: ca-app-pub-3940256099942544~3347511713 -->
-        <meta-data
-            android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-9465452265341097~6785839700" />
 
         <activity
             android:name=".features.SplashScreenActivity"
+            android:exported="true"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize">
             <intent-filter>

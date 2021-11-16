@@ -8,6 +8,7 @@ package starbright.com.projectegg.data.local
 import io.reactivex.Completable
 import io.reactivex.Maybe
 import io.reactivex.Observable
+import kotlinx.coroutines.flow.Flow
 import starbright.com.projectegg.data.AppDataStore
 import starbright.com.projectegg.data.RecipeConfig
 import starbright.com.projectegg.data.local.database.ApplicationDatabase
@@ -28,7 +29,7 @@ class AppLocalDataStore @Inject constructor(
         throw UnsupportedOperationException(Constants.OPERATION_NOT_SUPPORTED)
     }
 
-    override fun getRecommendedRecipe(offSet: Int): Observable<List<Recipe>> {
+    override suspend fun getRecommendedRecipe(offSet: Int): Flow<List<Recipe>> {
         throw UnsupportedOperationException(Constants.OPERATION_NOT_SUPPORTED)
     }
 
@@ -52,7 +53,7 @@ class AppLocalDataStore @Inject constructor(
         return database.favoriteRecipeDao().addFavouriteRecipe(recipe)
     }
 
-    override fun getFavouriteRecipeWith(): Observable<List<FavouriteRecipe>> {
+    override suspend fun getFavouriteRecipeWith(): Flow<List<FavouriteRecipe>> {
         return database.favoriteRecipeDao().getFavouriteRecipe()
     }
 

@@ -13,7 +13,9 @@ buildscript {
     }
 
     extra.apply {
+        set("swipeRefreshLayoutVersion", "1.1.0")
         set("kotlinVersion", "1.5.31")
+        set("constraintLayoutVersion", "2.1.1")
         set("materialDesignVersion", "1.3.0-alpha02")
         set("cardViewVersion", "1.0.0")
         set("legacySupportVersion", "1.2.0")
@@ -44,6 +46,8 @@ buildscript {
         set("testRunnerVersion", "1.1.1")
         set("testExtRunnerVersion", "1.1.0")
         set("hamcrestVersion", "2.1")
+        set("lifecycleViewModel", "2.4.0")
+        set("coroutineVersion", "1.5.2")
     }
 
     dependencies {

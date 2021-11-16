@@ -8,6 +8,7 @@ package starbright.com.projectegg.data
 import io.reactivex.Completable
 import io.reactivex.Maybe
 import io.reactivex.Observable
+import kotlinx.coroutines.flow.Flow
 import starbright.com.projectegg.data.model.Ingredient
 import starbright.com.projectegg.data.model.Recipe
 import starbright.com.projectegg.data.model.local.FavouriteRecipe
@@ -15,7 +16,7 @@ import starbright.com.projectegg.data.model.local.SearchHistory
 
 interface RecipeRepository {
     fun getRecipes(config: RecipeConfig, offset: Int): Observable<List<Recipe>>
-    fun getRecommendedRecipe(offSet: Int): Observable<List<Recipe>>
+    suspend fun getRecommendedRecipe(offSet: Int): List<Recipe>
     fun getRecipeDetailInformation(recipeId: String): Observable<Recipe>
 
     fun searchIngredient(query: String): Observable<List<Ingredient>>
@@ -24,7 +25,7 @@ interface RecipeRepository {
 
     fun removeFavouriteRecipe(recipeId: Int): Completable
     fun saveFavouriteRecipe(recipe: Recipe): Completable
-    fun getFavouriteRecipe(): Observable<List<FavouriteRecipe>>
+    suspend fun getFavouriteRecipe(): List<FavouriteRecipe>
     fun isRecipeSavedBefore(recipeId: Int): Observable<FavouriteRecipe?>
 
     fun getSearchHistory(): Maybe<List<SearchHistory>>

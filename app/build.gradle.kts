@@ -19,8 +19,8 @@ val keystoreProperties = Properties()
 keystoreProperties.load(FileInputStream(keystorePropertiesFile))
 
 android {
-    compileSdk = 30
-    buildToolsVersion = "30.0.3"
+    compileSdk = 31
+    buildToolsVersion = "31.0.0"
 
     signingConfigs {
         create("release") {
@@ -34,7 +34,7 @@ android {
     defaultConfig {
         applicationId = "starbright.com.projectegg"
         minSdk = 21
-        targetSdk = 30
+        targetSdk = 31
         versionCode = 5
         versionName = "0.1.1"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -99,6 +99,13 @@ dependencies {
     val kotlinVersion: String by rootProject.extra
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion")
 
+    val coroutineVersion: String by rootProject.extra
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutineVersion")
+
+    val lifecycleViewModel: String by rootProject.extra
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleViewModel")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleViewModel")
+
     //android support & recyclerview
     val legacySupportVersion: String by rootProject.extra
     implementation("androidx.appcompat:appcompat:$legacySupportVersion")
@@ -110,11 +117,15 @@ dependencies {
     val daggerVersion: String by rootProject.extra
     implementation("com.google.dagger:dagger:$daggerVersion")
     implementation("com.google.dagger:dagger-android-support:$daggerVersion")
-    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
     kapt("com.google.dagger:dagger-compiler:$daggerVersion")
     kapt("com.google.dagger:dagger-android-processor:$daggerVersion")
+    kaptTest("com.google.dagger:dagger-compiler:$daggerVersion")
 
-    implementation("androidx.constraintlayout:constraintlayout:2.1.1")
+    val constraintLayoutVersion: String by rootProject.extra
+    implementation("androidx.constraintlayout:constraintlayout:$constraintLayoutVersion")
+
+    val swipeRefreshLayoutVersion: String by rootProject.extra
+    implementation("androidx.swiperefreshlayout:swiperefreshlayout:$swipeRefreshLayoutVersion")
 
     //Retrofit
     val retrofitVersion: String by rootProject.extra
@@ -182,6 +193,7 @@ dependencies {
     val roomVersion: String by rootProject.extra
     implementation("androidx.room:room-runtime:$roomVersion")
     implementation("androidx.room:room-rxjava2:$roomVersion")
+    implementation("androidx.room:room-ktx:$roomVersion")
     kapt("androidx.room:room-compiler:$roomVersion")
 
     // Unit Test
@@ -189,7 +201,6 @@ dependencies {
     testImplementation("junit:junit:$junitVersion")
     val mockitoVersion: String by rootProject.extra
     testImplementation("org.mockito:mockito-core:$mockitoVersion")
-    kaptTest("com.google.dagger:dagger-compiler:$daggerVersion")
     testImplementation("androidx.arch.core:core-testing:2.1.0")
     val hamcrestVersion: String by rootProject
     testImplementation("org.hamcrest:hamcrest-library:$hamcrestVersion")

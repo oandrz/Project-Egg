@@ -10,12 +10,13 @@ import androidx.room.Insert
 import androidx.room.Query
 import io.reactivex.Completable
 import io.reactivex.Observable
+import kotlinx.coroutines.flow.Flow
 import starbright.com.projectegg.data.model.local.FavouriteRecipe
 
 @Dao
 interface FavouriteRecipeDao {
     @Query("SELECT * FROM FavouriteRecipe")
-    fun getFavouriteRecipe(): Observable<List<FavouriteRecipe>>
+    fun getFavouriteRecipe(): Flow<List<FavouriteRecipe>>
 
     @Query("SELECT * FROM FavouriteRecipe WHERE recipe_id=:recipeId")
     fun getFavouriteRecipeWith(recipeId: Int): Observable<FavouriteRecipe?>

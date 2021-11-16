@@ -12,6 +12,11 @@ package starbright.com.projectegg.data
 import io.reactivex.Completable
 import io.reactivex.Maybe
 import io.reactivex.Observable
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.single
+import kotlinx.coroutines.withContext
 import starbright.com.projectegg.dagger.qualifier.LocalData
 import starbright.com.projectegg.dagger.qualifier.RemoteData
 import starbright.com.projectegg.data.model.Ingredient
@@ -32,8 +37,10 @@ class AppRepository @Inject constructor(
         return appRemoteDataStore.getRecipes(config, offset)
     }
 
-    override fun getRecommendedRecipe(offSet: Int): Observable<List<Recipe>> {
+    override suspend fun getRecommendedRecipe(offSet: Int): List<Recipe> {
         return appRemoteDataStore.getRecommendedRecipe(offSet)
+            .flowOn(Dispatchers.IO)
+            .single()
     }
 
     override fun searchIngredient(query: String): Observable<List<Ingredient>> {
@@ -67,8 +74,10 @@ class AppRepository @Inject constructor(
         }
     }
 
-    override fun getFavouriteRecipe(): Observable<List<FavouriteRecipe>> {
+    override suspend fun getFavouriteRecipe(): List<FavouriteRecipe> {
         return appLocalDataStore.getFavouriteRecipeWith()
+            .flowOn(Dispatchers.IO)
+            .single()
     }
 
     override fun isRecipeSavedBefore(recipeId: Int): Observable<FavouriteRecipe?> {

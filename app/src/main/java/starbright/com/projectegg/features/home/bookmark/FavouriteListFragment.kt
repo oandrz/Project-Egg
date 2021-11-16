@@ -5,10 +5,13 @@
 
 package starbright.com.projectegg.features.home.bookmark
 
-import android.os.Handler
+import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mikepenz.fastadapter.FastAdapter
@@ -16,12 +19,23 @@ import com.mikepenz.fastadapter.adapters.ItemAdapter
 import starbright.com.projectegg.R
 import starbright.com.projectegg.dagger.component.FragmentComponent
 import starbright.com.projectegg.data.model.Recipe
-import starbright.com.projectegg.features.base.BaseFragment
+import starbright.com.projectegg.databinding.FragmentFavouriteBinding
+import starbright.com.projectegg.features.base.BaseFragmentRevamped
 import starbright.com.projectegg.features.detail.RecipeDetailActivity
+import starbright.com.projectegg.features.home.bookmark.FavoriteListViewModel.FavoriteListState.*
 import starbright.com.projectegg.view.RecipeItem
+import javax.inject.Inject
 
-class FavouriteListFragment : BaseFragment<FavouriteListContract.View, FavouriteListPresenter>(),
-    FavouriteListContract.View {
+class FavouriteListFragment : BaseFragmentRevamped() {
+
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+
+    private val viewModel: FavoriteListViewModel by lazy {
+        ViewModelProvider(this, viewModelFactory)[FavoriteListViewModel::class.java]
+    }
+
+    private var binding: FragmentFavouriteBinding? = null
 
     private val linearLayoutManager: LinearLayoutManager by lazy {
         LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
@@ -31,52 +45,66 @@ class FavouriteListFragment : BaseFragment<FavouriteListContract.View, Favourite
         ItemAdapter<RecipeItem>()
     }
 
-    override fun onResume() {
-        super.onResume()
-        presenter.getFavouriteList()
-    }
-
-    override fun getLayoutRes(): Int = R.layout.fragment_favourite
-
     override fun injectDependencies(fragmentComponent: FragmentComponent) =
         fragmentComponent.inject(this)
 
-    override fun getViewContract(): FavouriteListContract.View = this
-
-    override fun setupView() {
-        setupToolbar()
-        setupList()
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        binding = FragmentFavouriteBinding.inflate(inflater, container, false)
+        return binding?.root
     }
 
-    override fun navigateDetailPage(id: Int) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setupToolbar()
+        setupList()
+        setupObserver()
+    }
+
+    private fun setupObserver() {
+        viewModel.favoriteListState.observe(viewLifecycleOwner) {
+            when(it) {
+                is RenderList -> {
+                    renderList(it.recipes)
+                }
+                RenderEmptyView -> renderEmptyView()
+                RenderError -> renderEmptyView()
+                is NavigateDetail -> navigateDetailPage(it.recipeId)
+            }
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.getFavouriteList()
+    }
+
+    private fun navigateDetailPage(id: Int) {
         activity?.apply {
             startActivity(RecipeDetailActivity.getIntent(this, id.toString()))
         }
     }
 
-    override fun renderList(favouriteRecipes: List<Recipe>) {
-//        Handler().post {
-//            rv_favourite.visibility = View.VISIBLE
-//            layout_error.visibility = View.GONE
-//            recipeBodyAdapter.setNewList(favouriteRecipes.map {
-//                RecipeItem(it)
-//            })
-//        }
+    private fun renderList(favouriteRecipes: List<Recipe>) {
+        binding?.run {
+            rvFavourite.visibility = View.VISIBLE
+            layoutError.root.visibility = View.GONE
+            recipeBodyAdapter.setNewList(favouriteRecipes.map { RecipeItem(it) })
+        }
     }
 
-    override fun renderEmptyView() {
-//        rv_favourite.visibility = View.GONE
-//        layout_error.visibility = View.VISIBLE
-//        activity?.let {
-//            iv_fail_image.setImageDrawable(ContextCompat.getDrawable(it, R.drawable.ic_empty_box))
-//        }
-//        tv_fail_title.text = getString(R.string.error_title_empty_favorite)
-//        tv_fail_description.text = getString(R.string.error_desc_empty_favorite)
+    private fun renderEmptyView() {
+        binding?.rvFavourite?.visibility = View.GONE
+        binding?.layoutError?.run {
+            root.visibility = View.VISIBLE
+            ivFailImage.setImageDrawable(activity?.let { ContextCompat.getDrawable(it, R.drawable.ic_empty_box) })
+            tvFailTitle.text = getString(R.string.error_title_empty_favorite)
+            tvFailDescription.text = getString(R.string.error_desc_empty_favorite)
+        }
     }
 
     private fun setupToolbar() {
         with((activity as AppCompatActivity)) {
-//            setSupportActionBar(toolbar)
+            setSupportActionBar(binding?.toolbar)
             supportActionBar?.title = resources.getString(R.string.favourite_text_title_toolbar)
         }
     }
@@ -85,16 +113,16 @@ class FavouriteListFragment : BaseFragment<FavouriteListContract.View, Favourite
         val fastAdapter = FastAdapter.with(listOf(recipeBodyAdapter)).apply {
             onClickListener = { view, _, item, _ ->
                 if (view != null) {
-                    presenter.handleItemClick(item.recipe.id)
+                    viewModel.handleItemClick(item.recipe.id)
                 }
                 false
             }
         }
-//        rv_favourite.apply {
-//            itemAnimator = DefaultItemAnimator()
-//            layoutManager = linearLayoutManager
-//            adapter = fastAdapter
-//        }
+        binding?.rvFavourite?.apply {
+            itemAnimator = DefaultItemAnimator()
+            layoutManager = linearLayoutManager
+            adapter = fastAdapter
+        }
     }
 
     companion object {
