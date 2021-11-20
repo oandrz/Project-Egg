@@ -11,22 +11,23 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import io.reactivex.Completable
 import io.reactivex.Maybe
+import kotlinx.coroutines.flow.Flow
 import starbright.com.projectegg.data.model.local.SearchHistory
 
 @Dao
 interface SearchHistoryDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun addSearchHistory(history: SearchHistory): Completable
+    suspend fun addSearchHistory(history: SearchHistory)
 
     @Query("SELECT * FROM SearchHistory ORDER BY created_at DESC")
-    fun getSearchHistory(): Maybe<List<SearchHistory>>
+    fun getSearchHistory(): Flow<List<SearchHistory>>
 
     @Query("DELETE FROM SearchHistory WHERE search_query = :query")
-    fun removeSearchHistory(query: String): Completable
+    fun removeSearchHistory(query: String)
 
     @Query("UPDATE SearchHistory SET created_at = :updatedAt WHERE search_query = :query")
-    fun updateExistingQueryTimestamp(query: String, updatedAt: Long): Completable
+    suspend fun updateExistingQueryTimestamp(query: String, updatedAt: Long)
 
     @Query("SELECT * FROM SearchHistory WHERE search_query = :query LIMIT 1")
-    fun getRecentSearchByQuery(query: String): Maybe<List<SearchHistory>>
+    fun getRecentSearchByQuery(query: String): Flow<List<SearchHistory>>
 }

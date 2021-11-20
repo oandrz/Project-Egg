@@ -196,6 +196,10 @@ dependencies {
     implementation("androidx.room:room-ktx:$roomVersion")
     kapt("androidx.room:room-compiler:$roomVersion")
 
+    //Timber
+    val timberVersion: String by rootProject.extra
+    implementation("com.jakewharton.timber:timber:$timberVersion")
+
     // Unit Test
     val junitVersion: String by rootProject.extra
     testImplementation("junit:junit:$junitVersion")

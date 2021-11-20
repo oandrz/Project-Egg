@@ -38,7 +38,7 @@ class AppRemoteDataStore @Inject constructor(
     private val retrofit: Retrofit
 ) : AppDataStore {
 
-    override fun getRecipes(config: RecipeConfig, offset: Int): Observable<List<Recipe>> {
+    override suspend fun getRecipes(config: RecipeConfig, offset: Int): Flow<List<Recipe>> {
         val queryMap = HashMap<String, String>().apply {
             this[Constants.QUERY_PARAM_LIMIT_LICENSE_KEY] = true.toString()
             this[Constants.QUERY_PARAM_INSTRUCTION_REQUIRED_KEY] = true.toString()
@@ -58,31 +58,31 @@ class AppRemoteDataStore @Inject constructor(
             }
         }
 
-        return retrofit.create(Service::class.java)
-            .getRecipes(
-                query = config.query,
-                ingredients = ingredientsAsParam.toString(),
-                cuisine = config.cuisine.orEmpty(),
-                offset = offset,
-                options = queryMap
-            )
-            .map { responses ->
-                val recipes = ArrayList<Recipe>(responses.results.size)
-                for (response in responses.results) {
-                    recipes.add(
+        return flow {
+            val response = retrofit.create(Service::class.java)
+                .getRecipes(
+                    query = config.query,
+                    ingredients = ingredientsAsParam.toString(),
+                    cuisine = config.cuisine.orEmpty(),
+                    offset = offset,
+                    options = queryMap
+                )
+
+            emit(
+                response.results
+                    .map {
                         Recipe(
-                            id = response.id,
-                            title = response.title,
-                            image = response.image,
-                            cuisines = response.cuisines,
-                            cookingMinutes = response.cookingTime,
-                            servingCount = response.servings,
-                            totalRecipe = responses.totalResults
+                            id = it.id,
+                            title = it.title,
+                            image = it.image,
+                            cuisines = it.cuisines,
+                            cookingMinutes = it.cookingTime,
+                            servingCount = it.servings,
+                            totalRecipe = response.totalResults
                         )
-                    )
-                }
-                recipes
-            }
+                    }
+            )
+        }
     }
 
     override suspend fun getRecommendedRecipe(offSet: Int): Flow<List<Recipe>> {
@@ -176,36 +176,40 @@ class AppRemoteDataStore @Inject constructor(
         throw UnsupportedOperationException()
     }
 
-    override fun getSearchHistory(): Maybe<List<SearchHistory>> {
+    override suspend fun getSearchHistory(): Flow<List<SearchHistory>> {
         throw UnsupportedOperationException()
     }
 
-    override fun checkQueryExistence(query: String): Maybe<List<SearchHistory>> {
+    override suspend fun checkQueryExistence(query: String): Flow<List<SearchHistory>> {
         throw UnsupportedOperationException()
     }
 
-    override fun updateExistingHistoryTimestamp(query: String, millis: Long): Completable {
+//    override suspend fun checkQueryExistence(query: String): List<SearchHistory> {
+//        throw UnsupportedOperationException()
+//    }
+
+    override suspend fun updateExistingHistoryTimestamp(query: String, millis: Long) {
         throw UnsupportedOperationException()
     }
 
-    override fun saveSearchHistory(history: SearchHistory): Completable {
+    override suspend fun saveSearchHistory(history: SearchHistory) {
         throw UnsupportedOperationException()
     }
 
-    override fun removeSearchHistory(query: String): Completable {
+    override suspend fun removeSearchHistory(query: String) {
         throw UnsupportedOperationException()
     }
 
     private interface Service {
         @GET("recipes/complexSearch")
-        fun getRecipes(
+        suspend fun getRecipes(
             @Query(Constants.QUERY_API_KEY) apiKey: String? = BuildConfig.SPOON_KEY,
             @Query("query") query: String?,
             @Query("includeIngredients") ingredients: String,
             @Query("cuisine") cuisine: String,
             @Query("offset") offset: Int,
             @QueryMap options: Map<String, String>
-        ): Observable<RecipeListResponse>
+        ): RecipeListResponse
 
         @GET("recipes/complexSearch")
         suspend fun getRecommendedRecipes(

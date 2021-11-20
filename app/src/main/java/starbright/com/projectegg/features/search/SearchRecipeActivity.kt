@@ -8,29 +8,35 @@ package starbright.com.projectegg.features.search
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
 import android.view.Menu
 import android.view.View
 import androidx.appcompat.widget.SearchView
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.adapters.ItemAdapter
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
 import starbright.com.projectegg.R
 import starbright.com.projectegg.dagger.component.ActivityComponent
 import starbright.com.projectegg.data.model.Recipe
-import starbright.com.projectegg.features.base.BaseActivity
+import starbright.com.projectegg.databinding.ActivitySearchRecipeBinding
+import starbright.com.projectegg.features.base.BaseActivityRevamped
 import starbright.com.projectegg.features.base.NormalToolbar
 import starbright.com.projectegg.features.detail.RecipeDetailActivity
 import starbright.com.projectegg.features.ingredients.IngredientsActivity
 import starbright.com.projectegg.features.recipelist.RecipeListActivity
+import starbright.com.projectegg.features.search.SearchRecipeViewModel.SearchState.*
 import starbright.com.projectegg.view.RecentSearchItem
 import starbright.com.projectegg.view.RecipeHeader
 import starbright.com.projectegg.view.SearchSuggestionItem
 import java.lang.ref.WeakReference
+import javax.inject.Inject
 
-class SearchRecipeActivity : BaseActivity<SearchRecipeContract.View, SearchRecipePresenter>(),
-    SearchRecipeContract.View {
+@FlowPreview
+@ExperimentalCoroutinesApi
+class SearchRecipeActivity : BaseActivityRevamped() {
 
     private val linearLayoutManager: LinearLayoutManager by lazy {
         LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
@@ -48,24 +54,36 @@ class SearchRecipeActivity : BaseActivity<SearchRecipeContract.View, SearchRecip
         ItemAdapter<RecipeHeader>()
     }
 
+    private val binding: ActivitySearchRecipeBinding by lazy {
+        ActivitySearchRecipeBinding.inflate(layoutInflater)
+    }
+
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+
+    private val viewModel: SearchRecipeViewModel by lazy {
+        ViewModelProvider(this, viewModelFactory).get(SearchRecipeViewModel::class.java)
+    }
+
+    override fun injectDependencies(activityComponent: ActivityComponent) =
+        activityComponent.inject(this)
+
     override fun onCreate(savedInstanceState: Bundle?) {
-        setToolbarBehavior(
-            NormalToolbar(WeakReference(this), R.id.toolbar, R.string.recipelist_title)
-        )
+        setToolbarBehavior(NormalToolbar(WeakReference(this), R.id.toolbar, R.string.recipelist_title))
         super.onCreate(savedInstanceState)
+        setupObserver()
+        setupView()
+        viewModel.observeSuggestedRecipe()
+    }
+
+    override fun bindActivity() {
+        setContentView(binding.root)
     }
 
     override fun onResume() {
         super.onResume()
-        presenter.loadSearchHistory()
+        viewModel.loadSearchHistory()
     }
-
-    override fun getLayoutRes(): Int = R.layout.activity_search_recipe
-
-    override fun getView(): SearchRecipeContract.View = this
-
-    override fun injectDependencies(activityComponent: ActivityComponent) =
-        activityComponent.inject(this)
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_search_recipe, menu)
@@ -75,12 +93,12 @@ class SearchRecipeActivity : BaseActivity<SearchRecipeContract.View, SearchRecip
             isIconified = false
             setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                 override fun onQueryTextSubmit(query: String?): Boolean {
-                    presenter.handleUserSearch(query)
+                    viewModel.handleUserSearch(query)
                     return true
                 }
 
                 override fun onQueryTextChange(newText: String?): Boolean {
-                    presenter.handleUserTypeInEditText(newText)
+                    viewModel.handleUserTypeInEditText(newText)
                     return false
                 }
             })
@@ -88,50 +106,61 @@ class SearchRecipeActivity : BaseActivity<SearchRecipeContract.View, SearchRecip
         return super.onCreateOptionsMenu(menu)
     }
 
-    override fun setupView() {
-//        fab_search_ingredient.setOnClickListener {
-//            startActivity(IngredientsActivity.newIntent(this))
-//        }
+    private fun setupObserver() {
+        viewModel.searchRecipeState.observe(this) {
+            when(it) {
+                is ShowLoading -> showLoading()
+                is CloseLoading -> hideLoading()
+                is RenderSearchHistory -> renderSearchHistory(it.history)
+                is RenderRecipe -> renderRecipeSuggestion(it.recipes)
+                is NavigateRecipeList -> navigateRecipeList(it.query)
+                is NavigateRecipeDetail -> navigateRecipeDetail(it.recipeId)
+                is RenderError -> showError(it.error)
+                is UpdateList -> removeSelectedSearchQuery(it.position)
+            }
+        }
+    }
+
+    private fun setupView() {
+        binding.fabSearchIngredient.setOnClickListener {
+            startActivity(IngredientsActivity.newIntent(this))
+        }
         setupList()
     }
 
-    override fun showLoading() {
-//        view_loading.visibility = View.VISIBLE
-//        rv_search_history.visibility = View.GONE
-    }
-
-    override fun hideLoading() {
-//        view_loading.visibility = View.GONE
-    }
-
-    override fun renderRecipeSuggestion(recipes: List<Recipe>) {
-        Handler().post {
-            historySearchHeader.clear()
-            recipeSuggestionItem.clear()
-            historySearchItem.clear()
-            recipes.map {
-                recipeSuggestionItem.add(SearchSuggestionItem(it))
-            }
+    private fun showLoading() {
+        binding.apply {
+            viewLoading.visibility = View.VISIBLE
+            rvSearchHistory.visibility = View.GONE
         }
     }
 
-    override fun renderSearchHistory(searchQueries: List<String>) {
-        Handler().post {
-            historySearchHeader.clear()
-            recipeSuggestionItem.clear()
-            if (searchQueries.isNotEmpty()) {
-                historySearchHeader.add(RecipeHeader(getString(R.string.search_header_history_label)))
-                val items = searchQueries.map { query ->
-                    RecentSearchItem(query) { selectedQuery, position ->
-                        presenter.handleRemoveSearchHistory(selectedQuery, position)
-                    }
+    private fun hideLoading() {
+        binding.viewLoading.visibility = View.GONE
+    }
+
+    private fun renderRecipeSuggestion(recipes: List<Recipe>) {
+        historySearchHeader.clear()
+        recipeSuggestionItem.clear()
+        historySearchItem.clear()
+        recipeSuggestionItem.set(recipes.map { SearchSuggestionItem(it) })
+    }
+
+    private fun renderSearchHistory(searchQueries: List<String>) {
+        historySearchHeader.clear()
+        recipeSuggestionItem.clear()
+        if (searchQueries.isNotEmpty()) {
+            historySearchHeader.add(RecipeHeader(getString(R.string.search_header_history_label)))
+            val items = searchQueries.map { query ->
+                RecentSearchItem(query) { selectedQuery, position ->
+                    viewModel.handleRemoveSearchHistory(selectedQuery, position)
                 }
-                historySearchItem.set(items)
             }
+            historySearchItem.setNewList(items)
         }
     }
 
-    override fun navigateRecipeList(query: String) {
+    private fun navigateRecipeList(query: String) {
         startActivity(
             RecipeListActivity.newIntent(
                 this@SearchRecipeActivity,
@@ -140,16 +169,13 @@ class SearchRecipeActivity : BaseActivity<SearchRecipeContract.View, SearchRecip
         )
     }
 
-    override fun navigateRecipeDetail(recipeId: String) {
+    private fun navigateRecipeDetail(recipeId: String) {
         startActivity(
-            RecipeDetailActivity.getIntent(
-                this@SearchRecipeActivity,
-                recipeId
-            )
+            RecipeDetailActivity.getIntent(this@SearchRecipeActivity, recipeId)
         )
     }
 
-    override fun removeSelectedSearchQuery(position: Int) {
+    private fun removeSelectedSearchQuery(position: Int) {
         historySearchItem.remove(position)
         if (historySearchItem.adapterItemCount == 0) {
             historySearchHeader.clear()
@@ -162,25 +188,21 @@ class SearchRecipeActivity : BaseActivity<SearchRecipeContract.View, SearchRecip
         ).apply {
             onClickListener = { _, _, item, _ ->
                 if (item is SearchSuggestionItem) {
-                    presenter.handleSuggestionItemClicked(item.recipe.id.toString())
+                    viewModel.handleSuggestionItemClicked(item.recipe.id.toString())
                 } else if (item is RecentSearchItem) {
-                    presenter.handleRecentSearchItemClicked(item.text)
+                    viewModel.handleRecentSearchItemClicked(item.text)
                 }
                 true
             }
         }
-//        rv_search_history?.run {
-//            itemAnimator = DefaultItemAnimator()
-//            layoutManager = linearLayoutManager
-//            adapter = fastAdapter
-//        }
+        binding.rvSearchHistory.run {
+            itemAnimator = DefaultItemAnimator()
+            layoutManager = linearLayoutManager
+            adapter = fastAdapter
+        }
     }
 
     companion object {
         fun newIntent(context: Context) = Intent(context, SearchRecipeActivity::class.java)
-    }
-
-    override fun bindActivity() {
-        TODO("Not yet implemented")
     }
 }

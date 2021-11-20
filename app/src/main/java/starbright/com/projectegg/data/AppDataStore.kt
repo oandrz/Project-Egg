@@ -15,7 +15,7 @@ import starbright.com.projectegg.data.model.local.FavouriteRecipe
 import starbright.com.projectegg.data.model.local.SearchHistory
 
 interface AppDataStore {
-    fun getRecipes(config: RecipeConfig, offset: Int): Observable<List<Recipe>>
+    suspend fun getRecipes(config: RecipeConfig, offset: Int): Flow<List<Recipe>>
     suspend fun getRecommendedRecipe(offSet: Int): Flow<List<Recipe>>
     fun searchIngredient(query: String): Observable<List<Ingredient>>
 
@@ -28,9 +28,9 @@ interface AppDataStore {
     suspend fun getFavouriteRecipeWith(): Flow<List<FavouriteRecipe>>
     fun getFavouriteRecipeWith(recipeId: Int): Observable<FavouriteRecipe?>
 
-    fun getSearchHistory(): Maybe<List<SearchHistory>>
-    fun checkQueryExistence(query: String): Maybe<List<SearchHistory>>
-    fun updateExistingHistoryTimestamp(query: String, millis: Long): Completable
-    fun saveSearchHistory(history: SearchHistory): Completable
-    fun removeSearchHistory(query: String): Completable
+    suspend fun getSearchHistory(): Flow<List<SearchHistory>>
+    suspend fun checkQueryExistence(query: String): Flow<List<SearchHistory>>
+    suspend fun updateExistingHistoryTimestamp(query: String, millis: Long)
+    suspend fun saveSearchHistory(history: SearchHistory)
+    suspend fun removeSearchHistory(query: String)
 }

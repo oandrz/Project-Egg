@@ -1,14 +1,14 @@
 package starbright.com.projectegg.features.home.bookmark
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import starbright.com.projectegg.data.AppRepository
 import starbright.com.projectegg.data.model.Recipe
-import starbright.com.projectegg.features.home.list.RecipeHomeViewModel
+import timber.log.Timber
 import javax.inject.Inject
 
 class FavoriteListViewModel @Inject constructor(
@@ -24,8 +24,8 @@ class FavoriteListViewModel @Inject constructor(
 
     fun getFavouriteList() {
         viewModelScope.launch {
-            kotlin.runCatching { repository.getFavouriteRecipe() }
-                .onSuccess {
+            try {
+                repository.getFavouriteRecipe().collect {
                     if (it.isEmpty()) {
                         _favoriteListState.value = FavoriteListState.RenderEmptyView
                     } else {
@@ -43,10 +43,10 @@ class FavoriteListViewModel @Inject constructor(
                         )
                     }
                 }
-                .onFailure {
-                    Log.e(RecipeHomeViewModel::class.java.simpleName, it.message, it)
-                    _favoriteListState.value = FavoriteListState.RenderEmptyView
-                }
+            } catch (t: Throwable) {
+                Timber.e(t)
+                _favoriteListState.value = FavoriteListState.RenderEmptyView
+            }
         }
     }
 

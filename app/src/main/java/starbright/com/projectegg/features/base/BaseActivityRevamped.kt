@@ -38,7 +38,7 @@ abstract class BaseActivityRevamped : AppCompatActivity() {
 
     open fun goBack() = onBackPressed()
 
-    fun showError(res: Int?, text: String?) {
+    fun showError(res: Int? = null, text: String? = null) {
         if (res != null) {
             Toast.makeText(this, res, Toast.LENGTH_SHORT).show()
         } else if (text != null) {

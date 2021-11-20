@@ -25,7 +25,7 @@ class AppLocalDataStore @Inject constructor(
     private val database: ApplicationDatabase
 ) : AppDataStore {
 
-    override fun getRecipes(config: RecipeConfig, offset: Int): Observable<List<Recipe>> {
+    override suspend fun getRecipes(config: RecipeConfig, offset: Int): Flow<List<Recipe>> {
         throw UnsupportedOperationException(Constants.OPERATION_NOT_SUPPORTED)
     }
 
@@ -61,26 +61,23 @@ class AppLocalDataStore @Inject constructor(
         return database.favoriteRecipeDao().getFavouriteRecipeWith(recipeId)
     }
 
-    override fun getSearchHistory(): Maybe<List<SearchHistory>> {
+    override suspend fun getSearchHistory(): Flow<List<SearchHistory>> {
         return database.searchHistoryDao().getSearchHistory()
     }
 
-    override fun checkQueryExistence(query: String): Maybe<List<SearchHistory>> {
+    override suspend fun checkQueryExistence(query: String): Flow<List<SearchHistory>> {
         return database.searchHistoryDao().getRecentSearchByQuery(query)
     }
 
-    override fun updateExistingHistoryTimestamp(
-        query: String,
-        millis: Long
-    ): Completable {
-        return database.searchHistoryDao().updateExistingQueryTimestamp(query, millis)
+    override suspend fun updateExistingHistoryTimestamp(query: String, millis: Long) {
+        database.searchHistoryDao().updateExistingQueryTimestamp(query, millis)
     }
 
-    override fun saveSearchHistory(history: SearchHistory): Completable {
-        return database.searchHistoryDao().addSearchHistory(history)
+    override suspend fun saveSearchHistory(history: SearchHistory) {
+        database.searchHistoryDao().addSearchHistory(history)
     }
 
-    override fun removeSearchHistory(query: String): Completable {
-        return database.searchHistoryDao().removeSearchHistory(query)
+    override suspend fun removeSearchHistory(query: String) {
+        database.searchHistoryDao().removeSearchHistory(query)
     }
 }

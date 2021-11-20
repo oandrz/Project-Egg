@@ -16,11 +16,11 @@ import starbright.com.projectegg.databinding.LayoutHomeHeaderHolderBinding
 
 class RecipeHeader(private var title: String) : AbstractItem<RecipeHeader.ViewHolder>() {
 
-    private var binding: LayoutHomeHeaderHolderBinding? = null
+    private lateinit var binding: LayoutHomeHeaderHolderBinding
 
     override fun createView(ctx: Context, parent: ViewGroup?): View {
         binding = LayoutHomeHeaderHolderBinding.inflate(LayoutInflater.from(ctx), parent, false)
-        return binding!!.root
+        return binding.root
     }
 
     /** The layout for the given item */
@@ -36,15 +36,15 @@ class RecipeHeader(private var title: String) : AbstractItem<RecipeHeader.ViewHo
      *
      * @return the ViewHolder for this Item
      */
-    override fun getViewHolder(v: View): ViewHolder = ViewHolder(binding!!)
+    override fun getViewHolder(v: View): ViewHolder = ViewHolder(binding)
 
-    inner class ViewHolder(binding: LayoutHomeHeaderHolderBinding) : FastAdapter.ViewHolder<RecipeHeader>(binding.root) {
+    inner class ViewHolder(private val binding: LayoutHomeHeaderHolderBinding) : FastAdapter.ViewHolder<RecipeHeader>(binding.root) {
         override fun bindView(item: RecipeHeader, payloads: List<Any>) {
-            binding?.tvHeader?.text = item.title
+            binding.tvHeader.text = item.title
         }
 
         override fun unbindView(item: RecipeHeader) {
-            binding?.tvHeader?.text = null
+            binding.tvHeader.text = null
         }
     }
 }

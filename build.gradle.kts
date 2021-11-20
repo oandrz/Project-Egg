@@ -34,11 +34,11 @@ buildscript {
         set("firebaseAnalytic", "17.4.2")
         set("materialDialogVersion", "3.3.0")
         set("circleIVVersion", "2.2.0")
-        set("roomVersion", "2.2.5")
+        set("roomVersion", "2.3.0")
         set("zeibatsuVersion", "3.0.1")
         set("adMobVersion", "19.1.0")
         set("preferenceVersion", "1.1.1")
-        set("fastAdapterVersion", "5.0.2")
+        set("fastAdapterVersion", "5.5.1")
         set("junitVersion", "4.12")
         set("espressoVersion", "3.1.0")
         set("mockitoVersion", "2.7.1")
@@ -48,6 +48,7 @@ buildscript {
         set("hamcrestVersion", "2.1")
         set("lifecycleViewModel", "2.4.0")
         set("coroutineVersion", "1.5.2")
+        set("timberVersion", "5.0.1")
     }
 
     dependencies {

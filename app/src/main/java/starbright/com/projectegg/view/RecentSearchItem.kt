@@ -5,15 +5,22 @@
 
 package starbright.com.projectegg.view
 
+import android.content.Context
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.items.AbstractItem
 import starbright.com.projectegg.R
+import starbright.com.projectegg.databinding.ItemSingleTextBinding
+import kotlin.coroutines.coroutineContext
 
 class RecentSearchItem(
     val text: String,
     val listener: ((String, Int) -> Unit)?
 ) : AbstractItem<RecentSearchItem.ViewHolder>() {
+
+    private lateinit var binding: ItemSingleTextBinding
 
     /** The layout for the given item */
     override val layoutRes: Int
@@ -23,25 +30,34 @@ class RecentSearchItem(
     override val type: Int
         get() = R.id.singleTextItem
 
+    override fun createView(ctx: Context, parent: ViewGroup?): View {
+        binding = ItemSingleTextBinding.inflate(LayoutInflater.from(ctx), parent, false)
+
+        return binding.root
+    }
+
     /**
      * This method returns the ViewHolder for our item, using the provided View.
      *
      * @return the ViewHolder for this Item
      */
-    override fun getViewHolder(v: View): ViewHolder = ViewHolder(v)
+    override fun getViewHolder(v: View): ViewHolder = ViewHolder(binding)
 
-    inner class ViewHolder(itemView: View) : FastAdapter.ViewHolder<RecentSearchItem>(itemView) {
+    inner class ViewHolder(
+        private val binding: ItemSingleTextBinding
+    ) : FastAdapter.ViewHolder<RecentSearchItem>(binding.root) {
+
         override fun bindView(item: RecentSearchItem, payloads: List<Any>) {
-//            itemView.tv_text.text = item.text
-//            ///TODO: Warning May Affect RecyclerView Performance
-//            itemView.iv_clear.setOnClickListener {
-//                listener?.invoke(item.text, adapterPosition)
-//            }
+            binding.tvText.text = item.text
+            binding.ivClear.setOnClickListener {
+                listener?.invoke(item.text, bindingAdapterPosition)
+            }
         }
 
         /** View needs to release resources when its recycled */
         override fun unbindView(item: RecentSearchItem) {
-//            itemView.tv_text.text = null
+            binding.tvText.text = null
+            binding.ivClear.setOnClickListener(null)
         }
     }
 }

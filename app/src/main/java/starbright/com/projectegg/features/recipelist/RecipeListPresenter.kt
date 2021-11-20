@@ -104,32 +104,32 @@ class RecipeListPresenter @Inject constructor(
             }
         }
 
-        compositeDisposable.add(
-            repository.getRecipes(config, pos)
-                .subscribeOn(schedulerProvider.io())
-                .observeOn(schedulerProvider.ui())
-                .subscribe({ recipesResult ->
-                    recipesResult.forEach { it.cuisines?.mapTo(cuisines) { cuisine -> cuisine } }
-                    with(view) {
-                        hideFooterLoading()
-                        if (recipesResult.isEmpty()) {
-                            hideFilterButton()
-                            showResultEmptyState()
-                        } else {
-                            if (recipesResult.first().totalRecipe < 11) {
-                                disableLoadMore()
-                            }
-                            showFilterButton()
-                            appendRecipes(recipesResult)
-                        }
-                    }
-                }, { _ ->
-                    with(view) {
-                        hideFooterLoading()
-                        showErrorState()
-                    }
-                })
-        )
+//        compositeDisposable.add(
+//            repository.getRecipes(config, pos)
+//                .subscribeOn(schedulerProvider.io())
+//                .observeOn(schedulerProvider.ui())
+//                .subscribe({ recipesResult ->
+//                    recipesResult.forEach { it.cuisines?.mapTo(cuisines) { cuisine -> cuisine } }
+//                    with(view) {
+//                        hideFooterLoading()
+//                        if (recipesResult.isEmpty()) {
+//                            hideFilterButton()
+//                            showResultEmptyState()
+//                        } else {
+//                            if (recipesResult.first().totalRecipe < 11) {
+//                                disableLoadMore()
+//                            }
+//                            showFilterButton()
+//                            appendRecipes(recipesResult)
+//                        }
+//                    }
+//                }, { _ ->
+//                    with(view) {
+//                        hideFooterLoading()
+//                        showErrorState()
+//                    }
+//                })
+//        )
     }
 
     private fun resetList() {

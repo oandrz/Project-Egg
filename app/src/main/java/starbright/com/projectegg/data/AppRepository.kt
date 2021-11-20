@@ -33,8 +33,10 @@ class AppRepository @Inject constructor(
     @RemoteData private val appRemoteDataStore: AppDataStore
 ) : RecipeRepository {
 
-    override fun getRecipes(config: RecipeConfig, offset: Int): Observable<List<Recipe>> {
+    override suspend fun getRecipes(config: RecipeConfig, offset: Int): List<Recipe> {
         return appRemoteDataStore.getRecipes(config, offset)
+            .flowOn(Dispatchers.IO)
+            .single()
     }
 
     override suspend fun getRecommendedRecipe(offSet: Int): List<Recipe> {
@@ -74,34 +76,42 @@ class AppRepository @Inject constructor(
         }
     }
 
-    override suspend fun getFavouriteRecipe(): List<FavouriteRecipe> {
+    override suspend fun getFavouriteRecipe(): Flow<List<FavouriteRecipe>> {
         return appLocalDataStore.getFavouriteRecipeWith()
             .flowOn(Dispatchers.IO)
-            .single()
     }
 
     override fun isRecipeSavedBefore(recipeId: Int): Observable<FavouriteRecipe?> {
         return appLocalDataStore.getFavouriteRecipeWith(recipeId)
     }
 
-    override fun getSearchHistory(): Maybe<List<SearchHistory>> {
+    override suspend fun getSearchHistory(): Flow<List<SearchHistory>> {
         return appLocalDataStore.getSearchHistory()
+            .flowOn(Dispatchers.IO)
     }
 
-    override fun checkQueryExistence(query: String): Maybe<List<SearchHistory>> {
+    override suspend fun checkQueryExistence(query: String): List<SearchHistory> {
         return appLocalDataStore.checkQueryExistence(query)
+            .flowOn(Dispatchers.IO)
+            .single()
     }
 
-    override fun updateExistingHistoryTimestamp(query: String, millis: Long): Completable {
-        return appLocalDataStore.updateExistingHistoryTimestamp(query, millis)
+    override suspend fun updateExistingHistoryTimestamp(query: String, millis: Long) {
+        withContext(Dispatchers.IO) {
+            appLocalDataStore.updateExistingHistoryTimestamp(query, millis)
+        }
     }
 
-    override fun addSearchHistory(history: SearchHistory): Completable {
-        return appLocalDataStore.saveSearchHistory(history)
+    override suspend fun addSearchHistory(history: SearchHistory) {
+        withContext(Dispatchers.IO) {
+            appLocalDataStore.saveSearchHistory(history)
+        }
     }
 
-    override fun removeSearchHistory(query: String): Completable {
-        return appLocalDataStore.removeSearchHistory(query)
+    override suspend fun removeSearchHistory(query: String) {
+        withContext(Dispatchers.IO) {
+            appLocalDataStore.removeSearchHistory(query)
+        }
     }
 }
 
