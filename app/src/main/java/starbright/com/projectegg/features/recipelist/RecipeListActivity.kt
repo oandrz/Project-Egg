@@ -10,8 +10,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.view.View
-import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mikepenz.fastadapter.FastAdapter
@@ -27,16 +27,19 @@ import starbright.com.projectegg.data.model.SortOption
 import starbright.com.projectegg.databinding.ActivityRecipeListBinding
 import starbright.com.projectegg.enum.RecipeSortCategory
 import starbright.com.projectegg.features.base.BaseActivity
+import starbright.com.projectegg.features.base.BaseActivityRevamped
 import starbright.com.projectegg.features.base.NormalToolbar
 import starbright.com.projectegg.features.base.UNKNOWN_RESOURCE
 import starbright.com.projectegg.features.detail.RecipeDetailActivity
+import starbright.com.projectegg.features.recipelist.RecipeListViewModel.RecipeListState.*
 import starbright.com.projectegg.features.recipelist.recipefilter.RecipeFilterBottomSheetFragment
 import starbright.com.projectegg.features.recipelist.recipesort.RecipeSortBottomSheetFragment
+import starbright.com.projectegg.features.search.SearchRecipeViewModel
 import starbright.com.projectegg.view.RecipeItem
 import java.lang.ref.WeakReference
+import javax.inject.Inject
 
-class RecipeListActivity : BaseActivity<RecipeListContract.View, RecipeListPresenter>(),
-    RecipeListContract.View {
+class RecipeListActivity : BaseActivityRevamped() {
 
     private lateinit var binding: ActivityRecipeListBinding
 
@@ -48,12 +51,27 @@ class RecipeListActivity : BaseActivity<RecipeListContract.View, RecipeListPrese
         ItemAdapter<ProgressItem>()
     }
 
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+
+    private val viewModel: RecipeListViewModel by lazy {
+        ViewModelProvider(this, viewModelFactory)[RecipeListViewModel::class.java]
+    }
+
     private val endlessScrollListener: EndlessRecyclerOnScrollListener =
         object : EndlessRecyclerOnScrollListener(recipeFooterAdapter) {
             override fun onLoadMore(currentPage: Int) {
-                presenter.handleLoadMore(recipeBodyAdapter.adapterItemCount)
+                viewModel.handleLoadMore(recipeBodyAdapter.adapterItemCount)
             }
         }
+
+    override fun bindActivity() {
+        binding = ActivityRecipeListBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+    }
+
+    override fun injectDependencies(activityComponent: ActivityComponent) =
+        activityComponent.inject(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setToolbarBehavior(NormalToolbar(
@@ -65,46 +83,70 @@ class RecipeListActivity : BaseActivity<RecipeListContract.View, RecipeListPrese
             }
         ))
         super.onCreate(savedInstanceState)
+        setupView()
+        observeViewModel()
+        viewModel.init(provideSearchConfig())
     }
 
-    override fun injectDependencies(activityComponent: ActivityComponent) =
-        activityComponent.inject(this)
-
-    override fun getView(): RecipeListContract.View = this
-
-    override fun setupView() {
+    private fun setupView() {
         setupRecyclerView()
         binding.fabSortFilter.run {
             tvSort.setOnClickListener {
-                presenter.handleSortActionClicked()
+                viewModel.handleSortActionClicked()
             }
 
             tvFilter.setOnClickListener {
-                presenter.handleFilterActionClicked()
+                viewModel.handleFilterActionClicked()
             }
         }
     }
 
-    override fun showFooterLoading() {
-        Handler().post {
-            recipeFooterAdapter.apply {
-                clear()
-                add(ProgressItem())
+    private fun observeViewModel() {
+        viewModel.state.observe(this) {
+            when(it) {
+                is NavigateRecipeDetail -> showDetail(it.recipeId)
+                is ShowErrorMessage -> showError(it.resId)
+                is RenderErrorState -> showErrorState()
+                is SuccessEmptyRecipeState -> showResultEmptyState()
+                is SuccessLoadRecipe -> handleSuccessLoadRecipe(it.recipeList)
+                is ShowSortSelector -> showSortBottomSheet(ArrayList(it.sortOption), it.selectedSort)
+                is ShowFilterSelector -> showFilterBottomSheet(it.filterOption, it.selectedFilter)
+                is ResetList -> resetList()
+                is ShowFooterLoading -> showFooterLoading()
+                is HideFooterLoading -> hideFooterLoading()
             }
         }
     }
 
-    override fun appendRecipes(recipes: List<Recipe>) {
-        Handler().post {
-            binding.rvRecipe.visibility = View.VISIBLE
-            recipeFooterAdapter.clear()
-            recipes.map {
-                recipeBodyAdapter.add(RecipeItem(it))
-            }
+    private fun handleSuccessLoadRecipe(recipes: List<Recipe>) {
+        if (recipes.first().totalRecipe < 11) {
+            disableLoadMore()
+        }
+        showFilterButton()
+        appendRecipes(recipes)
+    }
+
+    private fun resetList() {
+        clearRecipe()
+        showFooterLoading()
+    }
+
+    private fun showFooterLoading() {
+        recipeFooterAdapter.run {
+            clear()
+            add(ProgressItem())
         }
     }
 
-    override fun provideSearchConfig(): RecipeConfig {
+    private fun appendRecipes(recipes: List<Recipe>) {
+        binding.rvRecipe.visibility = View.VISIBLE
+        recipeFooterAdapter.clear()
+        recipes.map {
+            recipeBodyAdapter.add(RecipeItem(it))
+        }
+    }
+
+    private fun provideSearchConfig(): RecipeConfig {
         return RecipeConfig(
             intent.extras?.getString(QUERY_EXTRA_KEY),
             null,
@@ -112,11 +154,11 @@ class RecipeListActivity : BaseActivity<RecipeListContract.View, RecipeListPrese
         )
     }
 
-    override fun showDetail(recipeId: String) {
+    private fun showDetail(recipeId: String) {
         startActivity(RecipeDetailActivity.getIntent(this, recipeId))
     }
 
-    override fun showFilterBottomSheet(
+    private fun showFilterBottomSheet(
         cuisines: List<String>,
         selectedCuisine: String?
     ) {
@@ -125,36 +167,37 @@ class RecipeListActivity : BaseActivity<RecipeListContract.View, RecipeListPrese
                 it.cuisines = cuisines
                 it.selectedCuisine = selectedCuisine
                 it.onBottomSheetDismissListener = { cuisine ->
-                    presenter.handleFilterItemSelected(cuisine)
+                    viewModel.handleFilterItemSelected(cuisine)
                 }
             }.show(supportFragmentManager, "cartbot")
     }
 
-    override fun showSortBottomSheet(sortOption: ArrayList<SortOption>, selectedSortOption: String) {
+    private fun showSortBottomSheet(sortOption: ArrayList<SortOption>, selectedSortOption: String?) {
         RecipeSortBottomSheetFragment.newInstance(sortOption, selectedSortOption).apply {
             listener = { selectedSort ->
-                presenter.handleSortItemSelected(
+                viewModel.handleSortItemSelected(
                     RecipeSortCategory.values().first { selectedSort == it.type }
                 )
             }
         }.show(supportFragmentManager, "sort")
     }
 
-    override fun clearRecipe() {
+    private fun clearRecipe() {
         recipeBodyAdapter.clear()
         recipeFooterAdapter.clear()
         endlessScrollListener.resetPageCount()
     }
 
-    override fun hideFilterButton() {
+    private fun hideFilterButton() {
         binding.fabSortFilter.root.visibility = View.GONE
     }
 
-    override fun showFilterButton() {
+    private fun showFilterButton() {
         binding.fabSortFilter.root.visibility = View.VISIBLE
     }
 
-    override fun showResultEmptyState() {
+    private fun showResultEmptyState() {
+        hideFilterButton()
         binding.rvRecipe.visibility = View.GONE
         binding.layoutError.run {
             root.visibility = View.VISIBLE
@@ -164,7 +207,7 @@ class RecipeListActivity : BaseActivity<RecipeListContract.View, RecipeListPrese
         }
     }
 
-    override fun showErrorState() {
+    private fun showErrorState() {
         binding.rvRecipe.visibility = View.GONE
         binding.layoutError.run {
             root.visibility = View.VISIBLE
@@ -174,21 +217,19 @@ class RecipeListActivity : BaseActivity<RecipeListContract.View, RecipeListPrese
         }
     }
 
-    override fun disableLoadMore() {
+    private fun disableLoadMore() {
         binding.rvRecipe.clearOnScrollListeners()
     }
 
-    override fun hideFooterLoading() {
-        Handler().post {
-            recipeFooterAdapter.clear()
-        }
+    private fun hideFooterLoading() {
+        recipeFooterAdapter.clear()
     }
 
     private fun setupRecyclerView() {
         val fastAdapter = FastAdapter.with(listOf(recipeBodyAdapter, recipeFooterAdapter)).apply {
             onClickListener = { view, _, item, _ ->
                 if (view != null && item is RecipeItem) {
-                    presenter.handleListItemClicked(item.recipe.id.toString())
+                    viewModel.handleListItemClicked(item.recipe.id.toString())
                 }
                 false
             }
@@ -216,12 +257,5 @@ class RecipeListActivity : BaseActivity<RecipeListContract.View, RecipeListPrese
                 it.putExtra(QUERY_EXTRA_KEY, query)
             }
         }
-    }
-
-    override fun getLayoutRes(): Int  = -1
-
-    override fun bindActivity() {
-        binding = ActivityRecipeListBinding.inflate(layoutInflater)
-        setContentView(binding.root)
     }
 }

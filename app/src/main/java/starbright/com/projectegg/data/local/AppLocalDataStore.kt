@@ -65,7 +65,7 @@ class AppLocalDataStore @Inject constructor(
         return database.searchHistoryDao().getSearchHistory()
     }
 
-    override suspend fun checkQueryExistence(query: String): Flow<List<SearchHistory>> {
+    override fun checkQueryExistence(query: String): Flow<List<SearchHistory>> {
         return database.searchHistoryDao().getRecentSearchByQuery(query)
     }
 

@@ -62,7 +62,7 @@ class SearchRecipeActivity : BaseActivityRevamped() {
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
     private val viewModel: SearchRecipeViewModel by lazy {
-        ViewModelProvider(this, viewModelFactory).get(SearchRecipeViewModel::class.java)
+        ViewModelProvider(this, viewModelFactory)[SearchRecipeViewModel::class.java]
     }
 
     override fun injectDependencies(activityComponent: ActivityComponent) =
@@ -99,7 +99,7 @@ class SearchRecipeActivity : BaseActivityRevamped() {
 
                 override fun onQueryTextChange(newText: String?): Boolean {
                     viewModel.handleUserTypeInEditText(newText)
-                    return false
+                    return true
                 }
             })
         }

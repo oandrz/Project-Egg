@@ -14,6 +14,7 @@ import android.os.Build
 import starbright.com.projectegg.dagger.component.ApplicationComponent
 import starbright.com.projectegg.dagger.component.DaggerApplicationComponent
 import starbright.com.projectegg.dagger.module.AppModule
+import timber.log.Timber
 
 class MyApp : Application() {
 
@@ -24,6 +25,10 @@ class MyApp : Application() {
         appComponent = DaggerApplicationComponent.builder()
             .appModule(AppModule(this))
             .build()
+
+        if(BuildConfig.DEBUG){
+            Timber.plant(Timber.DebugTree())
+        }
     }
 
     companion object {

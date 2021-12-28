@@ -9,8 +9,6 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import io.reactivex.Completable
-import io.reactivex.Maybe
 import kotlinx.coroutines.flow.Flow
 import starbright.com.projectegg.data.model.local.SearchHistory
 
@@ -28,6 +26,6 @@ interface SearchHistoryDao {
     @Query("UPDATE SearchHistory SET created_at = :updatedAt WHERE search_query = :query")
     suspend fun updateExistingQueryTimestamp(query: String, updatedAt: Long)
 
-    @Query("SELECT * FROM SearchHistory WHERE search_query = :query LIMIT 1")
+    @Query("SELECT * FROM SearchHistory WHERE search_query = :query")
     fun getRecentSearchByQuery(query: String): Flow<List<SearchHistory>>
 }

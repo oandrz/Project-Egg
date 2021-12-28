@@ -180,13 +180,9 @@ class AppRemoteDataStore @Inject constructor(
         throw UnsupportedOperationException()
     }
 
-    override suspend fun checkQueryExistence(query: String): Flow<List<SearchHistory>> {
+    override fun checkQueryExistence(query: String): Flow<List<SearchHistory>> {
         throw UnsupportedOperationException()
     }
-
-//    override suspend fun checkQueryExistence(query: String): List<SearchHistory> {
-//        throw UnsupportedOperationException()
-//    }
 
     override suspend fun updateExistingHistoryTimestamp(query: String, millis: Long) {
         throw UnsupportedOperationException()

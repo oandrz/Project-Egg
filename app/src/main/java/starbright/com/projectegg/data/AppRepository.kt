@@ -10,7 +10,6 @@
 package starbright.com.projectegg.data
 
 import io.reactivex.Completable
-import io.reactivex.Maybe
 import io.reactivex.Observable
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -90,10 +89,9 @@ class AppRepository @Inject constructor(
             .flowOn(Dispatchers.IO)
     }
 
-    override suspend fun checkQueryExistence(query: String): List<SearchHistory> {
+    override fun checkQueryExistence(query: String): Flow<List<SearchHistory>> {
         return appLocalDataStore.checkQueryExistence(query)
             .flowOn(Dispatchers.IO)
-            .single()
     }
 
     override suspend fun updateExistingHistoryTimestamp(query: String, millis: Long) {

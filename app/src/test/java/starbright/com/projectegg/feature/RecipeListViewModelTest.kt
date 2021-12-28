@@ -25,11 +25,11 @@ import starbright.com.projectegg.data.AppRepository
 import starbright.com.projectegg.data.model.Recipe
 import starbright.com.projectegg.data.model.response.NetworkError
 import starbright.com.projectegg.features.recipelist.RecipeListContract
-import starbright.com.projectegg.features.recipelist.RecipeListPresenter
+import starbright.com.projectegg.features.recipelist.RecipeListViewModel
 import starbright.com.projectegg.util.*
 
 @RunWith(MockitoJUnitRunner::class)
-class RecipeListPresenterTest {
+class RecipeListViewModelTest {
     @get:Rule
     val rule = InstantTaskExecutorRule()
 
@@ -43,19 +43,19 @@ class RecipeListPresenterTest {
     private lateinit var mockRepository: AppRepository
 
     private lateinit var testScheduler: TestScheduler
-    private lateinit var presenter: RecipeListPresenter
+    private lateinit var viewModel: RecipeListViewModel
 
     @Before
     fun setup() {
         testScheduler = TestScheduler()
         val schedulerProvider = TestSchedulerProvider(testScheduler)
-        presenter = RecipeListPresenter(
+        viewModel = RecipeListViewModel(
             schedulerProvider,
             CompositeDisposable(),
             mockNetworkHelper,
             mockRepository
         )
-        presenter.attachView(mockView)
+        viewModel.attachView(mockView)
     }
 
     @Test
@@ -64,7 +64,7 @@ class RecipeListPresenterTest {
             .`when`(mockRepository)
             .getRecipes("", 0)
 
-        presenter.onCreateScreen()
+        viewModel.onCreateScreen()
 
         verify(mockView).setupView()
     }
@@ -78,7 +78,7 @@ class RecipeListPresenterTest {
             .`when`(mockRepository)
             .getRecipes(mockIngredient.name, 0)
 
-        presenter.onCreateScreen()
+        viewModel.onCreateScreen()
         testScheduler.triggerActions()
 
         verify(mockView).hideLoadingBar()
@@ -99,7 +99,7 @@ class RecipeListPresenterTest {
             .`when`(mockRepository)
             .getRecipes(mockIngredient.name, 0)
 
-        presenter.onCreateScreen()
+        viewModel.onCreateScreen()
         testScheduler.triggerActions()
 
         verify(mockView).hideFooterLoading()

@@ -21,7 +21,6 @@ import starbright.com.projectegg.data.model.Recipe
 import starbright.com.projectegg.data.model.local.SearchHistory
 import starbright.com.projectegg.util.NetworkHelper
 import timber.log.Timber
-import java.lang.Exception
 import javax.inject.Inject
 
 private const val MIN_QUERY_LENGTH = 2
@@ -116,43 +115,45 @@ class SearchRecipeViewModel @Inject constructor(
         }
     }
 
-    private fun addSearchQuery(query: String) {
-        viewModelScope.launch {
-            kotlin.runCatching {
-                repository.addSearchHistory(
-                    SearchHistory(
-                        query = query,
-                        createdAt = System.currentTimeMillis()
-                    )
+    private suspend fun addSearchQuery(query: String) {
+        kotlin.runCatching {
+            repository.addSearchHistory(
+                SearchHistory(
+                    query = query,
+                    createdAt = System.currentTimeMillis()
                 )
-            }
+            )
+        }
             .onSuccess {
                 _searchRecipeState.value = SearchState.NavigateRecipeList(query)
             }
             .onFailure {
                 Timber.e(it)
             }
-        }
     }
 
-    private fun updateSearchQueryTimestamp(query: String) {
-        viewModelScope.launch {
-            kotlin.runCatching { repository.updateExistingHistoryTimestamp(query, System.currentTimeMillis()) }
-                .onSuccess { _searchRecipeState.value = SearchState.NavigateRecipeList(query) }
-                .onFailure { Timber.e(it) }
+    private suspend fun updateSearchQueryTimestamp(query: String) {
+        kotlin.runCatching {
+            repository.updateExistingHistoryTimestamp(query, System.currentTimeMillis())
         }
+            .onSuccess {
+                _searchRecipeState.value = SearchState.NavigateRecipeList(query)
+            }
+            .onFailure { Timber.e(it) }
     }
 
     private fun searchQueryExistence(query: String) {
         viewModelScope.launch {
-            kotlin.runCatching { repository.checkQueryExistence(query) }
-                .onSuccess {
-                    if (it.isEmpty()) {
-                        addSearchQuery(query)
-                    } else {
-                        updateSearchQueryTimestamp(query)
-                    }
+            try {
+                val result = repository.checkQueryExistence(query).first()
+                if (result.isEmpty()) {
+                    addSearchQuery(query)
+                } else {
+                    updateSearchQueryTimestamp(query)
                 }
+            } catch (t : Throwable) {
+                Timber.e(t)
+            }
         }
     }
 

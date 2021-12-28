@@ -6,7 +6,6 @@
 package starbright.com.projectegg.data
 
 import io.reactivex.Completable
-import io.reactivex.Maybe
 import io.reactivex.Observable
 import kotlinx.coroutines.flow.Flow
 import starbright.com.projectegg.data.model.Ingredient
@@ -29,7 +28,7 @@ interface RecipeRepository {
     fun isRecipeSavedBefore(recipeId: Int): Observable<FavouriteRecipe?>
 
     suspend fun getSearchHistory(): Flow<List<SearchHistory>>
-    suspend fun checkQueryExistence(query: String): List<SearchHistory>
+    fun checkQueryExistence(query: String): Flow<List<SearchHistory>>
     suspend fun updateExistingHistoryTimestamp(query: String, millis: Long)
     suspend fun addSearchHistory(history: SearchHistory)
     suspend fun removeSearchHistory(query: String)
