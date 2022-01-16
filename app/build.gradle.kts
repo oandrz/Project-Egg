@@ -51,7 +51,7 @@ android {
             isMinifyEnabled = false
             applicationIdSuffix = ".debug"
             versionNameSuffix = "-debug"
-            buildConfigField("String", "BASE_URL", "\"https://5y482.mocklab.io\"")
+            buildConfigField("String", "BASE_URL", "\"https://api.spoonacular.com\"")
         }
         getByName("release") {
             signingConfig = signingConfigs.getByName("release")

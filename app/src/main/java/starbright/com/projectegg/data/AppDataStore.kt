@@ -5,7 +5,6 @@
 
 package starbright.com.projectegg.data
 
-import io.reactivex.Completable
 import io.reactivex.Observable
 import kotlinx.coroutines.flow.Flow
 import starbright.com.projectegg.data.model.Ingredient
@@ -18,14 +17,14 @@ interface AppDataStore {
     suspend fun getRecommendedRecipe(offSet: Int): Flow<List<Recipe>>
     fun searchIngredient(query: String): Observable<List<Ingredient>>
 
-    fun getRecipeDetailInformation(recipeId: String): Observable<Recipe>
+    suspend fun getRecipeDetailInformation(recipeId: String): Flow<Recipe>
 
     fun saveDetailInformation(recipe: Recipe)
 
-    fun removeFavouriteRecipe(recipeId: Int): Completable
-    fun saveFavouriteRecipe(recipe: FavouriteRecipe): Completable
+    suspend fun removeFavouriteRecipe(recipeId: Int)
+    suspend fun saveFavouriteRecipe(recipe: FavouriteRecipe)
     suspend fun getFavouriteRecipeWith(): Flow<List<FavouriteRecipe>>
-    fun getFavouriteRecipeWith(recipeId: Int): Observable<FavouriteRecipe?>
+    suspend fun getFavouriteRecipeWith(recipeId: Int): FavouriteRecipe?
 
     suspend fun getSearchHistory(): Flow<List<SearchHistory>>
     fun checkQueryExistence(query: String): Flow<List<SearchHistory>>

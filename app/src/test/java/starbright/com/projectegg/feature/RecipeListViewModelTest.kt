@@ -24,7 +24,6 @@ import org.mockito.junit.MockitoJUnitRunner
 import starbright.com.projectegg.data.AppRepository
 import starbright.com.projectegg.data.model.Recipe
 import starbright.com.projectegg.data.model.response.NetworkError
-import starbright.com.projectegg.features.recipelist.RecipeListContract
 import starbright.com.projectegg.features.recipelist.RecipeListViewModel
 import starbright.com.projectegg.util.*
 

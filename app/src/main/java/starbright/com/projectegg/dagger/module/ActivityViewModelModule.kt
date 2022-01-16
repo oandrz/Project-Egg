@@ -5,6 +5,7 @@ import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
 import starbright.com.projectegg.dagger.ViewModelKey
+import starbright.com.projectegg.features.detail.RecipeDetailViewModel
 import starbright.com.projectegg.features.recipelist.RecipeListViewModel
 import starbright.com.projectegg.features.search.SearchRecipeViewModel
 
@@ -20,4 +21,9 @@ abstract class ActivityViewModelModule {
     @IntoMap
     @ViewModelKey(RecipeListViewModel::class)
     abstract fun bindRecipeListViewModel(vm: RecipeListViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(RecipeDetailViewModel::class)
+    abstract fun bindRecipeDetailViewModel(vm: RecipeDetailViewModel): ViewModel
 }

@@ -58,7 +58,9 @@
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
-    <include layout="@layout/content_recipe_detail_body" />
+    <include
+        android:id="@+id/recipe_body"
+        layout="@layout/content_recipe_detail_body" />
 
     <include
         android:id="@+id/layout_empty"

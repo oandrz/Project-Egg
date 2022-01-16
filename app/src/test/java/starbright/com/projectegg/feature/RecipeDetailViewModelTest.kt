@@ -24,15 +24,14 @@ import org.mockito.junit.MockitoJUnitRunner
 import starbright.com.projectegg.R
 import starbright.com.projectegg.data.AppRepository
 import starbright.com.projectegg.data.model.response.NetworkError
-import starbright.com.projectegg.features.detail.RecipeDetailContract
-import starbright.com.projectegg.features.detail.RecipeDetailPresenter
+import starbright.com.projectegg.features.detail.RecipeDetailViewModel
 import starbright.com.projectegg.util.NetworkHelper
 import starbright.com.projectegg.util.TestSchedulerProvider
 import starbright.com.projectegg.util.mockRecipe
 import starbright.com.projectegg.util.mockRecipeWithoutUrl
 
 @RunWith(MockitoJUnitRunner::class)
-class RecipeDetailPresenterTest {
+class RecipeDetailViewModelTest {
 
     @get:Rule
     val rule = InstantTaskExecutorRule()
@@ -46,20 +45,20 @@ class RecipeDetailPresenterTest {
     @Mock
     private lateinit var mockRepository: AppRepository
 
-    private lateinit var presenter: RecipeDetailPresenter
+    private lateinit var viewModel: RecipeDetailViewModel
     private lateinit var testScheduler: TestScheduler
 
     @Before
     fun setup() {
         testScheduler = TestScheduler()
         val schedulerProvider = TestSchedulerProvider(testScheduler)
-        presenter = RecipeDetailPresenter(
+        viewModel = RecipeDetailViewModel(
             schedulerProvider,
             CompositeDisposable(),
             mockNetworkHelper,
             mockRepository
         )
-        presenter.attachView(mockView)
+        viewModel.attachView(mockView)
     }
 
     @Test
@@ -68,7 +67,7 @@ class RecipeDetailPresenterTest {
             .`when`(mockRepository)
             .getRecipeDetailInformation(mockRecipe.id.toString())
 
-        presenter.onCreateScreen()
+        viewModel.onCreateScreen()
 
         verify(mockView).setupSwipeRefreshLayout()
     }
@@ -83,7 +82,7 @@ class RecipeDetailPresenterTest {
             .`when`(mockRepository)
             .getRecipeDetailInformation(mockRecipe.id.toString())
 
-        presenter.getRecipeDetailInformation(mockRecipe.id.toString())
+        viewModel.getRecipeDetailInformation(mockRecipe.id.toString())
         testScheduler.triggerActions()
 
         verify(mockView).hideScrollContainer()
@@ -116,7 +115,7 @@ class RecipeDetailPresenterTest {
             .`when`(mockRepository)
             .getRecipeDetailInformation(mockRecipe.id.toString())
 
-        presenter.getRecipeDetailInformation(mockRecipe.id.toString())
+        viewModel.getRecipeDetailInformation(mockRecipe.id.toString())
         testScheduler.triggerActions()
 
         verify(mockView).renderEmptyView()
@@ -134,7 +133,7 @@ class RecipeDetailPresenterTest {
             .`when`(mockRepository)
             .getRecipeDetailInformation(mockRecipe.id.toString())
 
-        presenter.getRecipeDetailInformation(mockRecipe.id.toString())
+        viewModel.getRecipeDetailInformation(mockRecipe.id.toString())
         testScheduler.triggerActions()
 
         verify(mockView).showError(R.string.server_connection_error)
@@ -142,7 +141,7 @@ class RecipeDetailPresenterTest {
 
     @Test
     fun givenNoRecipeInformation_whenClickShareAction_shouldShowErrorMessage() {
-        presenter.handleShareMenuClicked()
+        viewModel.handleShareMenuClicked()
         testScheduler.triggerActions()
 
         verify(mockView).showError(R.string.detail_empty_label)
@@ -158,8 +157,8 @@ class RecipeDetailPresenterTest {
             .`when`(mockRepository)
             .getRecipeDetailInformation(mockRecipe.id.toString())
 
-        presenter.getRecipeDetailInformation(mockRecipe.id.toString())
-        presenter.handleShareMenuClicked()
+        viewModel.getRecipeDetailInformation(mockRecipe.id.toString())
+        viewModel.handleShareMenuClicked()
         testScheduler.triggerActions()
 
         mockRecipe.sourceStringUrl?.let {
@@ -178,8 +177,8 @@ class RecipeDetailPresenterTest {
             .`when`(mockRepository)
             .getRecipeDetailInformation(mockRecipeWithoutUrl.id.toString())
 
-        presenter.getRecipeDetailInformation(mockRecipeWithoutUrl.id.toString())
-        presenter.handleShareMenuClicked()
+        viewModel.getRecipeDetailInformation(mockRecipeWithoutUrl.id.toString())
+        viewModel.handleShareMenuClicked()
         testScheduler.triggerActions()
 
         verify(mockView).showError(R.string.detail_empty_label)
@@ -196,8 +195,8 @@ class RecipeDetailPresenterTest {
             .`when`(mockRepository)
             .getRecipeDetailInformation(mockRecipeWithoutUrl.id.toString())
 
-        presenter.getRecipeDetailInformation(mockRecipeWithoutUrl.id.toString())
-        presenter.handleWebViewMenuClicked()
+        viewModel.getRecipeDetailInformation(mockRecipeWithoutUrl.id.toString())
+        viewModel.handleWebViewMenuClicked()
         testScheduler.triggerActions()
 
         verify(mockView).showError(R.string.detail_empty_label)

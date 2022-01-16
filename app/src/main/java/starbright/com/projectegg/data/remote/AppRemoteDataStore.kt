@@ -5,12 +5,9 @@
 
 package starbright.com.projectegg.data.remote
 
-import io.reactivex.Completable
-import io.reactivex.Maybe
 import io.reactivex.Observable
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.map
 import retrofit2.Retrofit
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -128,52 +125,56 @@ class AppRemoteDataStore @Inject constructor(
             }
     }
 
-    override fun getRecipeDetailInformation(recipeId: String): Observable<Recipe> {
+    override suspend fun getRecipeDetailInformation(recipeId: String): Flow<Recipe> {
         val queryMap = HashMap<String, String>().also {
             it[Constants.QUERY_PARAM_INCL_NUTRITION] = true.toString()
         }
-        return retrofit.create(Service::class.java)
-            .getRecipeDetailInformation(recipeId = recipeId, options = queryMap)
-            .map { recipeDetailResponse ->
-                Recipe(
-                    id = recipeDetailResponse.id,
-                    cookingMinutes = recipeDetailResponse.cookingTime,
-                    servingCount = recipeDetailResponse.servings,
-                    title = recipeDetailResponse.title,
-                    image = recipeDetailResponse.imageStringUrl,
-                    sourceStringUrl = recipeDetailResponse.sourceStringUrl,
-                    sourceName = recipeDetailResponse.sourceName,
-                    ingredients = recipeDetailResponse.extendedIngredientResponse.map {
-                        Ingredient(it)
-                    },
-                    instructions = recipeDetailResponse.analyzedInstructions.first().stepResponse.map {
-                        Instruction(it.number, it.step)
-                    },
-                    calories = recipeDetailResponse.nutrients.nutrients.first().amount.toInt(),
-                    dishTypes = recipeDetailResponse.dishTypes,
-                    cuisines = recipeDetailResponse.cuisines
-                )
-            }
+        return flow {
+            emit(
+                retrofit.create(Service::class.java)
+                    .getRecipeDetailInformation(recipeId = recipeId, options = queryMap)
+                    .let {
+                        Recipe(
+                            id = it.id,
+                            cookingMinutes = it.cookingTime,
+                            servingCount = it.servings,
+                            title = it.title,
+                            image = it.imageStringUrl,
+                            sourceStringUrl = it.sourceStringUrl,
+                            sourceName = it.sourceName,
+                            ingredients = it.extendedIngredientResponse.map { addition ->
+                                Ingredient(addition)
+                            },
+                            instructions = it.analyzedInstructions.first().stepResponse.map { step ->
+                                Instruction(step.number, step.step)
+                            },
+                            calories = it.nutrients.nutrients.first().amount.toInt(),
+                            dishTypes = it.dishTypes,
+                            cuisines = it.cuisines
+                        )
+                    }
+            )
+        }
     }
 
     override fun saveDetailInformation(recipe: Recipe) {
         throw UnsupportedOperationException()
     }
 
-    override fun removeFavouriteRecipe(recipeId: Int): Completable {
-        throw UnsupportedOperationException()
+    override suspend fun removeFavouriteRecipe(recipeId: Int) {
+        TODO("Not yet implemented")
     }
 
-    override fun saveFavouriteRecipe(recipe: FavouriteRecipe): Completable {
-        throw UnsupportedOperationException()
+    override suspend fun saveFavouriteRecipe(recipe: FavouriteRecipe) {
+        TODO("Not yet implemented")
     }
 
     override suspend fun getFavouriteRecipeWith(): Flow<List<FavouriteRecipe>> {
         throw UnsupportedOperationException()
     }
 
-    override fun getFavouriteRecipeWith(recipeId: Int): Observable<FavouriteRecipe?> {
-        throw UnsupportedOperationException()
+    override suspend fun getFavouriteRecipeWith(recipeId: Int): FavouriteRecipe? {
+        TODO("Not yet implemented")
     }
 
     override suspend fun getSearchHistory(): Flow<List<SearchHistory>> {
@@ -222,10 +223,10 @@ class AppRemoteDataStore @Inject constructor(
         ): Observable<List<IngredientResponse>>
 
         @GET("recipes/{recipeId}/information")
-        fun getRecipeDetailInformation(
+        suspend fun getRecipeDetailInformation(
             @Path("recipeId") recipeId: String,
             @QueryMap options: Map<String, String>,
             @Query(Constants.QUERY_API_KEY) apiKey: String? = BuildConfig.SPOON_KEY
-        ): Observable<RecipeDetailResponse>
+        ): RecipeDetailResponse
     }
 }

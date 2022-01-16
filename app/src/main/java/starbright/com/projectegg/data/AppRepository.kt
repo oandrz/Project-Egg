@@ -13,6 +13,7 @@ import io.reactivex.Completable
 import io.reactivex.Observable
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.single
 import kotlinx.coroutines.withContext
@@ -48,19 +49,21 @@ class AppRepository @Inject constructor(
         return appRemoteDataStore.searchIngredient(query)
     }
 
-    override fun getRecipeDetailInformation(recipeId: String): Observable<Recipe> {
+    override suspend fun getRecipeDetailInformation(recipeId: String): Recipe {
         return appRemoteDataStore.getRecipeDetailInformation(recipeId)
+            .flowOn(Dispatchers.IO)
+            .first()
     }
 
     override fun saveDetailInformation(recipe: Recipe) {
         appLocalDataStore.saveDetailInformation(recipe)
     }
 
-    override fun removeFavouriteRecipe(recipeId: Int): Completable {
+    override suspend fun removeFavouriteRecipe(recipeId: Int) {
         return appLocalDataStore.removeFavouriteRecipe(recipeId)
     }
 
-    override fun saveFavouriteRecipe(recipe: Recipe): Completable {
+    override suspend fun saveFavouriteRecipe(recipe: Recipe) {
         return recipe.let {
             appLocalDataStore.saveFavouriteRecipe(
                 FavouriteRecipe(
@@ -80,7 +83,7 @@ class AppRepository @Inject constructor(
             .flowOn(Dispatchers.IO)
     }
 
-    override fun isRecipeSavedBefore(recipeId: Int): Observable<FavouriteRecipe?> {
+    override suspend fun isRecipeSavedBefore(recipeId: Int): FavouriteRecipe? {
         return appLocalDataStore.getFavouriteRecipeWith(recipeId)
     }
 

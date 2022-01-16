@@ -17,30 +17,31 @@
 
 package starbright.com.projectegg.util
 
-import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import starbright.com.projectegg.R
+import starbright.com.projectegg.databinding.ItemTextOnlyBinding
 
-class TextViewRecyclerAdapter(private val mContext: Context, private val mDataSource: List<String>) : RecyclerView.Adapter<TextViewRecyclerAdapter.ViewHolder>() {
+class TextViewRecyclerAdapter(private val mDataSource: List<String>) : RecyclerView.Adapter<TextViewRecyclerAdapter.ViewHolder>() {
+
+    private var binding: ItemTextOnlyBinding? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(mContext)
-            .inflate(R.layout.item_text_only, parent, false)
-        return ViewHolder(view)
+        binding = ItemTextOnlyBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return ViewHolder(binding!!)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-//        holder.itemView.tv_text.text = mDataSource[position]
+        holder.render(mDataSource[position])
     }
 
     override fun getItemCount(): Int {
         return mDataSource.size
     }
 
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
+    inner class ViewHolder(private val binding: ItemTextOnlyBinding) : RecyclerView.ViewHolder(binding.root) {
+        fun render(text: String) {
+            binding.tvText.text = text
+        }
     }
 }

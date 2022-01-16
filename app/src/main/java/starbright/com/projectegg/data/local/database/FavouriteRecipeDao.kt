@@ -19,11 +19,11 @@ interface FavouriteRecipeDao {
     fun getFavouriteRecipe(): Flow<List<FavouriteRecipe>>
 
     @Query("SELECT * FROM FavouriteRecipe WHERE recipe_id=:recipeId")
-    fun getFavouriteRecipeWith(recipeId: Int): Observable<FavouriteRecipe?>
+    suspend fun getFavouriteRecipeWith(recipeId: Int): FavouriteRecipe?
 
     @Insert
-    fun addFavouriteRecipe(recipe: FavouriteRecipe): Completable
+    suspend fun addFavouriteRecipe(recipe: FavouriteRecipe)
 
     @Query("DELETE FROM FavouriteRecipe WHERE recipe_id = :recipeId")
-    fun removeFavouriteRecipe(recipeId: Int): Completable
+    suspend fun removeFavouriteRecipe(recipeId: Int)
 }

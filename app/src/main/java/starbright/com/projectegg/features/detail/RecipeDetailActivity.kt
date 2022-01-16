@@ -13,6 +13,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.android.material.snackbar.Snackbar
@@ -20,16 +21,19 @@ import starbright.com.projectegg.R
 import starbright.com.projectegg.dagger.component.ActivityComponent
 import starbright.com.projectegg.data.model.Ingredient
 import starbright.com.projectegg.data.model.Instruction
-import starbright.com.projectegg.features.base.BaseActivity
-import starbright.com.projectegg.features.base.NormalToolbar
-import starbright.com.projectegg.features.base.UNKNOWN_RESOURCE
-import starbright.com.projectegg.features.base.WebviewActivity
+import starbright.com.projectegg.data.model.Recipe
+import starbright.com.projectegg.databinding.ActivityRecipeDetailRevampedBinding
+import starbright.com.projectegg.features.base.*
 import starbright.com.projectegg.util.GlideApp
 import starbright.com.projectegg.util.TextViewRecyclerAdapter
 import java.lang.ref.WeakReference
+import javax.inject.Inject
 
-class RecipeDetailActivity : BaseActivity<RecipeDetailContract.View, RecipeDetailPresenter>(),
-    RecipeDetailContract.View {
+class RecipeDetailActivity : BaseActivityRevamped() {
+
+    private val binding: ActivityRecipeDetailRevampedBinding by lazy {
+        ActivityRecipeDetailRevampedBinding.inflate(layoutInflater)
+    }
 
     private val recipeId: String by lazy {
         intent?.extras?.getString(RECIPE_ID_EXTRA_KEY) ?: ""
@@ -37,9 +41,12 @@ class RecipeDetailActivity : BaseActivity<RecipeDetailContract.View, RecipeDetai
 
     private var isBookmarked: Boolean = false
 
-    override fun getLayoutRes(): Int = R.layout.activity_recipe_detail_revamped
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    override fun getView(): RecipeDetailContract.View = this
+    private val viewModel: RecipeDetailViewModel by lazy {
+        ViewModelProvider(this, viewModelFactory)[RecipeDetailViewModel::class.java]
+    }
 
     override fun injectDependencies(activityComponent: ActivityComponent) =
         activityComponent.inject(this)
@@ -51,12 +58,14 @@ class RecipeDetailActivity : BaseActivity<RecipeDetailContract.View, RecipeDetai
             )
         )
         super.onCreate(savedInstanceState)
-        presenter.getRecipeDetailInformation(recipeId)
+        setupView()
+        setupObserver()
+        viewModel.getRecipeDetailInformation(recipeId)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.recipe_detail_menu, menu)
-        menu?.findItem(R.id.menu_favorite)?.apply {
+        menu.findItem(R.id.menu_favorite)?.apply {
             if (isBookmarked) {
                 setTitle(R.string.detail_menu_unfavourite_label)
             } else {
@@ -69,88 +78,126 @@ class RecipeDetailActivity : BaseActivity<RecipeDetailContract.View, RecipeDetai
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.menu_share -> {
-                presenter.handleShareMenuClicked()
+                viewModel.handleShareMenuClicked()
                 true
             }
             R.id.menu_webview -> {
-                presenter.handleWebViewMenuClicked()
+                viewModel.handleWebViewMenuClicked()
                 true
             }
             R.id.menu_favorite -> {
-                presenter.handleBookmarkRecipeMenuClicked()
+                viewModel.handleBookmarkRecipeMenuClicked()
                 true
             }
             else -> super.onOptionsItemSelected(item)
         }
     }
 
-    override fun showProgressBar() {
-//        swipe_refresh_container.isRefreshing = true
+    private fun setupView() {
+        setupSwipeRefreshLayout()
     }
 
-    override fun hideProgressBar() {
-//        swipe_refresh_container.isRefreshing = false
+    private fun setupObserver() {
+        viewModel.state.observe(this) {
+            when(it) {
+                is RecipeDetailState.ShowLoading -> {
+                    hideScrollContainer()
+                    showProgressBar()
+                }
+                is RecipeDetailState.Success -> {
+                    hideProgressBar()
+                    hideEmptyView()
+                    render(it.recipe)
+                }
+                is RecipeDetailState.Error -> {
+                    renderErrorView(getString(it.res))
+                }
+                is RecipeDetailState.Empty -> {
+                    hideProgressBar()
+                    renderEmptyView()
+                }
+                is RecipeDetailState.NavigateShareIntent -> {
+                    createShareIntent(it.url, it.title)
+                }
+                is RecipeDetailState.NavigateWebView -> {
+                    navigateToWebViewActivity(it.url)
+                }
+                is RecipeDetailState.BookmarkUpdate -> {
+                    if (it.showSnackBar) {
+                        showSnackbar(R.string.detail_message_favourite_add)
+                    }
+                    updateMenu(it.isBookMarked)
+                }
+            }
+        }
     }
 
-    override fun hideScrollContainer() {
-//        scroll_container.visibility = View.GONE
+    private fun showProgressBar() {
+        binding.recipeBody.swipeRefreshContainer.isRefreshing = true
     }
 
-    override fun showScrollContainer() {
-//        scroll_container.visibility = View.VISIBLE
+    private fun hideProgressBar() {
+        binding.recipeBody.swipeRefreshContainer.isRefreshing = false
     }
 
-    override fun hideEmptyView() {
-//        layout_empty.visibility = View.GONE
+    private fun hideScrollContainer() {
+        binding.recipeBody.scrollContainer.visibility = View.GONE
     }
 
-    override fun renderErrorView(errorMessage: String) {
-//        layout_empty.visibility = View.VISIBLE
+    private fun showScrollContainer() {
+        binding.recipeBody.scrollContainer.visibility = View.VISIBLE
     }
 
-    override fun renderEmptyView() {
-//        layout_empty.visibility = View.VISIBLE
+    private fun hideEmptyView() {
+        binding.layoutEmpty.root.visibility = View.GONE
     }
 
-    override fun renderBannerFoodImage(imageURL: String) {
-//        img_banner_food.visibility = View.VISIBLE
-//        GlideApp.with(this)
-//            .load(imageURL)
-//            .diskCacheStrategy(DiskCacheStrategy.ALL)
-//            .centerCrop()
-//            .into(img_banner_food)
+    private fun renderErrorView(errorMessage: String) {
+        binding.layoutEmpty.root.visibility = View.VISIBLE
+        showSnackbar(text = errorMessage)
     }
 
-    override fun renderHeaderContainer(
+    private fun renderEmptyView() {
+        binding.layoutEmpty.root.visibility = View.VISIBLE
+    }
+
+    private fun renderBannerFoodImage(imageURL: String) {
+        binding.imgBannerFood.visibility = View.VISIBLE
+        GlideApp.with(this)
+            .load(imageURL)
+            .diskCacheStrategy(DiskCacheStrategy.ALL)
+            .centerCrop()
+            .into(binding.imgBannerFood)
+    }
+
+    private fun renderHeaderContainer(
         serving: Int,
         cookingMinutes: Int,
         recipeName: String,
         dishType: String,
         calories: Int
     ) {
-//        tv_calories.text = getString(R.string.recipe_list_calories_title, calories)
-//        tv_dish.text = dishType
-//        tv_recipe_title.text = recipeName
-//        tv_plater.text = getString(R.string.detail_serving_format, serving)
-//        tv_cook_time.text = getString(R.string.detail_time_format, cookingMinutes)
+        binding.recipeBody.apply {
+            tvCalories.text = getString(R.string.recipe_list_calories_title, calories)
+            tvDish.text = dishType
+            tvRecipeTitle.text = recipeName
+            tvPlater.text = getString(R.string.detail_serving_format, serving)
+            tvCookTime.text = getString(R.string.detail_time_format, cookingMinutes)
+        }
     }
 
-    override fun renderIngredientsList(ingredients: MutableList<Ingredient>) {
-        val adapter = TextViewRecyclerAdapter(
-            this,
-            ingredients.map { it.name }
-        )
-//        rv_ingredient.let {
-//            it.isNestedScrollingEnabled = false
-//            it.layoutManager = LinearLayoutManager(
-//                this,
-//                LinearLayoutManager.VERTICAL, false
-//            )
-//            it.adapter = adapter
-//        }
+    private fun renderIngredientsList(ingredients: List<Ingredient>) {
+        val textRecycleAdapter = TextViewRecyclerAdapter(ingredients.map { it.name })
+        binding.recipeBody.rvIngredient.apply {
+            isNestedScrollingEnabled = false
+            layoutManager = LinearLayoutManager(this@RecipeDetailActivity,
+                LinearLayoutManager.VERTICAL, false
+            )
+            adapter = textRecycleAdapter
+        }
     }
 
-    override fun renderInstructionsList(instructions: MutableList<Instruction>) {
+    private fun renderInstructionsList(instructions: List<Instruction>) {
         val formattedInstructions = ArrayList<String>(instructions.size)
         for (instruction in instructions) {
             formattedInstructions.add(
@@ -160,30 +207,29 @@ class RecipeDetailActivity : BaseActivity<RecipeDetailContract.View, RecipeDetai
                 )
             )
         }
-        val adapter = TextViewRecyclerAdapter(
-            this,
-            formattedInstructions
-        )
-//        rv_instruction?.let {
-//            it.isNestedScrollingEnabled = false
-//            it.layoutManager = LinearLayoutManager(
-//                this,
-//                LinearLayoutManager.VERTICAL, false
-//            )
-//            it.adapter = adapter
-//        }
+        val recyclerAdapter = TextViewRecyclerAdapter(formattedInstructions)
+        binding.recipeBody.rvInstruction.apply {
+            isNestedScrollingEnabled = false
+            layoutManager = LinearLayoutManager(
+                this@RecipeDetailActivity,
+                LinearLayoutManager.VERTICAL, false
+            )
+            adapter = recyclerAdapter
+        }
     }
 
-    override fun setupSwipeRefreshLayout() {
-//        swipe_refresh_container.let {
-//            it.setColorSchemeColors(ContextCompat.getColor(this, R.color.red))
-//            it.setOnRefreshListener {
-//                presenter.getRecipeDetailInformation(recipeId)
-//            }
-//        }
+    private fun setupSwipeRefreshLayout() {
+        binding.recipeBody.swipeRefreshContainer.run {
+            setColorSchemeColors(
+                ContextCompat.getColor(this@RecipeDetailActivity, R.color.red)
+            )
+            setOnRefreshListener {
+                viewModel.getRecipeDetailInformation(recipeId)
+            }
+        }
     }
 
-    override fun createShareIntent(url: String, recipeName: String) {
+    private fun createShareIntent(url: String, recipeName: String) {
         val textToShare = getString(R.string.detail_intent_share, recipeName, url)
         val shareIntent = Intent(Intent.ACTION_SEND)
         shareIntent.type = "text/plain"
@@ -191,17 +237,39 @@ class RecipeDetailActivity : BaseActivity<RecipeDetailContract.View, RecipeDetai
         startActivity(Intent.createChooser(shareIntent, getString(R.string.general_sharechooser)))
     }
 
-    override fun navigateToWebViewActivity(url: String) {
+    private fun navigateToWebViewActivity(url: String) {
         startActivity(WebviewActivity.newIntent(this, url))
     }
 
-    override fun showSnackbar(text: Int) {
-//        Snackbar.make(root_layout, text, Snackbar.LENGTH_SHORT).show()
+    private fun showSnackbar(textRes: Int? = null, text: String? = null) {
+        if (text != null) {
+            Snackbar.make(binding.rootLayout, text, Snackbar.LENGTH_SHORT).show()
+        } else if (textRes != null) {
+            Snackbar.make(binding.rootLayout, textRes, Snackbar.LENGTH_SHORT).show()
+        }
     }
 
-    override fun updateMenu(bookmarked: Boolean) {
+    private fun updateMenu(bookmarked: Boolean) {
         isBookmarked = bookmarked
         invalidateOptionsMenu()
+    }
+
+    private fun render(recipe: Recipe) {
+        showScrollContainer()
+        renderBannerFoodImage(recipe.image.orEmpty())
+        renderHeaderContainer(
+            recipe.servingCount ?: 0,
+            recipe.cookingMinutes ?: 0,
+            recipe.title,
+            recipe.dishTypes?.first().orEmpty(),
+            recipe.calories ?: 0
+        )
+        recipe.ingredients?.let {
+            renderIngredientsList(it)
+        }
+        recipe.instructions?.let {
+            renderInstructionsList(it)
+        }
     }
 
     companion object {
@@ -215,6 +283,6 @@ class RecipeDetailActivity : BaseActivity<RecipeDetailContract.View, RecipeDetai
     }
 
     override fun bindActivity() {
-        TODO("Not yet implemented")
+        setContentView(binding.root)
     }
 }
