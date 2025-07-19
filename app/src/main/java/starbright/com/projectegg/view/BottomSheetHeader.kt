@@ -5,10 +5,10 @@
 
 package starbright.com.projectegg.view
 
+import starbright.com.projectegg.databinding.ItemSheetHeaderBinding
 import android.view.View
 import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.items.AbstractItem
-import kotlinx.android.synthetic.main.layout_home_header_holder.view.*
 import starbright.com.projectegg.R
 
 class BottomSheetHeader(private var title: String) : AbstractItem<BottomSheetHeader.ViewHolder>() {
@@ -26,15 +26,17 @@ class BottomSheetHeader(private var title: String) : AbstractItem<BottomSheetHea
      *
      * @return the ViewHolder for this Item
      */
-    override fun getViewHolder(v: View): ViewHolder = ViewHolder(v)
+    override fun getViewHolder(v: View): ViewHolder = ViewHolder(ItemSheetHeaderBinding.bind(v))
 
-    inner class ViewHolder(itemVIew: View) : FastAdapter.ViewHolder<BottomSheetHeader>(itemVIew) {
+    inner class ViewHolder(
+        val binding: ItemSheetHeaderBinding
+    ) : FastAdapter.ViewHolder<BottomSheetHeader>(binding.root) {
         override fun bindView(item: BottomSheetHeader, payloads: List<Any>) {
-            itemView.tv_header.text = item.title
+            binding.tvHeader.text = item.title
         }
 
         override fun unbindView(item: BottomSheetHeader) {
-            itemView.tv_header.text = null
+            binding.tvHeader.text = null
         }
     }
 }

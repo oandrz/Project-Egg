@@ -5,6 +5,7 @@
 
 package starbright.com.projectegg.features.ingredients
 
+import starbright.com.projectegg.databinding.ItemCartBinding
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -13,7 +14,6 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
-import kotlinx.android.synthetic.main.item_cart.view.*
 import starbright.com.projectegg.R
 import starbright.com.projectegg.data.model.Ingredient
 import starbright.com.projectegg.util.GlideApp
@@ -26,10 +26,12 @@ class IngredientsCartAdapter(
     var listener: ((Int) -> (Unit))? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(context).inflate(R.layout.item_cart, parent, false)
-        return ViewHolder(view).also { holder ->
-            holder.itemView.iv_clear?.setOnClickListener {
-                listener?.invoke(holder.adapterPosition)
+        val binding = ItemCartBinding.inflate(
+            LayoutInflater.from(context), parent, false
+        )
+        return ViewHolder(binding).also { holder ->
+            binding.ivClear?.setOnClickListener {
+                listener?.invoke(holder.bindingAdapterPosition)
             }
         }
     }
@@ -39,10 +41,12 @@ class IngredientsCartAdapter(
 
     override fun getItemCount(): Int = ingredientCart.size
 
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class ViewHolder(
+        private val binding: ItemCartBinding
+    ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(ingredient: Ingredient) {
-            itemView.tv_ingredient_name.text = ingredient.name
+            binding.tvIngredientName.text = ingredient.name
             GlideApp.with(context)
                 .load(
                     if (ingredient.imageUrl?.isNotEmpty() == true) {
@@ -53,7 +57,7 @@ class IngredientsCartAdapter(
                 )
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .apply(RequestOptions.circleCropTransform())
-                .into(itemView.iv_ingredient)
+                .into(binding.ivIngredient)
         }
     }
 }

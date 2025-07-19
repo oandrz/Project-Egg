@@ -5,6 +5,7 @@
 
 package starbright.com.projectegg.features.recipelist.recipesort
 
+import starbright.com.projectegg.databinding.SheetSortRecipeBinding
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,13 +15,16 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.adapters.ItemAdapter
-import kotlinx.android.synthetic.main.sheet_sort_recipe.*
 import starbright.com.projectegg.R
 import starbright.com.projectegg.data.model.SortOption
 import starbright.com.projectegg.view.BottomSheetHeader
 import starbright.com.projectegg.view.SelectorItem
 
 class RecipeSortBottomSheetFragment: BottomSheetDialogFragment() {
+
+    private var _binding: SheetSortRecipeBinding? = null
+    private val binding get() = _binding!!
+
 
     private val linearLayoutManager: LinearLayoutManager by lazy {
         LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
@@ -51,7 +55,8 @@ class RecipeSortBottomSheetFragment: BottomSheetDialogFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.sheet_sort_recipe, container, false)
+        _binding = SheetSortRecipeBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -65,7 +70,7 @@ class RecipeSortBottomSheetFragment: BottomSheetDialogFragment() {
                 false
             }
         }
-        rv_sort.run {
+        binding.rvSort.run {
             itemAnimator = DefaultItemAnimator()
             layoutManager = linearLayoutManager
             adapter = fastAdapter
@@ -93,5 +98,10 @@ class RecipeSortBottomSheetFragment: BottomSheetDialogFragment() {
                 }
             }
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

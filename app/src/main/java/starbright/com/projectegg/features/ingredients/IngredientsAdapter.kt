@@ -9,13 +9,13 @@
 
 package starbright.com.projectegg.features.ingredients
 
+import starbright.com.projectegg.databinding.ItemSingleWithImageBinding
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import kotlinx.android.synthetic.main.item_single_with_image.view.*
 
 import starbright.com.projectegg.R
 import starbright.com.projectegg.data.model.Ingredient
@@ -33,11 +33,12 @@ internal class IngredientsAdapter(private val context: Context) : RecyclerView.A
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): IngredientViewHolder {
-        val view =
-            LayoutInflater.from(context).inflate(R.layout.item_single_with_image, parent, false)
-        val viewHolder = IngredientViewHolder(view)
-        view.setOnClickListener {
-            dataSource[viewHolder.adapterPosition].let { ingredient ->
+        val binding = ItemSingleWithImageBinding.inflate(
+            LayoutInflater.from(context), parent, false
+        )
+        val viewHolder = IngredientViewHolder(binding)
+        binding.root.setOnClickListener {
+            dataSource[viewHolder.bindingAdapterPosition].let { ingredient ->
                 onClickListener?.invoke(ingredient)
             }
         }
@@ -49,15 +50,17 @@ internal class IngredientsAdapter(private val context: Context) : RecyclerView.A
 
     override fun getItemCount(): Int = dataSource.size
 
-    internal inner class IngredientViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    internal inner class IngredientViewHolder(
+        private val binding: ItemSingleWithImageBinding
+    ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(ingredient: Ingredient) {
-            itemView.tv_ingredient.text = ingredient.name
+            binding.tvIngredient.text = ingredient.name
             GlideApp.with(context)
                 .load(ingredient.imageUrl)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .centerCrop()
-                .into(itemView.iv_ingredient)
+                .into(binding.ivIngredient)
         }
     }
 }

@@ -9,6 +9,8 @@
 
 package starbright.com.projectegg.features.ingredients
 
+import starbright.com.projectegg.databinding.ActivityIngredientsBinding
+import starbright.com.projectegg.databinding.LayoutIngredientSearchViewBinding
 import android.Manifest
 import android.content.Context
 import android.content.Intent
@@ -22,8 +24,6 @@ import android.widget.Toast
 import androidx.core.content.FileProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.afollestad.materialdialogs.MaterialDialog
-import kotlinx.android.synthetic.main.activity_ingredients.*
-import kotlinx.android.synthetic.main.layout_ingredient_search_view.*
 import permissions.dispatcher.NeedsPermission
 import permissions.dispatcher.RuntimePermissions
 import starbright.com.projectegg.BuildConfig
@@ -38,10 +38,14 @@ import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
+import android.os.Bundle
+import android.view.ViewGroup
 
 @RuntimePermissions
 class IngredientsActivity : BaseActivity<IngredientsContract.View,
     IngredientsPresenter>(), IngredientsContract.View {
+
+    private lateinit var binding: ActivityIngredientsBinding
 
     private lateinit var searchSuggestionAdapter: IngredientsAdapter
     private lateinit var dialog: MaterialDialog
@@ -68,6 +72,15 @@ class IngredientsActivity : BaseActivity<IngredientsContract.View,
         activityComponent.inject(this)
 
     override fun getView(): IngredientsContract.View = this
+    
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+    }
+    
+    override fun setContentView(layoutResID: Int) {
+        super.setContentView(layoutResID)
+        binding = ActivityIngredientsBinding.bind((findViewById<View>(android.R.id.content) as ViewGroup).getChildAt(0))
+    }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -79,11 +92,11 @@ class IngredientsActivity : BaseActivity<IngredientsContract.View,
     }
 
     override fun setupView() {
-        et_search_ingredients.imeOptions = EditorInfo.IME_ACTION_DONE
-        tv_title.setOnClickListener {
+        binding.searchView.etSearchIngredients.imeOptions = EditorInfo.IME_ACTION_DONE
+        binding.tvTitle.setOnClickListener {
             presenter.handleTvTitleClicked()
         }
-        iv_back.setOnClickListener {
+        binding.ivBack.setOnClickListener {
             finish()
         }
         setupEtSearchIngredients()
@@ -94,14 +107,14 @@ class IngredientsActivity : BaseActivity<IngredientsContract.View,
     }
 
     private fun setupEtSearchIngredients() {
-        et_search_ingredients.addTextChangedListener(mIngredientsTextWatcher)
+        binding.searchView.etSearchIngredients.addTextChangedListener(mIngredientsTextWatcher)
     }
 
     private fun setupRvIngredientSuggestion() {
         setupIngredientsRecyclerAdapter()
-        rv_ingredients.let {
-            it.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-            it.adapter = searchSuggestionAdapter
+        binding.searchView.rvIngredients.apply {
+            layoutManager = LinearLayoutManager(this@IngredientsActivity, LinearLayoutManager.VERTICAL, false)
+            adapter = searchSuggestionAdapter
         }
     }
 
@@ -120,19 +133,19 @@ class IngredientsActivity : BaseActivity<IngredientsContract.View,
     }
 
     private fun setupImageActionButton() {
-        img_action_button.setOnClickListener {
-            presenter.handleActionButtonClicked(et_search_ingredients.text.toString())
+        binding.searchView.imgActionButton.setOnClickListener {
+            presenter.handleActionButtonClicked(binding.searchView.etSearchIngredients.text.toString())
         }
     }
 
     private fun setupTvCartCount() {
-        chip_basket.setOnClickListener {
+        binding.chipBasket.setOnClickListener {
             presenter.handleCartTvClicked()
         }
     }
 
     override fun clearEtSearchQuery() {
-        et_search_ingredients.setText("")
+        binding.searchView.etSearchIngredients?.setText("")
     }
 
     override fun openCamera() {
@@ -140,38 +153,38 @@ class IngredientsActivity : BaseActivity<IngredientsContract.View,
     }
 
     override fun updateSuggestion(ingredients: List<Ingredient>) {
-        rv_ingredients.visibility = View.VISIBLE
+        binding.searchView.rvIngredients.visibility = View.VISIBLE
         searchSuggestionAdapter.setIngredients(ingredients)
     }
 
     override fun hideSearchSuggestion() {
-        rv_ingredients.visibility = View.GONE
+        binding.searchView.rvIngredients.visibility = View.GONE
     }
 
     override fun showActionCamera() {
-        img_action_button.apply {
+        binding.searchView.imgActionButton.apply {
             visibility = View.VISIBLE
             setImageResource(R.drawable.ic_camera)
         }
     }
 
     override fun showActionClear() {
-        img_action_button.apply {
+        binding.searchView.imgActionButton.apply {
             visibility = View.VISIBLE
             setImageResource(R.drawable.ic_clear)
         }
     }
 
     override fun hideActionButton() {
-        img_action_button.visibility = View.GONE
+        binding.searchView.imgActionButton.visibility = View.GONE
     }
 
     override fun showSuggestionProgressBar() {
-        suggestion_progress_bar.visibility = View.VISIBLE
+        binding.searchView.suggestionProgressBar.visibility = View.VISIBLE
     }
 
     override fun hideSuggestionProgressBar() {
-        suggestion_progress_bar.visibility = View.GONE
+        binding.searchView.suggestionProgressBar.visibility = View.GONE
     }
 
     override fun showItemEmptyToast() {
@@ -246,12 +259,12 @@ class IngredientsActivity : BaseActivity<IngredientsContract.View,
     }
 
     override fun updateIngredientCount(count: Int) {
-        chip_basket.visibility = if (count > 0) {
+        binding.chipBasket.visibility = if (count > 0) {
             View.VISIBLE
         } else {
             View.GONE
         }
-        chip_basket.text = String.format(getString(R.string.ingredients_cart_label_format), count)
+        binding.chipBasket.text = String.format(getString(R.string.ingredients_cart_label_format), count)
     }
 
     override fun navigateToRecipeList(cart: List<Ingredient>) {

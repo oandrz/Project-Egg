@@ -5,10 +5,10 @@
 
 package starbright.com.projectegg.view
 
+import starbright.com.projectegg.databinding.LayoutHomeHeaderHolderBinding
 import android.view.View
 import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.items.AbstractItem
-import kotlinx.android.synthetic.main.layout_home_header_holder.view.*
 import starbright.com.projectegg.R
 
 class RecipeHeader(private var title: String) : AbstractItem<RecipeHeader.ViewHolder>() {
@@ -26,15 +26,17 @@ class RecipeHeader(private var title: String) : AbstractItem<RecipeHeader.ViewHo
      *
      * @return the ViewHolder for this Item
      */
-    override fun getViewHolder(v: View): ViewHolder = ViewHolder(v)
+    override fun getViewHolder(v: View): ViewHolder = ViewHolder(LayoutHomeHeaderHolderBinding.bind(v))
 
-    inner class ViewHolder(itemVIew: View) : FastAdapter.ViewHolder<RecipeHeader>(itemVIew) {
+    inner class ViewHolder(
+        val binding: LayoutHomeHeaderHolderBinding
+    ) : FastAdapter.ViewHolder<RecipeHeader>(binding.root) {
         override fun bindView(item: RecipeHeader, payloads: List<Any>) {
-            itemView.tv_header.text = item.title
+            binding.tvHeader.text = item.title
         }
 
         override fun unbindView(item: RecipeHeader) {
-            itemView.tv_header.text = null
+            binding.tvHeader.text = null
         }
     }
 }

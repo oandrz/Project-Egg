@@ -5,12 +5,12 @@
 
 package starbright.com.projectegg.view
 
+import starbright.com.projectegg.databinding.ItemFooterSubmitButtonBinding
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.items.AbstractItem
 import com.mikepenz.fastadapter.listeners.ClickEventHook
-import kotlinx.android.synthetic.main.item_footer_submit_button.view.*
 import starbright.com.projectegg.R
 
 class FooterSubmitButton(
@@ -30,15 +30,17 @@ class FooterSubmitButton(
      *
      * @return the ViewHolder for this Item
      */
-    override fun getViewHolder(v: View): ViewHolder = ViewHolder(v)
+    override fun getViewHolder(v: View): ViewHolder = ViewHolder(ItemFooterSubmitButtonBinding.bind(v))
 
-    inner class ViewHolder(itemView: View) : FastAdapter.ViewHolder<FooterSubmitButton>(itemView) {
+    inner class ViewHolder(
+        val binding: ItemFooterSubmitButtonBinding
+    ) : FastAdapter.ViewHolder<FooterSubmitButton>(binding.root) {
         /** Binds the data of this item onto the viewHolder */
         override fun bindView(item: FooterSubmitButton, payloads: List<Any>) {
-            itemView.btn_submit.text = item.title
+            binding.btnSubmit.text = item.title
         }
 
-        /** View needs to release resources when its recycled */
+        /** View needs to release binding.root.resources when its recycled */
         override fun unbindView(item: FooterSubmitButton) {
         }
     }
@@ -48,7 +50,7 @@ class FooterSubmitButton(
     ): ClickEventHook<FooterSubmitButton>() {
         override fun onBind(viewHolder: RecyclerView.ViewHolder): View? {
             return if (viewHolder is ViewHolder) {
-                viewHolder.itemView.btn_submit
+                viewHolder.binding.btnSubmit
             } else super.onBind(viewHolder)
         }
 

@@ -11,6 +11,8 @@ package starbright.com.projectegg.util
 
 import android.content.Context
 import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.os.Build
 import android.util.Log
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonSyntaxException
@@ -26,8 +28,18 @@ class NetworkHelper constructor(private val context: Context) {
 
     fun isConnectedWithNetwork(): Boolean {
         val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        val activeNetwork = cm.activeNetworkInfo
-        return activeNetwork?.isConnected ?: false
+        
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            val activeNetwork = cm.activeNetwork ?: return false
+            val capabilities = cm.getNetworkCapabilities(activeNetwork) ?: return false
+            capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) &&
+                capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)
+        } else {
+            @Suppress("DEPRECATION")
+            val activeNetwork = cm.activeNetworkInfo
+            @Suppress("DEPRECATION")
+            activeNetwork?.isConnected ?: false
+        }
     }
 
     fun castToNetworkError(throwable: Throwable): NetworkError {

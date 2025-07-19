@@ -5,11 +5,11 @@
 
 package starbright.com.projectegg.view
 
+import starbright.com.projectegg.databinding.ItemHeaderWithChipBinding
 import android.view.View
 import com.google.android.material.chip.Chip
 import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.items.AbstractItem
-import kotlinx.android.synthetic.main.item_header_with_chip.view.*
 import starbright.com.projectegg.R
 
 class HeaderWithChipsItem(
@@ -30,26 +30,24 @@ class HeaderWithChipsItem(
      *
      * @return the ViewHolder for this Item
      */
-    override fun getViewHolder(v: View): ViewHolder = ViewHolder(v)
+    override fun getViewHolder(v: View): ViewHolder = ViewHolder(ItemHeaderWithChipBinding.bind(v))
 
-    inner class ViewHolder(itemView: View) : FastAdapter.ViewHolder<HeaderWithChipsItem>(itemView) {
+    inner class ViewHolder(
+        val binding: ItemHeaderWithChipBinding
+    ) : FastAdapter.ViewHolder<HeaderWithChipsItem>(binding.root) {
 
         /** Binds the data of this item onto the viewHolder */
         override fun bindView(item: HeaderWithChipsItem, payloads: List<Any>) {
-            itemView.run {
-                tv_title.text = item.title
-                item.collection.forEachIndexed { index, chip ->
-                    group_filter.addView(chip)
-                }
+            binding.tvTitle.text = item.title
+            item.collection.forEachIndexed { index, chip ->
+                binding.groupFilter.addView(chip)
             }
         }
 
-        /** View needs to release resources when its recycled */
+        /** View needs to release binding.root.resources when its recycled */
         override fun unbindView(item: HeaderWithChipsItem) {
-            itemView.run {
-                tv_title.text = null
-                group_filter.removeAllViews()
-            }
+            binding.tvTitle.text = null
+            binding.groupFilter.removeAllViews()
         }
     }
 }

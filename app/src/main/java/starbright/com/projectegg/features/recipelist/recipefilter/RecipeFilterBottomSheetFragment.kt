@@ -5,6 +5,7 @@
 
 package starbright.com.projectegg.features.recipelist.recipefilter
 
+import starbright.com.projectegg.databinding.SheetFilterRecipeBinding
 import android.os.Bundle
 import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
@@ -16,13 +17,16 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.chip.Chip
 import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.adapters.ItemAdapter
-import kotlinx.android.synthetic.main.sheet_filter_recipe.*
 import starbright.com.projectegg.R
 import starbright.com.projectegg.view.BottomSheetHeader
 import starbright.com.projectegg.view.FooterSubmitButton
 import starbright.com.projectegg.view.HeaderWithChipsItem
 
 class RecipeFilterBottomSheetFragment: BottomSheetDialogFragment() {
+
+    private var _binding: SheetFilterRecipeBinding? = null
+    private val binding get() = _binding!!
+
 
     private val linearLayoutManager: LinearLayoutManager by lazy {
         LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
@@ -49,7 +53,8 @@ class RecipeFilterBottomSheetFragment: BottomSheetDialogFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.sheet_filter_recipe, container, false)
+        _binding = SheetFilterRecipeBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -62,7 +67,7 @@ class RecipeFilterBottomSheetFragment: BottomSheetDialogFragment() {
                 dismiss()
             })
         }
-        rv_filter.run {
+        binding.rvFilter.run {
             itemAnimator = DefaultItemAnimator()
             layoutManager = linearLayoutManager
             adapter = fastAdapter
@@ -74,7 +79,7 @@ class RecipeFilterBottomSheetFragment: BottomSheetDialogFragment() {
                 getString(R.string.recipelist_filter_sheet_cuisine_title),
                 cuisines.mapIndexed { index, text ->
                     val themedContext = ContextThemeWrapper(
-                        context, R.style.Widget_MaterialComponents_Chip_Filter
+                        context, com.google.android.material.R.style.Widget_MaterialComponents_Chip_Filter
                     )
                     Chip(themedContext).also {
                         it.id = index
@@ -93,5 +98,10 @@ class RecipeFilterBottomSheetFragment: BottomSheetDialogFragment() {
             )
         )
         footerItemAdapter.add(FooterSubmitButton(getString(R.string.recipelist_filter_sheet_submit)))
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

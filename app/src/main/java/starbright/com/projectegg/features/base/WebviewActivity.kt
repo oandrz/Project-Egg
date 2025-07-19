@@ -9,6 +9,7 @@
 
 package starbright.com.projectegg.features.base
 
+import starbright.com.projectegg.databinding.ActivityWebviewBinding
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
@@ -18,14 +19,17 @@ import android.view.View
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.appcompat.app.AppCompatActivity
-import kotlinx.android.synthetic.main.activity_webview.*
 import starbright.com.projectegg.R
 
 class WebviewActivity : AppCompatActivity() {
 
+    private lateinit var binding: ActivityWebviewBinding
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_webview)
+        binding = ActivityWebviewBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         setupToolbar()
         setupWebView()
@@ -43,7 +47,7 @@ class WebviewActivity : AppCompatActivity() {
     }
 
     private fun setupToolbar() {
-        setSupportActionBar(toolbar)
+        setSupportActionBar(binding.toolbar)
         supportActionBar?.run {
             title = intent.getStringExtra(EXTRA_URL)
             setDisplayHomeAsUpEnabled(true)
@@ -52,20 +56,20 @@ class WebviewActivity : AppCompatActivity() {
     }
 
     private fun setupWebView() {
-        val webSettings = webview.settings
+        val webSettings = binding.webview.settings
         webSettings.javaScriptEnabled = true
         webSettings.domStorageEnabled = true
-        webview.webViewClient = object : WebViewClient() {
+        binding.webview.webViewClient = object : WebViewClient() {
             override fun onPageStarted(view: WebView, url: String, favicon: Bitmap?) {
-                progress_bar.visibility = View.VISIBLE
+                binding.progressBar.visibility = View.VISIBLE
             }
 
             override fun onPageFinished(view: WebView, url: String) {
-                progress_bar.visibility = View.GONE
+                binding.progressBar.visibility = View.GONE
             }
         }
-        webview.overScrollMode = WebView.OVER_SCROLL_NEVER
-        webview.loadUrl(intent.extras!!.getString(EXTRA_URL))
+        binding.webview.overScrollMode = WebView.OVER_SCROLL_NEVER
+        binding.webview.loadUrl(intent.extras?.getString(EXTRA_URL) ?: "")
     }
 
     companion object {

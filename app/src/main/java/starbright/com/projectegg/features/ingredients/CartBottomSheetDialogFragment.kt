@@ -5,6 +5,7 @@
 
 package starbright.com.projectegg.features.ingredients
 
+import starbright.com.projectegg.databinding.PartialBottomSheetBinding
 import android.os.Bundle
 import android.util.DisplayMetrics
 import android.view.LayoutInflater
@@ -13,12 +14,15 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import io.reactivex.annotations.NonNull
-import kotlinx.android.synthetic.main.partial_bottom_sheet.*
 import starbright.com.projectegg.R
 import starbright.com.projectegg.data.model.Ingredient
 
 private const val ITEM_WIDTH = 120F
 class CartBottomSheetDialogFragment : BottomSheetDialogFragment() {
+
+    private var _binding: PartialBottomSheetBinding? = null
+    private val binding get() = _binding!!
+
 
     private lateinit var adapter: IngredientsCartAdapter
     var cart: MutableList<Ingredient> = mutableListOf()
@@ -27,12 +31,13 @@ class CartBottomSheetDialogFragment : BottomSheetDialogFragment() {
     override fun onCreateView(@NonNull inflater: LayoutInflater,
                               @NonNull container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.partial_bottom_sheet, container, false)
+        _binding = PartialBottomSheetBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(@NonNull view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        btn_submit.setOnClickListener {
+        binding.btnSubmit.setOnClickListener {
             sheetListener?.submitButtonClicked()
         }
         setupRvIngredientCart()
@@ -54,12 +59,12 @@ class CartBottomSheetDialogFragment : BottomSheetDialogFragment() {
             }
         }
 
-        rv_ingredients_cart.let {
+        binding.rvIngredientsCart.let {
             it.layoutManager = GridLayoutManager(activity, calculateColumns())
             it.adapter = adapter
         }
 
-        tv_empty.visibility = if (cart.isEmpty()) View.VISIBLE else View.GONE
+        binding.tvEmpty.visibility = if (cart.isEmpty()) View.VISIBLE else View.GONE
     }
 
     private fun calculateColumns(): Int {
@@ -76,15 +81,20 @@ class CartBottomSheetDialogFragment : BottomSheetDialogFragment() {
 
     private fun updateList() {
         adapter.notifyDataSetChanged()
-        tv_empty.visibility = if (cart.isEmpty()) View.VISIBLE else View.GONE
+        binding.tvEmpty.visibility = if (cart.isEmpty()) View.VISIBLE else View.GONE
     }
 
     private fun updateButtonView() {
-        btn_submit.isEnabled = cart.isNotEmpty()
+        binding.btnSubmit.isEnabled = cart.isNotEmpty()
     }
 
     interface SheetListener {
         fun onItemRemovedFromCart()
         fun submitButtonClicked()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

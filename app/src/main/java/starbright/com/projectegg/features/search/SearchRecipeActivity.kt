@@ -5,10 +5,12 @@
 
 package starbright.com.projectegg.features.search
 
+import starbright.com.projectegg.databinding.ActivitySearchRecipeBinding
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.view.Menu
 import android.view.View
 import androidx.appcompat.widget.SearchView
@@ -16,7 +18,6 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.adapters.ItemAdapter
-import kotlinx.android.synthetic.main.activity_search_recipe.*
 import starbright.com.projectegg.R
 import starbright.com.projectegg.dagger.component.ActivityComponent
 import starbright.com.projectegg.data.model.Recipe
@@ -29,9 +30,13 @@ import starbright.com.projectegg.view.RecentSearchItem
 import starbright.com.projectegg.view.RecipeHeader
 import starbright.com.projectegg.view.SearchSuggestionItem
 import java.lang.ref.WeakReference
+import android.view.ViewGroup
 
 class SearchRecipeActivity : BaseActivity<SearchRecipeContract.View, SearchRecipePresenter>(),
     SearchRecipeContract.View {
+
+    private lateinit var binding: ActivitySearchRecipeBinding
+
 
     private val linearLayoutManager: LinearLayoutManager by lazy {
         LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
@@ -54,6 +59,11 @@ class SearchRecipeActivity : BaseActivity<SearchRecipeContract.View, SearchRecip
             NormalToolbar(WeakReference(this), R.id.toolbar, R.string.recipelist_title)
         )
         super.onCreate(savedInstanceState)
+    }
+    
+    override fun setContentView(layoutResID: Int) {
+        super.setContentView(layoutResID)
+        binding = ActivitySearchRecipeBinding.bind((findViewById<View>(android.R.id.content) as ViewGroup).getChildAt(0))
     }
 
     override fun onResume() {
@@ -90,23 +100,23 @@ class SearchRecipeActivity : BaseActivity<SearchRecipeContract.View, SearchRecip
     }
 
     override fun setupView() {
-        fab_search_ingredient.setOnClickListener {
+        binding.fabSearchIngredient.setOnClickListener {
             startActivity(IngredientsActivity.newIntent(this))
         }
         setupList()
     }
 
     override fun showLoading() {
-        view_loading.visibility = View.VISIBLE
-        rv_search_history.visibility = View.GONE
+        binding.viewLoading.visibility = View.VISIBLE
+        binding.rvSearchHistory.visibility = View.GONE
     }
 
     override fun hideLoading() {
-        view_loading.visibility = View.GONE
+        binding.viewLoading.visibility = View.GONE
     }
 
     override fun renderRecipeSuggestion(recipes: List<Recipe>) {
-        Handler().post {
+        Handler(Looper.getMainLooper()).post {
             historySearchHeader.clear()
             recipeSuggestionItem.clear()
             historySearchItem.clear()
@@ -117,7 +127,7 @@ class SearchRecipeActivity : BaseActivity<SearchRecipeContract.View, SearchRecip
     }
 
     override fun renderSearchHistory(searchQueries: List<String>) {
-        Handler().post {
+        Handler(Looper.getMainLooper()).post {
             historySearchHeader.clear()
             recipeSuggestionItem.clear()
             if (searchQueries.isNotEmpty()) {
@@ -170,7 +180,7 @@ class SearchRecipeActivity : BaseActivity<SearchRecipeContract.View, SearchRecip
                 true
             }
         }
-        rv_search_history?.run {
+        binding.rvSearchHistory?.run {
             itemAnimator = DefaultItemAnimator()
             layoutManager = linearLayoutManager
             adapter = fastAdapter

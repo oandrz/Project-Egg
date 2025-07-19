@@ -5,8 +5,10 @@
 
 package starbright.com.projectegg.features
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
 import starbright.com.projectegg.R
 import starbright.com.projectegg.features.home.HomeActivity
@@ -17,7 +19,7 @@ class SplashScreenActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash_screen)
 
-        Handler().postDelayed(
+        Handler(Looper.getMainLooper()).postDelayed(
             {
                 startActivity(HomeActivity.newIntent(this))
                 finish()

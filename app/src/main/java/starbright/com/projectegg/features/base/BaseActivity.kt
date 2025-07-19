@@ -67,8 +67,8 @@ abstract class BaseActivity<V : BaseViewContract, P : BasePresenter<V>> : AppCom
         else super.onBackPressed()
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when (item?.itemId) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
             android.R.id.home -> finish()
         }
         return true

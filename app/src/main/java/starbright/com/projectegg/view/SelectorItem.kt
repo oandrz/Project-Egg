@@ -5,10 +5,10 @@
 
 package starbright.com.projectegg.view
 
+import starbright.com.projectegg.databinding.ItemSingleLineBinding
 import android.view.View
 import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.items.AbstractItem
-import kotlinx.android.synthetic.main.item_single_line.view.*
 import starbright.com.projectegg.R
 import starbright.com.projectegg.util.GlideApp
 
@@ -24,25 +24,23 @@ class SelectorItem(
     override val type: Int
         get() = R.id.singleLineItem
 
-    override fun getViewHolder(v: View): SelectorItem.ViewHolder = ViewHolder(v)
+    override fun getViewHolder(v: View): SelectorItem.ViewHolder = ViewHolder(ItemSingleLineBinding.bind(v))
 
-    inner class ViewHolder(itemView: View) : FastAdapter.ViewHolder<SelectorItem>(itemView) {
+    inner class ViewHolder(
+        val binding: ItemSingleLineBinding
+    ) : FastAdapter.ViewHolder<SelectorItem>(binding.root) {
         override fun bindView(item: SelectorItem, payloads: List<Any>) {
-            itemView.run {
-                tv_item.text = item.text
-                GlideApp.with(context)
-                    .load(item.imageUrl)
-                    .into(iv_icon)
-                iv_check.visibility = if (item.isCheckShown) View.VISIBLE else View.GONE
-            }
+            binding.tvItem.text = item.text
+            GlideApp.with(binding.root.context)
+                .load(item.imageUrl)
+                .into(binding.ivIcon)
+            binding.ivCheck.visibility = if (item.isCheckShown) View.VISIBLE else View.GONE
         }
 
         override fun unbindView(item: SelectorItem) {
-            itemView.run {
-                tv_item.text = null
-                iv_icon.setImageDrawable(null)
-                iv_check.setImageDrawable(null)
-            }
+            binding.tvItem.text = null
+            binding.ivIcon.setImageDrawable(null)
+            binding.ivCheck.setImageDrawable(null)
         }
     }
 }
