@@ -12,10 +12,12 @@ package starbright.com.projectegg.data
 import io.reactivex.Completable
 import io.reactivex.Maybe
 import io.reactivex.Observable
+import io.reactivex.Single
 import starbright.com.projectegg.dagger.qualifier.LocalData
 import starbright.com.projectegg.dagger.qualifier.RemoteData
 import starbright.com.projectegg.data.model.Ingredient
 import starbright.com.projectegg.data.model.Recipe
+import starbright.com.projectegg.data.model.response.RecipeListResponse
 import starbright.com.projectegg.data.model.local.FavouriteRecipe
 import starbright.com.projectegg.data.model.local.SearchHistory
 import starbright.com.projectegg.enum.RecipeSortCategory
@@ -93,6 +95,84 @@ class AppRepository @Inject constructor(
 
     override fun removeSearchHistory(query: String): Completable {
         return appLocalDataStore.removeSearchHistory(query)
+    }
+
+    override fun checkIfRecipeIsFavourite(recipeId: Int): Single<Boolean> {
+        return appLocalDataStore.checkIfRecipeIsFavourite(recipeId)
+    }
+    
+    override fun deleteFavouriteRecipeById(recipeId: Int): Completable {
+        return appLocalDataStore.deleteFavouriteRecipeById(recipeId)
+    }
+    
+    override fun insertFavouriteRecipe(recipe: FavouriteRecipe): Completable {
+        return appLocalDataStore.insertFavouriteRecipe(recipe)
+    }
+    
+    override fun loadFavouriteRecipe(): Observable<List<FavouriteRecipe>> {
+        return appLocalDataStore.loadFavouriteRecipe()
+    }
+    
+    override fun loadSearchHistory(): Observable<List<SearchHistory>> {
+        return appLocalDataStore.loadSearchHistory()
+    }
+    
+    override fun insertSearchHistory(searchHistory: SearchHistory): Completable {
+        return appLocalDataStore.insertSearchHistory(searchHistory)
+    }
+    
+    override fun deleteSearchHistoryById(id: Int): Completable {
+        return appLocalDataStore.deleteSearchHistoryById(id)
+    }
+
+    override fun getRandomRecipe(number: Int): Observable<RecipeListResponse> {
+        // Use getRecommendedRecipe and map to RecipeListResponse
+        return getRecommendedRecipe(0).map { recipes ->
+            RecipeListResponse(
+                results = recipes.map { recipe ->
+                    starbright.com.projectegg.data.model.response.RecipeResponse(
+                        id = recipe.id,
+                        title = recipe.title,
+                        image = recipe.image,
+                        cuisines = recipe.cuisines ?: emptyList(),
+                        sourceStringUrl = recipe.sourceStringUrl,
+                        sourceName = recipe.sourceName,
+                        cookingTime = recipe.cookingMinutes ?: 0,
+                        servings = recipe.servingCount ?: 0,
+                        dishTypes = recipe.dishTypes ?: emptyList()
+                    )
+                },
+                totalResults = recipes.firstOrNull()?.totalRecipe ?: recipes.size
+            )
+        }
+    }
+
+    override fun getSearchRecipes(query: String, number: Int, offset: Int): Observable<RecipeListResponse> {
+        val config = RecipeConfig(
+            query = query,
+            cuisine = null,
+            sortCategory = RecipeSortCategory.TIME,
+            ingredients = null,
+            responseLimit = number
+        )
+        return getRecipes(config, offset).map { recipes ->
+            RecipeListResponse(
+                results = recipes.map { recipe ->
+                    starbright.com.projectegg.data.model.response.RecipeResponse(
+                        id = recipe.id,
+                        title = recipe.title,
+                        image = recipe.image,
+                        cuisines = recipe.cuisines ?: emptyList(),
+                        sourceStringUrl = recipe.sourceStringUrl,
+                        sourceName = recipe.sourceName,
+                        cookingTime = recipe.cookingMinutes ?: 0,
+                        servings = recipe.servingCount ?: 0,
+                        dishTypes = recipe.dishTypes ?: emptyList()
+                    )
+                },
+                totalResults = recipes.firstOrNull()?.totalRecipe ?: recipes.size
+            )
+        }
     }
 }
 

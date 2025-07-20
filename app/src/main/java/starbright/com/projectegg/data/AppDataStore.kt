@@ -6,6 +6,7 @@
 package starbright.com.projectegg.data
 
 import io.reactivex.Completable
+import io.reactivex.Single
 import io.reactivex.Maybe
 import io.reactivex.Observable
 import starbright.com.projectegg.data.model.Ingredient
@@ -32,4 +33,12 @@ interface AppDataStore {
     fun updateExistingHistoryTimestamp(query: String, millis: Long): Completable
     fun saveSearchHistory(history: SearchHistory): Completable
     fun removeSearchHistory(query: String): Completable
+
+    fun checkIfRecipeIsFavourite(recipeId: Int): Single<Boolean>
+    fun deleteFavouriteRecipeById(recipeId: Int): Completable
+    fun insertFavouriteRecipe(recipe: FavouriteRecipe): Completable
+    fun loadFavouriteRecipe(): Observable<List<FavouriteRecipe>>
+    fun loadSearchHistory(): Observable<List<SearchHistory>>
+    fun insertSearchHistory(searchHistory: SearchHistory): Completable
+    fun deleteSearchHistoryById(id: Int): Completable
 }

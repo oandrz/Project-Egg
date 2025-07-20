@@ -6,6 +6,7 @@
 package starbright.com.projectegg.data.remote
 
 import io.reactivex.Completable
+import io.reactivex.Single
 import io.reactivex.Maybe
 import io.reactivex.Observable
 import retrofit2.Retrofit
@@ -228,5 +229,33 @@ class AppRemoteDataStore @Inject constructor(
             @QueryMap options: Map<String, String>,
             @Query(Constants.QUERY_API_KEY) apiKey: String? = BuildConfig.SPOON_KEY
         ): Observable<RecipeDetailResponse>
+    }
+
+    override fun checkIfRecipeIsFavourite(recipeId: Int): Single<Boolean> {
+        return Single.just(false)
+    }
+    
+    override fun deleteFavouriteRecipeById(recipeId: Int): Completable {
+        return Completable.complete()
+    }
+    
+    override fun insertFavouriteRecipe(favouriteRecipe: FavouriteRecipe): Completable {
+        return Completable.complete()
+    }
+    
+    override fun loadFavouriteRecipe(): Observable<List<FavouriteRecipe>> {
+        return Observable.just(emptyList())
+    }
+    
+    override fun loadSearchHistory(): Observable<List<SearchHistory>> {
+        return Observable.just(emptyList())
+    }
+    
+    override fun insertSearchHistory(searchHistory: SearchHistory): Completable {
+        return Completable.complete()
+    }
+    
+    override fun deleteSearchHistoryById(id: Int): Completable {
+        return Completable.complete()
     }
 }

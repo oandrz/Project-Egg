@@ -175,14 +175,21 @@ class RecipeDetailActivity : BaseActivity<RecipeDetailContract.View, RecipeDetai
     }
 
     override fun renderInstructionsList(instructions: MutableList<Instruction>) {
-        val formattedInstructions = ArrayList<String>(instructions.size)
+        val formattedInstructions = ArrayList<String>()
         for (instruction in instructions) {
-            formattedInstructions.add(
-                getString(
-                    R.string.general_number_text_format,
-                    instruction.number, instruction.step
+            // Add instruction name if available
+            if (instruction.name.isNotBlank()) {
+                formattedInstructions.add(instruction.name)
+            }
+            // Add each step
+            instruction.steps.forEachIndexed { index, step ->
+                formattedInstructions.add(
+                    getString(
+                        R.string.general_number_text_format,
+                        index + 1, step
+                    )
                 )
-            )
+            }
         }
         val adapter = TextViewRecyclerAdapter(
             this,

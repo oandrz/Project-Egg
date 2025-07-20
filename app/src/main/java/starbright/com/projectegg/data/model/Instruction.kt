@@ -8,4 +8,13 @@
  */
 package starbright.com.projectegg.data.model
 
-data class Instruction(var number: Int, var step: String)
+data class Instruction(
+    var name: String = "",
+    var steps: List<String> = emptyList()
+) {
+    // Keep backward compatibility constructor
+    constructor(number: Int, step: String) : this(
+        name = "Step $number",
+        steps = listOf(step)
+    )
+}

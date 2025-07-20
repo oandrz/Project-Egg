@@ -29,4 +29,7 @@ interface SearchHistoryDao {
 
     @Query("SELECT * FROM SearchHistory WHERE search_query = :query LIMIT 1")
     fun getRecentSearchByQuery(query: String): Maybe<List<SearchHistory>>
+
+    @Query("DELETE FROM SearchHistory WHERE id = :id")
+    fun deleteHistoryById(id: Int)
 }

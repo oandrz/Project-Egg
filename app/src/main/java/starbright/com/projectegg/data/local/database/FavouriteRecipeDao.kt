@@ -25,4 +25,10 @@ interface FavouriteRecipeDao {
 
     @Query("DELETE FROM FavouriteRecipe WHERE recipe_id = :recipeId")
     fun removeFavouriteRecipe(recipeId: Int): Completable
+
+    @Query("SELECT * FROM FavouriteRecipe WHERE recipe_id = :recipeId LIMIT 1")
+    fun isFavourite(recipeId: Int): FavouriteRecipe?
+    
+    @Query("DELETE FROM FavouriteRecipe WHERE recipe_id = :recipeId")
+    fun deleteFavourite(recipeId: Int)
 }

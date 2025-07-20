@@ -69,4 +69,7 @@ ext {
     testRunnerVersion = '1.5.2'
     testExtRunnerVersion = '1.1.5'
     hamcrestVersion = '2.2'
+    
+    // Jetpack Compose
+    composeBomVersion = '2024.02.00'
 }

@@ -6,6 +6,7 @@
 package starbright.com.projectegg.data.local
 
 import io.reactivex.Completable
+import io.reactivex.Single
 import io.reactivex.Maybe
 import io.reactivex.Observable
 import starbright.com.projectegg.data.AppDataStore
@@ -81,5 +82,39 @@ class AppLocalDataStore @Inject constructor(
 
     override fun removeSearchHistory(query: String): Completable {
         return database.searchHistoryDao().removeSearchHistory(query)
+    }
+
+    override fun checkIfRecipeIsFavourite(recipeId: Int): Single<Boolean> {
+        return Single.fromCallable {
+            database.favoriteRecipeDao().isFavourite(recipeId) != null
+        }
+    }
+    
+    override fun deleteFavouriteRecipeById(recipeId: Int): Completable {
+        return Completable.fromAction {
+            database.favoriteRecipeDao().deleteFavourite(recipeId)
+        }
+    }
+    
+    override fun insertFavouriteRecipe(favouriteRecipe: FavouriteRecipe): Completable {
+        return saveFavouriteRecipe(favouriteRecipe)
+    }
+    
+    override fun loadFavouriteRecipe(): Observable<List<FavouriteRecipe>> {
+        return getFavouriteRecipeWith()
+    }
+    
+    override fun loadSearchHistory(): Observable<List<SearchHistory>> {
+        return getSearchHistory().toObservable()
+    }
+    
+    override fun insertSearchHistory(searchHistory: SearchHistory): Completable {
+        return saveSearchHistory(searchHistory)
+    }
+    
+    override fun deleteSearchHistoryById(id: Int): Completable {
+        return Completable.fromAction {
+            database.searchHistoryDao().deleteHistoryById(id)
+        }
     }
 }
