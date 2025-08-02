@@ -25,6 +25,7 @@ import starbright.com.projectegg.R
 import starbright.com.projectegg.compose.navigation.BottomNavItem
 import starbright.com.projectegg.compose.navigation.ChefnutNavHost
 import starbright.com.projectegg.compose.navigation.Screen
+import starbright.com.projectegg.compose.ui.screens.main.MainScreen
 import starbright.com.projectegg.compose.ui.theme.ChefnutTheme
 import javax.inject.Inject
 
@@ -52,67 +53,10 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun ChefnutApp(viewModelFactory: ViewModelProvider.Factory) {
-    val navController = rememberNavController()
-    val navBackStackEntry by navController.currentBackStackEntryAsState()
-    val currentDestination = navBackStackEntry?.destination
-    
-    // Determine if we should show bottom navigation
-    val shouldShowBottomBar = when (currentDestination?.route) {
-        Screen.Home.route, Screen.Favorites.route -> true
-        else -> false
-    }
-    
-    Scaffold(
-        bottomBar = {
-            if (shouldShowBottomBar) {
-                NavigationBar {
-                    val items = listOf(BottomNavItem.HOME, BottomNavItem.FAVORITES)
-                    
-                    items.forEach { item ->
-                        NavigationBarItem(
-                            icon = {
-                                Icon(
-                                    painter = painterResource(
-                                        id = when (item) {
-                                            BottomNavItem.HOME -> R.drawable.ic_home_red
-                                            BottomNavItem.FAVORITES -> R.drawable.ic_bookmark
-                                        }
-                                    ),
-                                    contentDescription = item.label
-                                )
-                            },
-                            label = { Text(item.label) },
-                            selected = currentDestination?.hierarchy?.any { it.route == item.screen.route } == true,
-                            onClick = {
-                                navController.navigate(item.screen.route) {
-                                    // Pop up to the start destination of the graph to
-                                    // avoid building up a large stack of destinations
-                                    popUpTo(navController.graph.findStartDestination().id) {
-                                        saveState = true
-                                    }
-                                    // Avoid multiple copies of the same destination
-                                    launchSingleTop = true
-                                    // Restore state when reselecting a previously selected item
-                                    restoreState = true
-                                }
-                            }
-                        )
-                    }
-                }
-            }
-        }
-    ) { paddingValues ->
-        Surface(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues),
-            color = MaterialTheme.colorScheme.background
-        ) {
-            ChefnutNavHost(
-                navController = navController,
-                startDestination = Screen.Splash.route,
-                viewModelFactory = viewModelFactory
-            )
-        }
+    Surface(
+        modifier = Modifier.fillMaxSize(),
+        color = MaterialTheme.colorScheme.background
+    ) {
+        MainScreen(viewModelFactory = viewModelFactory)
     }
 } 
