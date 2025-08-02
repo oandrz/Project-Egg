@@ -3,6 +3,7 @@ package starbright.com.projectegg.compose.ui.screens.main
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -142,6 +143,13 @@ fun MainScreen(
                 val recipeId = backStackEntry.arguments?.getString("recipeId") ?: ""
                 val recipeDetailViewModel: RecipeDetailViewModel = viewModel(factory = viewModelFactory)
                 val uiState by recipeDetailViewModel.uiState.collectAsState()
+                
+                // Load recipe detail when screen is created
+                LaunchedEffect(recipeId) {
+                    if (recipeId.isNotEmpty()) {
+                        recipeDetailViewModel.loadRecipeDetail(recipeId)
+                    }
+                }
                 
                 RecipeDetailScreen(
                     uiState = uiState,
