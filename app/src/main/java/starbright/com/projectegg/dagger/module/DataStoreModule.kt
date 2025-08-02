@@ -14,6 +14,8 @@ import dagger.Module
 import starbright.com.projectegg.dagger.qualifier.LocalData
 import starbright.com.projectegg.dagger.qualifier.RemoteData
 import starbright.com.projectegg.data.AppDataStore
+import starbright.com.projectegg.data.AppRepository
+import starbright.com.projectegg.data.RecipeRepository
 import starbright.com.projectegg.data.local.AppLocalDataStore
 import starbright.com.projectegg.data.remote.AppRemoteDataStore
 
@@ -27,4 +29,7 @@ abstract class DataStoreModule {
     @Binds
     @RemoteData
     abstract fun provideRemoteDataStore(dataStore: AppRemoteDataStore): AppDataStore
+    
+    @Binds
+    abstract fun provideRecipeRepository(repository: AppRepository): RecipeRepository
 }

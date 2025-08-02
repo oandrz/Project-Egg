@@ -16,6 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -25,25 +26,32 @@ import starbright.com.projectegg.compose.navigation.BottomNavItem
 import starbright.com.projectegg.compose.navigation.ChefnutNavHost
 import starbright.com.projectegg.compose.navigation.Screen
 import starbright.com.projectegg.compose.ui.theme.ChefnutTheme
+import javax.inject.Inject
 
 /**
  * Main activity for the Chefnut app using Jetpack Compose
  * This serves as the entry point and handles navigation
  */
 class MainActivity : ComponentActivity() {
+    
+    private lateinit var viewModelFactory: ViewModelProvider.Factory
+    
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         
+        // Get ViewModel factory from Dagger
+        viewModelFactory = (application as MyApp).appComponent.getViewModelFactory()
+        
         setContent {
             ChefnutTheme {
-                ChefnutApp()
+                ChefnutApp(viewModelFactory)
             }
         }
     }
 }
 
 @Composable
-fun ChefnutApp() {
+fun ChefnutApp(viewModelFactory: ViewModelProvider.Factory) {
     val navController = rememberNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
@@ -102,7 +110,8 @@ fun ChefnutApp() {
         ) {
             ChefnutNavHost(
                 navController = navController,
-                startDestination = Screen.Splash.route
+                startDestination = Screen.Splash.route,
+                viewModelFactory = viewModelFactory
             )
         }
     }

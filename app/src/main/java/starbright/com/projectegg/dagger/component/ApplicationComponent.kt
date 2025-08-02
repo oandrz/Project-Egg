@@ -9,6 +9,7 @@
 
 package starbright.com.projectegg.dagger.component
 
+import androidx.lifecycle.ViewModelProvider
 import dagger.Component
 import id.zelory.compressor.Compressor
 import io.reactivex.disposables.CompositeDisposable
@@ -17,6 +18,7 @@ import starbright.com.projectegg.dagger.module.AppModule
 import starbright.com.projectegg.dagger.module.DataStoreModule
 import starbright.com.projectegg.dagger.module.NetworkModule
 import starbright.com.projectegg.dagger.module.StorageModule
+import starbright.com.projectegg.dagger.module.ViewModelModule
 import starbright.com.projectegg.data.AppRepository
 import starbright.com.projectegg.data.local.database.ApplicationDatabase
 import starbright.com.projectegg.util.NetworkHelper
@@ -28,7 +30,8 @@ import javax.inject.Singleton
     AppModule::class,
     NetworkModule::class,
     StorageModule::class,
-    DataStoreModule::class
+    DataStoreModule::class,
+    ViewModelModule::class
 ])
 interface ApplicationComponent {
     fun getSchedulerProvider(): SchedulerProviderContract
@@ -38,4 +41,5 @@ interface ApplicationComponent {
     fun getAppRepository(): AppRepository
     fun getClient(): OkHttpClient
     fun getDatabase(): ApplicationDatabase
+    fun getViewModelFactory(): ViewModelProvider.Factory
 }

@@ -2,12 +2,15 @@ package starbright.com.projectegg.compose.navigation
 
 import android.widget.Toast
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -16,21 +19,25 @@ import androidx.navigation.navArgument
 import starbright.com.projectegg.compose.MockDataProvider
 import starbright.com.projectegg.compose.ui.screens.detail.RecipeDetailScreen
 import starbright.com.projectegg.compose.ui.screens.detail.RecipeDetailUiState
+import starbright.com.projectegg.compose.ui.screens.detail.RecipeDetailViewModel
 import starbright.com.projectegg.compose.ui.screens.favorites.FavoritesScreen
 import starbright.com.projectegg.compose.ui.screens.favorites.FavoritesUiState
+import starbright.com.projectegg.compose.ui.screens.favorites.FavoritesViewModel
 import starbright.com.projectegg.compose.ui.screens.home.HomeScreen
 import starbright.com.projectegg.compose.ui.screens.home.HomeUiState
+import starbright.com.projectegg.compose.ui.screens.home.HomeViewModel
 import starbright.com.projectegg.compose.ui.screens.search.SearchScreen
 import starbright.com.projectegg.compose.ui.screens.search.SearchUiState
+import starbright.com.projectegg.compose.ui.screens.search.SearchViewModel
 import starbright.com.projectegg.compose.ui.screens.splash.SplashScreen
 
 @Composable
 fun ChefnutNavHost(
     navController: NavHostController,
     modifier: Modifier = Modifier,
-    startDestination: String = Screen.Splash.route
+    startDestination: String = Screen.Splash.route,
+    viewModelFactory: ViewModelProvider.Factory
 ) {
-    val context = LocalContext.current
     
     NavHost(
         navController = navController,
@@ -48,87 +55,56 @@ fun ChefnutNavHost(
         }
         
         composable(Screen.Home.route) {
+            val homeViewModel: HomeViewModel = viewModel(factory = viewModelFactory)
+            val uiState by homeViewModel.uiState.collectAsState()
+            
             HomeScreen(
-                uiState = HomeUiState(
-                    isLoading = false,
-                    recipes = MockDataProvider.getRecipes(),
-                    error = null,
-                    isLoadingMore = false
-                ),
+                uiState = uiState,
                 onSearchClick = { navController.navigate(Screen.Search.route) },
                 onRecipeClick = { recipeId ->
                     navController.navigate(Screen.RecipeDetail.createRoute(recipeId))
                 },
-                onLoadMore = {
-                    Toast.makeText(context, "Load more recipes", Toast.LENGTH_SHORT).show()
-                },
-                onRefresh = {
-                    Toast.makeText(context, "Refreshing recipes", Toast.LENGTH_SHORT).show()
-                }
+                onLoadMore = { homeViewModel.loadMoreRecipes() },
+                onRefresh = { homeViewModel.refresh() }
             )
         }
         
         composable(Screen.Search.route) {
-            var searchState by remember { 
-                mutableStateOf(SearchUiState(
-                    searchHistory = MockDataProvider.getSearchHistory()
-                ))
-            }
+            val searchViewModel: SearchViewModel = viewModel(factory = viewModelFactory)
+            val uiState by searchViewModel.uiState.collectAsState()
             
             SearchScreen(
-                uiState = searchState,
+                uiState = uiState,
                 onSearchQueryChanged = { query ->
-                    searchState = if (query.isNotEmpty()) {
-                        searchState.copy(
-                            isSearching = false,
-                            currentQuery = query,
-                            searchResults = MockDataProvider.getRecipes().filter { recipe ->
-                                recipe.title.contains(query, ignoreCase = true)
-                            }
-                        )
-                    } else {
-                        searchState.copy(
-                            isSearching = false,
-                            currentQuery = "",
-                            searchResults = emptyList()
-                        )
-                    }
+                    searchViewModel.searchRecipes(query)
                 },
                 onBackClick = { navController.popBackStack() },
                 onRecipeClick = { recipeId ->
                     navController.navigate(Screen.RecipeDetail.createRoute(recipeId))
                 },
                 onSearchHistoryClick = { query ->
-                    searchState = searchState.copy(
-                        currentQuery = query,
-                        searchResults = MockDataProvider.getRecipes().filter { recipe ->
-                            recipe.title.contains(query, ignoreCase = true)
-                        }
-                    )
+                    searchViewModel.onSearchHistoryClicked(query)
                 },
                 onDeleteSearchHistory = { id ->
-                    searchState = searchState.copy(
-                        searchHistory = searchState.searchHistory.filter { it.id != id }
-                    )
+                    searchViewModel.deleteSearchHistory(id)
                 }
             )
         }
         
         composable(Screen.Favorites.route) {
+            val favoritesViewModel: FavoritesViewModel = viewModel(factory = viewModelFactory)
+            val uiState by favoritesViewModel.uiState.collectAsState()
+            
             FavoritesScreen(
-                uiState = FavoritesUiState(
-                    isLoading = false,
-                    favorites = MockDataProvider.getFavorites(),
-                    error = null
-                ),
+                uiState = uiState,
                 onRecipeClick = { recipeId ->
                     navController.navigate(Screen.RecipeDetail.createRoute(recipeId))
                 },
                 onRemoveFavorite = { recipeId ->
-                    Toast.makeText(context, "Remove favorite: $recipeId", Toast.LENGTH_SHORT).show()
+                    favoritesViewModel.removeFavorite(recipeId)
                 },
                 onRefresh = {
-                    Toast.makeText(context, "Refreshing favorites", Toast.LENGTH_SHORT).show()
+                    favoritesViewModel.refresh()
                 },
                 onDiscoverRecipes = {
                     navController.navigate(Screen.Home.route) {
@@ -146,45 +122,29 @@ fun ChefnutNavHost(
             )
         ) { backStackEntry ->
             val recipeId = backStackEntry.arguments?.getString("recipeId") ?: ""
-            var detailState by remember {
-                mutableStateOf(RecipeDetailUiState(
-                    isLoading = false,
-                    recipe = MockDataProvider.getRecipeDetail(),
-                    isFavorite = false,
-                    selectedIngredients = emptySet(),
-                    error = null
-                ))
+            val detailViewModel: RecipeDetailViewModel = viewModel(factory = viewModelFactory)
+            val uiState by detailViewModel.uiState.collectAsState()
+            
+            // Load recipe detail when composable is first created
+            remember(recipeId) {
+                detailViewModel.loadRecipeDetail(recipeId)
+                true
             }
             
             RecipeDetailScreen(
-                uiState = detailState,
+                uiState = uiState,
                 onBackClick = { navController.popBackStack() },
                 onFavoriteClick = {
-                    detailState = detailState.copy(isFavorite = !detailState.isFavorite)
-                    Toast.makeText(
-                        context, 
-                        if (detailState.isFavorite) "Added to favorites" else "Removed from favorites",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    detailViewModel.toggleFavorite()
                 },
                 onIngredientChecked = { id, checked ->
-                    detailState = detailState.copy(
-                        selectedIngredients = if (checked) {
-                            detailState.selectedIngredients + id
-                        } else {
-                            detailState.selectedIngredients - id
-                        }
-                    )
+                    detailViewModel.onIngredientChecked(id, checked)
                 },
                 onAddToCartClick = {
-                    Toast.makeText(
-                        context,
-                        "Add ${detailState.selectedIngredients.size} ingredients to cart",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    detailViewModel.onAddToCartClick()
                 },
                 onSourceClick = {
-                    Toast.makeText(context, "Open source URL", Toast.LENGTH_SHORT).show()
+                    detailViewModel.onSourceClick()
                 }
             )
         }
