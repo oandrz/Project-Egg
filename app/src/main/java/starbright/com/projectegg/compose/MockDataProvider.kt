@@ -15,33 +15,89 @@ object MockDataProvider {
         return listOf(
             Recipe(
                 id = 1,
+                title = "Chicken Pasta Carbonara",
+                image = "https://example.com/chicken-pasta.jpg",
+                cookingMinutes = 30,
+                servingCount = 4,
+                sourceStringUrl = "http://example.com/recipe1",
+                sourceName = "Italian Kitchen",
+                cuisines = listOf("Italian"),
+                dishTypes = listOf("Pasta")
+            ),
+            Recipe(
+                id = 2,
+                title = "Chocolate Lava Cake",
+                image = "https://example.com/chocolate-cake.jpg",
+                cookingMinutes = 25,
+                servingCount = 2,
+                sourceStringUrl = "http://example.com/recipe2",
+                sourceName = "Dessert Corner",
+                cuisines = listOf("French"),
+                dishTypes = listOf("Dessert")
+            ),
+            Recipe(
+                id = 3,
+                title = "Vegetarian Lasagna",
+                image = "https://example.com/vegetarian-lasagna.jpg",
+                cookingMinutes = 60,
+                servingCount = 6,
+                sourceStringUrl = "http://example.com/recipe3",
+                sourceName = "Healthy Eats",
+                cuisines = listOf("Italian"),
+                dishTypes = listOf("Pasta", "Vegetarian")
+            ),
+            Recipe(
+                id = 4,
+                title = "Beef Stir Fry with Vegetables",
+                image = "https://example.com/beef-stir-fry.jpg",
+                cookingMinutes = 20,
+                servingCount = 4,
+                sourceStringUrl = "http://example.com/recipe4",
+                sourceName = "Asian Kitchen",
+                cuisines = listOf("Chinese"),
+                dishTypes = listOf("Stir Fry")
+            ),
+            Recipe(
+                id = 5,
+                title = "Grilled Salmon with Roasted Vegetables",
+                image = "https://example.com/salmon-vegetables.jpg",
+                cookingMinutes = 35,
+                servingCount = 2,
+                sourceStringUrl = "http://example.com/recipe5",
+                sourceName = "Seafood Delights",
+                cuisines = listOf("Mediterranean"),
+                dishTypes = listOf("Seafood", "Grilled")
+            ),
+            // Keep some original recipes for variety
+            Recipe(
+                id = 6,
                 title = "Spaghetti Carbonara",
                 image = "https://spoonacular.com/recipeImages/1-556x370.jpg",
                 cookingMinutes = 30,
                 servingCount = 4,
-                sourceStringUrl = "https://example.com/recipe1",
+                sourceStringUrl = "https://example.com/recipe6",
                 sourceName = "Chef John's Kitchen",
                 cuisines = listOf("Italian"),
                 dishTypes = listOf("main course", "dinner")
             ),
             Recipe(
-                id = 2,
+                id = 7,
                 title = "Chicken Tikka Masala",
                 image = "https://spoonacular.com/recipeImages/2-556x370.jpg",
                 cookingMinutes = 45,
                 servingCount = 6,
-                sourceStringUrl = "https://example.com/recipe2",
+                sourceStringUrl = "https://example.com/recipe7",
                 sourceName = "Indian Delights",
                 cuisines = listOf("Indian", "Asian"),
                 dishTypes = listOf("main course", "dinner")
             ),
             Recipe(
-                id = 3,
+                id = 8,
                 title = "Caesar Salad",
                 image = "https://spoonacular.com/recipeImages/3-556x370.jpg",
                 cookingMinutes = 15,
                 servingCount = 2,
-                sourceStringUrl = "https://example.com/recipe3",
+                sourceStringUrl = "https://example.com/recipe8",
                 sourceName = "Healthy Eats",
                 cuisines = listOf("American"),
                 dishTypes = listOf("salad", "side dish")
@@ -54,30 +110,67 @@ object MockDataProvider {
             FavouriteRecipe(
                 id = 1,
                 recipeId = 1,
-                recipeTitle = "Spaghetti Carbonara",
-                recipeImageUrl = "https://spoonacular.com/recipeImages/1-556x370.jpg",
+                recipeTitle = "Chicken Pasta Carbonara",
+                recipeImageUrl = "https://example.com/chicken-pasta.jpg",
                 cookingTimeInMinutes = 30,
                 servingCount = 4,
-                source = "Chef John's Kitchen"
+                source = "Italian Kitchen"
             ),
             FavouriteRecipe(
                 id = 2,
                 recipeId = 2,
-                recipeTitle = "Chicken Tikka Masala",
-                recipeImageUrl = "https://spoonacular.com/recipeImages/2-556x370.jpg",
-                cookingTimeInMinutes = 45,
-                servingCount = 6,
-                source = "Indian Delights"
+                recipeTitle = "Chocolate Lava Cake",
+                recipeImageUrl = "https://example.com/chocolate-cake.jpg",
+                cookingTimeInMinutes = 25,
+                servingCount = 2,
+                source = "Dessert Corner"
             )
         )
     }
     
     fun getSearchHistory(): List<SearchHistory> {
         return listOf(
-            SearchHistory(id = 1, query = "pasta", createdAt = System.currentTimeMillis()),
-            SearchHistory(id = 2, query = "chicken", createdAt = System.currentTimeMillis() - 3600000),
-            SearchHistory(id = 3, query = "salad", createdAt = System.currentTimeMillis() - 7200000),
-            SearchHistory(id = 4, query = "soup", createdAt = System.currentTimeMillis() - 10800000)
+            SearchHistory(
+                id = 1,
+                query = "Chicken pasta recipe",
+                createdAt = System.currentTimeMillis() - 3600000 // 1 hour ago
+            ),
+            SearchHistory(
+                id = 2,
+                query = "Chocolate cake",
+                createdAt = System.currentTimeMillis() - 7200000 // 2 hours ago
+            ),
+            SearchHistory(
+                id = 3,
+                query = "Vegetarian lasagna",
+                createdAt = System.currentTimeMillis() - 10800000 // 3 hours ago
+            ),
+            SearchHistory(
+                id = 4,
+                query = "Beef stir fry",
+                createdAt = System.currentTimeMillis() - 14400000 // 4 hours ago
+            ),
+            SearchHistory(
+                id = 5,
+                query = "Salmon with vegetables",
+                createdAt = System.currentTimeMillis() - 18000000 // 5 hours ago
+            ),
+            // Keep some original search terms for variety
+            SearchHistory(
+                id = 6,
+                query = "pasta",
+                createdAt = System.currentTimeMillis() - 21600000 // 6 hours ago
+            ),
+            SearchHistory(
+                id = 7,
+                query = "chicken",
+                createdAt = System.currentTimeMillis() - 25200000 // 7 hours ago
+            ),
+            SearchHistory(
+                id = 8,
+                query = "salad",
+                createdAt = System.currentTimeMillis() - 28800000 // 8 hours ago
+            )
         )
     }
     
@@ -143,14 +236,14 @@ object MockDataProvider {
     fun getRecipeDetail(): Recipe {
         return Recipe(
             id = 1,
-            title = "Spaghetti Carbonara",
-            image = "https://spoonacular.com/recipeImages/1-556x370.jpg",
+            title = "Chicken Pasta Carbonara",
+            image = "https://example.com/chicken-pasta.jpg",
             cookingMinutes = 30,
             servingCount = 4,
             sourceStringUrl = "https://example.com/recipe1",
-            sourceName = "Chef John's Kitchen",
+            sourceName = "Italian Kitchen",
             cuisines = listOf("Italian"),
-            dishTypes = listOf("main course", "dinner"),
+            dishTypes = listOf("Pasta"),
             ingredients = getIngredientsList(),
             instructions = listOf(
                 Instruction(
@@ -158,16 +251,18 @@ object MockDataProvider {
                     steps = listOf(
                         "Bring a large pot of salted water to boil",
                         "Mince the garlic",
-                        "Grate the parmesan cheese"
+                        "Grate the parmesan cheese",
+                        "Cut chicken into bite-sized pieces"
                     )
                 ),
                 Instruction(
                     name = "Cooking",
                     steps = listOf(
                         "Cook pasta according to package directions",
-                        "While pasta cooks, heat olive oil and cook garlic",
+                        "While pasta cooks, heat olive oil and cook chicken",
+                        "Add garlic and cook until fragrant",
                         "Mix eggs with cheese",
-                        "Drain pasta and combine with egg mixture"
+                        "Drain pasta and combine with egg mixture and chicken"
                     )
                 )
             )
