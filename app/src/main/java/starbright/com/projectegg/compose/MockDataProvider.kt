@@ -268,4 +268,168 @@ object MockDataProvider {
             )
         )
     }
+
+    fun getRecipeDetailById(recipeId: Int): Recipe? {
+        return when (recipeId) {
+            1 -> Recipe(
+                id = 1,
+                title = "Chicken Pasta Carbonara",
+                image = "https://example.com/chicken-pasta.jpg",
+                cookingMinutes = 30,
+                servingCount = 4,
+                sourceStringUrl = "https://example.com/recipe1",
+                sourceName = "Italian Kitchen",
+                cuisines = listOf("Italian"),
+                dishTypes = listOf("Pasta"),
+                ingredients = getIngredientsList(),
+                instructions = listOf(
+                    Instruction(
+                        name = "Preparation",
+                        steps = listOf(
+                            "Bring a large pot of salted water to boil",
+                            "Mince the garlic",
+                            "Grate the parmesan cheese",
+                            "Cut chicken into bite-sized pieces"
+                        )
+                    ),
+                    Instruction(
+                        name = "Cooking",
+                        steps = listOf(
+                            "Cook pasta according to package directions",
+                            "While pasta cooks, heat olive oil and cook chicken",
+                            "Add garlic and cook until fragrant",
+                            "Mix eggs with cheese",
+                            "Drain pasta and combine with egg mixture and chicken"
+                        )
+                    )
+                )
+            )
+            2 -> Recipe(
+                id = 2,
+                title = "Chocolate Lava Cake",
+                image = "https://example.com/chocolate-cake.jpg",
+                cookingMinutes = 25,
+                servingCount = 2,
+                sourceStringUrl = "https://example.com/recipe2",
+                sourceName = "Dessert Corner",
+                cuisines = listOf("French"),
+                dishTypes = listOf("Dessert"),
+                ingredients = listOf(
+                    Ingredient("200g dark chocolate").apply {
+                        setId("1")
+                        setName("Dark Chocolate")
+                        setAmount(200)
+                        setUnit("g")
+                    },
+                    Ingredient("100g butter").apply {
+                        setId("2")
+                        setName("Butter")
+                        setAmount(100)
+                        setUnit("g")
+                    },
+                    Ingredient("3 eggs").apply {
+                        setId("3")
+                        setName("Eggs")
+                        setAmount(3)
+                        setUnit("pieces")
+                    },
+                    Ingredient("100g sugar").apply {
+                        setId("4")
+                        setName("Sugar")
+                        setAmount(100)
+                        setUnit("g")
+                    },
+                    Ingredient("50g flour").apply {
+                        setId("5")
+                        setName("Flour")
+                        setAmount(50)
+                        setUnit("g")
+                    }
+                ),
+                instructions = listOf(
+                    Instruction(
+                        name = "Preparation",
+                        steps = listOf(
+                            "Preheat oven to 200°C (400°F)",
+                            "Butter and flour 4 ramekins",
+                            "Melt chocolate and butter together"
+                        )
+                    ),
+                    Instruction(
+                        name = "Baking",
+                        steps = listOf(
+                            "Whisk eggs and sugar until fluffy",
+                            "Fold in melted chocolate mixture",
+                            "Gently fold in flour",
+                            "Pour into ramekins and bake for 12 minutes"
+                        )
+                    )
+                )
+            )
+            3 -> Recipe(
+                id = 3,
+                title = "Vegetarian Lasagna",
+                image = "https://example.com/vegetarian-lasagna.jpg",
+                cookingMinutes = 60,
+                servingCount = 6,
+                sourceStringUrl = "https://example.com/recipe3",
+                sourceName = "Healthy Eats",
+                cuisines = listOf("Italian"),
+                dishTypes = listOf("Pasta", "Vegetarian"),
+                ingredients = listOf(
+                    Ingredient("12 lasagna sheets").apply {
+                        setId("1")
+                        setName("Lasagna Sheets")
+                        setAmount(12)
+                        setUnit("sheets")
+                    },
+                    Ingredient("500g ricotta cheese").apply {
+                        setId("2")
+                        setName("Ricotta Cheese")
+                        setAmount(500)
+                        setUnit("g")
+                    },
+                    Ingredient("2 cups spinach").apply {
+                        setId("3")
+                        setName("Spinach")
+                        setAmount(2)
+                        setUnit("cups")
+                    },
+                    Ingredient("1 cup marinara sauce").apply {
+                        setId("4")
+                        setName("Marinara Sauce")
+                        setAmount(1)
+                        setUnit("cup")
+                    },
+                    Ingredient("1 cup mozzarella").apply {
+                        setId("5")
+                        setName("Mozzarella")
+                        setAmount(1)
+                        setUnit("cup")
+                    }
+                ),
+                instructions = listOf(
+                    Instruction(
+                        name = "Preparation",
+                        steps = listOf(
+                            "Preheat oven to 180°C (350°F)",
+                            "Cook lasagna sheets according to package",
+                            "Mix ricotta with spinach"
+                        )
+                    ),
+                    Instruction(
+                        name = "Assembly",
+                        steps = listOf(
+                            "Layer lasagna sheets in baking dish",
+                            "Spread ricotta mixture",
+                            "Add marinara sauce",
+                            "Repeat layers and top with mozzarella",
+                            "Bake for 45 minutes"
+                        )
+                    )
+                )
+            )
+            else -> null
+        }
+    }
 }

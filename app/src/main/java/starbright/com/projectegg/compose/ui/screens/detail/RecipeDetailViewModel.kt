@@ -13,6 +13,7 @@ import starbright.com.projectegg.data.model.Recipe
 import starbright.com.projectegg.data.model.local.FavouriteRecipe
 import starbright.com.projectegg.util.scheduler.SchedulerProviderContract
 import javax.inject.Inject
+import java.util.concurrent.TimeUnit
 
 /**
  * UI State for Recipe Detail Screen
@@ -57,6 +58,7 @@ class RecipeDetailViewModel @Inject constructor(
             recipeRepository.getRecipeDetailInformation(recipeId)
                 .subscribeOn(schedulerProvider.io())
                 .observeOn(schedulerProvider.ui())
+                .timeout(30, TimeUnit.SECONDS) // Add 30-second timeout
                 .subscribe(
                     { recipe ->
                         _uiState.update { state ->
@@ -73,7 +75,11 @@ class RecipeDetailViewModel @Inject constructor(
                         _uiState.update { state ->
                             state.copy(
                                 isLoading = false,
-                                error = error.message ?: "Failed to load recipe details"
+                                recipe = null,
+                                error = when (error) {
+                                    is java.util.concurrent.TimeoutException -> "Recipe detail loading timed out. Please try again."
+                                    else -> error.message ?: "Failed to load recipe details"
+                                }
                             )
                         }
                     }
@@ -86,6 +92,7 @@ class RecipeDetailViewModel @Inject constructor(
             appRepository.checkIfRecipeIsFavourite(recipeId.toIntOrNull() ?: 0)
                 .subscribeOn(schedulerProvider.io())
                 .observeOn(schedulerProvider.ui())
+                .timeout(10, TimeUnit.SECONDS) // Add timeout for favorite check
                 .subscribe(
                     { isFavorite ->
                         _uiState.update { state ->
@@ -107,6 +114,7 @@ class RecipeDetailViewModel @Inject constructor(
                 appRepository.deleteFavouriteRecipeById(recipe.id)
                     .subscribeOn(schedulerProvider.io())
                     .observeOn(schedulerProvider.ui())
+                    .timeout(10, TimeUnit.SECONDS) // Add timeout
                     .subscribe(
                         {
                             _uiState.update { state ->
@@ -137,6 +145,7 @@ class RecipeDetailViewModel @Inject constructor(
                 appRepository.insertFavouriteRecipe(favoriteRecipe)
                     .subscribeOn(schedulerProvider.io())
                     .observeOn(schedulerProvider.ui())
+                    .timeout(10, TimeUnit.SECONDS) // Add timeout
                     .subscribe(
                         {
                             _uiState.update { state ->
