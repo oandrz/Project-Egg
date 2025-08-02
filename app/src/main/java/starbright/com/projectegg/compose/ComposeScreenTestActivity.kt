@@ -70,6 +70,44 @@ fun SearchScreenDemo() {
             }
         }
         
+        // Test buttons to demonstrate the fix
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            horizontalArrangement = Arrangement.SpaceEvenly
+        ) {
+            Button(
+                onClick = {
+                    // Simulate successful search
+                    searchState = searchState.copy(
+                        isSearching = false,
+                        currentQuery = "chicken",
+                        searchResults = MockDataProvider.getRecipes().filter { 
+                            it.title.contains("chicken", ignoreCase = true) 
+                        },
+                        error = null
+                    )
+                }
+            ) {
+                Text("Test Success")
+            }
+            
+            Button(
+                onClick = {
+                    // Simulate failed search
+                    searchState = searchState.copy(
+                        isSearching = false,
+                        currentQuery = "nonexistent",
+                        searchResults = emptyList(),
+                        error = "No recipes found for 'nonexistent'"
+                    )
+                }
+            ) {
+                Text("Test Error")
+            }
+        }
+        
         // Screen content
         when (currentScreen) {
             Screen.SEARCH -> {

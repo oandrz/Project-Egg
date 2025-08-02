@@ -14,6 +14,7 @@ import starbright.com.projectegg.data.model.response.RecipeListResponse
 import starbright.com.projectegg.data.model.local.SearchHistory
 import starbright.com.projectegg.util.scheduler.SchedulerProviderContract
 import javax.inject.Inject
+import java.util.concurrent.TimeUnit
 
 /**
  * UI State for Search Screen
@@ -96,6 +97,7 @@ class SearchViewModel @Inject constructor(
             recipeRepository.getSearchRecipes(query, 10, 0)
                 .subscribeOn(schedulerProvider.io())
                 .observeOn(schedulerProvider.ui())
+                .timeout(30, TimeUnit.SECONDS) // Add 30-second timeout
                 .subscribe(
                     { response ->
                         val recipes = response.results.map { recipeResponse ->
@@ -114,6 +116,7 @@ class SearchViewModel @Inject constructor(
                         }
                         _uiState.update { state ->
                             state.copy(
+                                isSearching = false,
                                 searchResults = recipes,
                                 error = null
                             )
@@ -124,7 +127,12 @@ class SearchViewModel @Inject constructor(
                     { error ->
                         _uiState.update { state ->
                             state.copy(
-                                error = error.message ?: "Failed to search recipes"
+                                isSearching = false,
+                                searchResults = emptyList(),
+                                error = when (error) {
+                                    is java.util.concurrent.TimeoutException -> "Search timed out. Please try again."
+                                    else -> error.message ?: "Failed to search recipes"
+                                }
                             )
                         }
                     }
